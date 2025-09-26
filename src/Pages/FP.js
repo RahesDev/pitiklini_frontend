@@ -101,7 +101,8 @@ const FP = () => {
       setpasswordValidate(true);
     } else if (values.password.length < 8 || values.password.length > 15) {
       setpasswordValidate(true);
-      errors1.password = "Password should not below 8 above 15 letters !";
+      // errors1.password = "Password should not below 8 above 15 letters !";
+      errors1.password = "Password should be between 8-15 characters!";
     } else if (!values.password.match(/[a-z]/g)) {
       setpasswordValidate(true);
       errors1.password = "Please enter at least lower character !";
@@ -444,8 +445,8 @@ const FP = () => {
                             type={inputType}
                             name="password"
                             value={password}
-                            minLength={15}
-                            maxLength={30}
+                            minLength={8}
+                            maxLength={15}
                             // onChange={handleChange1}
                             onChange={(e) => {
                               const { value } = e.target;
@@ -530,8 +531,8 @@ const FP = () => {
                             type={inputTypeconf}
                             name="confirmPassword"
                             value={confirmPassword}
-                            minLength={15}
-                            maxLength={30}
+                            minLength={8}
+                            maxLength={15}
                             // onChange={handleChange1}
                             onChange={(e) => {
                               const { value } = e.target;

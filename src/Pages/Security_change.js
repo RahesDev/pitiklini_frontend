@@ -275,12 +275,12 @@ const Anti = () => {
                           <input
                             type={inputTypenew}
                             name="password"
-                            minLength={15}
-                            maxLength={30}
+                            minLength={8}
+                            maxLength={15}
                             value={password}
                             //  onChange={handleChange}
                             onChange={(e) => {
-                              console.log("password enters --->>> ****");
+                              // console.log("password enters --->>> ****");
                               const { value } = e.target;
                               setFormValue((prev) => ({
                                 ...prev,
@@ -294,8 +294,8 @@ const Anti = () => {
                                   password: t("Password is required"),
                                 }));
                               } else if (
-                                value.length < 15 ||
-                                value.length > 30
+                                value.length < 8 ||
+                                value.length > 15
                               ) {
                                 setpasswordValidate(true);
                                 setvalidationnErr((prev) => ({
@@ -381,7 +381,7 @@ const Anti = () => {
                           <input
                             type={inputTypeconf}
                             name="confirmPassword"
-                            maxLength={30}
+                            maxLength={15}
                             value={confirmPassword}
                             // onChange={handleChange}
                             onChange={(e) => {
