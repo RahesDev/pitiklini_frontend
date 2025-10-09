@@ -10,6 +10,7 @@ import { Bars } from "react-loader-spinner";
 import "semantic-ui-css/semantic.min.css";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
 
 const P2P = () => {
   const { t } = useTranslation();
@@ -33,6 +34,9 @@ const P2P = () => {
   const [loginStatus, setLoginStatus] = useState(false);
 
   const [preferPayment, setpreferPayment] = useState([]);
+
+      // usePageLeaveConfirm();
+       usePageLeaveConfirm("Are you sure you want to leave P2P?", "/p2p");
 
   // const preferPayment = [
   //   { value: "All Payment", text: "All Payment" },

@@ -18,6 +18,7 @@ import HistoryListTable from "./HistoryListTable";
 import ICON from "../assets/deposit-imp.png";
 import WARNICON from "../assets/icons/withdraw-warn.webp";
 import { useTranslation } from "react-i18next";
+import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -44,6 +45,8 @@ const Dashboard = () => {
   // const [siteStatus, setSiteStatus] = useState("Deactive");
   const [siteStatus, setSiteStatus] = useState("Active");
   const [Loader, setLoader] = useState(false);
+  // usePageLeaveConfirm();
+   usePageLeaveConfirm("Are you sure you want to leave Deposit?", "/deposit");
 
   useEffect(() => {
     // getSitedata();

@@ -18,6 +18,7 @@ import HistoryListTable from "./HistoryListTable";
 import ICON from "../assets/deposit-imp.png";
 import WARNICON from "../assets/icons/withdraw-warn.webp";
 import { useTranslation } from "react-i18next";
+import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -51,6 +52,12 @@ const Dashboard = () => {
   const [isResendVisible, setIsResendVisible] = useState(false);
   const [resendClick, setResendClick] = useState(false);
   const [counter, setCounter] = useState(120);
+
+    // usePageLeaveConfirm();
+     usePageLeaveConfirm(
+       "Are you sure you want to leave Withdrawal?",
+       "/withdraw"
+     );
 
   useEffect(() => {
     if (counter > 0) {
