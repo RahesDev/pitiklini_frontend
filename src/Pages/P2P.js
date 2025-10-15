@@ -622,6 +622,9 @@ const P2P = () => {
                                                   {options.displayname}
                                                 </h4>
                                                 <h3 className="opt-nowrap opt-sub font_14 font_12_nepp">
+                                              {` Trades : ${options.trades} | ⭐ : ${options.stars}`}
+                                            </h3>
+                                                {/* <h3 className="opt-nowrap opt-sub font_14 font_12_nepp">
                                                   {`${
                                                     options.orders_count
                                                   } Volume | ${parseFloat(
@@ -629,7 +632,7 @@ const P2P = () => {
                                                   ).toFixed(
                                                     2
                                                   )} % Transaction rate`}
-                                                </h3>
+                                                </h3> */}
                                               </div>
                                             </div>
                                             <div className="ad-buy-details">
@@ -855,6 +858,9 @@ const P2P = () => {
                                             <h4 className="opt-nowrap opt-name font_14">
                                               {options.displayname}
                                             </h4>
+                                            <h3 className="opt-nowrap opt-sub font_14 font_12_nepp">
+                                              {` Trades : ${options.trades} | ⭐ : ${options.stars}`}
+                                            </h3>
                                           </div>
                                         </div>
                                       </td>

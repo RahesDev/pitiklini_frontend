@@ -34,14 +34,13 @@ const service = {
   getp2pnotification: "p2p/getp2pnotification",
 
   getSessionHisotry: "users/getSessionHisotry",
-  getReferralHisotry:"referral/getReferalHistories",
+  getReferralHisotry: "referral/getReferalHistories",
   getKYC: "kyc/getkyc",
   savebankdetails: "users/savebankdetails",
   savekyc: "kyc/savekyc",
   Bankdetails: "users/submit_bankdetails",
   updateBankdetails: "p2p/updateBankdetails",
   p2p_get_order: "p2p/p2p_get_order",
-
 
   Getbankdetails: "p2p/Get_bankdetails",
   // defaultBanks:"user/defaultBanks",
@@ -66,7 +65,6 @@ const service = {
   p2pchat: "p2p/p2p_chat/",
   adminp2pchat: "adminapi/p2p_chat",
 
-
   getp2pchat: "p2p/getp2pchat/",
   getdisputechat: "p2p/get_dispute_chat",
 
@@ -90,9 +88,7 @@ const service = {
   addfavpairs: "trade/addfavpairs",
   getfavpairs: "trade/getfavpairs",
 
-
   getmarketData: "trade/getmarketData",
-
 
   getUserTotalbalance: "users/getUserTotalbalance",
   getUserTotalbalanceAll: "users/getUserTotalbalanceAll",
@@ -238,7 +234,6 @@ const service = {
   yieldcalculation: "staking/yieldcalculation",
   claimNow_yield: "staking/claimNowapi_yield",
 
-
   //Home page Wrtten Jothi
 
   home_currency: "users/home_currency",
@@ -248,22 +243,20 @@ const service = {
   newPairs: "users/newPairs",
   test: "users/test",
 
-
   addSubscriber: "users/addSubscriber",
 
   //UnionRamp ---------------------
 
-  onRamp: 'users/onRamp',
-  Supportedfiat: 'users/Supportedfiat',
-  Supportedcrypto: 'users/Supportedcrypto',
-  marketprices: 'users/marketprices',
-  buycrypto: 'users/buycrypto',
+  onRamp: "users/onRamp",
+  Supportedfiat: "users/Supportedfiat",
+  Supportedcrypto: "users/Supportedcrypto",
+  marketprices: "users/marketprices",
+  buycrypto: "users/buycrypto",
 
   //launchpad
   purchaseToken: "launchPad/purchaseToken",
   launchpad_history: "launchPad/launchpad_history",
   claimlaunchtoken: "launchPad/claimlaunchtoken",
-
 
   //login
   signup: "onboarding/onboardingUser",
@@ -280,22 +273,22 @@ const service = {
   //internal transfer
   walletTransfer: "swap/walletTransfer",
 
-  //P2P Endpoints   
+  //P2P Endpoints
   getP2Pcurrency: "p2p/p2p_currencies",
-
+  p2p_user_ratings: "p2p/p2p_user_ratings/",
 
   // STAKKING NEW CODE
   get_staking_details: "staking/get_staking_details",
   get_stake_profit: "staking/get_stake_profit",
 
-  // Assets 
+  // Assets
   balanceOverallBalance: "users/balanceOverallBalance",
 
   //sitedatas
   getSitedata: "adminapi/getsitesettings",
 
   //wallet create
-  walletAddUpdate: 'users/walletAddUpdate',
+  walletAddUpdate: "users/walletAddUpdate",
 
   //verfiy token
   verifyToken: "users/verifyToken",
@@ -324,8 +317,7 @@ const service = {
   fee_settings_change: "users/fee_settings_change",
 
   payment_methods: "users/payment_methods",
-  getnotificationHistory: "users/getnotificationHistory"
-
+  getnotificationHistory: "users/getnotificationHistory",
 };
 
 export default service;

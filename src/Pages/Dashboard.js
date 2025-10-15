@@ -335,7 +335,11 @@ const Dashboard = () => {
                 <div className="dashboard_content">
                   <div className="dash_user_name">
                     <h3>
-                      {t("hello")} {profileData.displayname}
+                      {t("hello")} {profileData.displayname}{" "}
+                      {profileData.vipBadge &&
+                        profileData.vipBadge === true && (
+                          <span className="vipbge_dhbrd"> [ ⭐VIP ]</span>
+                        )}
                     </h3>
                   </div>
 
@@ -346,6 +350,7 @@ const Dashboard = () => {
                           <img
                             src={require("../assets/icons/verified.webp")}
                             alt="verify"
+                            x
                           />{" "}
                           {t("verifiedProfile")}
                         </p>

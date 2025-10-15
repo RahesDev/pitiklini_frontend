@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import useState from "react-usestateref";
 import Header from "./Header";
 import { socket } from "../context/socket";
@@ -15,6 +15,7 @@ import { Dropdown } from "semantic-ui-react";
 
 const Payment = () => {
   const { t } = useTranslation();
+    const navigate = useNavigate();
   const initialFormValue = {
     message: "",
     file: "",
@@ -118,9 +119,52 @@ const Payment = () => {
   const [headurl, setheadurl, headurlref] = useState("");
   const [disputeDetails, setdisputeDetails, disputeDetailsref] = useState({});
 
+  const ratingModalRef = useRef(null);
+  const currentOrderForRating = useRef(null);
 
+  const submitP2PRating = (orderId, stars) => {
+    try {
+      const payload = { orderId, stars };
 
-  const navigate = useNavigate();
+      postMethod({ apiUrl: apiService.p2p_user_ratings, payload })
+        .then((resp) => {
+          console.error("p2p rating saved resp:", resp);
+          // NOW call refresh APIs here
+          getp2pChat();
+          getp2pOrder();
+          getconfirmOrder();
+        })
+        .catch((err) => {
+          console.error("p2p rating save error:", err);
+        });
+    } catch (e) {
+      console.error("submitP2PRating fire error:", e);
+    }
+    // finally {
+    //   // Immediately navigate away (no waiting)
+    //   navigate("/p2p");
+    // }
+    setTimeout(() => navigate("/p2p"), 200);
+  };
+
+  // ------------- SHOW RATING MODAL -------------
+  const showRatingModalForOrder = (orderId) => {
+    currentOrderForRating.current = orderId;
+
+    // If Bootstrap is loaded globally, use window.bootstrap.Modal
+    const modalEl = document.getElementById("p2pRatingModal");
+    let bsModal;
+    if (modalEl) {
+      // Use existing instance or create new
+      bsModal =
+        window.bootstrap && window.bootstrap.Modal
+          ? window.bootstrap.Modal.getInstance(modalEl) ||
+            new window.bootstrap.Modal(modalEl)
+          : null;
+
+      if (bsModal) bsModal.show();
+    }
+  };
 
   const getp2pChat = async () => {
     setSiteLoader(true);
@@ -531,11 +575,13 @@ const Payment = () => {
       setSiteLoader(false);
 
       if (resp.status) {
-        // navigate(`/p2p/complete/${order_Id}`)
         showsuccessToast(resp.Message);
-        getp2pChat();
-        getp2pOrder();
-        getconfirmOrder();
+        // navigate(`/p2p/complete/${order_Id}`)
+        const orderId = window.location.href.split("/").pop();
+        showRatingModalForOrder(orderId);
+        // getp2pChat();
+        // getp2pOrder();
+        // getconfirmOrder();
       } else {
         showerrorToast(resp.Message);
       }
@@ -592,12 +638,18 @@ const Payment = () => {
       if (resp.status) {
         setconfirmloader(false);
         setSiteLoader(false);
-        navigate("/p2p");
         showsuccessToast(resp.Message);
-        getp2pOrder();
-        getconfirmOrder();
         setRunningTimer(false);
         clearInterval(intervalref.current);
+        // navigate("/p2p");
+        const orderId = window.location.href.split("/").pop();
+         setTimeout(() => {
+           showRatingModalForOrder(orderId);
+         }, 300);
+        // getp2pOrder();
+        // getconfirmOrder();
+        // setRunningTimer(false);
+        // clearInterval(intervalref.current);
       } else {
         showerrorToast(resp.Message);
       }
@@ -623,9 +675,11 @@ const Payment = () => {
 
       if (resp.status) {
         showsuccessToast(resp.Message);
-        getp2pChat();
-        getp2pOrder();
-        navigate("/p2p");
+        // getp2pChat();
+        // getp2pOrder();
+        // navigate("/p2p");
+         const orderId = window.location.href.split("/").pop();
+         showRatingModalForOrder(orderId);
       } else {
         showerrorToast(resp.Message);
       }
@@ -668,7 +722,9 @@ const Payment = () => {
       setTimerstatus("deactive");
       setTimer("");
       showerrorToast(resp.Message);
-      navigate("/p2p");
+      // navigate("/p2p");
+      const orderId = window.location.href.split("/").pop();
+      showRatingModalForOrder(orderId);
     }
   };
 
@@ -901,7 +957,6 @@ const Payment = () => {
       <section className="Non_fixed_nav">
         <Header />
       </section>{" "}
-
       {siteLoaderref.current == true ? (
         <div className="loadercss">
           <Bars
@@ -924,34 +979,40 @@ const Payment = () => {
                     <h5 className="pay-title">
                       {orderTyperef.current == "Buy" ? (
                         <h1 className="mb-4">
-                          {t('youarebuying')} {p2pDataref.current.firstCurrency}
+                          {t("youarebuying")} {p2pDataref.current.firstCurrency}
                         </h1>
                       ) : (
                         <h1 className="mb-4">
-                          {t('youareselling')} {p2pDataref.current.firstCurrency}
+                          {t("youareselling")}{" "}
+                          {p2pDataref.current.firstCurrency}
                         </h1>
                       )}
                     </h5>
                     {profileDataref.current != null ? (
                       orderTyperef.current == "Buy" &&
-                        profileDataref.current._id ==
+                      profileDataref.current._id ==
                         p2pDataref.current.user_id &&
-                        confirmp2porderref.current.status == 0 &&
-                        Timerstatusref.current == "active" ? (
+                      confirmp2porderref.current.status == 0 &&
+                      Timerstatusref.current == "active" ? (
                         <p className="pay-content">
-                          {t('completethepaymentwithin')}{" "}
+                          {t("completethepaymentwithin")}{" "}
                           <span className="pay-span">
                             {p2pDataref.current.pay_time}
                           </span>{" "}
-                          {t('otherwisetheorderwillbecanceled')} 
+                          {t("otherwisetheorderwillbecanceled")}
                         </p>
-                      ) : ('')) : ("")}
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      ""
+                    )}
                     <div className="pay-wrapper-two">
                       <div className="pay-flex">
-                        <span className="pay-btc">{t('orderDetails')}</span>
+                        <span className="pay-btc">{t("orderDetails")}</span>
                       </div>
                       <div className="pay-flex">
-                        <span className="pay-name">{t('price')}</span>
+                        <span className="pay-name">{t("price")}</span>
                         <span className="pay-money">
                           {parseFloat(p2pDataref.current.price).toFixed(2)}{" "}
                           <span className="pay-name">
@@ -961,7 +1022,7 @@ const Payment = () => {
                         </span>
                       </div>
                       <div className="pay-flex">
-                        <span className="pay-name">{t('amount')}</span>
+                        <span className="pay-name">{t("amount")}</span>
                         <span className="pay-money">
                           {confirmp2porderref.current.askAmount}{" "}
                           <span className="pay-btc">
@@ -974,11 +1035,11 @@ const Payment = () => {
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Sell" ? (
                           <div className="pay-flex">
-                            <span className="pay-name">{t('willReceive')}</span>
+                            <span className="pay-name">{t("willReceive")}</span>
                             <span className="pay-btc">
                               {parseFloat(
                                 p2pDataref.current.price *
-                                confirmp2porderref.current.askAmount
+                                  confirmp2porderref.current.askAmount
                               ).toFixed(2)}{" "}
                               {p2pDataref.current.secondCurrnecy}
                             </span>
@@ -992,16 +1053,17 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         UserIDref.current != p2pDataref.current.userId?._id &&
-                          orderTyperef.current == "Buy" &&
-                          confirmp2porderref.current.status == 0 ? (
+                        orderTyperef.current == "Buy" &&
+                        confirmp2porderref.current.status == 0 ? (
                           <>
-                            {confirmp2porderref.current.paymentMethod != null ? (
+                            {confirmp2porderref.current.paymentMethod !=
+                            null ? (
                               bankDataref.current ? (
                                 <div className="color_border ne_bg_txt">
                                   <div className="pay-wrapper">
                                     <div className="pay-flex">
                                       <span className="pay-method">
-                                        {t('payment_Method')}
+                                        {t("payment_Method")}
                                       </span>
                                       <span className="pay-bank">
                                         {p2pDataref.current.paymentMethod}
@@ -1009,18 +1071,21 @@ const Payment = () => {
                                     </div>
                                     <div className="pay-flex">
                                       <span className="pay-method">
-                                        {t('selectedPaymentMethod')} 
+                                        {t("selectedPaymentMethod")}
                                       </span>
                                       <span className="pay-bank">
-                                        {confirmp2porderref.current.paymentMethod}
+                                        {
+                                          confirmp2porderref.current
+                                            .paymentMethod
+                                        }
                                       </span>
-                                       {/* <span className="pay-bank">
+                                      {/* <span className="pay-bank">
                                         {p2pDataref.current.paymentMethod}
                                       </span> */}
                                     </div>
                                     <div className="pay-flex">
                                       <span className="pay-name">
-                                        {t('bankAccountDetails')}
+                                        {t("bankAccountDetails")}
                                       </span>
                                       <span className="pay-money">
                                         {bankDataref.current.Account_Number}{" "}
@@ -1037,7 +1102,7 @@ const Payment = () => {
                                     </div>
                                     <div className="pay-flex">
                                       <span className="pay-name">
-                                        {t('account_name')}
+                                        {t("account_name")}
                                       </span>
                                       <span className="pay-money">
                                         {" "}
@@ -1046,7 +1111,7 @@ const Payment = () => {
                                           class="ri-file-copy-line cursor-pointer"
                                           onClick={() =>
                                             copy_to_clipboard(
-                                              t('account_name'),
+                                              t("account_name"),
                                               bankDataref.current
                                                 .Accout_HolderName
                                             )
@@ -1055,7 +1120,9 @@ const Payment = () => {
                                       </span>
                                     </div>
                                     <div className="pay-flex">
-                                      <span className="pay-name">{t('bankName')}</span>
+                                      <span className="pay-name">
+                                        {t("bankName")}
+                                      </span>
                                       <span className="pay-money">
                                         {" "}
                                         {bankDataref.current.Bank_Name}
@@ -1072,7 +1139,7 @@ const Payment = () => {
                                     </div>
                                     <div className="pay-flex">
                                       <span className="pay-name">
-                                        {t('Currency')}
+                                        {t("Currency")}
                                       </span>
                                       <span className="pay-money">
                                         {" "}
@@ -1081,7 +1148,7 @@ const Payment = () => {
                                           class="ri-file-copy-line cursor-pointer"
                                           onClick={() =>
                                             copy_to_clipboard(
-                                              t('Currency'),
+                                              t("Currency"),
                                               bankDataref.current.Currency
                                             )
                                           }
@@ -1106,106 +1173,111 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         UserIDref.current == p2pDataref.current.userId?._id &&
-                          orderTyperef.current == "Buy" &&
-                          confirmp2porderref.current.status == 0 ? (
+                        orderTyperef.current == "Buy" &&
+                        confirmp2porderref.current.status == 0 ? (
                           <>
-                            {confirmp2porderref.current.paymentMethod != null ? (
+                            {confirmp2porderref.current.paymentMethod !=
+                            null ? (
                               bankDataref.current ? (
                                 <div className="color_border ne_bg_txt">
-                                <div className="pay-wrapper">
-                                  <div className="pay-flex">
-                                    <span className="pay-method">
-                                      {t('payment_Method')}
-                                    </span>
-                                    <span className="pay-bank">
-                                      {p2pDataref.current.paymentMethod}
-                                    </span>
-                                  </div>
-                                  <div className="pay-flex">
-                                    <span className="pay-method">
-                                      {t('selectedPaymentMethod')}
-                                    </span>
-                                    <span className="pay-bank">
-                                      {confirmp2porderref.current.paymentMethod}
-                                    </span>
-                                  </div>
-                                  
-                                  <div className="pay-flex">
-                                    <span className="pay-name">
-                                      {t('bankAccountDetails')}
-                                    </span>
-                                    <span className="pay-money">
-                                      {bankDataref.current.Account_Number}{" "}
-                                      <i
-                                        class="ri-file-copy-line cursor-pointer"
-                                        onClick={() =>
-                                          copy_to_clipboard(
-                                            "Account Number",
-                                            bankDataref.current.Account_Number
-                                          )
+                                  <div className="pay-wrapper">
+                                    <div className="pay-flex">
+                                      <span className="pay-method">
+                                        {t("payment_Method")}
+                                      </span>
+                                      <span className="pay-bank">
+                                        {p2pDataref.current.paymentMethod}
+                                      </span>
+                                    </div>
+                                    <div className="pay-flex">
+                                      <span className="pay-method">
+                                        {t("selectedPaymentMethod")}
+                                      </span>
+                                      <span className="pay-bank">
+                                        {
+                                          confirmp2porderref.current
+                                            .paymentMethod
                                         }
-                                      ></i>
-                                    </span>
-                                  </div>
+                                      </span>
+                                    </div>
 
-                                  <div className="pay-flex">
-                                    <span className="pay-name">
-                                      {t('account_name')}
-                                    </span>
-                                    <span className="pay-money">
-                                      {" "}
-                                      {bankDataref.current.Accout_HolderName}
-                                      <i
-                                        class="ri-file-copy-line cursor-pointer"
-                                        onClick={() =>
-                                          copy_to_clipboard(
-                                            t('account_name'),
-                                            bankDataref.current
-                                              .Accout_HolderName
-                                          )
-                                        }
-                                      ></i>
-                                    </span>
-                                  </div>
+                                    <div className="pay-flex">
+                                      <span className="pay-name">
+                                        {t("bankAccountDetails")}
+                                      </span>
+                                      <span className="pay-money">
+                                        {bankDataref.current.Account_Number}{" "}
+                                        <i
+                                          class="ri-file-copy-line cursor-pointer"
+                                          onClick={() =>
+                                            copy_to_clipboard(
+                                              "Account Number",
+                                              bankDataref.current.Account_Number
+                                            )
+                                          }
+                                        ></i>
+                                      </span>
+                                    </div>
 
-                                  <div className="pay-flex">
-                                    <span className="pay-name">{t('bankName')}</span>
-                                    <span className="pay-money">
-                                      {" "}
-                                      {bankDataref.current.Bank_Name}
-                                      <i
-                                        class="ri-file-copy-line cursor-pointer"
-                                        onClick={() =>
-                                          copy_to_clipboard(
-                                            "Bank Name",
-                                            bankDataref.current.Bank_Name
-                                          )
-                                        }
-                                      ></i>
-                                    </span>
-                                  </div>
+                                    <div className="pay-flex">
+                                      <span className="pay-name">
+                                        {t("account_name")}
+                                      </span>
+                                      <span className="pay-money">
+                                        {" "}
+                                        {bankDataref.current.Accout_HolderName}
+                                        <i
+                                          class="ri-file-copy-line cursor-pointer"
+                                          onClick={() =>
+                                            copy_to_clipboard(
+                                              t("account_name"),
+                                              bankDataref.current
+                                                .Accout_HolderName
+                                            )
+                                          }
+                                        ></i>
+                                      </span>
+                                    </div>
 
-                                  <div className="pay-flex">
-                                    <span className="pay-name">
-                                      {t('Currency')}
-                                    </span>
-                                    <span className="pay-money">
-                                      {" "}
-                                      {bankDataref.current.Currency}
-                                      <i
-                                        class="ri-file-copy-line cursor-pointer"
-                                        onClick={() =>
-                                          copy_to_clipboard(
-                                            t('Currency'),
-                                            bankDataref.current.Currency
-                                          )
-                                        }
-                                      ></i>
-                                    </span>
-                                  </div>
+                                    <div className="pay-flex">
+                                      <span className="pay-name">
+                                        {t("bankName")}
+                                      </span>
+                                      <span className="pay-money">
+                                        {" "}
+                                        {bankDataref.current.Bank_Name}
+                                        <i
+                                          class="ri-file-copy-line cursor-pointer"
+                                          onClick={() =>
+                                            copy_to_clipboard(
+                                              "Bank Name",
+                                              bankDataref.current.Bank_Name
+                                            )
+                                          }
+                                        ></i>
+                                      </span>
+                                    </div>
 
+                                    <div className="pay-flex">
+                                      <span className="pay-name">
+                                        {t("Currency")}
+                                      </span>
+                                      <span className="pay-money">
+                                        {" "}
+                                        {bankDataref.current.Currency}
+                                        <i
+                                          class="ri-file-copy-line cursor-pointer"
+                                          onClick={() =>
+                                            copy_to_clipboard(
+                                              t("Currency"),
+                                              bankDataref.current.Currency
+                                            )
+                                          }
+                                        ></i>
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
                               ) : (
                                 ""
                               )
@@ -1214,9 +1286,9 @@ const Payment = () => {
                             )}
 
                             <p className="preview mt-3 timer_element">
-                              {t('pleasedothepaymentin')}{" "}
+                              {t("pleasedothepaymentin")}{" "}
                               <span className="primary_red">
-                                {payTimeref.current} {t('minutes')}
+                                {payTimeref.current} {t("minutes")}
                               </span>
                             </p>
                           </>
@@ -1229,12 +1301,12 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Sell" &&
-                          UserIDref.current == p2pDataref.current.userId?._id &&
-                          confirmp2porderref.current.status == 1 &&
-                          sellTimerstatusref.current == "active" ? (
+                        UserIDref.current == p2pDataref.current.userId?._id &&
+                        confirmp2porderref.current.status == 1 &&
+                        sellTimerstatusref.current == "active" ? (
                           <div className="timer">
                             <h6>
-                              {t('releasethecrypto')}
+                              {t("releasethecrypto")}
                               <span>
                                 <Countdown
                                   date={sellTimerref.current}
@@ -1242,10 +1314,14 @@ const Payment = () => {
                                 />
                               </span>
                             </h6>
-                            <p className="pay-name mt-4" >- {t('buyerpaidtheamount')}</p>
-                            <p className="pay-name">- {t('releasethecrypto')}</p>
+                            <p className="pay-name mt-4">
+                              - {t("buyerpaidtheamount")}
+                            </p>
                             <p className="pay-name">
-                              - {t('ifyouarenotreleasewithin')}
+                              - {t("releasethecrypto")}
+                            </p>
+                            <p className="pay-name">
+                              - {t("ifyouarenotreleasewithin")}
                             </p>
                           </div>
                         ) : (
@@ -1257,8 +1333,8 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Sell" &&
-                          UserIDref.current == p2pDataref.current.userId?._id &&
-                          confirmp2porderref.current.status == 1 ? (
+                        UserIDref.current == p2pDataref.current.userId?._id &&
+                        confirmp2porderref.current.status == 1 ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading">
                             <div className="aling_caseds justify-content-end">
                               {confirmorderloader == false ? (
@@ -1266,16 +1342,18 @@ const Payment = () => {
                                   type="button"
                                   class="proceed-btn txt-center"
                                   // onClick={handleChange_confirm}
-                                  onClick={() => handleChange_confirm("release")}
+                                  onClick={() =>
+                                    handleChange_confirm("release")
+                                  }
                                 >
-                                  {t('confirmRelease')}
+                                  {t("confirmRelease")}
                                 </button>
                               ) : (
                                 <button
                                   type="button"
                                   class="proceed-btn txt-center"
                                 >
-                                  {t('processing')}.....
+                                  {t("processing")}.....
                                 </button>
                               )}
 
@@ -1288,9 +1366,8 @@ const Payment = () => {
                                   setdisputeReason("");
                                   setappealstatus(false);
                                 }}
-
                               >
-                                {t('raisDispute')}
+                                {t("raisDispute")}
                               </button>
                             </div>
                           </div>
@@ -1303,13 +1380,12 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Sell" &&
-                          UserIDref.current != p2pDataref.current.userId?._id &&
-                          confirmp2porderref.current.status == 1 &&
-                          sellTimerstatusref.current == "active" ? (
-
+                        UserIDref.current != p2pDataref.current.userId?._id &&
+                        confirmp2porderref.current.status == 1 &&
+                        sellTimerstatusref.current == "active" ? (
                           <div className="timer">
                             <h6>
-                              {t('releasethecrypto')}
+                              {t("releasethecrypto")}
                               <span>
                                 <Countdown
                                   date={sellTimerref.current}
@@ -1317,10 +1393,14 @@ const Payment = () => {
                                 />
                               </span>
                             </h6>
-                            <p className="pay-name mt-4">- {t('buyerpaidtheamount')}</p>
-                            <p className="pay-name">-  {t('releasethecrypto')}</p>
+                            <p className="pay-name mt-4">
+                              - {t("buyerpaidtheamount")}
+                            </p>
                             <p className="pay-name">
-                              - {t('ifyouarenotreleasewithin')}
+                              - {t("releasethecrypto")}
+                            </p>
+                            <p className="pay-name">
+                              - {t("ifyouarenotreleasewithin")}
                             </p>
                           </div>
                         ) : (
@@ -1332,8 +1412,8 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Sell" &&
-                          UserIDref.current != p2pDataref.current.userId?._id &&
-                          confirmp2porderref.current.status == 1 ? (
+                        UserIDref.current != p2pDataref.current.userId?._id &&
+                        confirmp2porderref.current.status == 1 ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading">
                             <div className="aling_caseds justify-content-end">
                               {confirmorderloader == false ? (
@@ -1341,16 +1421,18 @@ const Payment = () => {
                                   type="button"
                                   class="proceed-btn txt-center"
                                   // onClick={handleChange_confirm}
-                                  onClick={() => handleChange_confirm("release")}
+                                  onClick={() =>
+                                    handleChange_confirm("release")
+                                  }
                                 >
-                                  {t('confirmRelease')}
+                                  {t("confirmRelease")}
                                 </button>
                               ) : (
                                 <button
                                   type="button"
                                   class="proceed-btn txt-center"
                                 >
-                                  {t('processing')}.....
+                                  {t("processing")}.....
                                 </button>
                               )}
 
@@ -1360,7 +1442,7 @@ const Payment = () => {
                                 data-bs-toggle="modal"
                                 data-bs-target="#raise_dispute_sell"
                               >
-                                {t('raisDispute')}
+                                {t("raisDispute")}
                               </button>
                             </div>
                           </div>
@@ -1373,17 +1455,17 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Buy" &&
-                          UserIDref.current == p2pDataref.current.userId?._id &&
-                          confirmp2porderref.current.status == 0 &&
-                          Timerstatusref.current == "active" ? (
+                        UserIDref.current == p2pDataref.current.userId?._id &&
+                        confirmp2porderref.current.status == 0 &&
+                        Timerstatusref.current == "active" ? (
                           <div className="timer">
                             <h6>
-                              {t('paymenttobemadewithin')}{" "} 
+                              {t("paymenttobemadewithin")}{" "}
                               {payTimeref.current < 60
                                 ? payTimeref.current + " minutes"
                                 : payTimeref.current / 60 == 1
-                                  ? payTimeref.current / 60 + " hour"
-                                  : payTimeref.current / 60 + " hours"}{" "}
+                                ? payTimeref.current / 60 + " hour"
+                                : payTimeref.current / 60 + " hours"}{" "}
                               <span>
                                 <Countdown
                                   date={Timerref.current}
@@ -1391,16 +1473,20 @@ const Payment = () => {
                                 />
                               </span>
                             </h6>
-                            <p className="pay-name mt-4">- {t('pleasepayfast')}</p>
-                            <p className="pay-name">- {t('donotacceptthirdpartypayment')}</p>
+                            <p className="pay-name mt-4">
+                              - {t("pleasepayfast")}
+                            </p>
                             <p className="pay-name">
-                              - {t('ifyouarenotpaywithin')}{" "}
+                              - {t("donotacceptthirdpartypayment")}
+                            </p>
+                            <p className="pay-name">
+                              - {t("ifyouarenotpaywithin")}{" "}
                               {payTimeref.current < 60
                                 ? payTimeref.current + " minutes"
                                 : payTimeref.current / 60 == 1
-                                  ? payTimeref.current / 60 + " hour"
-                                  : payTimeref.current / 60 + " hours"}
-                              , {t('orderwillbecancelledautomatically')}
+                                ? payTimeref.current / 60 + " hour"
+                                : payTimeref.current / 60 + " hours"}
+                              , {t("orderwillbecancelledautomatically")}
                             </p>
                           </div>
                         ) : (
@@ -1412,8 +1498,8 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Buy" &&
-                          UserIDref.current == p2pDataref.current.userId?._id &&
-                          confirmp2porderref.current.status == 0 ? (
+                        UserIDref.current == p2pDataref.current.userId?._id &&
+                        confirmp2porderref.current.status == 0 ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading">
                             <div className="aling_caseds justify-content-end">
                               <button
@@ -1421,7 +1507,7 @@ const Payment = () => {
                                 class="proceed-btn txt-center"
                                 onClick={handleChange_buycancel}
                               >
-                                {t('cancel')}
+                                {t("cancel")}
                               </button>
 
                               {confirmorderloader == false ? (
@@ -1429,16 +1515,18 @@ const Payment = () => {
                                   type="button"
                                   class="proceed-btn txt-center"
                                   // onClick={handleChange_confirm}
-                                  onClick={() => handleChange_confirm("payment")}
+                                  onClick={() =>
+                                    handleChange_confirm("payment")
+                                  }
                                 >
-                                  {t('confirmPayment')}
+                                  {t("confirmPayment")}
                                 </button>
                               ) : (
                                 <button
                                   type="button"
                                   class="proceed-btn txt-center"
                                 >
-                                  {t('processing')}.....
+                                  {t("processing")}.....
                                 </button>
                               )}
                             </div>
@@ -1452,17 +1540,17 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Buy" &&
-                          UserIDref.current != p2pDataref.current.userId?._id &&
-                          confirmp2porderref.current.status == 0 &&
-                          Timerstatusref.current == "active" ? (
+                        UserIDref.current != p2pDataref.current.userId?._id &&
+                        confirmp2porderref.current.status == 0 &&
+                        Timerstatusref.current == "active" ? (
                           <div className="timer">
                             <h6 className="timer_in_title">
-                              {t('paymenttobemadewithin')}{" "} 
+                              {t("paymenttobemadewithin")}{" "}
                               {payTimeref.current < 60
                                 ? payTimeref.current + " minutes"
                                 : payTimeref.current / 60 == 1
-                                  ? payTimeref.current / 60 + " hour"
-                                  : payTimeref.current / 60 + " hours"}{" "}
+                                ? payTimeref.current / 60 + " hour"
+                                : payTimeref.current / 60 + " hours"}{" "}
                               <span>
                                 <Countdown
                                   date={Timerref.current}
@@ -1470,16 +1558,20 @@ const Payment = () => {
                                 />
                               </span>
                             </h6>
-                            <p className="pay-name mt-4">- {t('pleasepayfast')}</p>
-                            <p className="pay-name">- {t('donotacceptthirdpartypayment')}</p>
+                            <p className="pay-name mt-4">
+                              - {t("pleasepayfast")}
+                            </p>
                             <p className="pay-name">
-                              - {t('ifyouarenotpaywithin')}{" "}
+                              - {t("donotacceptthirdpartypayment")}
+                            </p>
+                            <p className="pay-name">
+                              - {t("ifyouarenotpaywithin")}{" "}
                               {payTimeref.current < 60
                                 ? payTimeref.current + " minutes"
                                 : payTimeref.current / 60 == 1
-                                  ? payTimeref.current / 60 + " hour"
-                                  : payTimeref.current / 60 + " hours"}{" "}
-                              {t('orderwillbecancelledautomatically')}
+                                ? payTimeref.current / 60 + " hour"
+                                : payTimeref.current / 60 + " hours"}{" "}
+                              {t("orderwillbecancelledautomatically")}
                             </p>
                           </div>
                         ) : (
@@ -1491,8 +1583,8 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Buy" &&
-                          UserIDref.current != p2pDataref.current.userId?._id &&
-                          confirmp2porderref.current.status == 0 ? (
+                        UserIDref.current != p2pDataref.current.userId?._id &&
+                        confirmp2porderref.current.status == 0 ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading cancel-payment-butns">
                             <div className="aling_caseds justify-content-star payment-cancel-confirm">
                               <button
@@ -1500,7 +1592,7 @@ const Payment = () => {
                                 class="proceed-btn txt-center"
                                 onClick={handleChange_buycancel}
                               >
-                                {t('cancel')}
+                                {t("cancel")}
                               </button>
 
                               {confirmorderloader == false ? (
@@ -1508,16 +1600,18 @@ const Payment = () => {
                                   type="button"
                                   class="proceed-btn txt-center"
                                   // onClick={handleChange_confirm}
-                                  onClick={() => handleChange_confirm("payment")}
+                                  onClick={() =>
+                                    handleChange_confirm("payment")
+                                  }
                                 >
-                                  {t('confirmPayment')}
+                                  {t("confirmPayment")}
                                 </button>
                               ) : (
                                 <button
                                   type="button"
                                   class="proceed-btn txt-center"
                                 >
-                                  {t('processing')}.....
+                                  {t("processing")}.....
                                 </button>
                               )}
                             </div>
@@ -1531,8 +1625,8 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Buy" &&
-                          UserIDref.current != p2pDataref.current.userId?._id &&
-                          confirmp2porderref.current.status == 1 ? (
+                        UserIDref.current != p2pDataref.current.userId?._id &&
+                        confirmp2porderref.current.status == 1 ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading">
                             <div className="aling_caseds justify-content-end">
                               <button
@@ -1541,7 +1635,7 @@ const Payment = () => {
                                 data-bs-toggle="modal"
                                 data-bs-target="#raise_dispute_buy"
                               >
-                                {t('raisDispute')}
+                                {t("raisDispute")}
                               </button>
                             </div>
                           </div>
@@ -1554,8 +1648,8 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Buy" &&
-                          UserIDref.current == p2pDataref.current?.userId?._id &&
-                          confirmp2porderref.current.status == 1 ? (
+                        UserIDref.current == p2pDataref.current?.userId?._id &&
+                        confirmp2porderref.current.status == 1 ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading">
                             <div className="aling_caseds justify-content-end">
                               <button
@@ -1564,7 +1658,7 @@ const Payment = () => {
                                 data-bs-toggle="modal"
                                 data-bs-target="#raise_dispute_buy"
                               >
-                                {t('raisDispute')}
+                                {t("raisDispute")}
                               </button>
                             </div>
                           </div>
@@ -1574,15 +1668,15 @@ const Payment = () => {
                       ) : (
                         ""
                       )}
-
                     </div>
                   </div>
                   <div className="col-lg-6">
                     <div className="chat-box">
                       <div className="chat-flex">
                         <div className="p2p_namefrst_change align-items-center">
-
-                          {p2pDataref.current.userId?.displayname ? p2pDataref.current.userId.displayname[0] : ""}
+                          {p2pDataref.current.userId?.displayname
+                            ? p2pDataref.current.userId.displayname[0]
+                            : ""}
                         </div>
                         <div className="chat-content">
                           <span className="pay-btc">
@@ -1590,7 +1684,8 @@ const Payment = () => {
                           </span>
                           <span className="chat-para">
                             {p2pOrdercountref.current} Volume |{" "}
-                            {parseFloat(p2pRatingref.current).toFixed(2)}% Transaction rate
+                            {parseFloat(p2pRatingref.current).toFixed(2)}%
+                            Transaction rate
                           </span>
                         </div>
                       </div>
@@ -1599,42 +1694,130 @@ const Payment = () => {
                         <div className="chat_section">
                           {profileDataref.current != null
                             ? p2pchatref.current &&
-                            p2pchatref.current.map((chat, i) => {
-                              return chat.type == "advertiser" ? (
-                                chat.user_id == UserIDref.current &&
+                              p2pchatref.current.map((chat, i) => {
+                                return chat.type == "advertiser" ? (
+                                  chat.user_id == UserIDref.current &&
                                   chat.default == 0 ? (
-                                  <div className="char_recive w-100 d-flex justify-content-end">
-                                    <div className=" char_send">
-                                      <div className="chat_conent p_new_end">
+                                    <div className="char_recive w-100 d-flex justify-content-end">
+                                      <div className=" char_send">
+                                        <div className="chat_conent p_new_end">
+                                          <p>
+                                            {/* <span>{chat.adv_name}</span>{" "} */}
+                                            {Moment(chat.createdAt).format(
+                                              "LT"
+                                            )}
+                                          </p>
+
+                                          {chat.adv_msg != "" &&
+                                          chat.adv_msg != undefined ? (
+                                            <div className="j-img-content-two">
+                                              {chat.adv_msg}
+                                            </div>
+                                          ) : chat.user_msg != "" &&
+                                            chat.user_msg != undefined ? (
+                                            <div className="j-img-content-two">
+                                              {chat.user_msg}
+                                            </div>
+                                          ) : (
+                                            ""
+                                          )}
+                                          {chat.adv_file != "" &&
+                                          chat.adv_file != undefined ? (
+                                            <img
+                                              src={chat.adv_file}
+                                              width="250px"
+                                              className=""
+                                            />
+                                          ) : chat.user_file != "" &&
+                                            chat.user_file != undefined ? (
+                                            <img
+                                              src={chat.user_file}
+                                              width="250px"
+                                              className=""
+                                            />
+                                          ) : (
+                                            ""
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ) : chat.user_id != UserIDref.current ? (
+                                    <div className="char_recive">
+                                      <div className="chat_conent">
                                         <p>
                                           {/* <span>{chat.adv_name}</span>{" "} */}
                                           {Moment(chat.createdAt).format("LT")}
                                         </p>
 
-                                        {chat.adv_msg != "" &&
+                                        {chat.user_msg != "" &&
+                                        chat.user_msg != undefined ? (
+                                          <div className="j-img-content-two">
+                                            {chat.user_msg}
+                                          </div>
+                                        ) : chat.adv_msg != "" &&
                                           chat.adv_msg != undefined ? (
                                           <div className="j-img-content-two">
                                             {chat.adv_msg}
                                           </div>
-                                        ) : chat.user_msg != "" &&
-                                          chat.user_msg != undefined ? (
-                                          <div className="j-img-content-two">
-                                            {chat.user_msg}
-                                          </div>
                                         ) : (
                                           ""
                                         )}
-                                        {chat.adv_file != "" &&
+                                        {chat.user_file != "" &&
+                                        chat.user_file != undefined ? (
+                                          <img
+                                            src={chat.user_file}
+                                            className=""
+                                            width="250px"
+                                          />
+                                        ) : chat.adv_file != "" &&
                                           chat.adv_file != undefined ? (
                                           <img
                                             src={chat.adv_file}
                                             width="250px"
                                             className=""
                                           />
-                                        ) : chat.user_file != "" &&
-                                          chat.user_file != undefined ? (
+                                        ) : (
+                                          ""
+                                        )}
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )
+                                ) : chat.user_id == UserIDref.current &&
+                                  chat.default == 0 ? (
+                                  <div className="char_recive w-100 d-flex justify-content-end">
+                                    <div className=" char_send">
+                                      <div className="chat_conent p_new_end">
+                                        <p>
+                                          <span>{/* {chat.user_name} */}</span>{" "}
+                                          {Moment(chat.createdAt).format("LT")}
+                                        </p>
+
+                                        {chat.user_msg != "" &&
+                                        chat.user_msg != undefined ? (
+                                          <div className="j-img-content-two">
+                                            {chat.user_msg}
+                                          </div>
+                                        ) : chat.adv_msg != "" &&
+                                          chat.adv_msg != undefined ? (
+                                          <div className="j-img-content-two">
+                                            {chat.adv_msg}
+                                          </div>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {chat.user_file != "" &&
+                                        chat.user_file != undefined ? (
                                           <img
                                             src={chat.user_file}
+                                            className=""
+                                            width="250px"
+                                          />
+                                        ) : chat.adv_file != "" &&
+                                          chat.adv_file != undefined ? (
+                                          <img
+                                            src={chat.adv_file}
                                             width="250px"
                                             className=""
                                           />
@@ -1648,12 +1831,12 @@ const Payment = () => {
                                   <div className="char_recive">
                                     <div className="chat_conent">
                                       <p>
-                                        {/* <span>{chat.adv_name}</span>{" "} */}
+                                        {/* <span>{chat.user_name}</span>{" "} */}
                                         {Moment(chat.createdAt).format("LT")}
                                       </p>
 
                                       {chat.user_msg != "" &&
-                                        chat.user_msg != undefined ? (
+                                      chat.user_msg != undefined ? (
                                         <div className="j-img-content-two">
                                           {chat.user_msg}
                                         </div>
@@ -1666,11 +1849,11 @@ const Payment = () => {
                                         ""
                                       )}
                                       {chat.user_file != "" &&
-                                        chat.user_file != undefined ? (
+                                      chat.user_file != undefined ? (
                                         <img
                                           src={chat.user_file}
-                                          className=""
                                           width="250px"
+                                          className=""
                                         />
                                       ) : chat.adv_file != "" &&
                                         chat.adv_file != undefined ? (
@@ -1686,94 +1869,8 @@ const Payment = () => {
                                   </div>
                                 ) : (
                                   ""
-                                )
-                              ) : chat.user_id == UserIDref.current &&
-                                chat.default == 0 ? (
-                                <div className="char_recive w-100 d-flex justify-content-end">
-                                  <div className=" char_send">
-                                    <div className="chat_conent p_new_end">
-                                      <p>
-                                        <span>{/* {chat.user_name} */}</span>{" "}
-                                        {Moment(chat.createdAt).format("LT")}
-                                      </p>
-
-                                      {chat.user_msg != "" &&
-                                        chat.user_msg != undefined ? (
-                                        <div className="j-img-content-two">
-                                          {chat.user_msg}
-                                        </div>
-                                      ) : chat.adv_msg != "" &&
-                                        chat.adv_msg != undefined ? (
-                                        <div className="j-img-content-two">
-                                          {chat.adv_msg}
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {chat.user_file != "" &&
-                                        chat.user_file != undefined ? (
-                                        <img
-                                          src={chat.user_file}
-                                          className=""
-                                          width="250px"
-                                        />
-                                      ) : chat.adv_file != "" &&
-                                        chat.adv_file != undefined ? (
-                                        <img
-                                          src={chat.adv_file}
-                                          width="250px"
-                                          className=""
-                                        />
-                                      ) : (
-                                        ""
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : chat.user_id != UserIDref.current ? (
-                                <div className="char_recive">
-                                  <div className="chat_conent">
-                                    <p>
-                                      {/* <span>{chat.user_name}</span>{" "} */}
-                                      {Moment(chat.createdAt).format("LT")}
-                                    </p>
-
-                                    {chat.user_msg != "" &&
-                                      chat.user_msg != undefined ? (
-                                      <div className="j-img-content-two">
-                                        {chat.user_msg}
-                                      </div>
-                                    ) : chat.adv_msg != "" &&
-                                      chat.adv_msg != undefined ? (
-                                      <div className="j-img-content-two">
-                                        {chat.adv_msg}
-                                      </div>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {chat.user_file != "" &&
-                                      chat.user_file != undefined ? (
-                                      <img
-                                        src={chat.user_file}
-                                        width="250px"
-                                        className=""
-                                      />
-                                    ) : chat.adv_file != "" &&
-                                      chat.adv_file != undefined ? (
-                                      <img
-                                        src={chat.adv_file}
-                                        width="250px"
-                                        className=""
-                                      />
-                                    ) : (
-                                      ""
-                                    )}
-                                  </div>
-                                </div>
-                              ) : (
-                                ""
-                              );
-                            })
+                                );
+                              })
                             : ""}
                         </div>
                       </div>
@@ -1796,8 +1893,17 @@ const Payment = () => {
 
                           {chatloading == false ? (
                             <>
-                              <div className="start-icon1" onClick={() => document.getElementById("fileInput").click()}>
-                                <img src={require("../assets/Attach.png")} alt="Attach" style={{ cursor: "pointer" }} />
+                              <div
+                                className="start-icon1"
+                                onClick={() =>
+                                  document.getElementById("fileInput").click()
+                                }
+                              >
+                                <img
+                                  src={require("../assets/Attach.png")}
+                                  alt="Attach"
+                                  style={{ cursor: "pointer" }}
+                                />
                               </div>
 
                               <input
@@ -1852,127 +1958,149 @@ const Payment = () => {
                     ></button>
                   </div>
 
-                  {disputeDetailsref.current.status === "raised" && remainingSeconds != null ? (<>
-                    <div className="modal-body personal_verify_body lvl-one-body">
-                      <div className="mar-top-12">
-                        <h4 className="modal-title mb-4">{t('Appeal submitted. Awaiting response from other party.')}</h4>
-                        <p className="select_id_text mb-3">
-                          {t('The other party must respond within:')} {Math.floor(remainingSeconds / 60)}m {remainingSeconds % 60}s
-                        </p>
+                  {disputeDetailsref.current.status === "raised" &&
+                  remainingSeconds != null ? (
+                    <>
+                      <div className="modal-body personal_verify_body lvl-one-body">
+                        <div className="mar-top-12">
+                          <h4 className="modal-title mb-4">
+                            {t(
+                              "Appeal submitted. Awaiting response from other party."
+                            )}
+                          </h4>
+                          <p className="select_id_text mb-3">
+                            {t("The other party must respond within:")}{" "}
+                            {Math.floor(remainingSeconds / 60)}m{" "}
+                            {remainingSeconds % 60}s
+                          </p>
 
-                        <ol>
-                          <li className="select_id_text1 mb-3">{t('If both parties agree, click')} <b>{t('Cancel Appeal')}</b>.</li>
-                          <li className="select_id_text1 mb-3">{t('If no response in 20 minutes, arbitration starts.')}</li>
-                          <li className="select_id_text1 mb-3">{t('You can upload more evidence anytime.')}</li>
-                        </ol>
+                          <ol>
+                            <li className="select_id_text1 mb-3">
+                              {t("If both parties agree, click")}{" "}
+                              <b>{t("Cancel Appeal")}</b>.
+                            </li>
+                            <li className="select_id_text1 mb-3">
+                              {t(
+                                "If no response in 20 minutes, arbitration starts."
+                              )}
+                            </li>
+                            <li className="select_id_text1 mb-3">
+                              {t("You can upload more evidence anytime.")}
+                            </li>
+                          </ol>
 
-                        {remainingSeconds == 0 ? (<div className="bor-top-next">
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                            onClick={() => Updatedispute("not_resolved")}
-
-                          >
-                            {t('Not Resolved')}
-                          </button>
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                            onClick={() => Updatedispute("resolved")}
-
-                          >
-                            {t('Issues Resolved')}
-                          </button>
+                          {remainingSeconds == 0 ? (
+                            <div className="bor-top-next">
+                              <button
+                                className="modal_continue_btn mt-4"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() => Updatedispute("not_resolved")}
+                              >
+                                {t("Not Resolved")}
+                              </button>
+                              <button
+                                className="modal_continue_btn mt-4"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() => Updatedispute("resolved")}
+                              >
+                                {t("Issues Resolved")}
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="bor-top-next">
+                              <button
+                                className="modal_continue_btn mt-4"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() => Updatedispute("cancel")}
+                              >
+                                {t("Cancel Appeal")}
+                              </button>
+                            </div>
+                          )}
                         </div>
-                        ) : (
+                      </div>
+                    </>
+                  ) : disputeDetailsref.current.status === "resolved" ||
+                    disputeDetailsref.current.status === "cancel" ? (
+                    <>
+                      <div className="modal-body personal_verify_body lvl-one-body">
+                        <div className="mar-top-12">
+                          <h4 className="modal-title mb-4">
+                            {t("Issues Resolved")}
+                          </h4>
+
+                          <img
+                            src={require("../assets/leaderboard-success.png")}
+                            alt="leaderboard-success"
+                            width="50%"
+                            className="d-block mx-auto"
+                          />
+
                           <div className="bor-top-next">
                             <button
                               className="modal_continue_btn mt-4"
                               data-bs-dismiss="modal"
                               aria-label="Close"
-                              onClick={() => Updatedispute("cancel")}
-
                             >
-                              {t('Cancel Appeal')}
+                              {t("Back")}
                             </button>
                           </div>
-                        )}
-                      </div>
-                    </div>
-
-                  </>) : disputeDetailsref.current.status === "resolved" || disputeDetailsref.current.status === "cancel" ? (<>
-
-                    <div className="modal-body personal_verify_body lvl-one-body">
-                      <div className="mar-top-12">
-                        <h4 className="modal-title mb-4">{t('Issues Resolved')}</h4>
-
-
-                        <img
-                          src={require("../assets/leaderboard-success.png")}
-                          alt="leaderboard-success"
-                          width="50%"
-                          className="d-block mx-auto"
-                        />
-
-                        <div className="bor-top-next">
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          >
-                            {t('Back')}
-                          </button>
                         </div>
-
                       </div>
-                    </div>
-                  </>) : disputeDetailsref.current.status === "not_resolved" ? (<>
+                    </>
+                  ) : disputeDetailsref.current.status === "not_resolved" ? (
+                    <>
+                      <div className="modal-body personal_verify_body lvl-one-body">
+                        <div className="mar-top-12">
+                          <h4 className="modal-title mb-4">
+                            {t("Awaiting Assistance from Customer Service")}
+                          </h4>
+                          <p className="select_id_text mb-3">
+                            {t(
+                              "Customer service is reviewing this appeal. processing may take several hours."
+                            )}
+                          </p>
 
-                    <div className="modal-body personal_verify_body lvl-one-body">
-                      <div className="mar-top-12">
-                        <h4 className="modal-title mb-4">{t('Awaiting Assistance from Customer Service')}</h4>
-                        <p className="select_id_text mb-3">
-                          {t('Customer service is reviewing this appeal. processing may take several hours.')}
-                        </p>
-
-                        {/* <p className="select_id_text mb-3">
+                          {/* <p className="select_id_text mb-3">
                           Customer service is reviewing this appeal. processing may take several hours.
                         </p> */}
 
-                        <div className="bor-top-next">
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          >
-                            {t('Back')}
-                          </button>
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                            onClick={() => Updatedispute("resolved")}
-
-                          >
-                            {t('Issues Resolved')}
-                          </button>
+                          <div className="bor-top-next">
+                            <button
+                              className="modal_continue_btn mt-4"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              {t("Back")}
+                            </button>
+                            <button
+                              className="modal_continue_btn mt-4"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                              onClick={() => Updatedispute("resolved")}
+                            >
+                              {t("Issues Resolved")}
+                            </button>
+                          </div>
                         </div>
-
                       </div>
-                    </div>
-                  </>) : (
+                    </>
+                  ) : (
                     <>
                       <div className="modal-body personal_verify_body lvl-one-body">
                         <div className="mar-top-12">
                           {remainingSeconds === null && (
-
-
                             <div className="first_name">
-                              <h4 className="modal-title mb-4">{t('Raise Help')}</h4>
+                              <h4 className="modal-title mb-4">
+                                {t("Raise Help")}
+                              </h4>
 
-                              <h4 className="select_id_text">{t('Experiencing problems')}?</h4>
+                              <h4 className="select_id_text">
+                                {t("Experiencing problems")}?
+                              </h4>
                               <Dropdown
                                 placeholder={t("Select a Appeal reason")}
                                 fluid
@@ -1980,107 +2108,152 @@ const Payment = () => {
                                 className="dep-drops"
                                 options={disputeReasonOptions}
                                 value={disputeReason}
-                                onChange={(e, { value }) => setdisputeReason(value)}
+                                onChange={(e, { value }) =>
+                                  setdisputeReason(value)
+                                }
                               />
                             </div>
                           )}
 
-                          {disputeReason && appealstatus && remainingSeconds === null && (
-                            <>
-                              <div className="first_name mt-3">
-                                <h4 className="select_id_text">{t('query')}</h4>
-                                <input
-                                  type="text"
-                                  placeholder="Enter your query"
-                                  className="w-100"
-                                  name="query"
-                                  maxLength={40}
-                                  value={disputequery}
-                                  onChange={dispute_handleChange}
-                                />
-                              </div>
+                          {disputeReason &&
+                            appealstatus &&
+                            remainingSeconds === null && (
+                              <>
+                                <div className="first_name mt-3">
+                                  <h4 className="select_id_text">
+                                    {t("query")}
+                                  </h4>
+                                  <input
+                                    type="text"
+                                    placeholder="Enter your query"
+                                    className="w-100"
+                                    name="query"
+                                    maxLength={40}
+                                    value={disputequery}
+                                    onChange={dispute_handleChange}
+                                  />
+                                </div>
 
-                              <div className="first_name my-4">
-                                <h4 className="select_id_text">{t('attachment')}</h4>
-                              </div>
+                                <div className="first_name my-4">
+                                  <h4 className="select_id_text">
+                                    {t("attachment")}
+                                  </h4>
+                                </div>
 
-                              <div className="upload-container">
-                                {!raiseloader ? (
-                                  raiseValid === 0 ? (
-                                    <div className="inner_frst_display">
-                                      <i className="fa-solid fa-cloud-arrow-up font_soze_12"></i>
-                                      <p>{t('uploadfront')}</p>
-                                    </div>
+                                <div className="upload-container">
+                                  {!raiseloader ? (
+                                    raiseValid === 0 ? (
+                                      <div className="inner_frst_display">
+                                        <i className="fa-solid fa-cloud-arrow-up font_soze_12"></i>
+                                        <p>{t("uploadfront")}</p>
+                                      </div>
+                                    ) : (
+                                      <img
+                                        src={disputefile}
+                                        className="up_im_past"
+                                        alt="Dispute proof"
+                                      />
+                                    )
                                   ) : (
-                                    <img
-                                      src={disputefile}
-                                      className="up_im_past"
-                                      alt="Dispute proof"
-                                    />
-                                  )
-                                ) : (
-                                  <div className="inner_frst_display">
-                                    <i className="fa-solid fa-spinner fa-spin"></i>
-                                  </div>
-                                )}
+                                    <div className="inner_frst_display">
+                                      <i className="fa-solid fa-spinner fa-spin"></i>
+                                    </div>
+                                  )}
 
-                                <input
-                                  type="file"
-                                  name="file"
-                                  onChange={(e) => disputeUpload("file", e.target.files[0])}
-                                  className="image_upload_kyc"
-                                />
+                                  <input
+                                    type="file"
+                                    name="file"
+                                    onChange={(e) =>
+                                      disputeUpload("file", e.target.files[0])
+                                    }
+                                    className="image_upload_kyc"
+                                  />
 
-                                {raisenameref.current && (
-                                  <p className="pay-name text-center mt-4">{raisenameref.current}</p>
-                                )}
-                              </div>
+                                  {raisenameref.current && (
+                                    <p className="pay-name text-center mt-4">
+                                      {raisenameref.current}
+                                    </p>
+                                  )}
+                                </div>
 
-                              <div className="bor-top-next">
-                                <button
-                                  className="modal_continue_btn mt-4"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                  onClick={dispute_buy}
-                                >
-                                  {t('Submit Appeal')}
-                                </button>
-                              </div>
-                            </>
-                          )}
+                                <div className="bor-top-next">
+                                  <button
+                                    className="modal_continue_btn mt-4"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={dispute_buy}
+                                  >
+                                    {t("Submit Appeal")}
+                                  </button>
+                                </div>
+                              </>
+                            )}
 
                           {/* Appeal not yet submitted and reason selected */}
-                          {disputeReason && !appealstatus && remainingSeconds === null && (
-                            <div className="first_name mt-3">
-                              <h4 className="select_id_text1">{t('You can try to resolve the issue by following these steps')}:</h4>
-                              <h4 className="select_id_text">1. {t('Make sure your account information is correct')}.</h4>
-                              <h4 className="select_id_text">2. {t('Check the')}  {orderTyperef.current == "Buy" ? "seller's" : "buyer's"} {t('payment proof or chat with them for clarification')}.</h4>
-                              <h4 className="select_id_text">3. {t('Some payment methods may take 1–3 days to complete')}.</h4>
-                              <h4 className="select_id_text1">* {t('If the issue remains, you can initiate an appeal')}.</h4>
+                          {disputeReason &&
+                            !appealstatus &&
+                            remainingSeconds === null && (
+                              <div className="first_name mt-3">
+                                <h4 className="select_id_text1">
+                                  {t(
+                                    "You can try to resolve the issue by following these steps"
+                                  )}
+                                  :
+                                </h4>
+                                <h4 className="select_id_text">
+                                  1.{" "}
+                                  {t(
+                                    "Make sure your account information is correct"
+                                  )}
+                                  .
+                                </h4>
+                                <h4 className="select_id_text">
+                                  2. {t("Check the")}{" "}
+                                  {orderTyperef.current == "Buy"
+                                    ? "seller's"
+                                    : "buyer's"}{" "}
+                                  {t(
+                                    "payment proof or chat with them for clarification"
+                                  )}
+                                  .
+                                </h4>
+                                <h4 className="select_id_text">
+                                  3.{" "}
+                                  {t(
+                                    "Some payment methods may take 1–3 days to complete"
+                                  )}
+                                  .
+                                </h4>
+                                <h4 className="select_id_text1">
+                                  *{" "}
+                                  {t(
+                                    "If the issue remains, you can initiate an appeal"
+                                  )}
+                                  .
+                                </h4>
 
-                              <div className="bor-top-next d-flex gap-2">
-                                <button
-                                  className="modal_continue_btn mt-4"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                  onClick={() => setdisputeReason("")}
-                                >
-
-                                  {orderTyperef.current == "Buy" ? " Contact Seller" : " Contact Buyer"}
-
-                                </button>
-                                <button
-                                  className="modal_continue_btn mt-4"
-                                  // data-bs-dismiss="modal"
-                                  // aria-label="Close"
-                                  onClick={() => setappealstatus(true)}
-                                >
-                                  {t('Appeal')}
-                                </button>
+                                <div className="bor-top-next d-flex gap-2">
+                                  <button
+                                    className="modal_continue_btn mt-4"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => setdisputeReason("")}
+                                  >
+                                    {orderTyperef.current == "Buy"
+                                      ? " Contact Seller"
+                                      : " Contact Buyer"}
+                                  </button>
+                                  <button
+                                    className="modal_continue_btn mt-4"
+                                    // data-bs-dismiss="modal"
+                                    // aria-label="Close"
+                                    onClick={() => setappealstatus(true)}
+                                  >
+                                    {t("Appeal")}
+                                  </button>
+                                </div>
                               </div>
-                            </div>
-                          )}
-
+                            )}
                         </div>
                       </div>
                     </>
@@ -2175,7 +2348,6 @@ const Payment = () => {
             </div> */}
             </div>
 
-
             <div
               className="modal fade"
               id="raise_dispute_sell"
@@ -2194,127 +2366,151 @@ const Payment = () => {
                     ></button>
                   </div>
 
-                  {disputeDetailsref.current.status === "raised" && remainingSeconds != null ? (<>
-                    <div className="modal-body personal_verify_body lvl-one-body">
-                      <div className="mar-top-12">
-                        <h4 className="modal-title mb-4">{t('Appeal submitted. Awaiting response from other party.')}</h4>
-                        <p className="select_id_text mb-3">
-                          {t('The other party must respond within:')} {Math.floor(remainingSeconds / 60)}m {remainingSeconds % 60}s
-                        </p>
+                  {disputeDetailsref.current.status === "raised" &&
+                  remainingSeconds != null ? (
+                    <>
+                      <div className="modal-body personal_verify_body lvl-one-body">
+                        <div className="mar-top-12">
+                          <h4 className="modal-title mb-4">
+                            {t(
+                              "Appeal submitted. Awaiting response from other party."
+                            )}
+                          </h4>
+                          <p className="select_id_text mb-3">
+                            {t("The other party must respond within:")}{" "}
+                            {Math.floor(remainingSeconds / 60)}m{" "}
+                            {remainingSeconds % 60}s
+                          </p>
 
-                        <ol>
-                          <li className="select_id_text1 mb-3">{t('If both parties agree, click')} <b>{t('Cancel Appeal')}</b>.</li>
-                          <li className="select_id_text1 mb-3">{t('If no response in 20 minutes, arbitration starts.')}</li>
-                          <li className="select_id_text1 mb-3">{t('You can upload more evidence anytime.')}</li>
-                        </ol>
+                          <ol>
+                            <li className="select_id_text1 mb-3">
+                              {t("If both parties agree, click")}{" "}
+                              <b>{t("Cancel Appeal")}</b>.
+                            </li>
+                            <li className="select_id_text1 mb-3">
+                              {t(
+                                "If no response in 20 minutes, arbitration starts."
+                              )}
+                            </li>
+                            <li className="select_id_text1 mb-3">
+                              {t("You can upload more evidence anytime.")}
+                            </li>
+                          </ol>
 
-                        {remainingSeconds == 0 ? (<div className="bor-top-next">
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                            onClick={() => Updatedispute("not_resolved")}
-
-                          >
-                            {t('Not Resolved')}
-                          </button>
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                            onClick={() => Updatedispute("resolved")}
-
-                          >
-                            {t('Issues Resolved')}
-                          </button>
+                          {remainingSeconds == 0 ? (
+                            <div className="bor-top-next">
+                              <button
+                                className="modal_continue_btn mt-4"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() => Updatedispute("not_resolved")}
+                              >
+                                {t("Not Resolved")}
+                              </button>
+                              <button
+                                className="modal_continue_btn mt-4"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() => Updatedispute("resolved")}
+                              >
+                                {t("Issues Resolved")}
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="bor-top-next">
+                              <button
+                                className="modal_continue_btn mt-4"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() => Updatedispute("cancel")}
+                              >
+                                {t("Cancel Appeal")}
+                              </button>
+                            </div>
+                          )}
                         </div>
-                        ) : (
+                      </div>
+                    </>
+                  ) : disputeDetailsref.current.status === "resolved" ||
+                    disputeDetailsref.current.status === "cancel" ? (
+                    <>
+                      <div className="modal-body personal_verify_body lvl-one-body">
+                        <div className="mar-top-12">
+                          <h4 className="modal-title mb-4">
+                            {t("Issues Resolved")}
+                          </h4>
+
+                          <img
+                            src={require("../assets/leaderboard-success.png")}
+                            alt="leaderboard-success"
+                            width="50%"
+                            className="d-block mx-auto"
+                          />
+
                           <div className="bor-top-next">
                             <button
                               className="modal_continue_btn mt-4"
                               data-bs-dismiss="modal"
                               aria-label="Close"
-                              onClick={() => Updatedispute("cancel")}
-
                             >
-                              {t('Cancel Appeal')}
+                              {t("Back")}
                             </button>
                           </div>
-                        )}
-                      </div>
-                    </div>
-
-                  </>) : disputeDetailsref.current.status === "resolved" || disputeDetailsref.current.status === "cancel" ? (<>
-
-                    <div className="modal-body personal_verify_body lvl-one-body">
-                      <div className="mar-top-12">
-                        <h4 className="modal-title mb-4">{t('Issues Resolved')}</h4>
-
-
-                        <img
-                          src={require("../assets/leaderboard-success.png")}
-                          alt="leaderboard-success"
-                          width="50%"
-                          className="d-block mx-auto"
-                        />
-
-                        <div className="bor-top-next">
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          >
-                            {t('Back')}
-                          </button>
                         </div>
-
                       </div>
-                    </div>
-                  </>) : disputeDetailsref.current.status === "not_resolved" ? (<>
+                    </>
+                  ) : disputeDetailsref.current.status === "not_resolved" ? (
+                    <>
+                      <div className="modal-body personal_verify_body lvl-one-body">
+                        <div className="mar-top-12">
+                          <h4 className="modal-title mb-4">
+                            {t("Awaiting Assistance from Customer Service")}
+                          </h4>
+                          <p className="select_id_text mb-3">
+                            {t(
+                              "Customer service is reviewing this appeal. processing may take several hours."
+                            )}
+                          </p>
 
-                    <div className="modal-body personal_verify_body lvl-one-body">
-                      <div className="mar-top-12">
-                        <h4 className="modal-title mb-4">{t('Awaiting Assistance from Customer Service')}</h4>
-                        <p className="select_id_text mb-3">
-                          {t('Customer service is reviewing this appeal. processing may take several hours.')}
-                        </p>
+                          <p className="select_id_text mb-3">
+                            {t(
+                              "Customer service is reviewing this appeal. processing may take several hours."
+                            )}
+                          </p>
 
-                        <p className="select_id_text mb-3">
-                          {t('Customer service is reviewing this appeal. processing may take several hours.')}
-                        </p>
-
-                        <div className="bor-top-next">
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          >
-                            {t('Back')}
-                          </button>
-                          <button
-                            className="modal_continue_btn mt-4"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                            onClick={() => Updatedispute("resolved")}
-
-                          >
-                            {t('Issues Resolved')}
-                          </button>
+                          <div className="bor-top-next">
+                            <button
+                              className="modal_continue_btn mt-4"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              {t("Back")}
+                            </button>
+                            <button
+                              className="modal_continue_btn mt-4"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                              onClick={() => Updatedispute("resolved")}
+                            >
+                              {t("Issues Resolved")}
+                            </button>
+                          </div>
                         </div>
-
                       </div>
-                    </div>
-                  </>) : (
+                    </>
+                  ) : (
                     <>
                       <div className="modal-body personal_verify_body lvl-one-body">
                         <div className="mar-top-12">
                           {remainingSeconds === null && (
-
-
                             <div className="first_name">
-                              <h4 className="modal-title mb-4">{t('Raise Help')}</h4>
+                              <h4 className="modal-title mb-4">
+                                {t("Raise Help")}
+                              </h4>
 
-                              <h4 className="select_id_text">{t('Experiencing problems')}?</h4>
+                              <h4 className="select_id_text">
+                                {t("Experiencing problems")}?
+                              </h4>
                               <Dropdown
                                 placeholder={t("Select a Appeal reason")}
                                 fluid
@@ -2322,117 +2518,237 @@ const Payment = () => {
                                 className="dep-drops"
                                 options={disputeReasonOptions}
                                 value={disputeReason}
-                                onChange={(e, { value }) => setdisputeReason(value)}
+                                onChange={(e, { value }) =>
+                                  setdisputeReason(value)
+                                }
                               />
                             </div>
                           )}
 
-                          {disputeReason && appealstatus && remainingSeconds === null && (
-                            <>
-                              <div className="first_name mt-3">
-                                <h4 className="select_id_text">{t('query')}</h4>
-                                <input
-                                  type="text"
-                                  placeholder="Enter your query"
-                                  className="w-100"
-                                  name="query"
-                                  maxLength={40}
-                                  value={disputequery}
-                                  onChange={dispute_handleChange}
-                                />
-                              </div>
+                          {disputeReason &&
+                            appealstatus &&
+                            remainingSeconds === null && (
+                              <>
+                                <div className="first_name mt-3">
+                                  <h4 className="select_id_text">
+                                    {t("query")}
+                                  </h4>
+                                  <input
+                                    type="text"
+                                    placeholder="Enter your query"
+                                    className="w-100"
+                                    name="query"
+                                    maxLength={40}
+                                    value={disputequery}
+                                    onChange={dispute_handleChange}
+                                  />
+                                </div>
 
-                              <div className="first_name my-4">
-                                <h4 className="select_id_text">{t('attachment')}</h4>
-                              </div>
+                                <div className="first_name my-4">
+                                  <h4 className="select_id_text">
+                                    {t("attachment")}
+                                  </h4>
+                                </div>
 
-                              <div className="upload-container">
-                                {!raiseloader ? (
-                                  raiseValid === 0 ? (
-                                    <div className="inner_frst_display">
-                                      <i className="fa-solid fa-cloud-arrow-up font_soze_12"></i>
-                                      <p>{t('uploadfront')}</p>
-                                    </div>
+                                <div className="upload-container">
+                                  {!raiseloader ? (
+                                    raiseValid === 0 ? (
+                                      <div className="inner_frst_display">
+                                        <i className="fa-solid fa-cloud-arrow-up font_soze_12"></i>
+                                        <p>{t("uploadfront")}</p>
+                                      </div>
+                                    ) : (
+                                      <img
+                                        src={disputefile}
+                                        className="up_im_past"
+                                        alt="Dispute proof"
+                                      />
+                                    )
                                   ) : (
-                                    <img
-                                      src={disputefile}
-                                      className="up_im_past"
-                                      alt="Dispute proof"
-                                    />
-                                  )
-                                ) : (
-                                  <div className="inner_frst_display">
-                                    <i className="fa-solid fa-spinner fa-spin"></i>
-                                  </div>
-                                )}
+                                    <div className="inner_frst_display">
+                                      <i className="fa-solid fa-spinner fa-spin"></i>
+                                    </div>
+                                  )}
 
-                                <input
-                                  type="file"
-                                  name="file"
-                                  onChange={(e) => disputeUpload("file", e.target.files[0])}
-                                  className="image_upload_kyc"
-                                />
+                                  <input
+                                    type="file"
+                                    name="file"
+                                    onChange={(e) =>
+                                      disputeUpload("file", e.target.files[0])
+                                    }
+                                    className="image_upload_kyc"
+                                  />
 
-                                {raisenameref.current && (
-                                  <p className="pay-name text-center mt-4">{raisenameref.current}</p>
-                                )}
-                              </div>
+                                  {raisenameref.current && (
+                                    <p className="pay-name text-center mt-4">
+                                      {raisenameref.current}
+                                    </p>
+                                  )}
+                                </div>
 
-                              <div className="bor-top-next">
-                                <button
-                                  className="modal_continue_btn mt-4"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                  onClick={dispute_sell}
-                                >
-                                  {t('Submit Appeal')}
-                                </button>
-                              </div>
-                            </>
-                          )}
+                                <div className="bor-top-next">
+                                  <button
+                                    className="modal_continue_btn mt-4"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={dispute_sell}
+                                  >
+                                    {t("Submit Appeal")}
+                                  </button>
+                                </div>
+                              </>
+                            )}
 
                           {/* Appeal not yet submitted and reason selected */}
-                          {disputeReason && !appealstatus && remainingSeconds === null && (
-                            <div className="first_name mt-3">
-                              <h4 className="select_id_text1">{t('You can try to resolve the issue by following these steps')}:</h4>
-                              <h4 className="select_id_text">1. {t('Make sure your account information is correct')}.</h4>
-                              <h4 className="select_id_text">2. {t('Check the')}  {orderTyperef.current == "Buy" ? "seller's" : "buyer's"} {t('payment proof or chat with them for clarification')}.</h4>
-                              <h4 className="select_id_text">3. {t('Some payment methods may take 1–3 days to complete')}.</h4>
-                              <h4 className="select_id_text1">* {t('If the issue remains, you can initiate an appeal')}.</h4>
+                          {disputeReason &&
+                            !appealstatus &&
+                            remainingSeconds === null && (
+                              <div className="first_name mt-3">
+                                <h4 className="select_id_text1">
+                                  {t(
+                                    "You can try to resolve the issue by following these steps"
+                                  )}
+                                  :
+                                </h4>
+                                <h4 className="select_id_text">
+                                  1.{" "}
+                                  {t(
+                                    "Make sure your account information is correct"
+                                  )}
+                                  .
+                                </h4>
+                                <h4 className="select_id_text">
+                                  2. {t("Check the")}{" "}
+                                  {orderTyperef.current == "Buy"
+                                    ? "seller's"
+                                    : "buyer's"}{" "}
+                                  {t(
+                                    "payment proof or chat with them for clarification"
+                                  )}
+                                  .
+                                </h4>
+                                <h4 className="select_id_text">
+                                  3.{" "}
+                                  {t(
+                                    "Some payment methods may take 1–3 days to complete"
+                                  )}
+                                  .
+                                </h4>
+                                <h4 className="select_id_text1">
+                                  *{" "}
+                                  {t(
+                                    "If the issue remains, you can initiate an appeal"
+                                  )}
+                                  .
+                                </h4>
 
-                              <div className="bor-top-next d-flex gap-2">
-                                <button
-                                  className="modal_continue_btn mt-4"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                  onClick={() => setdisputeReason("")}
-                                >
-
-                                  {orderTyperef.current == "Buy" ? " Contact Seller" : " Contact Buyer"}
-
-                                </button>
-                                <button
-                                  className="modal_continue_btn mt-4"
-                                  // data-bs-dismiss="modal"
-                                  // aria-label="Close"
-                                  onClick={() => setappealstatus(true)}
-                                >
-                                  {t('Appeal')}
-                                </button>
+                                <div className="bor-top-next d-flex gap-2">
+                                  <button
+                                    className="modal_continue_btn mt-4"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => setdisputeReason("")}
+                                  >
+                                    {orderTyperef.current == "Buy"
+                                      ? " Contact Seller"
+                                      : " Contact Buyer"}
+                                  </button>
+                                  <button
+                                    className="modal_continue_btn mt-4"
+                                    // data-bs-dismiss="modal"
+                                    // aria-label="Close"
+                                    onClick={() => setappealstatus(true)}
+                                  >
+                                    {t("Appeal")}
+                                  </button>
+                                </div>
                               </div>
-                            </div>
-                          )}
-
+                            )}
                         </div>
                       </div>
                     </>
                   )}
-
-
                 </div>
               </div>
             </div>
 
+            <div
+              className="modal fade"
+              id="p2pRatingModal"
+              tabIndex="-1"
+              aria-labelledby="p2pRatingModalLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered modal-sm">
+                <div className="modal-content">
+                  <div className="modal-header lvl-one-header">
+                    <h5 className="modal-title" id="p2pRatingModalLabel">
+                      Rate the trade
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close btn-close-custom"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+
+                  <div className="modal-body personal_verify_body lvl-one-body text-center">
+                    <p className="mb-4 text-whte">
+                      Please rate your experience (1-5 stars)
+                    </p>
+
+                    <div className="mb-4">
+                      {/* clickable stars; each star calls submit immediately */}
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <span
+                          key={n}
+                          role="button"
+                          style={{
+                            fontSize: 32,
+                            cursor: "pointer",
+                            margin: "0 6px",
+                            backgroundColor: "#daecee",
+                            color: "#daecee",
+                          }}
+                          onClick={() => {
+                            // get current orderId from ref (set when showing modal)
+                            const orderId =
+                              currentOrderForRating.current ||
+                              window.location.href.split("/").pop();
+                            // Hide modal immediately (so user doesn't see it stuck)
+                            const modalEl =
+                              document.getElementById("p2pRatingModal");
+                            if (
+                              modalEl &&
+                              window.bootstrap &&
+                              window.bootstrap.Modal
+                            ) {
+                              const inst =
+                                window.bootstrap.Modal.getInstance(modalEl);
+                              if (inst) inst.hide();
+                              else new window.bootstrap.Modal(modalEl).hide();
+                            }
+                            // Submit rating (fire-and-forget) and immediately navigate
+                            submitP2PRating(orderId, n);
+                            // DELAY TO LET API FIRE AND THEN NAVIGATE
+                            setTimeout(() => {
+                              navigate("/p2p");
+                            }, 200);
+                          }}
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div>
+
+                    <p className="small text-muted">
+                      Thanks for your feedback!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
