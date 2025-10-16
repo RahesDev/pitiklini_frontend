@@ -499,7 +499,7 @@ const Dashboard = () => {
                               totalAllbalance == null ||
                               totalAllbalance == undefined
                                 ? 0.0
-                                : totalAllbalance.toFixed(4)}
+                                : totalAllbalance.toFixed(2)}
                               <span className="usd_text"> USD</span>
                             </p>
                           </div>
