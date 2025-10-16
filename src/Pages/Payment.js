@@ -2708,7 +2708,7 @@ const Payment = () => {
                             fontSize: 32,
                             cursor: "pointer",
                             margin: "0 6px",
-                            backgroundColor: "#daecee",
+                            // backgroundColor: "#daecee",
                             color: "#daecee",
                           }}
                           onClick={() => {
