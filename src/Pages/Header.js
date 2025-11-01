@@ -342,7 +342,10 @@ const Header = () => {
                 <Toolbar className="container-fluid pad-0">
                   <Typography variant="h6" className={classes.title}>
                     <div className="logo_new_sectio d-flex">
-                      <Link to={isAuthenticated ? "/dashboard" : "/"} className="logo-brand">
+                      <Link
+                        to={isAuthenticated ? "/dashboard" : "/"}
+                        className="logo-brand"
+                      >
                         {/* <img src={Lightlogo} className="img-fluid" alt="logo" /> */}
                         {loaderSite == false ? (
                           <img
@@ -470,6 +473,13 @@ const Header = () => {
                           className="contact_button"
                         >
                           {t("internal_transfer")}
+                        </Link>
+                        <Link
+                          to="/fundtransfer"
+                          color="inherit"
+                          className="contact_button"
+                        >
+                          {t("fundtranfer")}
                         </Link>
 
                         {/* <GoogleTranslate />/ */}
@@ -748,7 +758,11 @@ const Header = () => {
                                 return (
                                   <div className="notify-container">
                                     <Link
-                                      to={options.link == "" ? "/notificationHistory" : options.link}
+                                      to={
+                                        options.link == ""
+                                          ? "/notificationHistory"
+                                          : options.link
+                                      }
                                       className="nav-notify-content "
                                     >
                                       <h6 className="nav-notify">
@@ -1162,7 +1176,11 @@ const Header = () => {
                                 return (
                                   <div className="notify-container">
                                     <Link
-                                      to={options.link == "" ? "/notificationHistory" : options.link}
+                                      to={
+                                        options.link == ""
+                                          ? "/notificationHistory"
+                                          : options.link
+                                      }
                                       className="nav-notify-content "
                                     >
                                       <h6 className="nav-notify">
@@ -1195,7 +1213,10 @@ const Header = () => {
               >
                 <div className={classes.mobileMenu}>
                   <div className="logo_new_sectio mobile_menu_icon">
-                    <Link  to={isAuthenticated ? "/dashboard" : "/"} className="logo-brand">
+                    <Link
+                      to={isAuthenticated ? "/dashboard" : "/"}
+                      className="logo-brand"
+                    >
                       {loaderSite == false ? (
                         <img
                           src={siteData.siteLogo}
@@ -1222,7 +1243,7 @@ const Header = () => {
                     <ListItem button className="drawa ">
                       <Link to="/swap">{t("convert")}</Link>
                     </ListItem>
-                     <ListItem button className="drawa">
+                    <ListItem button className="drawa">
                       <Link to={isAuthenticated ? "/p2p" : "/login"}>
                         {t("p2p")}
                       </Link>
@@ -1277,7 +1298,7 @@ const Header = () => {
                         <ListItem button className="drawa ">
                           <Link to="/fundingassets">{t("fundingAssets")}</Link>
                         </ListItem>
-                      
+
                         <ListItem button className="drawa ">
                           <Link to="/security">{t("security")}</Link>
                         </ListItem>
@@ -1294,7 +1315,12 @@ const Header = () => {
                           <Link to="/deposit">{t("deposit")}</Link>
                         </ListItem>
                         <ListItem button className="drawa ">
-                          <Link to="/internaltransfer">{t("internal_transfer")}</Link>
+                          <Link to="/internaltransfer">
+                            {t("internal_transfer")}
+                          </Link>
+                        </ListItem>
+                        <ListItem button className="drawa ">
+                          <Link to="/fundtransfer">{t("fundtranfer")}</Link>
                         </ListItem>
                         {/* <ListItem button className="drawa ">
                           <Link to="/rewards">My rewards</Link>

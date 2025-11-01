@@ -186,6 +186,7 @@
   "continue": "Continuar",
   "history": "Historial",
   "withdraw": "Retirar",
+  "fundtranfer": "Transferencia de fondos",
   "internalTransfer": "Transferencia interna",
   "openOrder": "Orden abierta",
   "closeOrder": "Orden cerrada",
@@ -831,6 +832,7 @@
   "emailIsRequiredField": "¡El correo electrónico es un campo obligatorio!",
   "invalidEmailAddress": "¡Dirección de correo electrónico no válida!",
   "pleaseEnterYourEmailAddress": "Por favor, introduzca su dirección de correo electrónico",
+  "pleaseEnterdestEmailAddress": "Introduzca la dirección de correo electrónico del destinatario",
   "passwordIsRequired": "¡Se requiere contraseña!",
   "pleaseEnterYourPassword": "Por favor, introduzca su contraseña",
 
@@ -933,12 +935,12 @@
   "Currency": "Moneda",
   "pleaseEnterPaymentMethod": "Por favor ingrese su método de pago",
   "pleaseEnterCurrency": "Por favor introduce tu moneda",
-   "account_name": "Nombre del titular de la cuenta",
-   "pleaseEnterHolderName": "Por favor ingrese el nombre del titular de su cuenta",
-   "Paymentmethod_required": "Se requiere método de pago",
+  "account_name": "Nombre del titular de la cuenta",
+  "pleaseEnterHolderName": "Por favor ingrese el nombre del titular de su cuenta",
+  "Paymentmethod_required": "Se requiere método de pago",
   "Currency_required": "Se requiere moneda",
   "accountname_required": "Se requiere titular de la cuenta",
-   "bankAccountDetails": "Detalles de la cuenta",
+  "bankAccountDetails": "Detalles de la cuenta",
   "pleaseEnterAccount": "Por favor ingrese su número de cuenta o nombre de usuario",
   "feeSettings": "Configuración de tarifas",
   "ptkFeeEnable": "Si está habilitado, se deducen tarifas del token PTK",
@@ -973,6 +975,4 @@
   "If the issue remains, you can initiate an appeal": "Si el problema persiste, puede iniciar una apelación.",
   "Appeal": "Apelar",
   "The other party must respond within": "La otra parte debe responder dentro de"
-
-
 }

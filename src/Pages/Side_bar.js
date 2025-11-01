@@ -106,6 +106,16 @@ const Site_bar = () => {
             />
             <h3>{t("deposit")}</h3>
           </Link>
+          {/* <Link
+            to="/fundtransfer"
+            className={`dashboard_title ${isActive("fundtransfer")}`}
+          >
+            <img
+              src={require("../assets/icons/deposit_icon.png")}
+              alt="Deposit"
+            />
+            <h3>{t("fundtranfer")}</h3>
+          </Link> */}
 
           {/* <Link
             to="/rewards"

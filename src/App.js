@@ -88,6 +88,7 @@ import PageNotFound from "./Pages/PageNotFound";
 import UnderMaintanence from "./Pages/UnderMaintanence";
 import FeeSettings from "./Pages/FeeSettings";
 import NotificationHistory from "./Pages/NotificationHistory";
+import FundTransfer from "./Pages/FundTransfer";
 
 function App() {
   const [favIconSite, setFaviconSite, favIconSiteref] = useState("");
@@ -416,6 +417,15 @@ function App() {
               }
             />
             <Route
+              path="/fundtransfer"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <FundTransfer />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
               path="/support"
               element={
                 <RequireAuth>
@@ -556,7 +566,7 @@ function App() {
                 </RequireAuth>
               }
             />
-             <Route
+            <Route
               path="/fee-settings"
               element={
                 <RequireAuth>
@@ -565,7 +575,7 @@ function App() {
               }
             />
 
-             <Route
+            <Route
               path="/notificationHistory"
               element={
                 <RequireAuth>

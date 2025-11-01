@@ -318,6 +318,9 @@ const service = {
 
   payment_methods: "users/payment_methods",
   getnotificationHistory: "users/getnotificationHistory",
+
+  //fund transfer
+  fundTransfer: "users/fundTransfer",
 };
 
 export default service;

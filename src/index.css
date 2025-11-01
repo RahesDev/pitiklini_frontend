@@ -1294,6 +1294,9 @@ table > thead > tr > th {
 .form_div.mar-bot {
   margin-bottom: -38px;
 }
+.form_div.mar-bot-nwfndtra {
+  margin-bottom: -28px;
+}
 
 .form_div .add_box .address {
   font-family: "Larsseit", sans-serif;

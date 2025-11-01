@@ -184,6 +184,7 @@
   "continue": "Continue",
   "history": "History",
   "withdraw": "Withdraw",
+  "fundtranfer": "Fund Transfer",
   "internalTransfer": "Internal Transfer",
   "openOrder": "Open Order",
   "closeOrder": "Close Order",
@@ -822,6 +823,7 @@
   "emailIsRequiredField": "Email is a required field!",
   "invalidEmailAddress": "Invalid email address!",
   "pleaseEnterYourEmailAddress": "Please enter your email address",
+  "pleaseEnterdestEmailAddress": "Please enter receiver email address",
   "passwordIsRequired": "Password is required!",
   "pleaseEnterYourPassword": "Please enter your password",
 
@@ -964,5 +966,4 @@
   "If the issue remains, you can initiate an appeal": "If the issue remains, you can initiate an appeal",
   "Appeal": "Appeal",
   "The other party must respond within": "The other party must respond within"
-
 }
