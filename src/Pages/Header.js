@@ -481,6 +481,13 @@ const Header = () => {
                         >
                           {t("fundtranfer")}
                         </Link>
+                        {/* <Link
+                          to="/recharge"
+                          color="inherit"
+                          className="contact_button"
+                        >
+                          {t("recharge")}
+                        </Link> */}
 
                         {/* <GoogleTranslate />/ */}
                       </div>
@@ -1322,6 +1329,9 @@ const Header = () => {
                         <ListItem button className="drawa ">
                           <Link to="/fundtransfer">{t("fundtranfer")}</Link>
                         </ListItem>
+                        {/* <ListItem button className="drawa ">
+                          <Link to="/recharge">{t("recharge")}</Link>
+                        </ListItem> */}
                         {/* <ListItem button className="drawa ">
                           <Link to="/rewards">My rewards</Link>
                         </ListItem> */}

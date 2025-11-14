@@ -46,7 +46,7 @@ const Dashboard = () => {
   const [siteStatus, setSiteStatus] = useState("Active");
   const [Loader, setLoader] = useState(false);
   // usePageLeaveConfirm();
-   usePageLeaveConfirm("Are you sure you want to leave Deposit?", "/deposit");
+   usePageLeaveConfirm("Are you sure you want to leave Deposit?", "/deposit",true);
 
   useEffect(() => {
     // getSitedata();

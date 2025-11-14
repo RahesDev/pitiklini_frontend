@@ -36,7 +36,7 @@ const P2P = () => {
   const [preferPayment, setpreferPayment] = useState([]);
 
       // usePageLeaveConfirm();
-       usePageLeaveConfirm("Are you sure you want to leave P2P?", "/p2p");
+       usePageLeaveConfirm("Are you sure you want to leave P2P?", "/p2p", true);
 
   // const preferPayment = [
   //   { value: "All Payment", text: "All Payment" },

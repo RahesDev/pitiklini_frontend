@@ -1105,8 +1105,8 @@ const Payment = () => {
                                         {t("account_name")}
                                       </span>
                                       <span className="pay-money">
-                                        {" "}
-                                        {bankDataref.current.Accout_HolderName}
+                                        {p2pDataref.current.userId?.displayname}{" "}
+                                        ( {bankDataref.current.Accout_HolderName} )
                                         <i
                                           class="ri-file-copy-line cursor-pointer"
                                           onClick={() =>
@@ -1224,8 +1224,8 @@ const Payment = () => {
                                         {t("account_name")}
                                       </span>
                                       <span className="pay-money">
-                                        {" "}
-                                        {bankDataref.current.Accout_HolderName}
+                                        {p2pDataref.current.userId?.displayname}{" "}
+                                        ( {bankDataref.current.Accout_HolderName} )
                                         <i
                                           class="ri-file-copy-line cursor-pointer"
                                           onClick={() =>

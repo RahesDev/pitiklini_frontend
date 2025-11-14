@@ -321,6 +321,11 @@ const service = {
 
   //fund transfer
   fundTransfer: "users/fundTransfer",
+
+  //recharge
+  recharge_operator_list: "users/get_operator_list",
+  recharge_plan_list: "users/get_plan_list",
+  recharge_user: "users/do_recharge",
 };
 
 export default service;

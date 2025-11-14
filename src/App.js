@@ -89,6 +89,7 @@ import UnderMaintanence from "./Pages/UnderMaintanence";
 import FeeSettings from "./Pages/FeeSettings";
 import NotificationHistory from "./Pages/NotificationHistory";
 import FundTransfer from "./Pages/FundTransfer";
+import UserRecharge from "./Pages/UserRecharge";
 
 function App() {
   const [favIconSite, setFaviconSite, favIconSiteref] = useState("");
@@ -425,6 +426,15 @@ function App() {
                 </RequireAuth>
               }
             />
+            {/* <Route
+              path="/recharge"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <UserRecharge />{" "}
+                </RequireAuth>
+              }
+            /> */}
             <Route
               path="/support"
               element={

@@ -152,7 +152,7 @@ const Footer = () => {
                     alt="instagram"
                   />
                 </a>
-                <a
+                {/* <a
                   href={siteData.coinMarketCap}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -161,7 +161,7 @@ const Footer = () => {
                     src={require("../assets/icons/coinmarket.webp")}
                     alt="coinmarket"
                   />
-                </a>
+                </a> */}
                 <a
                   href={siteData.youtube}
                   target="_blank"
@@ -172,7 +172,7 @@ const Footer = () => {
                     alt="youtube"
                   />
                 </a>
-                <a
+                {/* <a
                   href={siteData.reddit}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -201,7 +201,7 @@ const Footer = () => {
                     src={require("../assets/icons/coingeckgo.webp")}
                     alt="coindeck"
                   />
-                </a>
+                </a> */}
               </div>
             </div>
 
