@@ -11,12 +11,27 @@ import Stack from "@mui/material/Stack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useTranslation } from "react-i18next";
+import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
 
 const MyOrdersTable = () => {
   const { t } = useTranslation();
   const [p2pOrders, setp2pOrders, p2pOrdersref] = useState([]);
   const [p2pcurrentpage, setp2pcurrentpage, p2pcurrentpageref] = useState(1);
   const [p2ptotalpages, setp2pTotalpages, p2ptotalpageref] = useState(0);
+         usePageLeaveConfirm(
+           "Are you sure you want to leave P2P?",
+           "/myorders",
+           true,
+           [
+             "/p2p/order/:id",
+             "/processorders",
+             "/p2p/chat/:id",
+             "/p2p",
+             "/p2p/dispute/:id",
+             "/postad",
+             "/Paymentmethod",
+           ]
+         );
 
   useEffect(() => {
     getp2pOrders(1); // Load first page initially

@@ -36,7 +36,20 @@ const P2P = () => {
   const [preferPayment, setpreferPayment] = useState([]);
 
       // usePageLeaveConfirm();
-       usePageLeaveConfirm("Are you sure you want to leave P2P?", "/p2p", true);
+       usePageLeaveConfirm(
+         "Are you sure you want to leave P2P?",
+         "/p2p",
+         true,
+         [
+           "/p2p/order/:id",
+           "/processorders",
+           "/p2p/chat/:id",
+           "/myorders",
+           "/p2p/dispute/:id",
+           "/postad",
+           "/Paymentmethod",
+         ]
+       );
 
   // const preferPayment = [
   //   { value: "All Payment", text: "All Payment" },

@@ -12,6 +12,7 @@ import AdvertiserTable from "./AdvertiserTable";
 import apiService from "../core/service/detail";
 import { postMethod, getMethod } from "../core/service/common.api";
 import { useTranslation } from "react-i18next";
+import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
 
 const P2P = () => {
   const [selectedMethod, setSelectedMethod] = useState("");
@@ -25,6 +26,20 @@ const P2P = () => {
   const [buttonLoader, setbuttonLoader] = useState(false);
   const [buttonLoaderEdit, setbuttonLoaderEdit] = useState(false);
   const { t } = useTranslation();
+           usePageLeaveConfirm(
+             "Are you sure you want to leave P2P?",
+             "/Paymentmethod",
+             true,
+             [
+               "/p2p/order/:id",
+               "/processorders",
+               "/p2p/chat/:id",
+               "/myorders",
+               "/p2p/dispute/:id",
+               "/p2p",
+               "/postad",
+             ]
+           );
 
   const [formData, setFormData, formDataref] = useState({
     name: "",

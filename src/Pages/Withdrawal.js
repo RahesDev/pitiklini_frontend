@@ -57,7 +57,8 @@ const Dashboard = () => {
      usePageLeaveConfirm(
        "Are you sure you want to leave Withdrawal?",
        "/withdraw",
-       true
+       true,
+       []
      );
 
   useEffect(() => {

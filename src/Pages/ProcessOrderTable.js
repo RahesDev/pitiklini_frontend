@@ -11,6 +11,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
 
 const ProcessOrderTable = () => {
      const { t } = useTranslation();
@@ -18,6 +19,20 @@ const ProcessOrderTable = () => {
   const [notifyCurrentPage, setnotifyCurrentPage, notifyCurrentPageref] =
     useState(1); // Start with page 1
   const [notifytotalpage, Setnotifytotalpage, notifytotalpageref] = useState(0);
+         usePageLeaveConfirm(
+           "Are you sure you want to leave P2P?",
+           "/processorders",
+           true,
+           [
+             "/p2p/order/:id",
+             "/p2p",
+             "/p2p/chat/:id",
+             "/myorders",
+             "/p2p/dispute/:id",
+             "/postad",
+             "/Paymentmethod",
+           ]
+         );
 
   useEffect(() => {
     notify(notifyCurrentPage);
