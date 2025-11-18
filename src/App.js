@@ -108,6 +108,16 @@ function App() {
     document.documentElement.lang = i18n.language;
   }, [i18n.language]);
 
+    useEffect(() => {
+      const onBeforeUnload = (e) => {
+        e.preventDefault();
+        e.returnValue = "";
+      };
+
+      window.addEventListener("beforeunload", onBeforeUnload);
+      return () => window.removeEventListener("beforeunload", onBeforeUnload);
+    }, []);
+
   const favIcon = async () => {
     try {
       const data = { apiUrl: apiService.getSitedata };
