@@ -117,6 +117,29 @@ function App() {
       window.addEventListener("beforeunload", onBeforeUnload);
       return () => window.removeEventListener("beforeunload", onBeforeUnload);
     }, []);
+  
+  useEffect(() => {
+    // Add fake history entry to block back to Google
+    window.history.pushState({ blocked: true }, "");
+
+    const onPopState = (e) => {
+      const isBlocked = e.state && e.state.blocked;
+
+      if (isBlocked) {
+        const ok = window.confirm("Are you sure you want to leave Pitiklini?");
+        if (!ok) {
+          // push back into app
+          window.history.pushState({ blocked: true }, "");
+        } else {
+          // Allow back — user will go to Google
+          window.history.back();
+        }
+      }
+    };
+
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
 
   const favIcon = async () => {
     try {
