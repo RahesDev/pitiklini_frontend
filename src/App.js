@@ -111,7 +111,7 @@ function App() {
     useEffect(() => {
       const onBeforeUnload = (e) => {
         e.preventDefault();
-        e.returnValue = "";
+        e.returnValue = " ";
       };
 
       window.addEventListener("beforeunload", onBeforeUnload);
@@ -156,6 +156,8 @@ function App() {
     <>
       <AuthProvider>
         <BrowserRouter>
+          {/* 🔥 Force browser to treat page as having data (mobile fix) */}
+          <input type="hidden" id="dirty-guard" value="1" />
           <ToastContainer />
           <InactivityHandler />
           <Routes>
