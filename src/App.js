@@ -108,15 +108,15 @@ function App() {
     document.documentElement.lang = i18n.language;
   }, [i18n.language]);
 
-  //   useEffect(() => {
-  //     const onBeforeUnload = (e) => {
-  //       e.preventDefault();
-  //       e.returnValue = " ";
-  //     };
+    useEffect(() => {
+      const onBeforeUnload = (e) => {
+        e.preventDefault();
+        e.returnValue = " ";
+      };
 
-  //     window.addEventListener("beforeunload", onBeforeUnload);
-  //     return () => window.removeEventListener("beforeunload", onBeforeUnload);
-  //   }, []);
+      window.addEventListener("beforeunload", onBeforeUnload);
+      return () => window.removeEventListener("beforeunload", onBeforeUnload);
+    }, []);
   
   // useEffect(() => {
   //   // Add fake history entry to block back to Google
@@ -142,18 +142,18 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    let lastPath = window.location.pathname;
+    // Save the current internal page in session history
+    sessionStorage.setItem("current_internal_path", window.location.pathname);
 
-    const handleNavigation = (event) => {
-      const nextURL = document.activeElement?.href;
+    const handleClick = (event) => {
+      const link = event.target.closest("a[href]");
+      if (!link) return;
 
-      // If clicked element has no href → ignore
-      if (!nextURL) return;
-
+      const nextURL = link.href;
       const currentHost = window.location.host;
       const nextHost = new URL(nextURL).host;
 
-      // Only show confirm if user is going OUT of your website
+      // Leaving site → show confirm
       if (nextHost !== currentHost) {
         const ok = window.confirm("Are you sure you want to leave Pitiklini?");
         if (!ok) {
@@ -163,30 +163,30 @@ function App() {
       }
     };
 
-    // Detect external link clicks
-    document.addEventListener("click", handleNavigation);
+    document.addEventListener("click", handleClick);
 
-    // Detect address bar back button / swipe back (Android/iOS)
-    const onPop = () => {
+    const onPopState = () => {
+      const storedPath = sessionStorage.getItem("current_internal_path");
       const now = window.location.pathname;
 
-      // If going outside internal routes (login → google)
-      if (now === lastPath) {
+      // If going OUTSIDE your app (back to Google)
+      if (now === storedPath) {
         const ok = window.confirm("Are you sure you want to leave Pitiklini?");
         if (!ok) {
           // Stay inside site
-          window.history.pushState(null, "", lastPath);
+          window.history.pushState(null, "", storedPath);
         }
       } else {
-        lastPath = now;
+        // update path (important!)
+        sessionStorage.setItem("current_internal_path", now);
       }
     };
 
-    window.addEventListener("popstate", onPop);
+    window.addEventListener("popstate", onPopState);
 
     return () => {
-      document.removeEventListener("click", handleNavigation);
-      window.removeEventListener("popstate", onPop);
+      document.removeEventListener("click", handleClick);
+      window.removeEventListener("popstate", onPopState);
     };
   }, []);
 
