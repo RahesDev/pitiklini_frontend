@@ -108,37 +108,86 @@ function App() {
     document.documentElement.lang = i18n.language;
   }, [i18n.language]);
 
-    useEffect(() => {
-      const onBeforeUnload = (e) => {
-        e.preventDefault();
-        e.returnValue = " ";
-      };
+  //   useEffect(() => {
+  //     const onBeforeUnload = (e) => {
+  //       e.preventDefault();
+  //       e.returnValue = " ";
+  //     };
 
-      window.addEventListener("beforeunload", onBeforeUnload);
-      return () => window.removeEventListener("beforeunload", onBeforeUnload);
-    }, []);
+  //     window.addEventListener("beforeunload", onBeforeUnload);
+  //     return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  //   }, []);
   
+  // useEffect(() => {
+  //   // Add fake history entry to block back to Google
+  //   window.history.pushState({ blocked: true }, "");
+
+  //   const onPopState = (e) => {
+  //     const isBlocked = e.state && e.state.blocked;
+
+  //     if (isBlocked) {
+  //       const ok = window.confirm("Are you sure you want to leave Pitiklini?");
+  //       if (!ok) {
+  //         // push back into app
+  //         window.history.pushState({ blocked: true }, "");
+  //       } else {
+  //         // Allow back — user will go to Google
+  //         window.history.back();
+  //       }
+  //     }
+  //   };
+
+  //   window.addEventListener("popstate", onPopState);
+  //   return () => window.removeEventListener("popstate", onPopState);
+  // }, []);
+
   useEffect(() => {
-    // Add fake history entry to block back to Google
-    window.history.pushState({ blocked: true }, "");
+    let lastPath = window.location.pathname;
 
-    const onPopState = (e) => {
-      const isBlocked = e.state && e.state.blocked;
+    const handleNavigation = (event) => {
+      const nextURL = document.activeElement?.href;
 
-      if (isBlocked) {
+      // If clicked element has no href → ignore
+      if (!nextURL) return;
+
+      const currentHost = window.location.host;
+      const nextHost = new URL(nextURL).host;
+
+      // Only show confirm if user is going OUT of your website
+      if (nextHost !== currentHost) {
         const ok = window.confirm("Are you sure you want to leave Pitiklini?");
         if (!ok) {
-          // push back into app
-          window.history.pushState({ blocked: true }, "");
-        } else {
-          // Allow back — user will go to Google
-          window.history.back();
+          event.preventDefault();
+          return false;
         }
       }
     };
 
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
+    // Detect external link clicks
+    document.addEventListener("click", handleNavigation);
+
+    // Detect address bar back button / swipe back (Android/iOS)
+    const onPop = () => {
+      const now = window.location.pathname;
+
+      // If going outside internal routes (login → google)
+      if (now === lastPath) {
+        const ok = window.confirm("Are you sure you want to leave Pitiklini?");
+        if (!ok) {
+          // Stay inside site
+          window.history.pushState(null, "", lastPath);
+        }
+      } else {
+        lastPath = now;
+      }
+    };
+
+    window.addEventListener("popstate", onPop);
+
+    return () => {
+      document.removeEventListener("click", handleNavigation);
+      window.removeEventListener("popstate", onPop);
+    };
   }, []);
 
   const favIcon = async () => {
