@@ -510,7 +510,7 @@ function App() {
                 </RequireAuth>
               }
             />
-            {/* <Route
+            <Route
               path="/recharge"
               element={
                 <RequireAuth>
@@ -518,7 +518,7 @@ function App() {
                   <UserRecharge />{" "}
                 </RequireAuth>
               }
-            /> */}
+            />
             <Route
               path="/support"
               element={

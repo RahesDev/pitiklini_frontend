@@ -18,187 +18,120 @@ function UserRecharge() {
   const [siteLoader, setSiteLoader] = useState(false);
   const [operatorList, setOperatorList, operatorListRef] = useState([]);
   const [planList, setPlanList, planListRef] = useState([]);
+
   const [selectedOperator, setSelectedOperator] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
-  const [amount, setAmount] = useState("");
-  const [operatorFetched, setOperatorFetched] = useState(false);
 
-  // ✅ NEW: validation states
+  // errors
   const [operatorError, setOperatorError] = useState(false);
   const [planError, setPlanError] = useState(false);
   const [mobileError, setMobileError] = useState(false);
 
-  // useEffect(() => {
-  //   getAllOperators();
-  // }, [0]);
+  const [buttonLoader, setButtonLoader, buttonLoaderref] = useState(false);
 
-  const getAllOperators = async () => {
-    try {
-      setSiteLoader(true);
-      const obj = {
-        destination: "7010889149",
-      };
-      const data = {
-        apiUrl: apiService.recharge_operator_list,
-        payload: obj
-      };
-      const resp = await postMethod(data);
-      if (resp && resp.status) {
-        const ops = resp.data.map((op) => ({
-          key: op.code,
-          text: op.name,
-          value: op.code,
-        }));
-        setOperatorList(ops);
-      } else {
-        showerrorToast("Unable to fetch operator list");
-      }
-      setSiteLoader(false);
-    } catch (err) {
-      console.log(err);
-      setSiteLoader(false);
-    }
-  };
+  useEffect(() => {
+    loadOperators();
+  }, []);
 
-  const getOperator = async () => {
-    if (!mobileNumber || mobileNumber.length < 8) {
-      showerrorToast("Enter valid mobile number");
-      return;
-    }
-
+  const loadOperators = async () => {
     setSiteLoader(true);
+
     const resp = await postMethod({
       apiUrl: apiService.recharge_operator_list,
-      payload: { destination: mobileNumber },
+      payload: {},
     });
-    setSiteLoader(false);
+
+    // setSiteLoader(false);
 
     if (resp && resp.status) {
-      showsuccessToast("Operator detected successfully");
-      const operator = resp.data.operator_code || resp.data.code;
-      setSelectedOperator(operator);
-      setOperatorFetched(true);
-      getPlans(operator);
-    } else {
-      showerrorToast(resp.message || "Unable to detect operator");
-    }
-  };
-
-  const getPlans = async (operatorCode) => {
-    setSiteLoader(true);
-    const resp = await postMethod({
-      apiUrl: apiService.recharge_plan_list,
-      payload: { operatorCode },
-    });
-    setSiteLoader(false);
-
-    if (resp && resp.status) {
-      const planOpts = resp.data.map((pl) => ({
-        key: pl.id,
-        text: `${pl.amount} - ${pl.desc}`,
-        value: pl.amount,
+      const ops = resp.data.map((op) => ({
+        key: op.code,
+        text: op.name,
+        value: op.code,
       }));
-      setPlanList(planOpts);
+      setOperatorList(ops);
+      setSiteLoader(false);
     } else {
-      showerrorToast(resp.message || "No plans available");
+      showerrorToast("Unable to fetch operator list");
+      setSiteLoader(false);
     }
   };
 
   const onSelectOperator = async (op) => {
     setSelectedOperator(op.value);
     setOperatorError(false);
-    setPlanList([]);
     setSelectedPlan("");
+    setPlanList([]);
 
-    const data = {
+    // setSiteLoader(true);
+
+    const resp = await postMethod({
       apiUrl: apiService.recharge_plan_list,
       payload: { operatorCode: op.value },
-    };
+    });
 
-    const resp = await postMethod(data);
+    // setSiteLoader(false);
+
     if (resp && resp.status) {
-      const planOpts = resp.data.map((pl) => ({
-        key: pl.planId,
-        text: `${pl.amount} - ${pl.desc}`,
-        value: pl.planId,
+      const planOpts = resp.data.map((p) => ({
+        // key: p.planId,
+        key: p.id,
+        text: `${p.amount} - ${p.desc}`,
+        value: p.id,
       }));
       setPlanList(planOpts);
     } else {
-      showerrorToast("No plans available for this operator");
+      showerrorToast("No plans for this operator");
     }
   };
 
   const handleRecharge = async () => {
-    // if (!mobileNumber || !selectedOperator || !selectedPlan) {
-    //   showerrorToast("Please fill all fields");
-    //   return;
-    // }
+    // validations
+    if (!selectedOperator) {
+      setOperatorError(true);
+      // showerrorToast("Please select an operator");
+      return;
+    }
 
-    //  if (!selectedOperator) {
-    //    setOperatorError(true);
-    //   //  showerrorToast("Please select an operator");
-    //    return;
-    //  }
+    if (!selectedPlan) {
+      setPlanError(true);
+      // showerrorToast("Please select a plan");
+      return;
+    }
 
-    //  if (!selectedPlan) {
-    //    setPlanError(true);
-    //   //  showerrorToast("Please select a plan");
-    //    return;
-    //  }
+    if (!mobileNumber || mobileNumber.length < 8) {
+      setMobileError(true);
+      // showerrorToast("Enter valid mobile number");
+      return;
+    }
 
-    //  if (!mobileNumber) {
-    //    setMobileError(true);
-    //   //  showerrorToast("Please enter a mobile number");
-    //    return;
-    //  }
-
-    //  if (mobileNumber.length < 8) {
-    //    setMobileError(true);
-    //   //  showerrorToast("Mobile number must be at least 8 digits");
-    //    return;
-    //  }
-
-  if (!mobileNumber || mobileNumber.length < 8) {
-    setMobileError(true);
-    showerrorToast("Please enter valid mobile number");
-    return;
-  }
-
-  if (!selectedPlan) {
-    setPlanError(true);
-    showerrorToast("Please select a plan");
-    return;
-  }
-
-  if (!selectedOperator) {
-    showerrorToast("Operator not detected. Please check number again.");
-    return;
-  }
     const payload = {
       number: mobileNumber,
       operatorCode: selectedOperator,
-      amount: selectedPlan,
+      planId: selectedPlan,
     };
 
-    const data = {
+    // setSiteLoader(true);
+    setButtonLoader(true);
+
+    const resp = await postMethod({
       apiUrl: apiService.recharge_user,
       payload,
-    };
+    });
 
-    setSiteLoader(true);
-    const resp = await postMethod(data);
-    setSiteLoader(false);
+    
 
     if (resp && resp.status) {
-      showsuccessToast("Recharge successful");
-      setMobileNumber("");
+      showsuccessToast("Recharge Successful");
+      setButtonLoader(false);
       setSelectedOperator("");
       setSelectedPlan("");
+      setMobileNumber("");
       setPlanList([]);
-      setOperatorFetched(false);
     } else {
-      showerrorToast(resp.message || "Recharge failed");
+      showerrorToast(resp.message || "Recharge Failed");
+      setButtonLoader(false);
     }
   };
 
@@ -243,7 +176,7 @@ function UserRecharge() {
                     <div className="col-lg-7">
                       <div className="deposit mt-2">
                         <div className="form_div">
-                          {/* <div className="sides">
+                          <div className="sides">
                             <div className="w-100 rights">
                               <h6>{t("Select Operator")}</h6>
                               <Dropdown
@@ -251,6 +184,7 @@ function UserRecharge() {
                                 fluid
                                 className="dep-drops"
                                 selection
+                                value={selectedOperator}
                                 options={operatorListRef.current}
                                 onChange={(e, d) => onSelectOperator(d)}
                               />
@@ -260,49 +194,9 @@ function UserRecharge() {
                                 </span>
                               )}
                             </div>
-                          </div> */}
-                          <h6>{t("Enter Mobile Number")}</h6>
-                          <input
-                            type="text"
-                            pattern="[0-9]*"
-                            maxLength={10}
-                            onKeyDown={(evt) => {
-                              if (
-                                !(
-                                  (evt.key >= "0" && evt.key <= "9") ||
-                                  evt.key === "Backspace" ||
-                                  evt.key === "Delete" ||
-                                  evt.key === "ArrowLeft" ||
-                                  evt.key === "ArrowRight" ||
-                                  evt.key === "Tab"
-                                )
-                              ) {
-                                evt.preventDefault();
-                              }
-                            }}
-                            autoComplete="off"
-                            value={mobileNumber}
-                            onChange={(e) => {
-                              setMobileNumber(e.target.value);
-                              setMobileError(false);
-                              setOperatorFetched(false);
-                              setPlanList([]);
-                            }}
-                            placeholder="Enter Mobile Number"
-                            className="dep-drops"
-                          />
-                          {mobileError && (
-                            <span className="errorcss">
-                              Please enter a valid mobile number
-                            </span>
-                          )}
+                          </div>
                         </div>
-                        <div className="sumbit_btn">
-                          <button onClick={getOperator}>
-                            {t("Check Operator")}
-                          </button>
-                        </div>
-                        {operatorFetched && planListRef.current.length > 0 && (
+                        {planListRef.current.length > 0 && (
                           <>
                             <div className="form_div">
                               <div className="sides">
@@ -313,8 +207,10 @@ function UserRecharge() {
                                     fluid
                                     className="dep-drops"
                                     selection
+                                    value={selectedPlan}
                                     options={planListRef.current}
                                     onChange={(e, d) => {
+                                      console.log("d.value----", d);
                                       setSelectedPlan(d.value);
                                       setPlanError(false);
                                     }}
@@ -329,7 +225,7 @@ function UserRecharge() {
                             </div>
                           </>
                         )}
-                        {/* {selectedPlan && (
+                        {selectedPlan && (
                           <>
                             <div className="form_div mar-bot-nwfndtra boder-none ">
                               <h6>{t("Enter Mobile Number")}</h6>
@@ -356,8 +252,7 @@ function UserRecharge() {
                                 onChange={(e) => {
                                   setMobileNumber(e.target.value);
                                   setMobileError(false);
-                                  setOperatorFetched(false);
-                                  setPlanList([]);
+                                  // setPlanList([]);
                                 }}
                                 placeholder="Enter Mobile Number"
                                 className="dep-drops"
@@ -369,17 +264,21 @@ function UserRecharge() {
                               )}
                             </div>
                           </>
-                        )} */}
+                        )}
                         {/* <div className="sumbit_btn">
                           <button onClick={() => handleRecharge()}>
                             {t("Proceed Recharge")}
                           </button>
                         </div> */}
-                        {planListRef.current.length > 0 && (
+                        {selectedPlan && (
                           <div className="sumbit_btn">
-                            <button onClick={handleRecharge}>
-                              {t("Proceed Recharge")}
-                            </button>
+                            {buttonLoaderref.current == true ? (
+                              <button>{t("loading")}...</button>
+                            ) : (
+                              <button onClick={handleRecharge}>
+                                {t("Proceed Recharge")}
+                              </button>
+                            )}
                           </div>
                         )}
                       </div>
