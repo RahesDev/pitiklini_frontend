@@ -28,6 +28,11 @@ function UserRecharge() {
   const [planError, setPlanError] = useState(false);
   const [mobileError, setMobileError] = useState(false);
 
+  const [selectedPlanPrice, setSelectedPlanPrice, selectedPlanPriceref] =
+    useState(0);
+  const [selectedPlanCurrency, setSelectedPlanCurrency, selectedPlanCurrencyref] =
+    useState("");
+
   const [buttonLoader, setButtonLoader, buttonLoaderref] = useState(false);
 
   useEffect(() => {
@@ -77,8 +82,11 @@ function UserRecharge() {
       const planOpts = resp.data.map((p) => ({
         // key: p.planId,
         key: p.id,
-        text: `${p.amount} - ${p.desc}`,
+        // text: `${p.amount} - ${p.desc}`,
+        text: p.amount,
         value: p.id,
+        cost_amount: p.cost_amount,
+        cost_currency: p.cost_currency,
       }));
       setPlanList(planOpts);
     } else {
@@ -110,6 +118,7 @@ function UserRecharge() {
       number: mobileNumber,
       operatorCode: selectedOperator,
       planId: selectedPlan,
+      cost_amount: selectedPlanPriceref.current
     };
 
     // setSiteLoader(true);
@@ -213,6 +222,18 @@ function UserRecharge() {
                                       console.log("d.value----", d);
                                       setSelectedPlan(d.value);
                                       setPlanError(false);
+                                      const selectedObj = d.options.find(
+                                        (x) => x.value === d.value
+                                      );
+
+                                      if (selectedObj) {
+                                        setSelectedPlanPrice(
+                                          selectedObj.cost_amount
+                                        );
+                                        setSelectedPlanCurrency(
+                                          selectedObj.cost_currency
+                                        );
+                                      }
                                     }}
                                   />
                                   {planError && (
@@ -222,6 +243,26 @@ function UserRecharge() {
                                   )}
                                 </div>
                               </div>
+                            </div>
+                          </>
+                        )}
+                        {selectedPlan && (
+                          <>
+                            <div className="form_div boder-none ">
+                              <h6>{t("totalAmount")}</h6>
+                              <input
+                                type="text"
+                                disabled
+                                autoComplete="off"
+                                // value={`${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`}
+                                value={
+                                  selectedPlanPriceref.current &&
+                                  selectedPlanCurrencyref.current
+                                    ? `${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`
+                                    : "---"
+                                }
+                                className="dep-drops"
+                              />
                             </div>
                           </>
                         )}
