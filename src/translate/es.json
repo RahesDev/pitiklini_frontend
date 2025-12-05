@@ -980,5 +980,8 @@
   "Some payment methods may take 1–3 days to complete": "Algunos métodos de pago pueden tardar entre 1 y 3 días en completarse.",
   "If the issue remains, you can initiate an appeal": "Si el problema persiste, puede iniciar una apelación.",
   "Appeal": "Apelar",
-  "The other party must respond within": "La otra parte debe responder dentro de"
+  "The other party must respond within": "La otra parte debe responder dentro de",
+
+  "vipbadgehead": "Insignia VIP",
+  "vip": "personaje"
 }

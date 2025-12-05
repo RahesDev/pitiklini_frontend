@@ -326,6 +326,11 @@ const service = {
   recharge_operator_list: "users/get_operator_list",
   recharge_plan_list: "users/get_plan_list",
   recharge_user: "users/do_recharge",
+
+  //vip
+  getVipDatas: "users/getVipDatas",
+  getVipUserDetail: "users/getVipUserDetail",
+  enableVipUser: "users/enableVipUser",
 };
 
 export default service;

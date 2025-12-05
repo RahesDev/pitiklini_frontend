@@ -26,6 +26,7 @@ const Dashboard = () => {
     }
     setSiteLoader(true);
     getProfile();
+    getvipuser();
     Kycdata();
     getPortfolio();
     getUserbalance(currentPage);
@@ -122,6 +123,20 @@ const Dashboard = () => {
       setSiteLoader(false);
     }
   };
+
+    const getvipuser = async () => {
+          try {
+            var data = {
+              apiUrl: apiService.getVipUserDetail,
+            };
+            setSiteLoader(true);
+            var resp = await getMethod(data);
+            setSiteLoader(false);
+            if (resp.status) {
+              // console.log(resp, "---resp---");
+            }
+          } catch (error) {}
+    }
 
   const Kycdata = async () => {
     setSiteLoader(true);

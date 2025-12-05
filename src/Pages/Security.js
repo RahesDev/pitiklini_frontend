@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { getMethod, postMethod } from "../core/service/common.api";
 import apiService from "../core/service/detail";
+import { Dropdown } from "semantic-ui-react";
+import "react-phone-input-2/lib/style.css";
 import { Bars } from "react-loader-spinner";
 import Switch from "react-switch";
 import { t } from "i18next";
@@ -18,6 +20,8 @@ const Security = () => {
   useEffect(() => {
     getProfile();
     getAntistatus();
+    getVipAmounts();
+    getvipuser();
     // FindData();
     // fetchTfaData();
   }, []);
@@ -29,6 +33,15 @@ const Security = () => {
   const [tfaDetails, setTfaDetails] = useState("");
   const [changeCode, setchangeCode] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [currencyAmount, setCurrencyAmount, currencyAmountref] = useState("");
+  const [vipData, setVipData] = useState({ USDT: 0, PTK: 0 });
+  const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [dataExist, setdataExist, dataExistref] = useState(false);
+
+  const vipcurrencies = [
+    { key: "USDT", value: "USDT", text: "USDT" },
+    { key: "PTK", value: "PTK", text: "PTK" },
+  ];
 
   const getProfile = async () => {
     try {
@@ -62,6 +75,68 @@ const Security = () => {
       }
     } catch (error) {}
   };
+
+  const getVipAmounts = async () => {
+    try {
+      const data = { apiUrl: apiService.getVipDatas };
+      setSiteLoader(true);
+      const resp = await getMethod(data);
+setSiteLoader(false);
+      if (resp.status) {
+        setVipData(resp.vipDatas);
+      }
+    } catch (err) {}
+  };
+
+  const getvipuser = async () => {
+        try {
+          var data = {
+            apiUrl: apiService.getVipUserDetail,
+          };
+          setSiteLoader(true);
+          var resp = await getMethod(data);
+          setSiteLoader(false);
+          if (resp.status) {
+            console.log(resp, "---resp---");
+             setdataExist(resp.PhishinStatus === "true");
+          }
+        } catch (error) {}
+  }
+
+  const handleCurrencySelect = (e, data) => {
+    setSelectedCurrency(data.value);
+
+    if (data.value === "USDT") {
+      setCurrencyAmount(vipData.USDT);
+    } else if (data.value === "PTK") {
+      setCurrencyAmount(vipData.PTK);
+    }
+  };
+
+  const enableVip = async () => {
+  if (!selectedCurrency) {
+    return toast.error("Please select a currency");
+  }
+
+  const body = {
+    currency: selectedCurrency,
+    amount: currencyAmount,
+  };
+
+  try {
+    const resp = await postMethod({
+      apiUrl: apiService.enableVipUser,
+      payload: body,
+    });
+
+    if (resp.status) {
+      toast.success("VIP Badge Activated!");
+      getvipuser();
+    } else {
+      toast.error(resp.message);
+    }
+  } catch (err) {}
+};
 
   const handleChange = async (nextChecked) => {
     setChecked(nextChecked);
@@ -222,6 +297,54 @@ const Security = () => {
                       <i class="ri-shield-keyhole-line"></i> Low
                     </p>
                     <img src={require("../assets/low_line.png")} /> */}
+                    </div>
+                  </div>
+                  <div className="two_fa_heading">{t("vip")}</div>
+                  <div className="security_email_content">
+                    <div className="security_email_item">
+                      <div className="">
+                        <h3>
+                          {t("vipbadgehead")}
+                          {""}
+                          {dataExistref.current ? (
+                            ""
+                          ) : (
+                            <>
+                              {" "}
+                              [ {currencyAmountref.current} {selectedCurrency} ]{" "}
+                            </>
+                          )}
+                        </h3>
+                        {/* <p>{t("itIsUsedForLoginWithdrawals")}</p> */}
+                        {dataExistref.current ? (
+                          ""
+                        ) : (
+                          <div className="form_div">
+                            <div className="sides">
+                              <div className="w-100 rights">
+                                <Dropdown
+                                  placeholder={t("selectacoin")}
+                                  fluid
+                                  className="dep-drops"
+                                  selection
+                                  options={vipcurrencies}
+                                  onChange={handleCurrencySelect}
+                                  isSearchable={true}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="email_id_text">
+                      <div className="enable_btn">
+                        {dataExistref.current ? (
+                          <button>{t("enabled")}</button>
+                        ) : (
+                          <button onClick={enableVip}>{t("enable")}</button>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="two_fa_heading">
