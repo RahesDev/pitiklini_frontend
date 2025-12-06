@@ -23,6 +23,14 @@ function UserRecharge() {
   const [selectedPlan, setSelectedPlan] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
 
+  const [selectedCoin, setSelectedCoin] = useState("USDT");
+  const [convertedAmount, setConvertedAmount] = useState(null);
+
+    const payCurrencies = [
+      { key: "USDT", value: "USDT", text: "USDT" },
+      { key: "PTK", value: "PTK", text: "PTK" },
+    ];
+
   // errors
   const [operatorError, setOperatorError] = useState(false);
   const [planError, setPlanError] = useState(false);
@@ -94,6 +102,23 @@ function UserRecharge() {
     }
   };
 
+  const convertUSDTtoPTK = async (amountUSDT) => {
+    try {
+      const resp = await postMethod({
+        apiUrl: apiService.getUSDTtoPTK,
+        payload: {},
+      });
+
+      if (resp.status) {
+        const rate = Number(resp.rate); // PTK price of 1 USDT
+        const finalPTK = Number(amountUSDT) * rate;
+        setConvertedAmount(finalPTK.toFixed(6));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleRecharge = async () => {
     // validations
     if (!selectedOperator) {
@@ -118,7 +143,12 @@ function UserRecharge() {
       number: mobileNumber,
       operatorCode: selectedOperator,
       planId: selectedPlan,
-      cost_amount: selectedPlanPriceref.current
+      selectedCurrency: selectedCoin,
+      cost_amount:
+        selectedCoin === "USDT"
+          ? selectedPlanPriceref.current
+          : convertedAmount,
+      // cost_amount: selectedPlanPriceref.current,
     };
 
     // setSiteLoader(true);
@@ -249,16 +279,49 @@ function UserRecharge() {
                         {selectedPlan && (
                           <>
                             <div className="form_div boder-none ">
+                              <h6>{t("selectacoin")}</h6>
+                              <Dropdown
+                                placeholder="Select Pay Currency"
+                                fluid
+                                className="dep-drops"
+                                selection
+                                options={payCurrencies}
+                                value={selectedCoin}
+                                onChange={async (e, d) => {
+                                  setSelectedCoin(d.value);
+
+                                  if (d.value === "PTK") {
+                                    await convertUSDTtoPTK(
+                                      selectedPlanPriceref.current
+                                    );
+                                  } else {
+                                    setConvertedAmount(null);
+                                  }
+                                }}
+                              />
+                            </div>
+                          </>
+                        )}
+                        {selectedPlan && (
+                          <>
+                            <div className="form_div boder-none ">
                               <h6>{t("totalAmount")}</h6>
                               <input
                                 type="text"
                                 disabled
                                 autoComplete="off"
                                 // value={`${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`}
+                                // value={
+                                //   selectedPlanPriceref.current &&
+                                //   selectedPlanCurrencyref.current
+                                //     ? `${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`
+                                //     : "---"
+                                // }
                                 value={
-                                  selectedPlanPriceref.current &&
-                                  selectedPlanCurrencyref.current
-                                    ? `${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`
+                                  selectedCoin === "USDT"
+                                    ? `${selectedPlanPriceref.current} USDT`
+                                    : convertedAmount
+                                    ? `${convertedAmount} PTK`
                                     : "---"
                                 }
                                 className="dep-drops"
