@@ -311,7 +311,13 @@ setSiteLoader(false);
                           ) : (
                             <>
                               {" "}
-                              [ {currencyAmountref.current} {selectedCurrency} ]{" "}
+                                  {selectedCurrency ? 
+                                    (<>
+                                      
+                                      [ {currencyAmountref.current}{" "}
+                                      {selectedCurrency} / Month ]
+                                      </>) : ""
+                              }{" "}
                             </>
                           )}
                         </h3>
