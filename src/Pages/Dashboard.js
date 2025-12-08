@@ -56,6 +56,8 @@ const Dashboard = () => {
   const recordPerPage = 5;
   const navigate = useNavigate();
 
+  const [dataExist, setdataExist, dataExistref] = useState(false);
+
   const depositNav = () => {
     navigate("/deposit");
   };
@@ -134,6 +136,7 @@ const Dashboard = () => {
             setSiteLoader(false);
             if (resp.status) {
               // console.log(resp, "---resp---");
+               setdataExist(resp.PhishinStatus === "true");
             }
           } catch (error) {}
     }
@@ -352,7 +355,8 @@ const Dashboard = () => {
                     <h3>
                       {t("hello")} {profileData.displayname}{" "}
                       {profileData.vipBadge &&
-                        profileData.vipBadge === true && (
+                        profileData.vipBadge === true &&
+                        dataExistref.current && (
                           <span className="vipbge_dhbrd"> [ ⭐VIP ]</span>
                         )}
                     </h3>

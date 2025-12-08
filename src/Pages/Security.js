@@ -299,60 +299,65 @@ setSiteLoader(false);
                     <img src={require("../assets/low_line.png")} /> */}
                     </div>
                   </div>
-                  <div className="two_fa_heading">{t("vip")}</div>
-                  <div className="security_email_content">
-                    <div className="security_email_item">
-                      <div className="">
-                        <h3>
-                          {t("vipbadgehead")}
-                          {""}
-                          {dataExistref.current ? (
-                            ""
-                          ) : (
-                            <>
-                              {" "}
-                                  {selectedCurrency ? 
-                                    (<>
-                                      
+                  {profileData.vipBadge && profileData.vipBadge === true && (
+                    <>
+                      <div className="two_fa_heading">{t("vip")}</div>
+                      <div className="security_email_content">
+                        <div className="security_email_item">
+                          <div className="">
+                            <h3>
+                              {t("vipbadgehead")}
+                              {""}
+                              {dataExistref.current ? (
+                                ""
+                              ) : (
+                                <>
+                                  {" "}
+                                  {selectedCurrency ? (
+                                    <>
                                       [ {currencyAmountref.current}{" "}
                                       {selectedCurrency} / Month ]
-                                      </>) : ""
-                              }{" "}
-                            </>
-                          )}
-                        </h3>
-                        {/* <p>{t("itIsUsedForLoginWithdrawals")}</p> */}
-                        {dataExistref.current ? (
-                          ""
-                        ) : (
-                          <div className="form_div">
-                            <div className="sides">
-                              <div className="w-100 rights">
-                                <Dropdown
-                                  placeholder={t("selectacoin")}
-                                  fluid
-                                  className="dep-drops"
-                                  selection
-                                  options={vipcurrencies}
-                                  onChange={handleCurrencySelect}
-                                  isSearchable={true}
-                                />
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}{" "}
+                                </>
+                              )}
+                            </h3>
+                            {/* <p>{t("itIsUsedForLoginWithdrawals")}</p> */}
+                            {dataExistref.current ? (
+                              ""
+                            ) : (
+                              <div className="form_div">
+                                <div className="sides">
+                                  <div className="w-100 rights">
+                                    <Dropdown
+                                      placeholder={t("selectacoin")}
+                                      fluid
+                                      className="dep-drops"
+                                      selection
+                                      options={vipcurrencies}
+                                      onChange={handleCurrencySelect}
+                                      isSearchable={true}
+                                    />
+                                  </div>
+                                </div>
                               </div>
-                            </div>
+                            )}
                           </div>
-                        )}
+                        </div>
+                        <div className="email_id_text">
+                          <div className="enable_btn">
+                            {dataExistref.current ? (
+                              <button>{t("enabled")}</button>
+                            ) : (
+                              <button onClick={enableVip}>{t("enable")}</button>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="email_id_text">
-                      <div className="enable_btn">
-                        {dataExistref.current ? (
-                          <button>{t("enabled")}</button>
-                        ) : (
-                          <button onClick={enableVip}>{t("enable")}</button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
                   <div className="two_fa_heading">
                     {t("twoFactorAuthentication")}
                   </div>
