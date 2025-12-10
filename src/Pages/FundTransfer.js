@@ -247,7 +247,7 @@ function FundTransfer() {
       };
 
       const data = {
-        apiUrl: apiService.fundTransfer, // create this endpoint in your apiService.js
+        apiUrl: apiService.fundTransfer,
         payload,
       };
 

@@ -31,7 +31,6 @@ function UserRecharge() {
       { key: "PTK", value: "PTK", text: "PTK" },
     ];
 
-  // errors
   const [operatorError, setOperatorError] = useState(false);
   const [planError, setPlanError] = useState(false);
   const [mobileError, setMobileError] = useState(false);
