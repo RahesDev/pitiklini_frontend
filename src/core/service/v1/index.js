@@ -84,16 +84,16 @@ const service = {
   antiResendotp: "users/antiResendotp",
   findDetails: "users/findDetails",
 
-  getCurrpairData: "trade/getCurrpairData",
-  addfavpairs: "trade/addfavpairs",
-  getfavpairs: "trade/getfavpairs",
+  getCurrpairData: "tradeapi/getCurrpairData",
+  addfavpairs: "tradeapi/addfavpairs",
+  getfavpairs: "tradeapi/getfavpairs",
 
-  getmarketData: "trade/getmarketData",
+  getmarketData: "tradeapi/getmarketData",
 
   getUserTotalbalance: "users/getUserTotalbalance",
   getUserTotalbalanceAll: "users/getUserTotalbalanceAll",
   getUserBalance: "users/getUserBalance",
-  getparUserBalance: "trade/getparUserBalance",
+  getparUserBalance: "tradeapi/getparUserBalance",
   orderPlaceapi: "orderPlaceApi/orderPlace",
   addBank: "/user/addBank",
   getBank: "/user/getBank",
