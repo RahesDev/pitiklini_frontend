@@ -1039,7 +1039,7 @@ const Payment = () => {
                             <span className="pay-btc">
                               {parseFloat(
                                 p2pDataref.current.price *
-                                  confirmp2porderref.current.askAmount
+                                  confirmp2porderref.current.askAmount,
                               ).toFixed(2)}{" "}
                               {p2pDataref.current.secondCurrnecy}
                             </span>
@@ -1094,7 +1094,8 @@ const Payment = () => {
                                           onClick={() =>
                                             copy_to_clipboard(
                                               "Account Number",
-                                              bankDataref.current.Account_Number
+                                              bankDataref.current
+                                                .Account_Number,
                                             )
                                           }
                                         ></i>
@@ -1105,15 +1106,17 @@ const Payment = () => {
                                         {t("account_name")}
                                       </span>
                                       <span className="pay-money">
+                                        {bankDataref.current.Accout_HolderName}{" "}
+                                        ({" "}
                                         {p2pDataref.current.userId?.displayname}{" "}
-                                        ( {bankDataref.current.Accout_HolderName} )
+                                        )
                                         <i
                                           class="ri-file-copy-line cursor-pointer"
                                           onClick={() =>
                                             copy_to_clipboard(
                                               t("account_name"),
                                               bankDataref.current
-                                                .Accout_HolderName
+                                                .Accout_HolderName,
                                             )
                                           }
                                         ></i>
@@ -1131,7 +1134,7 @@ const Payment = () => {
                                           onClick={() =>
                                             copy_to_clipboard(
                                               "Bank Name",
-                                              bankDataref.current.Bank_Name
+                                              bankDataref.current.Bank_Name,
                                             )
                                           }
                                         ></i>
@@ -1149,7 +1152,7 @@ const Payment = () => {
                                           onClick={() =>
                                             copy_to_clipboard(
                                               t("Currency"),
-                                              bankDataref.current.Currency
+                                              bankDataref.current.Currency,
                                             )
                                           }
                                         ></i>
@@ -1212,7 +1215,8 @@ const Payment = () => {
                                           onClick={() =>
                                             copy_to_clipboard(
                                               "Account Number",
-                                              bankDataref.current.Account_Number
+                                              bankDataref.current
+                                                .Account_Number,
                                             )
                                           }
                                         ></i>
@@ -1224,15 +1228,17 @@ const Payment = () => {
                                         {t("account_name")}
                                       </span>
                                       <span className="pay-money">
+                                        {bankDataref.current.Accout_HolderName}{" "}
+                                        ({" "}
                                         {p2pDataref.current.userId?.displayname}{" "}
-                                        ( {bankDataref.current.Accout_HolderName} )
+                                        )
                                         <i
                                           class="ri-file-copy-line cursor-pointer"
                                           onClick={() =>
                                             copy_to_clipboard(
                                               t("account_name"),
                                               bankDataref.current
-                                                .Accout_HolderName
+                                                .Accout_HolderName,
                                             )
                                           }
                                         ></i>
@@ -1251,7 +1257,7 @@ const Payment = () => {
                                           onClick={() =>
                                             copy_to_clipboard(
                                               "Bank Name",
-                                              bankDataref.current.Bank_Name
+                                              bankDataref.current.Bank_Name,
                                             )
                                           }
                                         ></i>
@@ -1270,7 +1276,7 @@ const Payment = () => {
                                           onClick={() =>
                                             copy_to_clipboard(
                                               t("Currency"),
-                                              bankDataref.current.Currency
+                                              bankDataref.current.Currency,
                                             )
                                           }
                                         ></i>
@@ -1464,8 +1470,8 @@ const Payment = () => {
                               {payTimeref.current < 60
                                 ? payTimeref.current + " minutes"
                                 : payTimeref.current / 60 == 1
-                                ? payTimeref.current / 60 + " hour"
-                                : payTimeref.current / 60 + " hours"}{" "}
+                                  ? payTimeref.current / 60 + " hour"
+                                  : payTimeref.current / 60 + " hours"}{" "}
                               <span>
                                 <Countdown
                                   date={Timerref.current}
@@ -1484,8 +1490,8 @@ const Payment = () => {
                               {payTimeref.current < 60
                                 ? payTimeref.current + " minutes"
                                 : payTimeref.current / 60 == 1
-                                ? payTimeref.current / 60 + " hour"
-                                : payTimeref.current / 60 + " hours"}
+                                  ? payTimeref.current / 60 + " hour"
+                                  : payTimeref.current / 60 + " hours"}
                               , {t("orderwillbecancelledautomatically")}
                             </p>
                           </div>
@@ -1549,8 +1555,8 @@ const Payment = () => {
                               {payTimeref.current < 60
                                 ? payTimeref.current + " minutes"
                                 : payTimeref.current / 60 == 1
-                                ? payTimeref.current / 60 + " hour"
-                                : payTimeref.current / 60 + " hours"}{" "}
+                                  ? payTimeref.current / 60 + " hour"
+                                  : payTimeref.current / 60 + " hours"}{" "}
                               <span>
                                 <Countdown
                                   date={Timerref.current}
@@ -1569,8 +1575,8 @@ const Payment = () => {
                               {payTimeref.current < 60
                                 ? payTimeref.current + " minutes"
                                 : payTimeref.current / 60 == 1
-                                ? payTimeref.current / 60 + " hour"
-                                : payTimeref.current / 60 + " hours"}{" "}
+                                  ? payTimeref.current / 60 + " hour"
+                                  : payTimeref.current / 60 + " hours"}{" "}
                               {t("orderwillbecancelledautomatically")}
                             </p>
                           </div>
@@ -1704,7 +1710,7 @@ const Payment = () => {
                                           <p>
                                             {/* <span>{chat.adv_name}</span>{" "} */}
                                             {Moment(chat.createdAt).format(
-                                              "LT"
+                                              "LT",
                                             )}
                                           </p>
 
@@ -1965,7 +1971,7 @@ const Payment = () => {
                         <div className="mar-top-12">
                           <h4 className="modal-title mb-4">
                             {t(
-                              "Appeal submitted. Awaiting response from other party."
+                              "Appeal submitted. Awaiting response from other party.",
                             )}
                           </h4>
                           <p className="select_id_text mb-3">
@@ -1981,7 +1987,7 @@ const Payment = () => {
                             </li>
                             <li className="select_id_text1 mb-3">
                               {t(
-                                "If no response in 20 minutes, arbitration starts."
+                                "If no response in 20 minutes, arbitration starts.",
                               )}
                             </li>
                             <li className="select_id_text1 mb-3">
@@ -2060,7 +2066,7 @@ const Payment = () => {
                           </h4>
                           <p className="select_id_text mb-3">
                             {t(
-                              "Customer service is reviewing this appeal. processing may take several hours."
+                              "Customer service is reviewing this appeal. processing may take several hours.",
                             )}
                           </p>
 
@@ -2196,14 +2202,14 @@ const Payment = () => {
                               <div className="first_name mt-3">
                                 <h4 className="select_id_text1">
                                   {t(
-                                    "You can try to resolve the issue by following these steps"
+                                    "You can try to resolve the issue by following these steps",
                                   )}
                                   :
                                 </h4>
                                 <h4 className="select_id_text">
                                   1.{" "}
                                   {t(
-                                    "Make sure your account information is correct"
+                                    "Make sure your account information is correct",
                                   )}
                                   .
                                 </h4>
@@ -2213,21 +2219,21 @@ const Payment = () => {
                                     ? "seller's"
                                     : "buyer's"}{" "}
                                   {t(
-                                    "payment proof or chat with them for clarification"
+                                    "payment proof or chat with them for clarification",
                                   )}
                                   .
                                 </h4>
                                 <h4 className="select_id_text">
                                   3.{" "}
                                   {t(
-                                    "Some payment methods may take 1–3 days to complete"
+                                    "Some payment methods may take 1–3 days to complete",
                                   )}
                                   .
                                 </h4>
                                 <h4 className="select_id_text1">
                                   *{" "}
                                   {t(
-                                    "If the issue remains, you can initiate an appeal"
+                                    "If the issue remains, you can initiate an appeal",
                                   )}
                                   .
                                 </h4>
@@ -2373,7 +2379,7 @@ const Payment = () => {
                         <div className="mar-top-12">
                           <h4 className="modal-title mb-4">
                             {t(
-                              "Appeal submitted. Awaiting response from other party."
+                              "Appeal submitted. Awaiting response from other party.",
                             )}
                           </h4>
                           <p className="select_id_text mb-3">
@@ -2389,7 +2395,7 @@ const Payment = () => {
                             </li>
                             <li className="select_id_text1 mb-3">
                               {t(
-                                "If no response in 20 minutes, arbitration starts."
+                                "If no response in 20 minutes, arbitration starts.",
                               )}
                             </li>
                             <li className="select_id_text1 mb-3">
@@ -2468,13 +2474,13 @@ const Payment = () => {
                           </h4>
                           <p className="select_id_text mb-3">
                             {t(
-                              "Customer service is reviewing this appeal. processing may take several hours."
+                              "Customer service is reviewing this appeal. processing may take several hours.",
                             )}
                           </p>
 
                           <p className="select_id_text mb-3">
                             {t(
-                              "Customer service is reviewing this appeal. processing may take several hours."
+                              "Customer service is reviewing this appeal. processing may take several hours.",
                             )}
                           </p>
 
@@ -2606,14 +2612,14 @@ const Payment = () => {
                               <div className="first_name mt-3">
                                 <h4 className="select_id_text1">
                                   {t(
-                                    "You can try to resolve the issue by following these steps"
+                                    "You can try to resolve the issue by following these steps",
                                   )}
                                   :
                                 </h4>
                                 <h4 className="select_id_text">
                                   1.{" "}
                                   {t(
-                                    "Make sure your account information is correct"
+                                    "Make sure your account information is correct",
                                   )}
                                   .
                                 </h4>
@@ -2623,21 +2629,21 @@ const Payment = () => {
                                     ? "seller's"
                                     : "buyer's"}{" "}
                                   {t(
-                                    "payment proof or chat with them for clarification"
+                                    "payment proof or chat with them for clarification",
                                   )}
                                   .
                                 </h4>
                                 <h4 className="select_id_text">
                                   3.{" "}
                                   {t(
-                                    "Some payment methods may take 1–3 days to complete"
+                                    "Some payment methods may take 1–3 days to complete",
                                   )}
                                   .
                                 </h4>
                                 <h4 className="select_id_text1">
                                   *{" "}
                                   {t(
-                                    "If the issue remains, you can initiate an appeal"
+                                    "If the issue remains, you can initiate an appeal",
                                   )}
                                   .
                                 </h4>
