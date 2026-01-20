@@ -120,6 +120,7 @@ const Payment = () => {
   const [disputeDetails, setdisputeDetails, disputeDetailsref] = useState({});
 
   const ratingModalRef = useRef(null);
+  const cancelCalledRef = useRef(false);
   const currentOrderForRating = useRef(null);
 
   const submitP2PRating = (orderId, stars) => {
@@ -150,20 +151,36 @@ const Payment = () => {
   // ------------- SHOW RATING MODAL -------------
   const showRatingModalForOrder = (orderId) => {
     currentOrderForRating.current = orderId;
+    // console.log("it comess modal opening====");
+
+    setTimeout(() => {
+      const modalEl = document.getElementById("p2pRatingModal");
+
+      if (modalEl && window.bootstrap?.Modal) {
+        let bsModal =
+          window.bootstrap.Modal.getInstance(modalEl) ||
+          new window.bootstrap.Modal(modalEl, {
+            backdrop: "static",
+            keyboard: false,
+          });
+
+        bsModal.show();
+      }
+    }, 150);
 
     // If Bootstrap is loaded globally, use window.bootstrap.Modal
-    const modalEl = document.getElementById("p2pRatingModal");
-    let bsModal;
-    if (modalEl) {
-      // Use existing instance or create new
-      bsModal =
-        window.bootstrap && window.bootstrap.Modal
-          ? window.bootstrap.Modal.getInstance(modalEl) ||
-            new window.bootstrap.Modal(modalEl)
-          : null;
+    // const modalEl = document.getElementById("p2pRatingModal");
+    // let bsModal;
+    // if (modalEl) {
+    //   // Use existing instance or create new
+    //   bsModal =
+    //     window.bootstrap && window.bootstrap.Modal
+    //       ? window.bootstrap.Modal.getInstance(modalEl) ||
+    //         new window.bootstrap.Modal(modalEl)
+    //       : null;
 
-      if (bsModal) bsModal.show();
-    }
+    //   if (bsModal) bsModal.show();
+    // }
   };
 
   const getp2pChat = async () => {
@@ -516,19 +533,35 @@ const Payment = () => {
   };
 
   const renderer_sell = ({ hours, minutes, seconds, completed }) => {
-    if (completed) {
-      // Render a complete state
-      cancel_confirmorder_sell();
-    } else {
-      return (
-        <div className="timer_section1">
-          <div className="timer-sect">
-            <span>{hours}h</span> :<span>{minutes}m</span> :
-            <span>{seconds}s</span>
-          </div>
-        </div>
-      );
-    }
+          if (completed) {
+            if (!cancelCalledRef.current) {
+              cancelCalledRef.current = true;
+              cancel_confirmorder_sell();
+            }
+            return null;
+          }
+
+          return (
+            <div className="timer_section1">
+              <div className="timer-sect">
+                <span>{hours}h</span> :<span>{minutes}m</span> :
+                <span>{seconds}s</span>
+              </div>
+            </div>
+          );
+    // if (completed) {
+    //   // Render a complete state
+    //   cancel_confirmorder_sell();
+    // } else {
+    //   return (
+    //     <div className="timer_section1">
+    //       <div className="timer-sect">
+    //         <span>{hours}h</span> :<span>{minutes}m</span> :
+    //         <span>{seconds}s</span>
+    //       </div>
+    //     </div>
+    //   );
+    // }
   };
 
   const handleChange_buycancel = async (e) => {
@@ -538,6 +571,7 @@ const Payment = () => {
   };
 
   const cancel_confirmorder_sell = async () => {
+    // console.log("it comess confirm sell cancel====");
     var onj = {
       orderId: window.location.href.split("/").pop(),
     };
@@ -705,6 +739,7 @@ const Payment = () => {
   };
 
   const cancel_confirm_buy = async () => {
+    // console.log("it comess confirm buy cancel====");
     var onj = {
       orderId: window.location.href.split("/").pop(),
     };
@@ -724,6 +759,7 @@ const Payment = () => {
       showerrorToast(resp.Message);
       // navigate("/p2p");
       const orderId = window.location.href.split("/").pop();
+      // console.log("it comess orderId check====", orderId);
       showRatingModalForOrder(orderId);
     }
   };
@@ -921,9 +957,14 @@ const Payment = () => {
   };
 
   const renderer = ({ hours, minutes, seconds, completed }) => {
-    if (completed) {
-      cancel_confirm_buy();
-    } else {
+      if (completed) {
+        if (!cancelCalledRef.current) {
+          cancelCalledRef.current = true;
+          cancel_confirm_buy();
+        }
+        return null;
+      }
+
       return (
         <div className="timer_section1">
           <div className="timer-sect">
@@ -932,7 +973,18 @@ const Payment = () => {
           </div>
         </div>
       );
-    }
+    // if (completed) {
+    //   cancel_confirm_buy();
+    // } else {
+    //   return (
+    //     <div className="timer_section1">
+    //       <div className="timer-sect">
+    //         <span>{hours}h</span> :<span>{minutes}m</span> :
+    //         <span>{seconds}s</span>
+    //       </div>
+    //     </div>
+    //   );
+    // }
   };
 
   const copy_to_clipboard = async (type, text) => {
