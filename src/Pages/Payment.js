@@ -118,6 +118,7 @@ const Payment = () => {
   const [loader, setloader] = useState(false);
   const [headurl, setheadurl, headurlref] = useState("");
   const [disputeDetails, setdisputeDetails, disputeDetailsref] = useState({});
+  const [cancelButtonShow, setcancelButtonShow, cancelButtonShowref] = useState(false);
 
   const ratingModalRef = useRef(null);
   const cancelCalledRef = useRef(false);
@@ -703,6 +704,7 @@ const Payment = () => {
         payload: obj,
       };
 
+
       var resp = await postMethod(data);
 
       setSiteLoader(false);
@@ -713,7 +715,7 @@ const Payment = () => {
         // getp2pOrder();
         // navigate("/p2p");
          const orderId = window.location.href.split("/").pop();
-         showRatingModalForOrder(orderId);
+        showRatingModalForOrder(orderId);
       } else {
         showerrorToast(resp.Message);
       }
@@ -757,7 +759,9 @@ const Payment = () => {
       setTimerstatus("deactive");
       setTimer("");
       showerrorToast(resp.Message);
+       setcancelButtonShow(true);
       // navigate("/p2p");
+      // console.log("here trueeeeeeeeeeeee==",cancelButtonShowref.current)
       const orderId = window.location.href.split("/").pop();
       // console.log("it comess orderId check====", orderId);
       showRatingModalForOrder(orderId);
@@ -1103,6 +1107,17 @@ const Payment = () => {
                         ""
                       )}
 
+                      {p2pDataref.current.requirements &&  (
+                          <div className="pay-flex">
+                            <span className="pay-name">
+                              {t("requirements")}
+                            </span>
+                            <span className="pay-money">
+                              {p2pDataref.current.requirements}
+                            </span>
+                          </div>
+                        )}
+
                       {profileDataref.current != null ? (
                         UserIDref.current != p2pDataref.current.userId?._id &&
                         orderTyperef.current == "Buy" &&
@@ -1158,9 +1173,9 @@ const Payment = () => {
                                         {t("account_name")}
                                       </span>
                                       <span className="pay-money">
-                                        {bankDataref.current.Accout_HolderName}{" "}
+                                        {p2pDataref.current.userId?.orgName} {" "}
                                         ({" "}
-                                        {p2pDataref.current.userId?.displayname}{" "}
+                                        {bankDataref.current.Accout_HolderName}{" "}
                                         )
                                         <i
                                           class="ri-file-copy-line cursor-pointer"
@@ -1280,9 +1295,10 @@ const Payment = () => {
                                         {t("account_name")}
                                       </span>
                                       <span className="pay-money">
-                                        {bankDataref.current.Accout_HolderName}{" "}
+                                        {p2pDataref.current.userId?.orgName} {" "}
                                         ({" "}
-                                        {p2pDataref.current.userId?.displayname}{" "}
+                                        {/* {p2pDataref.current.userId?.displayname}{" "} */}
+                                        {bankDataref.current.Accout_HolderName}{" "}
                                         )
                                         <i
                                           class="ri-file-copy-line cursor-pointer"
@@ -1557,7 +1573,8 @@ const Payment = () => {
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Buy" &&
                         UserIDref.current == p2pDataref.current.userId?._id &&
-                        confirmp2porderref.current.status == 0 ? (
+                        confirmp2porderref.current.status == 0 &&
+                        cancelButtonShowref.current === false ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading">
                             <div className="aling_caseds justify-content-end">
                               <button
@@ -1642,7 +1659,8 @@ const Payment = () => {
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Buy" &&
                         UserIDref.current != p2pDataref.current.userId?._id &&
-                        confirmp2porderref.current.status == 0 ? (
+                        confirmp2porderref.current.status == 0 &&
+                        cancelButtonShowref.current === false ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading cancel-payment-butns">
                             <div className="aling_caseds justify-content-star payment-cancel-confirm">
                               <button

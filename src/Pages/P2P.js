@@ -376,7 +376,7 @@ const P2P = () => {
           if (resp.status) {
             showsuccessToast(resp.Message);
             navigate(resp.link);
-            window.location.href = resp.link;
+            // window.location.href = resp.link;
           } else {
             showerrorToast(resp.Message);
           }
