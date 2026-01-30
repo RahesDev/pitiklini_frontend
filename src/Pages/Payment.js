@@ -123,6 +123,7 @@ const Payment = () => {
   const ratingModalRef = useRef(null);
   const cancelCalledRef = useRef(false);
   const currentOrderForRating = useRef(null);
+  const ratingSubmittedRef = React.useRef(false);
 
   const submitP2PRating = (orderId, stars) => {
     try {
@@ -147,6 +148,60 @@ const Payment = () => {
     //   navigate("/p2p");
     // }
     setTimeout(() => navigate("/p2p"), 200);
+  };
+
+  const afterRatingFlow = () => {
+    getp2pChat();
+    getp2pOrder();
+    getconfirmOrder();
+
+    setTimeout(() => {
+      navigate("/p2p");
+    }, 200);
+  };
+
+  const handleStarClick = (stars) => {
+    ratingSubmittedRef.current = true; // ⭐ mark star clicked
+
+    const orderId =
+      currentOrderForRating.current || window.location.href.split("/").pop();
+
+    // Close modal
+    const modalEl = document.getElementById("p2pRatingModal");
+    if (modalEl && window.bootstrap?.Modal) {
+      const inst = window.bootstrap.Modal.getInstance(modalEl);
+      inst ? inst.hide() : new window.bootstrap.Modal(modalEl).hide();
+    }
+
+    // EXISTING rating process
+    postMethod({
+      apiUrl: apiService.p2p_user_ratings,
+      payload: { orderId, stars },
+    })
+      .then(() => {
+        afterRatingFlow(); // ✅ same flow
+      })
+      .catch((err) => {
+        console.error("rating error", err);
+        afterRatingFlow(); // still continue
+      });
+  };
+
+  const handleRatingClose = () => {
+    console.log("User closed rating popup");
+
+    // only if rating NOT submitted
+    if (!ratingSubmittedRef.current) {
+      afterRatingFlow();
+    }
+
+    ratingSubmittedRef.current = false;
+
+    const modalEl = document.getElementById("p2pRatingModal");
+    if (modalEl && window.bootstrap?.Modal) {
+      const inst = window.bootstrap.Modal.getInstance(modalEl);
+      if (inst) inst.hide();
+    }
   };
 
   // ------------- SHOW RATING MODAL -------------
@@ -1107,10 +1162,12 @@ const Payment = () => {
                         ""
                       )}
 
-                      {p2pDataref.current.requirements &&  (
+                      {p2pDataref.current.requirements &&
+                        orderTyperef.current == "Sell" && (
                           <div className="pay-flex">
+                            {/* <span className="pay-name">{t("requirements")}</span> */}
                             <span className="pay-name">
-                              {t("requirements")}
+                              {t("advertiserinfo")}
                             </span>
                             <span className="pay-money">
                               {p2pDataref.current.requirements}
@@ -1173,8 +1230,7 @@ const Payment = () => {
                                         {t("account_name")}
                                       </span>
                                       <span className="pay-money">
-                                        {p2pDataref.current.userId?.orgName} {" "}
-                                        ({" "}
+                                        {p2pDataref.current.userId?.orgName} ({" "}
                                         {bankDataref.current.Accout_HolderName}{" "}
                                         )
                                         <i
@@ -1295,8 +1351,7 @@ const Payment = () => {
                                         {t("account_name")}
                                       </span>
                                       <span className="pay-money">
-                                        {p2pDataref.current.userId?.orgName} {" "}
-                                        ({" "}
+                                        {p2pDataref.current.userId?.orgName} ({" "}
                                         {/* {p2pDataref.current.userId?.displayname}{" "} */}
                                         {bankDataref.current.Accout_HolderName}{" "}
                                         )
@@ -1388,7 +1443,7 @@ const Payment = () => {
                                 />
                               </span>
                             </h6>
-                            <p className="pay-name mt-4">
+                            {/* <p className="pay-name mt-4">
                               - {t("buyerpaidtheamount")}
                             </p>
                             <p className="pay-name">
@@ -1396,7 +1451,7 @@ const Payment = () => {
                             </p>
                             <p className="pay-name">
                               - {t("ifyouarenotreleasewithin")}
-                            </p>
+                            </p> */}
                           </div>
                         ) : (
                           ""
@@ -1467,7 +1522,7 @@ const Payment = () => {
                                 />
                               </span>
                             </h6>
-                            <p className="pay-name mt-4">
+                            {/* <p className="pay-name mt-4">
                               - {t("buyerpaidtheamount")}
                             </p>
                             <p className="pay-name">
@@ -1475,7 +1530,7 @@ const Payment = () => {
                             </p>
                             <p className="pay-name">
                               - {t("ifyouarenotreleasewithin")}
-                            </p>
+                            </p> */}
                           </div>
                         ) : (
                           ""
@@ -1547,7 +1602,13 @@ const Payment = () => {
                                 />
                               </span>
                             </h6>
-                            <p className="pay-name mt-4">
+                            {p2pDataref.current.requirements && (
+                              <p className="pay-name mt-4">
+                                {t("advertiserinfo")} -{" "}
+                                {p2pDataref.current.requirements}
+                              </p>
+                            )}
+                            {/* <p className="pay-name mt-4">
                               - {t("pleasepayfast")}
                             </p>
                             <p className="pay-name">
@@ -1561,7 +1622,7 @@ const Payment = () => {
                                   ? payTimeref.current / 60 + " hour"
                                   : payTimeref.current / 60 + " hours"}
                               , {t("orderwillbecancelledautomatically")}
-                            </p>
+                            </p> */}
                           </div>
                         ) : (
                           ""
@@ -1633,7 +1694,13 @@ const Payment = () => {
                                 />
                               </span>
                             </h6>
-                            <p className="pay-name mt-4">
+                            {p2pDataref.current.requirements && (
+                              <p className="pay-name mt-4">
+                                {t("advertiserinfo")} -{" "}
+                                {p2pDataref.current.requirements}
+                              </p>
+                            )}
+                            {/* <p className="pay-name mt-4">
                               - {t("pleasepayfast")}
                             </p>
                             <p className="pay-name">
@@ -1647,7 +1714,7 @@ const Payment = () => {
                                   ? payTimeref.current / 60 + " hour"
                                   : payTimeref.current / 60 + " hours"}{" "}
                               {t("orderwillbecancelledautomatically")}
-                            </p>
+                            </p> */}
                           </div>
                         ) : (
                           ""
@@ -2764,8 +2831,8 @@ const Payment = () => {
                     <button
                       type="button"
                       className="btn-close btn-close-custom"
-                      data-bs-dismiss="modal"
                       aria-label="Close"
+                      onClick={handleRatingClose}
                     ></button>
                   </div>
 
@@ -2787,31 +2854,32 @@ const Payment = () => {
                             // backgroundColor: "#daecee",
                             color: "#daecee",
                           }}
-                          onClick={() => {
-                            // get current orderId from ref (set when showing modal)
-                            const orderId =
-                              currentOrderForRating.current ||
-                              window.location.href.split("/").pop();
-                            // Hide modal immediately (so user doesn't see it stuck)
-                            const modalEl =
-                              document.getElementById("p2pRatingModal");
-                            if (
-                              modalEl &&
-                              window.bootstrap &&
-                              window.bootstrap.Modal
-                            ) {
-                              const inst =
-                                window.bootstrap.Modal.getInstance(modalEl);
-                              if (inst) inst.hide();
-                              else new window.bootstrap.Modal(modalEl).hide();
-                            }
-                            // Submit rating (fire-and-forget) and immediately navigate
-                            submitP2PRating(orderId, n);
-                            // DELAY TO LET API FIRE AND THEN NAVIGATE
-                            setTimeout(() => {
-                              navigate("/p2p");
-                            }, 200);
-                          }}
+                          // onClick={() => {
+                          //   // get current orderId from ref (set when showing modal)
+                          //   const orderId =
+                          //     currentOrderForRating.current ||
+                          //     window.location.href.split("/").pop();
+                          //   // Hide modal immediately (so user doesn't see it stuck)
+                          //   const modalEl =
+                          //     document.getElementById("p2pRatingModal");
+                          //   if (
+                          //     modalEl &&
+                          //     window.bootstrap &&
+                          //     window.bootstrap.Modal
+                          //   ) {
+                          //     const inst =
+                          //       window.bootstrap.Modal.getInstance(modalEl);
+                          //     if (inst) inst.hide();
+                          //     else new window.bootstrap.Modal(modalEl).hide();
+                          //   }
+                          //   // Submit rating (fire-and-forget) and immediately navigate
+                          //   submitP2PRating(orderId, n);
+                          //   // DELAY TO LET API FIRE AND THEN NAVIGATE
+                          //   setTimeout(() => {
+                          //     navigate("/p2p");
+                          //   }, 200);
+                          // }}
+                          onClick={() => handleStarClick(n)}
                         >
                           ★
                         </span>

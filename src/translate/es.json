@@ -344,6 +344,7 @@
   "ordersCount": "Cantidad de pedidos",
   "enterquantityto": "Ingrese la cantidad a",
   "youwillpay": "Usted pagará",
+  "youwillreceive": "Usted recibirá",
   "search": "Buscar",
   "releasethecrypto": "Libere la criptomoneda dentro de 15 minutos",
   "minutes": "minutos",
@@ -983,5 +984,14 @@
   "The other party must respond within": "La otra parte debe responder dentro de",
 
   "vipbadgehead": "Insignia VIP",
-  "vip": "personaje"
+  "vip": "personaje",
+  "p2pcommonbuyfrst": "Pague únicamente a través de la plataforma.",
+  "p2pcommonbuyscnd": "Confirmar después de realizar el pago correctamente.",
+  "p2pcommonbuythrd": "Verifique los detalles cuidadosamente.",
+  "p2pcommonsellfrst": "Liberar solo después de la confirmación.",
+  "p2pcommonsellscnd": "No cancele después de realizar el pago.",
+  "p2pcommonsellthrd": "Responda a tiempo.",
+  "confirmBuy": "Confirmar compra",
+  "confirmSell": "Confirmar venta",
+  "advertiserinfo": "Información del anunciante"
 }

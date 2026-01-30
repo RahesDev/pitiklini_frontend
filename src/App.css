@@ -3622,6 +3622,13 @@ input[type="number"]::-webkit-inner-spin-button {
 .p_new_end .j-img-content-two {
   margin-right: 0px !important;
 }
+.modal-content.common_buysell_box {
+  max-height: 400px;
+  min-width: 400px;
+}
+.modal-content.common_buysell_box > .personal_verify_body {
+  min-height: 100%;
+}
 
 /* Media Queries */
 

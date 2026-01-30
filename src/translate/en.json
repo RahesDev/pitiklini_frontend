@@ -387,6 +387,7 @@
   "ordersCount": "Orders Count",
   "enterquantityto": "Enter quantity to",
   "youwillpay": "You will pay",
+  "youwillreceive": "You will receive",
   "search": "Search",
   "releasethecrypto": "Release the crypto within 15 minutes",
   "minutes": "minutes",
@@ -973,5 +974,14 @@
   "Appeal": "Appeal",
   "The other party must respond within": "The other party must respond within",
   "vipbadgehead": "VIP Badge",
-  "vip": "VIP"
+  "vip": "VIP",
+  "p2pcommonbuyfrst": "Pay only through the platform",
+  "p2pcommonbuyscnd": "Confirm after successful payment",
+  "p2pcommonbuythrd": "Check details carefully",
+  "p2pcommonsellfrst": "Release only after confirmation",
+  "p2pcommonsellscnd": "Do not cancel after payment",
+  "p2pcommonsellthrd": "Respond on time",
+  "confirmBuy":"Confirm Buy",
+  "confirmSell":"Confirm Sell",
+  "advertiserinfo":"Advertiser Info"
 }

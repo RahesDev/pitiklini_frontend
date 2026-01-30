@@ -31,6 +31,10 @@ const P2P = () => {
   const [isIndexVal, setIsIndexVal] = useState("");
   const [UserID, setUserID, UserIDref] = useState("");
 
+  const confirmActionRef = React.useRef(null);
+  const [showConfirmModal, setShowConfirmModal] = React.useState(false);
+  const [payTime, setpayTime, payTimeref] = useState("15");
+
   const [loginStatus, setLoginStatus] = useState(false);
 
   const [preferPayment, setpreferPayment] = useState([]);
@@ -305,6 +309,34 @@ const P2P = () => {
     // }
   };
 
+  const openConfirmPopup = (type) => {
+    confirmActionRef.current =
+      type === "buy" ? confirm_order_buy : confirm_order_sell;
+
+    const modalEl = document.getElementById("p2pConfirmModal");
+
+    if (modalEl && window.bootstrap?.Modal) {
+      const modal =
+        window.bootstrap.Modal.getInstance(modalEl) ||
+        new window.bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  };
+
+  const handleConfirmTrade = () => {
+    // Close modal first
+    const modalEl = document.getElementById("p2pConfirmModal");
+    if (modalEl && window.bootstrap?.Modal) {
+      const inst = window.bootstrap.Modal.getInstance(modalEl);
+      inst?.hide();
+    }
+
+    // Execute actual confirm logic
+    if (confirmActionRef.current) {
+      confirmActionRef.current();
+    }
+  };
+
   const handleCancel = () => {
     setPayAmount("");
     setReceiveAmount("");
@@ -569,7 +601,7 @@ const P2P = () => {
                               // const numericValue = value.replace(/\D/g, "");
                               const numericValue = value.replace(
                                 /[^0-9.]/g,
-                                ""
+                                "",
                               );
                               const parts = numericValue.split(".");
                               if (parts.length > 2) {
@@ -626,7 +658,7 @@ const P2P = () => {
                                               <div className="p2p_namefrst_change">
                                                 <span>
                                                   {options.displayname.charAt(
-                                                    0
+                                                    0,
                                                   )}
                                                 </span>
                                               </div>
@@ -635,8 +667,8 @@ const P2P = () => {
                                                   {options.displayname}
                                                 </h4>
                                                 <h3 className="opt-nowrap opt-sub font_14 font_12_nepp">
-                                              {` Trades : ${options.trades} | ⭐ : ${options.stars}`}
-                                            </h3>
+                                                  {` Trades : ${options.trades} | ⭐ : ${options.stars}`}
+                                                </h3>
                                                 {/* <h3 className="opt-nowrap opt-sub font_14 font_12_nepp">
                                                   {`${
                                                     options.orders_count
@@ -723,7 +755,7 @@ const P2P = () => {
                                                     if (
                                                       value.length <= 30 &&
                                                       /^[0-9]*\.?[0-9]*$/.test(
-                                                        value
+                                                        value,
                                                       )
                                                     ) {
                                                       handlePayAmountChange(e);
@@ -750,7 +782,11 @@ const P2P = () => {
                                               </div>
 
                                               <label htmlFor="you-pay">
-                                                {t("youwillpay")}
+                                                {orderType == "buy" ? (
+                                                  <>{t("youwillpay")}</>
+                                                ) : (
+                                                  <>{t("youwillreceive")}</>
+                                                )}
                                               </label>
                                               <div className="p2p-pay-input">
                                                 <input
@@ -774,7 +810,7 @@ const P2P = () => {
                                                 "All Payment" ? (
                                                   <Dropdown
                                                     placeholder={t(
-                                                      "choosePayMethod"
+                                                      "choosePayMethod",
                                                     )}
                                                     className="you-pay-select"
                                                     fluid
@@ -788,7 +824,7 @@ const P2P = () => {
                                                 ) : (
                                                   <Dropdown
                                                     placeholder={t(
-                                                      "choosePayMethod"
+                                                      "choosePayMethod",
                                                     )}
                                                     className="you-pay-select"
                                                     fluid
@@ -819,8 +855,13 @@ const P2P = () => {
                                                 {orderType == "buy" ? (
                                                   <Link
                                                     type="submit"
+                                                    // onClick={() =>
+                                                    //   confirm_order_buy()
+                                                    // }
                                                     onClick={() =>
-                                                      confirm_order_buy()
+                                                      openConfirmPopup(
+                                                        "buy"
+                                                      )
                                                     }
                                                     className={`${
                                                       orderType == "buy"
@@ -833,8 +874,13 @@ const P2P = () => {
                                                 ) : (
                                                   <Link
                                                     type="submit"
+                                                    // onClick={() =>
+                                                    //   confirm_order_sell()
+                                                    // }
                                                     onClick={() =>
-                                                      confirm_order_sell()
+                                                      openConfirmPopup(
+                                                        "sell"
+                                                      )
                                                     }
                                                     className={`${
                                                       orderType == "buy"
@@ -912,7 +958,8 @@ const P2P = () => {
                                       </td>
                                       <td className="opt-nowrap opt-term font_14 pad-left-23 newpad_respdesi">
                                         <span className="opt-pay">
-                                          {options && options.paymentMethod}{" "}
+                                          {options &&
+                                            options.paymentMethod}{" "}
                                         </span>
                                       </td>
                                       <td className="opt-nowrap opt-price font_14 pad-left-23 newpad_respdesi">
@@ -922,7 +969,7 @@ const P2P = () => {
                                           {`${
                                             options.orders_count
                                           } Volume | ${parseFloat(
-                                            options.rating
+                                            options.rating,
                                           ).toFixed(2)} % Transaction rate`}
                                         </h3>
                                       </td>
@@ -1014,7 +1061,7 @@ const P2P = () => {
                                         {`${
                                           options.orders_count
                                         } Volume | ${parseFloat(
-                                          options.rating
+                                          options.rating,
                                         ).toFixed(2)} % Transaction rate`}
                                       </h3>
                                     </div>
@@ -1047,7 +1094,8 @@ const P2P = () => {
                                     <div className="newp2p_spa_betpay">
                                       <div className="newp2p_spa_betpay_below">
                                         <span className="p2pnw_payme">
-                                          {options && options.paymentMethod}{" "}
+                                          {options &&
+                                            options.paymentMethod}{" "}
                                         </span>
                                       </div>
                                       <div className="table-action-nwpp">
@@ -1120,7 +1168,7 @@ const P2P = () => {
                                           }}
                                           onKeyDown={(evt) =>
                                             ["e", "E", "+", "-"].includes(
-                                              evt.key
+                                              evt.key,
                                             ) && evt.preventDefault()
                                           }
                                         />
@@ -1233,6 +1281,65 @@ const P2P = () => {
                     </div>
                   </div>
                 </section>
+              </div>
+            </div>
+            <div
+              className="modal fade"
+              id="p2pConfirmModal"
+              tabIndex="-1"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered modal-sm">
+                <div className="modal-content common_buysell_box">
+                  <div className="modal-header lvl-one-header">
+                    <h5 className="modal-title">
+                      {orderType === "buy" ? t("confirmBuy") : t("confirmSell")}
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close btn-close-custom"
+                      data-bs-dismiss="modal"
+                    ></button>
+                  </div>
+
+                  <div className="modal-body personal_verify_body">
+                    {orderType === "buy" ? (
+                      <>
+                        <p className="pay-name mt-4">
+                          - {t("p2pcommonbuyfrst")}
+                        </p>
+                        <p className="pay-name">- {t("p2pcommonbuyscnd")}</p>
+                        <p className="pay-name">- {t("p2pcommonbuythrd")}</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="pay-name mt-4">
+                          - {t("p2pcommonsellfrst")}
+                        </p>
+                        <p className="pay-name">- {t("p2pcommonsellscnd")}</p>
+                        <p className="pay-name">- {t("p2pcommonsellthrd")}</p>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="modal-footer d-flex justify-content-center text-center w-100">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      {t("cancel")}
+                    </button>
+
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleConfirmTrade}
+                    >
+                      {t("confirm")}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
