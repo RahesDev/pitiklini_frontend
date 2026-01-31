@@ -306,6 +306,18 @@ const Payment = () => {
         getDispute();
         //getp2pconfirmOrder();
         getconfirmOrder();
+      }  else if (res.Reason == "existnotify") {
+        setnotifymessage(res.Message);
+        showsuccessToast(res.Message, {
+          toastId: "3",
+        });
+        const orderId = window.location.href.split("/").pop();
+        // console.log("it comess orderId check====", orderId);
+        showRatingModalForOrder(orderId);
+        // getp2pOrder();
+        // getDispute();
+        //getp2pconfirmOrder();
+        // getconfirmOrder();
       } else if (res.Reason == "ordercancel") {
         setnotifymessage(res.Message);
         showsuccessToast(res.Message, {
@@ -566,9 +578,12 @@ const Payment = () => {
           );
           setTimer(timer);
         }
-      } else if (resp.Message.status == 1 && resp.Message.dispute_status == 0) {
-        var timer = new Date(resp.Message.paytime).getTime() + 15 * 60 * 1000;
-        var current_time = new Date().getTime();
+      // } else if (resp.Message.status == 1 && resp.Message.dispute_status == 0) {
+        // } else if (resp.Message.status == 0 && resp.Message.dispute_status == 0) {
+        
+        // var timer = new Date(resp.Message.datetime).getTime() + 15 * 60 * 1000;
+        // var current_time = new Date().getTime();
+
         if (timer > current_time) {
           setsellTimerstatus("active");
           setsellTimer(timer);
@@ -643,6 +658,11 @@ const Payment = () => {
     if (resp.status) {
       setsellTimerstatus("deactive");
       setsellTimer("");
+      showerrorToast("Order Cancelled!");
+      setcancelButtonShow(true);
+            const orderId = window.location.href.split("/").pop();
+            // console.log("it comess orderId check====", orderId);
+            showRatingModalForOrder(orderId);
     }
   };
 
@@ -667,11 +687,11 @@ const Payment = () => {
       if (resp.status) {
         showsuccessToast(resp.Message);
         // navigate(`/p2p/complete/${order_Id}`)
-        const orderId = window.location.href.split("/").pop();
-        showRatingModalForOrder(orderId);
-        // getp2pChat();
-        // getp2pOrder();
-        // getconfirmOrder();
+        // const orderId = window.location.href.split("/").pop();
+        // showRatingModalForOrder(orderId);
+        getp2pChat();
+        getp2pOrder();
+        getconfirmOrder();
       } else {
         showerrorToast(resp.Message);
       }
@@ -731,6 +751,7 @@ const Payment = () => {
         showsuccessToast(resp.Message);
         setRunningTimer(false);
         clearInterval(intervalref.current);
+        setcancelButtonShow(true);
         // navigate("/p2p");
         const orderId = window.location.href.split("/").pop();
          setTimeout(() => {
@@ -1430,12 +1451,13 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Sell" &&
-                        UserIDref.current == p2pDataref.current.userId?._id &&
-                        confirmp2porderref.current.status == 1 &&
-                        sellTimerstatusref.current == "active" ? (
+                        UserIDref.current == p2pDataref.current.userId?._id ? (
+                          // UserIDref.current == p2pDataref.current.userId?._id &&
+                          // confirmp2porderref.current.status == 1 &&
+                          // sellTimerstatusref.current == "active" ? (
                           <div className="timer">
                             <h6>
-                              {t("releasethecrypto")}
+                              {t("releasethecrypto")} 
                               <span>
                                 <Countdown
                                   date={sellTimerref.current}
@@ -1463,7 +1485,9 @@ const Payment = () => {
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Sell" &&
                         UserIDref.current == p2pDataref.current.userId?._id &&
-                        confirmp2porderref.current.status == 1 ? (
+                        confirmp2porderref.current.status == 1 &&
+                        cancelButtonShowref.current === false ? (
+                          // confirmp2porderref.current.status == 1 ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading">
                             <div className="aling_caseds justify-content-end">
                               {confirmorderloader == false ? (
@@ -1509,9 +1533,10 @@ const Payment = () => {
 
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Sell" &&
-                        UserIDref.current != p2pDataref.current.userId?._id &&
-                        confirmp2porderref.current.status == 1 &&
-                        sellTimerstatusref.current == "active" ? (
+                        UserIDref.current != p2pDataref.current.userId?._id ? (
+                          // UserIDref.current != p2pDataref.current.userId?._id &&
+                          // confirmp2porderref.current.status == 1 &&
+                          // sellTimerstatusref.current == "active" ? (
                           <div className="timer">
                             <h6>
                               {t("releasethecrypto")}
@@ -1542,7 +1567,9 @@ const Payment = () => {
                       {profileDataref.current != null ? (
                         orderTyperef.current == "Sell" &&
                         UserIDref.current != p2pDataref.current.userId?._id &&
-                        confirmp2porderref.current.status == 1 ? (
+                        confirmp2porderref.current.status == 1 &&
+                        cancelButtonShowref.current === false ? (
+                          // confirmp2porderref.current.status == 1 ? (
                           <div class="form register_login  marhing_pading pl-0 paddinte_ledy_o pt-0 right_pading">
                             <div className="aling_caseds justify-content-end">
                               {confirmorderloader == false ? (
