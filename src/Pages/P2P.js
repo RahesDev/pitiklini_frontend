@@ -1264,7 +1264,10 @@ const P2P = () => {
                                         {orderType == "buy" ? (
                                           <Link
                                             type="submit"
-                                            onClick={() => confirm_order_buy()}
+                                            // onClick={() => confirm_order_buy()}
+                                            onClick={() =>
+                                              openConfirmPopup("buy")
+                                            }
                                             className={`${
                                               orderType == "buy"
                                                 ? "fil-buy"
@@ -1276,7 +1279,10 @@ const P2P = () => {
                                         ) : (
                                           <Link
                                             type="submit"
-                                            onClick={() => confirm_order_sell()}
+                                            // onClick={() => confirm_order_sell()}
+                                            onClick={() =>
+                                              openConfirmPopup("sell")
+                                            }
                                             className={`${
                                               orderType == "buy"
                                                 ? "fil-buy"
