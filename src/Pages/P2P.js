@@ -1192,7 +1192,11 @@ const P2P = () => {
                                       </div>
 
                                       <label htmlFor="you-pay">
-                                        {t("youwillpay")}
+                                        {orderType == "buy" ? (
+                                          <>{t("youwillpay")}</>
+                                        ) : (
+                                          <>{t("youwillreceive")}</>
+                                        )}
                                       </label>
                                       <div className="p2p-pay-input">
                                         <input
