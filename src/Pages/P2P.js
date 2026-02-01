@@ -724,7 +724,7 @@ const P2P = () => {
                                                 <div className="opt-nowrap opt-term font_14 ">
                                                   {options.requirements}{" "}
                                                   <div className="opt-price-span mar-t-price">
-                                                    {t("requirements")}
+                                                    {t("advertiserinfo")}
                                                   </div>
                                                 </div>
                                               ) : (
@@ -801,6 +801,19 @@ const P2P = () => {
                                                 </span>
                                               </div>
 
+                                              <label>
+                                                {t("advertiserinfo")}
+                                              </label>
+                                              <div className="p2p-pay-input mb-4">
+                                                <div className="p2o_display_require">
+                                                  {options.requirements !=
+                                                    null &&
+                                                  options.requirements != ""
+                                                    ? options.requirements
+                                                    : "No Info"}
+                                                </div>
+                                              </div>
+
                                               <label htmlFor="you-pay">
                                                 {t("selectPaymentMethod")}
                                               </label>
@@ -859,9 +872,7 @@ const P2P = () => {
                                                     //   confirm_order_buy()
                                                     // }
                                                     onClick={() =>
-                                                      openConfirmPopup(
-                                                        "buy"
-                                                      )
+                                                      openConfirmPopup("buy")
                                                     }
                                                     className={`${
                                                       orderType == "buy"
@@ -878,9 +889,7 @@ const P2P = () => {
                                                     //   confirm_order_sell()
                                                     // }
                                                     onClick={() =>
-                                                      openConfirmPopup(
-                                                        "sell"
-                                                      )
+                                                      openConfirmPopup("sell")
                                                     }
                                                     className={`${
                                                       orderType == "buy"
