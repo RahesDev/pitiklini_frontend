@@ -1205,6 +1205,16 @@ const P2P = () => {
                                         <span>{options.secondCurrnecy}</span>
                                       </div>
 
+                                      <label>{t("advertiserinfo")}</label>
+                                      <div className="p2p-pay-input mb-4">
+                                        <div className="p2o_display_require">
+                                          {options.requirements != null &&
+                                          options.requirements != ""
+                                            ? options.requirements
+                                            : "No Info"}
+                                        </div>
+                                      </div>
+
                                       <label htmlFor="you-pay">
                                         {t("selectPaymentMethod")}
                                       </label>
