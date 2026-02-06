@@ -963,6 +963,7 @@ const Header = () => {
                                 </span>
                                 <span className="details-udi">
                                   {t("Name")}: {profileData.displayname}
+                                  
                                   {/* {t("UID")}:{profileData.uuid}{" "}
                                   <i
                                     className="fa-regular fa-copy cursor-pointer"
