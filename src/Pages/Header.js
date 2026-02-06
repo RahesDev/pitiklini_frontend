@@ -548,11 +548,12 @@ const Header = () => {
                                   {obfuscateEmail(profileData.email)}
                                 </span>
                                 <span className="details-udi">
-                                  {t("UID")}:{profileData.uuid}{" "}
+                                  {t("Name")}: {profileData.displayname}
+                                  {/* {t("UID")}:{profileData.uuid}{" "}
                                   <i
                                     className="fa-regular fa-copy cursor-pointer"
                                     onClick={() => copy(profileData.uuid)}
-                                  ></i>{" "}
+                                  ></i>{" "} */}
                                 </span>
                                 {/* <img
                                 src={logout}
@@ -961,11 +962,12 @@ const Header = () => {
                                   {obfuscateEmail(profileData.email)}
                                 </span>
                                 <span className="details-udi">
-                                  {t("UID")}:{profileData.uuid}{" "}
+                                  {t("Name")}: {profileData.displayname}
+                                  {/* {t("UID")}:{profileData.uuid}{" "}
                                   <i
                                     className="fa-regular fa-copy cursor-pointer"
                                     onClick={() => copy(profileData.uuid)}
-                                  ></i>{" "}
+                                  ></i>{" "} */}
                                 </span>
                                 {/* <img
                                 src={logout}

@@ -217,6 +217,7 @@
   "medium": "Medio",
   "high": "Alto",
   "UID": "UID",
+  "Name": "Nombre",
   "securityLevel": "Nivel de seguridad",
   "SignUpTime": "Hora de registro",
   "lastSignIn": "Último inicio de sesión",

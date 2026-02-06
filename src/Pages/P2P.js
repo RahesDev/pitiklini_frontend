@@ -1067,11 +1067,12 @@ const P2P = () => {
                                     </div>
                                     <div className="">
                                       <h3 className="nw_p2p_ordercou">
-                                        {`${
+                                        {` Trades : ${options.trades} | ⭐ : ${options.stars}`}
+                                        {/* {`${
                                           options.orders_count
                                         } Volume | ${parseFloat(
                                           options.rating,
-                                        ).toFixed(2)} % Transaction rate`}
+                                        ).toFixed(2)} % Transaction rate`}*/}
                                       </h3>
                                     </div>
                                     <div className="nwp2p_pricespa_min">

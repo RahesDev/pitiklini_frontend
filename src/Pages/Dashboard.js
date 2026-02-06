@@ -456,8 +456,8 @@ const Dashboard = () => {
 
                   <div className="user_id_card">
                     <div className="uid_content">
-                      <h4>{t("UID")}</h4>
-                      <p>{profileData.uuid}</p>
+                      <h4>{t("Name")}</h4>
+                      <p>{profileData.displayname}</p>
                     </div>
                     <div className="uid_content">
                       <h4>{t("email_label")}</h4>
@@ -905,14 +905,14 @@ const Dashboard = () => {
                                   <td className="opt-term font_14 table_center_text pad-left-23">
                                     {parseFloat(
                                       item?.holdAmount +
-                                        parseFloat(item?.p2phold)
+                                        parseFloat(item?.p2phold),
                                     ).toFixed(4)}
                                     {item?.currencysymbol}
                                   </td>
                                   <td className="opt-term font_14 table_center_text pad-left-23">
                                     {parseFloat(
                                       item?.currencyBalance +
-                                        parseFloat(item?.p2p)
+                                        parseFloat(item?.p2p),
                                     ).toFixed(4)}{" "}
                                     {item?.currencysymbol}
                                   </td>
@@ -921,7 +921,7 @@ const Dashboard = () => {
                                       item?.currencyBalance +
                                         parseFloat(item?.holdAmount) +
                                         parseFloat(item?.p2p) +
-                                        parseFloat(item?.p2phold)
+                                        parseFloat(item?.p2phold),
                                     ).toFixed(4)}{" "}
                                     {item?.currencysymbol}{" "}
                                   </td>

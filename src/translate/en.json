@@ -215,6 +215,7 @@
   "medium": "Medium",
   "high": "High",
   "UID": "UID",
+  "Name": "Name",
   "securityLevel": "Security Level",
   "SignUpTime": "Sign-Up Time",
   "lastSignIn": "Last Sign In",
@@ -982,7 +983,7 @@
   "p2pcommonsellfrst": "Release only after confirmation",
   "p2pcommonsellscnd": "Do not cancel after payment",
   "p2pcommonsellthrd": "Respond on time",
-  "confirmBuy":"Confirm Buy",
-  "confirmSell":"Confirm Sell",
-  "advertiserinfo":"Advertiser Info"
+  "confirmBuy": "Confirm Buy",
+  "confirmSell": "Confirm Sell",
+  "advertiserinfo": "Advertiser Info"
 }
