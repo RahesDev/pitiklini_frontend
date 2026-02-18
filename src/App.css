@@ -2951,6 +2951,12 @@ span.inr {
 .dep-drops.support_textarea {
   min-height: 150px;
 }
+.deposit .form_div .dep-drops.new-clr_inp input {
+  color: #fff !important;
+}
+.deposit .form_div .dep-drops.new-clr_inp .message {
+  color: #fff !important;
+}
 .trade_qr_img {
   width: 120px;
   height: auto;
