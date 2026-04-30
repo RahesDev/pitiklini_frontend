@@ -102,6 +102,7 @@ const Checkout = () => {
   const [sitekycStatus, setsitekycStatus, sitekycStatusref] =
     useState("DeActive");
   const [kycStatus, setkycStatus, kycStatusref] = useState(1);
+  const [depaId, setDepaId, depaIdref] = useState("");
 
   const [addresshide, setaddresshide, addresshideref] = useState("Deactive");
 
@@ -160,31 +161,53 @@ const Checkout = () => {
   };
 
   // Function to handle showing the payment form with data
-  const handleShowPaymentForm = async (amount) => {
-    //console.log(`Amount: ${amount}, ID: ${id}, Currency: ${currency}`);
+  // const handleShowPaymentForm = async (amount) => {
+  //   //console.log(`Amount: ${amount}, ID: ${id}, Currency: ${currency}`);
 
-    try {
-      var data = {
-        apiUrl: apiService.createchekout,
-        paymentAmount: amount,
-        currencySymbol: "EUR",
-      };
+  //   try {
+  //     var data = {
+  //       apiUrl: apiService.createchekout,
+  //       paymentAmount: amount,
+  //       currencySymbol: "EUR",
+  //     };
 
-      var response = await createcheck(data);
+  //     var response = await createcheck(data);
 
-      // Check for a valid URL response
-      if (response.data.url) {
-        const stripe = await stripePromise;
+  //     // Check for a valid URL response
+  //     if (response.data.url) {
+  //       const stripe = await stripePromise;
 
-        stripe.redirectToCheckout({ sessionId: response.data.id });
+  //       stripe.redirectToCheckout({ sessionId: response.data.id });
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       "Error during payment process:",
+  //       error.response?.data || error.message
+  //     );
+  //   }
+  // };
+
+  const handleFiatDeposit = (amount) => {
+
+      if (!amount || amount <= 0) {
+        toast.error("Enter valid amount");
+        return;
       }
-    } catch (error) {
-      console.error(
-        "Error during payment process:",
-        error.response?.data || error.message
+
+    const userId = depaIdref.current;
+        if (!userId) {
+          toast.error("User not found");
+          return;
+        }
+
+      const redirectUrl = encodeURIComponent(
+        "https://pitiklini.com/checkout",
       );
-    }
-  };
+
+  const url = `https://widget.sandbox.depa.finance/?partner=Pitiklini&external_user_uuid=${userId}&amount=${amount}&redirect_url=${redirectUrl}`;
+
+  window.open(url, "_blank");
+};
 
   const handleChange = async (e) => {
     e.preventDefault();
@@ -534,6 +557,7 @@ const Checkout = () => {
 
     if (getKYC.status) {
       setkycStatus(getKYC.Message.kycstatus);
+      setDepaId(getKYC.Message._id);
       setBankwire(getKYC.bankdatastatus);
     } else {
       // setkycStatus(0);
@@ -1428,8 +1452,11 @@ const Checkout = () => {
 
                                   <div className="sumbit_btn">
                                     <button
+                                      // onClick={() =>
+                                      //   handleShowPaymentForm(amount)
+                                      // }
                                       onClick={() =>
-                                        handleShowPaymentForm(amount)
+                                        handleFiatDeposit(amount)
                                       }
                                     >
                                       {/* <img

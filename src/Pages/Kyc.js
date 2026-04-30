@@ -269,25 +269,79 @@ const Dashboard = () => {
   //   }
   // };
 
-  const startVerification = async () => {
-    try {
-      setLoading(true); 
-  
-      const data = { apiUrl: apiService.kycStripe };
-      const response = await postMethod(data);
-      console.log("Response:", response);
-      if (response?.url) {
-        window.location.href = response.url; 
-        return; 
-      }
 
-      console.log("Response:", response);
-    } catch (error) {
-      console.error("Error in verification:", error);
-    } finally {
-      setLoading(false); 
+  //last one---
+  // const startVerification = async () => {
+  //   try {
+  //     setLoading(true);
+  
+  //     const data = { apiUrl: apiService.kycStripe };
+  //     const response = await postMethod(data);
+  //     console.log("Response:", response);
+  //     if (response?.url) {
+  //       window.location.href = response.url;
+  //       return;
+  //     }
+
+  //     console.log("Response:", response);
+  //   } catch (error) {
+  //     console.error("Error in verification:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+const startVerification = () => {
+const userId = getKYCData?._id;
+    if (!userId) {
+      toast.error("User not found");
+      return;
     }
-  };
+  
+    const redirectUrl = encodeURIComponent("https://pitiklini.com/kyc");
+
+   const url = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}&redirect_url=${redirectUrl}`;
+
+   window.open(url, "_blank");
+
+  // window.location.href = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}`;
+    // window.open(
+    //   `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}`,
+    //   "_blank",
+    // );
+};
+  
+const startVerificationLast = async () => {
+  try {
+    setLoading(true);
+
+    const res = await postMethod({
+      apiUrl: "kyc/get-widget-token",
+    });
+    console.log("Widget Token:", res);
+
+    const token = res?.token;
+
+    if (!token) {
+      toast.error("Failed to start verification");
+      return;
+    }
+
+    if (!window.DepasifyWidget) {
+      toast.error("KYC widget not loaded");
+      return;
+    }
+
+    window.DepasifyWidget.open({
+      token,
+      scenario: "kyc_only",
+    });
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
   
 
   // const startVerification = async () => {
