@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import Header from "./Header";
+import DashboardLayout from "./DashboardLayout";
 import { stakeOpt } from "../utils/mockData2";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import Side_bar from "./Side_bar";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useState from "react-usestateref";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
@@ -81,7 +80,7 @@ const Security = () => {
       const data = { apiUrl: apiService.getVipDatas };
       setSiteLoader(true);
       const resp = await getMethod(data);
-setSiteLoader(false);
+      setSiteLoader(false);
       if (resp.status) {
         setVipData(resp.vipDatas);
       }
@@ -89,19 +88,19 @@ setSiteLoader(false);
   };
 
   const getvipuser = async () => {
-        try {
-          var data = {
-            apiUrl: apiService.getVipUserDetail,
-          };
-          setSiteLoader(true);
-          var resp = await getMethod(data);
-          setSiteLoader(false);
-          if (resp.status) {
-            console.log(resp, "---resp---");
-             setdataExist(resp.PhishinStatus === "true");
-          }
-        } catch (error) {}
-  }
+    try {
+      var data = {
+        apiUrl: apiService.getVipUserDetail,
+      };
+      setSiteLoader(true);
+      var resp = await getMethod(data);
+      setSiteLoader(false);
+      if (resp.status) {
+        console.log(resp, "---resp---");
+        setdataExist(resp.PhishinStatus === "true");
+      }
+    } catch (error) {}
+  };
 
   const handleCurrencySelect = (e, data) => {
     setSelectedCurrency(data.value);
@@ -114,29 +113,29 @@ setSiteLoader(false);
   };
 
   const enableVip = async () => {
-  if (!selectedCurrency) {
-    return toast.error("Please select a currency");
-  }
-
-  const body = {
-    currency: selectedCurrency,
-    amount: currencyAmount,
-  };
-
-  try {
-    const resp = await postMethod({
-      apiUrl: apiService.enableVipUser,
-      payload: body,
-    });
-
-    if (resp.status) {
-      toast.success("VIP Badge Activated!");
-      getvipuser();
-    } else {
-      toast.error(resp.message);
+    if (!selectedCurrency) {
+      return toast.error("Please select a currency");
     }
-  } catch (err) {}
-};
+
+    const body = {
+      currency: selectedCurrency,
+      amount: currencyAmount,
+    };
+
+    try {
+      const resp = await postMethod({
+        apiUrl: apiService.enableVipUser,
+        payload: body,
+      });
+
+      if (resp.status) {
+        toast.success("VIP Badge Activated!");
+        getvipuser();
+      } else {
+        toast.error(resp.message);
+      }
+    } catch (err) {}
+  };
 
   const handleChange = async (nextChecked) => {
     setChecked(nextChecked);
@@ -209,12 +208,9 @@ setSiteLoader(false);
   };
 
   return (
-    <>
-      <section>
-        <Header />
-      </section>
+    <DashboardLayout>
       {siteLoader == true ? (
-        <div className="loadercss">
+        <div className="flex min-h-[calc(100vh-90px)] items-center justify-center bg-slate-950 px-4">
           <Bars
             height="80"
             width="80"
@@ -226,153 +222,121 @@ setSiteLoader(false);
           />
         </div>
       ) : (
-        <main className="dashboard_main">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-lg-2 col-md-0 padlef_0_col">
-                <Side_bar />
-              </div>
-
-              <div className="col-lg-10 col-md-12 padin_lefrig_dash">
-                <div className="dashboard_content border_none">
-                  <div className="security_content">
-                    <h3>{t("security")}</h3>
-                  </div>
-                  <div className="security_settings">
+        <section className="asset_section font-ibm text-secondary text-[12px]">
+          <div className="buy_head">
+            <div className="w-full">
+              <div className="space-y-8">
+                <div className="rounded-2xl bg-[#18191D] border border-gray shadow-xl p-5">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-gray mb-4">
                     <div>
-                      {t("yourSecuritySettingIs")}{" "}
-                      {profileData.tfastatus == 0 &&
-                      // profileData.AntiphisingStatus == 0 &&
-                      profileData.AntiphisingEnabledStatus == 0 ? (
-                        <span className="low-clr">{t("low")}</span>
-                      ) : profileData.tfastatus == 0 ||
-                        // profileData.AntiphisingStatus == 0 ||
-                        profileData.AntiphisingEnabledStatus == 0 ? (
-                        <span className="mid-clr">{t("medium")}</span>
-                      ) : (
-                        <span className="high-clr">{t("high")}</span>
-                      )}
+                      <p className="text-[20px] font-semibold text-primary font-ibm  mb-2">
+                        {t("security")}
+                      </p>
+                      <div className="flex flex-wrap items-center gap-3 mb-4">
+                        <span className="text-[16px] font-semibold text-secondary">
+                          {t("yourSecuritySettingIs")}
+                        </span>
+                        <span
+                          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-semibold ${
+                            profileData.tfastatus == 0 &&
+                            profileData.AntiphisingEnabledStatus == 0
+                              ? "bg-rose-500/15 text-rose-400"
+                              : profileData.tfastatus == 0 ||
+                                  profileData.AntiphisingEnabledStatus == 0
+                                ? "bg-amber-500/15 text-amber-300"
+                                : "bg-emerald-500/15 text-emerald-400"
+                          }`}
+                        >
+                          <i
+                            className={`ri-${
+                              profileData.tfastatus == 0 &&
+                              profileData.AntiphisingEnabledStatus == 0
+                                ? "shield-close-line"
+                                : profileData.tfastatus == 0 ||
+                                    profileData.AntiphisingEnabledStatus == 0
+                                  ? "shield-half-line"
+                                  : "shield-check-line"
+                            } text-lg`}
+                          />
+                          {profileData.tfastatus == 0 &&
+                          profileData.AntiphisingEnabledStatus == 0
+                            ? t("low")
+                            : profileData.tfastatus == 0 ||
+                                profileData.AntiphisingEnabledStatus == 0
+                              ? t("medium")
+                              : t("high")}
+                        </span>
+                      </div>
                     </div>
-                    <div className="low_line">
-                      {profileData.tfastatus == 0 &&
-                      // profileData.AntiphisingStatus == 0 &&
-                      profileData.AntiphisingEnabledStatus == 0 ? (
-                        <>
-                          <p className="verify_fail mb-1">
-                            <i class="ri-shield-keyhole-line"></i> {t("low")}
-                          </p>
-                          <img
-                            src={require("../assets/low_line.png")}
-                            className="secu_img"
-                            alt="Low security"
-                          />
-                        </>
-                      ) : profileData.tfastatus == 0 ||
-                        // profileData.AntiphisingStatus == 0 ||
-                        profileData.AntiphisingEnabledStatus == 0 ? (
-                        <>
-                          <p className="verify_medium mb-1">
-                            <i class="ri-shield-keyhole-line"></i> {t("medium")}
-                          </p>
-                          <img
-                            src={require("../assets/mid_line.png")}
-                            className="secu_img"
-                            alt="Medium security"
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <p className="verify_success mb-1">
-                            <i class="ri-shield-keyhole-line"></i> {t("high")}
-                          </p>
-                          <img
-                            src={require("../assets/high_line.png")}
-                            className="secu_img"
-                            alt="High security"
-                          />
-                        </>
-                      )}
-                      {/* <p>
-                      {" "}
-                      <i class="ri-shield-keyhole-line"></i> Low
-                    </p>
-                    <img src={require("../assets/low_line.png")} /> */}
+                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-[12px] text-secondary">
+                      <i className="ri-shield-keyhole-line text-lg text-primary" />
+                      <span>{t("securityScore")}</span>
                     </div>
                   </div>
+
                   {profileData.vipBadge && profileData.vipBadge === true && (
-                    <>
-                      <div className="two_fa_heading">{t("vip")}</div>
-                      <div className="security_email_content">
-                        <div className="security_email_item">
-                          <div className="">
-                            <h3>
-                              {t("vipbadgehead")}
-                              {""}
-                              {dataExistref.current ? (
-                                ""
-                              ) : (
-                                <>
-                                  {" "}
-                                  {selectedCurrency ? (
-                                    <>
-                                      [ {currencyAmountref.current}{" "}
-                                      {selectedCurrency} / Month ]
-                                    </>
-                                  ) : (
-                                    ""
-                                  )}{" "}
-                                </>
-                              )}
-                            </h3>
-                            {/* <p>{t("itIsUsedForLoginWithdrawals")}</p> */}
-                            {dataExistref.current ? (
-                              ""
-                            ) : (
-                              <div className="form_div">
-                                <div className="sides">
-                                  <div className="w-100 rights">
-                                    <Dropdown
-                                      placeholder={t("selectacoin")}
-                                      fluid
-                                      className="dep-drops"
-                                      selection
-                                      options={vipcurrencies}
-                                      onChange={handleCurrencySelect}
-                                      isSearchable={true}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
+                    <div className="space-y-4 rounded-2xl bg-[#18191D] border border-gray shadow-xl p-5">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                          <p className="text-[16px] uppercase tracking-[0.18em] text-secondary">
+                            {t("vip")}
+                          </p>
+                          <h3 className="mt-2 text-[16px] font-semibold text-secondary">
+                            {t("vipbadgehead")}
+                            {dataExistref.current ? null : selectedCurrency ? (
+                              <span className="ml-2 text-[12px] font-medium text-secondary">
+                                [ {currencyAmountref.current} {selectedCurrency}{" "}
+                                / Month ]
+                              </span>
+                            ) : null}
+                          </h3>
                         </div>
-                        <div className="email_id_text">
-                          <div className="enable_btn">
-                            {dataExistref.current ? (
-                              <button>{t("enabled")}</button>
-                            ) : (
-                              <button onClick={enableVip}>{t("enable")}</button>
-                            )}
-                          </div>
+                        <div className="flex flex-col gap-3 sm:items-end">
+                          {dataExistref.current ? null : (
+                            <Dropdown
+                              placeholder={t("selectacoin")}
+                              fluid
+                              className="w-full min-w-[220px] rounded-3xl bg-slate-900 text-slate-200"
+                              selection
+                              options={vipcurrencies}
+                              onChange={handleCurrencySelect}
+                              isSearchable={true}
+                            />
+                          )}
+                          <button
+                            onClick={enableVip}
+                            className={`rounded-2xl px-4 py-3 text-[12px] font-semibold transition ${dataExistref.current ? "bg-slate-800 text-slate-200" : "bg-primary text-slate-950 hover:bg-amber-300"}`}
+                          >
+                            {dataExistref.current ? t("enabled") : t("enable")}
+                          </button>
                         </div>
                       </div>
-                    </>
+                    </div>
                   )}
-                  <div className="two_fa_heading">
+                  <div className="text-[18px] font-semibold text-primary mb-4">
                     {t("twoFactorAuthentication")}
                   </div>
-                  <div className="security_email_content">
-                    <div className="security_email_item">
-                      <img src={require("../assets/icons/email_icon.webp")} />
-
-                      <div className="">
-                        <h3>{t("emailVerification")}</h3>
-                        <p>{t("itIsUsedForLoginWithdrawals")}</p>
+                  <div className="flex flex-col gap-4 rounded-2xl mb-4 bg-[#18191D] border border-gray shadow-xl p-5 sm:flex-row sm:justify-between sm:items-center">
+                    <div className="flex items-start gap-4">
+                      <div className="grid h-12 w-12 place-items-center rounded-3xl bg-slate-800">
+                        <img
+                          src={require("../assets/icons/email_icon.webp")}
+                          alt="Email"
+                          className="h-6 w-6"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="text-[16px] font-semibold text-primary">
+                          {t("emailVerification")}
+                        </h3>
+                        <p className="mt-1 text-[12px] text-secondary">
+                          {t("itIsUsedForLoginWithdrawals")}
+                        </p>
                       </div>
                     </div>
-                    <div className="email_id_text">
-                      <i class="ri-checkbox-circle-fill"></i>{" "}
-                      <span> {obfuscateEmail(profileData.email)}</span>
+                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-[12px] text-secondary">
+                      <i className="ri-checkbox-circle-fill text-emerald-400" />
+                      <span>{obfuscateEmail(profileData.email)}</span>
                     </div>
                   </div>
                   {/* <div className="security_email_content">
@@ -399,95 +363,29 @@ setSiteLoader(false);
                    
                   </div>
                 </div> */}
-                  <div className="security_email_content">
-                    <div className="security_email_item">
-                      <img src={require("../assets/icons/2fa.webp")} />
-
-                      <div className="">
-                        <h3>2FA</h3>
-                        <p>{t("use2faToProtectYourAccount")}</p>
-                      </div>
-                    </div>
-                    <div className="secneww_diiv">
-                      {tfaDetails == 0 ? (
-                        <div className="disabled_text ">
-                          <p>
-                            <span className="text-lightGrey nowra_txt">
-                              {" "}
-                              <i class="ri-close-circle-fill"></i>{" "}
-                              {t("disabled")}{" "}
-                            </span>
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="">
-                          <p>
-                            <span className="text-lightGrey nowra_txt">
-                              {" "}
-                              <i
-                                class="ri-checkbox-circle-fill"
-                                style={{ color: "#22b477" }}
-                              ></i>{" "}
-                              {t("enabled")}{" "}
-                            </span>
-                          </p>
-                        </div>
-                      )}
-                      {tfaDetails == 0 ? (
-                        <div className="enable_btn">
-                          <Link to="/enabletfa">
-                            <button>{t("enable")}</button>
-                          </Link>
-                        </div>
-                      ) : (
-                        <div className="disable_btn">
-                          <Link to="/enabletfa">
-                            <button>{t("disable")}</button>
-                          </Link>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="two_fa_heading">{t("advancedSecurity")}</div>
-                  <div className="security_email_content">
-                    <div className="security_email_item">
+                  <div className="flex flex-col gap-4 rounded-2xl bg-[#18191D] mb-4 border border-gray shadow-xl p-5 sm:flex-row sm:justify-between sm:items-center">
+                    <div className="flex items-start gap-4">
                       <img
-                        src={require("../assets/icons/anti_phishing_icon.webp")}
+                        src={require("../assets/icons/2fa.webp")}
+                        alt="2FA"
+                        className="h-10 w-10 rounded-3xl bg-slate-800 p-2"
                       />
 
-                      <div className="">
-                        <div className="d-flex gap-3 align-items-center">
-                          <h3>{t("antiPhisingCode")}</h3>
-                          <div className="mb-2">
-                            {antiStatus == 1 && (
-                              <Switch
-                                checked={checked}
-                                onChange={handleChange}
-                                onColor="#ffc630" // Color inside the switch when on
-                                offColor="#fa5d72" // Color inside the switch when off
-                                handleDiameter={14} // Diameter of the switch handle (button)
-                                height={19} // Height of the switch
-                                width={33} // Width of the switch
-                                uncheckedIcon={false} // No icon when off
-                                checkedIcon={false} // No icon when on
-                                handleStyle={{
-                                  boxShadow: "none", // This removes the glow or shadow around the handle
-                                  backgroundColor: "white", // Ensure the handle is white
-                                }}
-                              />
-                            )}
-                          </div>
-                        </div>
-                        <p>{t("displayedInEmailsFromPitikliniToSafeguard")}</p>
+                      <div className="text-[12px] text-secondary">
+                        <h3 className="text-[16px] font-semibold text-primary">
+                          2FA
+                        </h3>
+                        <p className="text-[12px] text-secondary">
+                          {t("use2faToProtectYourAccount")}
+                        </p>
                       </div>
                     </div>
-                    <div className="secneww_diiv">
-                      {antiStatus == 0 || checked == false ? (
-                        <div className="">
+                    <div className="flex flex-col items-start gap-3 sm:items-end">
+                      {tfaDetails == 0 ? (
+                        <div className="text-slate-200">
                           <p>
-                            {" "}
-                            <span className="text-lightGrey nowra_txt">
-                              <i class="ri-close-circle-fill"></i>{" "}
+                            <span className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-[12px] text-secondary">
+                              <i className="ri-close-circle-fill text-rose-400" />
                               {t("disabled")}
                             </span>
                           </p>
@@ -495,55 +393,115 @@ setSiteLoader(false);
                       ) : (
                         <div className="">
                           <p>
-                            {" "}
-                            <span className="text-lightGrey nowra_txt">
-                              {" "}
-                              <i
-                                class="ri-checkbox-circle-fill"
-                                style={{ color: "#22b477" }}
-                              ></i>{" "}
+                            <span className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-[12px] text-secondary">
+                              <i className="ri-checkbox-circle-fill text-emerald-400" />
                               {t("enabled")}
                             </span>
                           </p>
                         </div>
                       )}
-                      {antiStatus == 0 ? (
-                        <div className="enable_btn">
-                          <Link to="/anti-phishing">
-                            <button>{t("enable")}</button>
-                          </Link>
-                        </div>
+                      {tfaDetails == 0 ? (
+                        <Link to="/enabletfa">
+                          <button className="rounded-2xl bg-primary px-4 py-3 text-[12px] font-semibold text-slate-950 transition hover:bg-amber-300">
+                            {t("enable")}
+                          </button>
+                        </Link>
                       ) : (
-                        // <div className="disable_btn">
-                        <div className="enable_btn">
-                          <Link to="/anti-phishing">
-                            <button>{t("change")}</button>
-                          </Link>
-                        </div>
+                        <Link to="/enabletfa">
+                          <button className="rounded-2xl bg-primary px-4 py-3 text-[12px] font-semibold text-slate-950 transition hover:bg-amber-300">
+                            {t("disable")}
+                          </button>
+                        </Link>
                       )}
                     </div>
                   </div>
-                  <div className="two_fa_heading">
-                    {t("passwordManagement")}
+                  <div className="text-[18px] font-semibold text-primary mb-4">
+                    {t("advancedSecurity")}
                   </div>
-                  <div className="security_email_content">
-                    <div className="security_email_item">
-                      <img
-                        src={require("../assets/icons/login_password_icon.webp")}
-                      />
-
+                  <div className="flex flex-col gap-4 rounded-2xl mb-4 bg-[#18191D] border border-gray shadow-xl p-5 sm:flex-row sm:justify-between sm:items-center">
+                    <div className="flex items-start gap-4">
+                      <div className="grid h-12 w-12 place-items-center rounded-3xl bg-slate-800">
+                        <img
+                          src={require("../assets/icons/anti_phishing_icon.webp")}
+                          alt="Anti-phishing"
+                          className="h-6 w-6"
+                        />
+                      </div>
                       <div>
-                        <h3>{t("loginPassword")}</h3>
-                        <p>{t("loginPasswordIsUsedToLogin")}</p>
+                        <h3 className="text-[16px] font-semibold text-primary">
+                          {t("antiPhisingCode")}
+                        </h3>
+                        <p className="mt-1 text-[12px] text-secondary">
+                          {t("displayedInEmailsFromPitikliniToSafeguard")}
+                        </p>
                       </div>
                     </div>
-
-                    <div className="enable_btn">
-                      <Link to="/security_change">
-                        {" "}
-                        <button>{t("change")}</button>
-                      </Link>
+                    <div className="flex flex-col gap-4 items-start sm:items-end">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-[12px] text-secondary">
+                        {antiStatus == 0 || checked == false ? (
+                          <span className="inline-flex items-center gap-2 text-rose-400 text-[12px]">
+                            <i className="ri-close-circle-fill" />
+                            {t("disabled")}
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-2 text-emerald-400 text-[12px]">
+                            <i className="ri-checkbox-circle-fill" />
+                            {t("enabled")}
+                          </span>
+                        )}
+                      </span>
+                      <div className="flex items-center gap-3">
+                        {antiStatus == 1 && (
+                          <Switch
+                            checked={checked}
+                            onChange={handleChange}
+                            onColor="#ffc630"
+                            offColor="#fa5d72"
+                            handleDiameter={14}
+                            height={19}
+                            width={33}
+                            uncheckedIcon={false}
+                            checkedIcon={false}
+                            handleStyle={{
+                              boxShadow: "none",
+                              backgroundColor: "white",
+                            }}
+                          />
+                        )}
+                        <Link to="/anti-phishing">
+                          <button className="rounded-2xl bg-primary px-4 py-3 text-[12px] font-semibold text-slate-950 transition hover:bg-amber-300">
+                            {antiStatus == 0 ? t("enable") : t("change")}
+                          </button>
+                        </Link>
+                      </div>
                     </div>
+                  </div>
+                  <div className="text-[18px] font-semibold text-primary mb-4">
+                    {t("passwordManagement")}
+                  </div>
+                  <div className="flex flex-col gap-4 rounded-2xl mb-4 bg-[#18191D] border border-gray shadow-xl p-5 sm:flex-row sm:justify-between sm:items-center">
+                    <div className="flex items-start gap-4">
+                      <div className="grid h-12 w-12 place-items-center rounded-3xl bg-slate-800">
+                        <img
+                          src={require("../assets/icons/login_password_icon.webp")}
+                          alt="Password"
+                          className="h-6 w-6"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="text-[16px] font-semibold text-primary">
+                          {t("loginPassword")}
+                        </h3>
+                        <p className="mt-1 text-[12px] text-secondary">
+                          {t("loginPasswordIsUsedToLogin")}
+                        </p>
+                      </div>
+                    </div>
+                    <Link to="/security_change">
+                      <button className="rounded-2xl bg-primary px-4 py-3 text-[12px] font-semibold text-slate-950 transition hover:bg-amber-300">
+                        {t("change")}
+                      </button>
+                    </Link>
                   </div>
 
                   {/* <div className="two_fa_heading">Account Management</div>
@@ -568,9 +526,9 @@ setSiteLoader(false);
               </div>
             </div>
           </div>
-        </main>
+        </section>
       )}
-    </>
+    </DashboardLayout>
   );
 };
 

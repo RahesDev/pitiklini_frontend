@@ -14,8 +14,8 @@ import countryList from "react-select-country-list";
 import { env } from "../core/service/envconfig";
 import WARNICON from "../assets/icons/withdraw-warn.webp";
 import { useTranslation } from "react-i18next";
-import { loadStripe } from '@stripe/stripe-js';
-
+import { loadStripe } from "@stripe/stripe-js";
+import DashboardLayout from "./DashboardLayout";
 const colourStyles = {
   control: (styles, { isFocused }) => ({
     ...styles,
@@ -69,7 +69,7 @@ const Dashboard = () => {
   const [levelFirst, setLevelFirst, levelFirstref] = useState(true);
   const [levelScndstart, setLevelScndstart, levelScndstartref] =
     useState(false);
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [levelThird, setLevelThird, levelThirdref] = useState(false);
   const [levelFourth, setLevelFourth, levelFourthref] = useState(false);
@@ -127,7 +127,9 @@ const Dashboard = () => {
 
   const today = new Date().toISOString().split("T")[0];
 
-  const stripePromise = loadStripe('pk_live_51RCmRZCX9Vm8QfmZDqzEYziJsLICEAaA55U1r0Gr7N6ogsz2XdXXb3bdLgPqJlpMNNK3v5jC7oWmxjpgHcNhpHEZ00htcHaKJ2');
+  const stripePromise = loadStripe(
+    "pk_live_51RCmRZCX9Vm8QfmZDqzEYziJsLICEAaA55U1r0Gr7N6ogsz2XdXXb3bdLgPqJlpMNNK3v5jC7oWmxjpgHcNhpHEZ00htcHaKJ2",
+  );
 
   const [stripe, setStripe] = useState(null);
 
@@ -247,21 +249,21 @@ const Dashboard = () => {
       });
     }
   };
-  
+
   // const startVerification = async () => {
   //   try {
   //     setLoading(true);
-  
+
   //     const response = await postMethod(apiService.kycStripe, {});
-  
+
   //     if (response?.url) {
   //       console.log("Redirecting to verification URL:", response.url);
   //       window.location.href = response.url;
   //       return;
   //     }
-  
+
   //     console.warn("No URL received from the server:", response);
-  
+
   //   } catch (error) {
   //     console.error("Error in verification:", error.message);
   //   } finally {
@@ -269,12 +271,10 @@ const Dashboard = () => {
   //   }
   // };
 
-
-  //last one---
   // const startVerification = async () => {
   //   try {
   //     setLoading(true);
-  
+
   //     const data = { apiUrl: apiService.kycStripe };
   //     const response = await postMethod(data);
   //     console.log("Response:", response);
@@ -291,84 +291,50 @@ const Dashboard = () => {
   //   }
   // };
 
-const startVerification = () => {
-const userId = getKYCData?._id;
+  const startVerification = () => {
+    const userId = getKYCData?._id;
     if (!userId) {
       toast.error("User not found");
       return;
     }
-  
+
     const redirectUrl = encodeURIComponent("https://pitiklini.com/kyc");
 
-   const url = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}&redirect_url=${redirectUrl}`;
+    const url = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}&redirect_url=${redirectUrl}`;
 
-   window.open(url, "_blank");
+    window.open(url, "_blank");
 
-  // window.location.href = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}`;
+    // window.location.href = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}`;
     // window.open(
     //   `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}`,
     //   "_blank",
     // );
-};
-  
-const startVerificationLast = async () => {
-  try {
-    setLoading(true);
-
-    const res = await postMethod({
-      apiUrl: "kyc/get-widget-token",
-    });
-    console.log("Widget Token:", res);
-
-    const token = res?.token;
-
-    if (!token) {
-      toast.error("Failed to start verification");
-      return;
-    }
-
-    if (!window.DepasifyWidget) {
-      toast.error("KYC widget not loaded");
-      return;
-    }
-
-    window.DepasifyWidget.open({
-      token,
-      scenario: "kyc_only",
-    });
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
-  
+  };
 
   // const startVerification = async () => {
   //   try {
-  //     setLoading(true); 
-  
-  //     const apiUrl = apiService.kycStripe; 
+  //     setLoading(true);
+
+  //     const apiUrl = apiService.kycStripe;
   //     console.log("API URL:", apiUrl);
-  
-  //     const response = await postMethod(apiUrl);  
+
+  //     const response = await postMethod(apiUrl);
   //     console.log("Response:", response);
-  
+
   //     if (response?.url) {
   //       console.log("Redirecting to Stripe verification page...");
-  //       window.location.href = response.url;  
+  //       window.location.href = response.url;
   //       return;
   //     }
-  
+
   //     console.error("Error: No verification URL received from API");
-      
+
   //   } catch (error) {
   //     console.error("Error in verification:", error);
   //   } finally {
-  //     setLoading(false);  
+  //     setLoading(false);
   //   }
   // };
-  
 
   const handleDocumentTypeChange = (event) => {
     // const updatedFormValue = {
@@ -560,7 +526,7 @@ const startVerificationLast = async () => {
         fileExtension != "jpeg"
       ) {
         showerrorToast(
-          "File does not support. You must use .png or .webp or .jpeg "
+          "File does not support. You must use .png or .webp or .jpeg ",
         );
       } else if (fileSize > 10000000) {
         showerrorToast("Please upload a file smaller than 1 MB");
@@ -568,15 +534,15 @@ const startVerificationLast = async () => {
         type == "DocumentFront"
           ? setidproofLoad(true)
           : type == "DocumentBack"
-          ? setaddressProofLoad(true)
-          : setSelfieProofLoad(true);
+            ? setaddressProofLoad(true)
+            : setSelfieProofLoad(true);
         const data = new FormData();
         data.append("file", val);
         data.append("upload_preset", env.upload_preset);
         data.append("cloud_name", env.cloud_name);
         fetch(
           "https://api.cloudinary.com/v1_1/" + env.cloud_name + "/auto/upload",
-          { method: "post", body: data }
+          { method: "post", body: data },
         )
           .then((resp) => resp.json())
           .then((data) => {
@@ -708,39 +674,31 @@ const startVerificationLast = async () => {
 
   return (
     <>
-      <section>
-        <Header />
-      </section>
-
-      {siteLoader == true ? (
-        <div className="loadercss">
-          <Bars
-            height="80"
-            width="80"
-            color="#bd7f10"
-            ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      ) : (
-        <main className="dashboard_main">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-lg-2 col-md-0 padlef_0_col">
-                <Side_bar />
-              </div>
-
-              <div className="col-lg-10 col-md-12 padin_lefrig_dash">
-                <section className="asset_section">
+      <DashboardLayout>
+        {siteLoader == true ? (
+          <div className="loadercss">
+            <Bars
+              height="80"
+              width="80"
+              color="#bd7f10"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        ) : (
+          <section className="asset_section">
+            <div className="buy_head">
+              <div className="w-full">
+                <div className="bg-black rounded-xl p-4">
                   {kycStatus == "Active" ? (
                     <>
-                      <div className="row">
-                        <div className="identification_title">
-                          {t("identification")}
-                        </div>
-                        <div className="col-lg-7">
+                      <div className="identification_title">
+                        {t("identification")}
+                      </div>
+                      <div className="flex flex-col lg:flex-row gap-4 ">
+                        <div className="w-full lg:w-7/12 ">
                           {getKYCData.kycstatus == 3 ? (
                             <div className="reject-box">
                               <span>
@@ -947,7 +905,7 @@ const startVerificationLast = async () => {
                                       <button
                                         className="action_btn opt-nowrap w-100"
                                         type="button"
-                                        disabled={loading} 
+                                        disabled={loading}
                                         onClick={startVerification}
                                       >
                                         {loading ? (
@@ -968,164 +926,162 @@ const startVerificationLast = async () => {
                         </div>
 
                         {/* FAQ */}
-                        <div className="col-lg-5">
-                          <div>
-                            <div className="container-lg">
-                              <div
-                                class="accordion accordion-flush"
-                                id="accordionFlushExample"
-                              >
-                                <div className="faq mt-5">
-                                  <h5 className="faq-title">{t("FAQ")}</h5>
-                                  <div class="accordion-item font-satoshi">
-                                    <h2
-                                      class="accordion-header"
-                                      id="flush-headingOne"
-                                    >
-                                      <button
-                                        class="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseOne"
-                                        aria-expanded="false"
-                                        aria-controls="flush-collapseOne"
-                                      >
-                                        1. {t("whyisKYCverificationrequired")}
-                                      </button>
-                                    </h2>
-                                    <div
-                                      id="flush-collapseOne"
-                                      class="accordion-collapse collapse"
-                                      aria-labelledby="flush-headingOne"
-                                      data-bs-parent="#accordionFlushExample"
-                                    >
-                                      <div class="accordion-body">
-                                        {t("KYCverification")}
-                                      </div>
-                                    </div>
+                        <div className="w-full lg:w-5/12 py-12 ">
+                          {/* <div className="container-lg"> */}
+                          <div
+                            class="accordion accordion-flush"
+                            id="accordionFlushExample"
+                          >
+                            <div className="faq">
+                              <h5 className="faq-title">{t("FAQ")}</h5>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingOne"
+                                >
+                                  <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseOne"
+                                  >
+                                    1. {t("whyisKYCverificationrequired")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseOne"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingOne"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("KYCverification")}
                                   </div>
-                                  <div class="accordion-item font-satoshi">
-                                    <h2
-                                      class="accordion-header"
-                                      id="flush-headingTwo"
-                                    >
-                                      <button
-                                        class="accordion-button collapsed max-wrap"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseTwo"
-                                        aria-expanded="false"
-                                        aria-controls="flush-collapseTwo"
-                                      >
-                                        2. {t("whatdocuments")}
-                                      </button>
-                                    </h2>
-                                    <div
-                                      id="flush-collapseTwo"
-                                      class="accordion-collapse collapse"
-                                      aria-labelledby="flush-headingTwo"
-                                      data-bs-parent="#accordionFlushExample"
-                                    >
-                                      <div class="accordion-body">
-                                        {t("youwillneedto")}
-                                      </div>
-                                    </div>
+                                </div>
+                              </div>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingTwo"
+                                >
+                                  <button
+                                    class="accordion-button collapsed max-wrap"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTwo"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseTwo"
+                                  >
+                                    2. {t("whatdocuments")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseTwo"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingTwo"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("youwillneedto")}
                                   </div>
-                                  <div class="accordion-item font-satoshi">
-                                    <h2
-                                      class="accordion-header"
-                                      id="flush-headingThree"
-                                    >
-                                      <button
-                                        class="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseThree"
-                                        aria-expanded="false"
-                                        aria-controls="flush-collapseThree"
-                                      >
-                                        3. {t("howlongdoes")}
-                                      </button>
-                                    </h2>
-                                    <div
-                                      id="flush-collapseThree"
-                                      class="accordion-collapse collapse"
-                                      aria-labelledby="flush-headingThree"
-                                      data-bs-parent="#accordionFlushExample"
-                                    >
-                                      <div class="accordion-body">
-                                        {t("theverificationprocess")}
-                                      </div>
-                                    </div>
+                                </div>
+                              </div>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingThree"
+                                >
+                                  <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseThree"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseThree"
+                                  >
+                                    3. {t("howlongdoes")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseThree"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingThree"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("theverificationprocess")}
                                   </div>
-                                  <div class="accordion-item font-satoshi">
-                                    <h2
-                                      class="accordion-header"
-                                      id="flush-headingFour"
-                                    >
-                                      <button
-                                        class="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseFour"
-                                        aria-expanded="false"
-                                        aria-controls="flush-collapseFour"
-                                      >
-                                        4. {t("ismypersonal")}
-                                      </button>
-                                    </h2>
-                                    <div
-                                      id="flush-collapseFour"
-                                      class="accordion-collapse collapse"
-                                      aria-labelledby="flush-headingFour"
-                                      data-bs-parent="#accordionFlushExample"
-                                    >
-                                      <div class="accordion-body">
-                                        {t("yesweuseencryption")}
-                                      </div>
-                                    </div>
+                                </div>
+                              </div>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingFour"
+                                >
+                                  <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseFour"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseFour"
+                                  >
+                                    4. {t("ismypersonal")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseFour"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingFour"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("yesweuseencryption")}
                                   </div>
-                                  <div class="accordion-item font-satoshi">
-                                    <h2
-                                      class="accordion-header"
-                                      id="flush-headingFive"
-                                    >
-                                      <button
-                                        class="accordion-button collapsed max-wrap"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseFive"
-                                        aria-expanded="false"
-                                        aria-controls="flush-collapseFive"
-                                      >
-                                        5. {t("whatshouldI")}
-                                      </button>
-                                    </h2>
-                                    <div
-                                      id="flush-collapseFive"
-                                      class="accordion-collapse collapse"
-                                      aria-labelledby="flush-headingFive"
-                                      data-bs-parent="#accordionFlushExample"
-                                    >
-                                      <div class="accordion-body">
-                                        {t("ifyourverification")}
-                                      </div>
-                                    </div>
+                                </div>
+                              </div>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingFive"
+                                >
+                                  <button
+                                    class="accordion-button collapsed max-wrap"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseFive"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseFive"
+                                  >
+                                    5. {t("whatshouldI")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseFive"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingFive"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("ifyourverification")}
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
+                          {/* </div> */}
                         </div>
                       </div>
                     </>
                   ) : (
-                    <div className="row">
+                    <>
                       <div className="identification_title">
                         {t("identification")}
                       </div>
-                      <div className="col-lg-7">
-                        <div className="deposit mt-5 h-100">
+                      <div className="flex flex-col lg:flex-row gap-4 ">
+                        <div className="w-full lg:w-7/12">
                           <div className="dep-kyc">
                             <div className="dep-kyc-head">
                               <img
@@ -1166,319 +1122,316 @@ const startVerificationLast = async () => {
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* FAQ */}
-                      <div className="col-lg-5">
-                        <div>
-                          <div className="container">
-                            <div
-                              class="accordion accordion-flush"
-                              id="accordionFlushExample"
-                            >
-                              <div className="faq mt-5">
-                                <h5 className="faq-title">{t("FAQ")}</h5>
-                                <div class="accordion-item font-satoshi">
-                                  <h2
-                                    class="accordion-header"
-                                    id="flush-headingOne"
+                        {/* FAQ */}
+                        <div className="w-full lg:w-5/12  py-12   ">
+                          {/* <div className="container"> */}
+                          <div
+                            class="accordion accordion-flush"
+                            id="accordionFlushExample"
+                          >
+                            <div className="faq">
+                              <h5 className="faq-title">{t("FAQ")}</h5>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingOne"
+                                >
+                                  <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseOne"
                                   >
-                                    <button
-                                      class="accordion-button collapsed"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseOne"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseOne"
-                                    >
-                                      1. {t("whyisKYCverificationrequired")}
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseOne"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="flush-headingOne"
-                                    data-bs-parent="#accordionFlushExample"
-                                  >
-                                    <div class="accordion-body">
-                                      {t("KYCverification")}
-                                    </div>
+                                    1. {t("whyisKYCverificationrequired")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseOne"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingOne"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("KYCverification")}
                                   </div>
                                 </div>
-                                <div class="accordion-item font-satoshi">
-                                  <h2
-                                    class="accordion-header"
-                                    id="flush-headingTwo"
+                              </div>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingTwo"
+                                >
+                                  <button
+                                    class="accordion-button collapsed max-wrap"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTwo"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseTwo"
                                   >
-                                    <button
-                                      class="accordion-button collapsed max-wrap"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseTwo"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseTwo"
-                                    >
-                                      2. {t("whatdocuments")}
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseTwo"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="flush-headingTwo"
-                                    data-bs-parent="#accordionFlushExample"
-                                  >
-                                    <div class="accordion-body">
-                                      {t("youwillneedto")}
-                                    </div>
+                                    2. {t("whatdocuments")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseTwo"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingTwo"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("youwillneedto")}
                                   </div>
                                 </div>
-                                <div class="accordion-item font-satoshi">
-                                  <h2
-                                    class="accordion-header"
-                                    id="flush-headingThree"
+                              </div>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingThree"
+                                >
+                                  <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseThree"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseThree"
                                   >
-                                    <button
-                                      class="accordion-button collapsed"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseThree"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseThree"
-                                    >
-                                      3. {t("howlongdoes")}
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseThree"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="flush-headingThree"
-                                    data-bs-parent="#accordionFlushExample"
-                                  >
-                                    <div class="accordion-body">
-                                      {t("theverificationprocess")}
-                                    </div>
+                                    3. {t("howlongdoes")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseThree"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingThree"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("theverificationprocess")}
                                   </div>
                                 </div>
-                                <div class="accordion-item font-satoshi">
-                                  <h2
-                                    class="accordion-header"
-                                    id="flush-headingFour"
+                              </div>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingFour"
+                                >
+                                  <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseFour"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseFour"
                                   >
-                                    <button
-                                      class="accordion-button collapsed"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseFour"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseFour"
-                                    >
-                                      4. {t("ismypersonal")}
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseFour"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="flush-headingFour"
-                                    data-bs-parent="#accordionFlushExample"
-                                  >
-                                    <div class="accordion-body">
-                                      {t("yesweuseencryption")}
-                                    </div>
+                                    4. {t("ismypersonal")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseFour"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingFour"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("yesweuseencryption")}
                                   </div>
                                 </div>
-                                <div class="accordion-item font-satoshi">
-                                  <h2
-                                    class="accordion-header"
-                                    id="flush-headingFive"
+                              </div>
+                              <div class="accordion-item font-satoshi">
+                                <h2
+                                  class="accordion-header"
+                                  id="flush-headingFive"
+                                >
+                                  <button
+                                    class="accordion-button collapsed max-wrap"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseFive"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseFive"
                                   >
-                                    <button
-                                      class="accordion-button collapsed max-wrap"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseFive"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseFive"
-                                    >
-                                      5. {t("whatshouldI")}
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseFive"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="flush-headingFive"
-                                    data-bs-parent="#accordionFlushExample"
-                                  >
-                                    <div class="accordion-body">
-                                      {t("ifyourverification")}
-                                    </div>
+                                    5. {t("whatshouldI")}
+                                  </button>
+                                </h2>
+                                <div
+                                  id="flush-collapseFive"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="flush-headingFive"
+                                  data-bs-parent="#accordionFlushExample"
+                                >
+                                  <div class="accordion-body">
+                                    {t("ifyourverification")}
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
+                          {/* </div> */}
                         </div>
                       </div>
-                    </div>
+                    </>
                   )}
-                </section>
 
-                <div
-                  class="modal fade"
-                  id="exampleModal"
-                  tabindex="-1"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
-                  {levelFirst && (
-                    <div class="modal-dialog modal-dialog-centered modal-md">
-                      <div class="modal-content">
-                        <div class="modal-header lvl-one-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            {t("level1")}{" "}
-                            <span className="mar-lft-2">
-                              {t("verification")}{" "}
-                            </span>
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close btn-close-custom"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
+                  <div
+                    class="modal fade"
+                    id="exampleModal"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    {levelFirst && (
+                      <div class="modal-dialog modal-dialog-centered modal-md">
+                        <div class="modal-content">
+                          <div class="modal-header lvl-one-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                              {t("level1")}{" "}
+                              <span className="mar-lft-2">
+                                {t("verification")}{" "}
+                              </span>
+                            </h1>
+                            <button
+                              type="button"
+                              class="btn-close btn-close-custom"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
 
-                        <div className="modal-not-header">
-                          <div className="modal-notify-content">
-                            {t("tocompletelevel")}
+                          <div className="modal-not-header">
+                            <div className="modal-notify-content">
+                              {t("tocompletelevel")}
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="modal-body personal_verify_body lvl-one-body">
-                          <div className="mar-top-12">
-                            <div className="first_name">
-                              <h4 className="select_id_text">
-                                {t("fullName")}
-                              </h4>
-                              <input
-                                type="text"
-                                placeholder={t("enterYourFullName")}
-                                className="w-100"
-                                maxLength={60}
-                                name="fullname"
-                                value={fullname}
-                                onChange={handleChange}
-                                onKeyDown={handleKeyDown}
-                              />
+                          <div className="modal-body personal_verify_body lvl-one-body">
+                            <div className="mar-top-12">
+                              <div className="first_name">
+                                <h4 className="select_id_text">
+                                  {t("fullName")}
+                                </h4>
+                                <input
+                                  type="text"
+                                  placeholder={t("enterYourFullName")}
+                                  className="w-100"
+                                  maxLength={60}
+                                  name="fullname"
+                                  value={fullname}
+                                  onChange={handleChange}
+                                  onKeyDown={handleKeyDown}
+                                />
+                              </div>
+                              {validationnErr && validationnErr.fullname && (
+                                <p className="errorcss">
+                                  {validationnErr.fullname}
+                                </p>
+                              )}
                             </div>
-                            {validationnErr && validationnErr.fullname && (
-                              <p className="errorcss">
-                                {validationnErr.fullname}
-                              </p>
-                            )}
-                          </div>
-                          <div className="id_number">
-                            <div className="first_name">
-                              <h4 className="select_id_text">{t("DOB")}</h4>
-                              <input
-                                type="date"
-                                name="dob"
-                                max={today}
-                                value={dob}
-                                onChange={handleChange}
-                              />
+                            <div className="id_number">
+                              <div className="first_name">
+                                <h4 className="select_id_text">{t("DOB")}</h4>
+                                <input
+                                  type="date"
+                                  name="dob"
+                                  max={today}
+                                  value={dob}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                              {validationnErr && validationnErr.dob && (
+                                <p className="errorcss">{validationnErr.dob}</p>
+                              )}
                             </div>
-                            {validationnErr && validationnErr.dob && (
-                              <p className="errorcss">{validationnErr.dob}</p>
-                            )}
-                          </div>
-                          <div className="id_number">
-                            <div className="first_name">
-                              <h4 className="select_id_text">
-                                {t("nationality")}
-                              </h4>
-                              <Select
-                                options={options}
-                                value={options.find(
-                                  (option) => option.label === nationality
-                                )}
-                                onChange={handleNationalityChange}
-                                placeholder={t("selectNationality")}
-                                className="kyc_nation"
-                                styles={colourStyles}
-                                components={{ NoOptionsMessage }}
-                              />
+                            <div className="id_number">
+                              <div className="first_name">
+                                <h4 className="select_id_text">
+                                  {t("nationality")}
+                                </h4>
+                                <Select
+                                  options={options}
+                                  value={options.find(
+                                    (option) => option.label === nationality,
+                                  )}
+                                  onChange={handleNationalityChange}
+                                  placeholder={t("selectNationality")}
+                                  className="kyc_nation"
+                                  styles={colourStyles}
+                                  components={{ NoOptionsMessage }}
+                                />
+                              </div>
+                              {validationnErr && validationnErr.nationality && (
+                                <p className="errorcss">
+                                  {validationnErr.nationality}
+                                </p>
+                              )}
                             </div>
-                            {validationnErr && validationnErr.nationality && (
-                              <p className="errorcss">
-                                {validationnErr.nationality}
-                              </p>
-                            )}
-                          </div>
-                          <div className="id_number">
-                            <div className="first_name">
-                              <h4 className="select_id_text">
-                                {t("residentialAddress")}
-                              </h4>
-                              <textarea
-                                maxLength="250"
-                                name="residential"
-                                value={residential}
-                                onChange={handleTextChange}
-                                onKeyDown={handleKeyDown}
-                                placeholder={t("Entertheaddress")}
-                                fluid
-                                rows="3"
-                                className="kyc_address"
-                              />
+                            <div className="id_number">
+                              <div className="first_name">
+                                <h4 className="select_id_text">
+                                  {t("residentialAddress")}
+                                </h4>
+                                <textarea
+                                  maxLength="250"
+                                  name="residential"
+                                  value={residential}
+                                  onChange={handleTextChange}
+                                  onKeyDown={handleKeyDown}
+                                  placeholder={t("Entertheaddress")}
+                                  fluid
+                                  rows="3"
+                                  className="kyc_address"
+                                />
+                              </div>
+                              {validationnErr && validationnErr.residential && (
+                                <p className="errorcss">
+                                  {validationnErr.residential}
+                                </p>
+                              )}
                             </div>
-                            {validationnErr && validationnErr.residential && (
-                              <p className="errorcss">
-                                {validationnErr.residential}
-                              </p>
-                            )}
                           </div>
-                        </div>
 
-                        <div class="modal-footer lvl-one-body">
-                          <button
-                            className="modal_continue_btn"
-                            onClick={Firstsubmit}
-                          >
-                            {t("next")}
-                          </button>
-                          <p className="modal_footer_text mar-top-15">
-                            {t("thisinformationisused")}
-                            <br /> {t("willbekept")}
-                          </p>
+                          <div class="modal-footer lvl-one-body">
+                            <button
+                              className="modal_continue_btn"
+                              onClick={Firstsubmit}
+                            >
+                              {t("next")}
+                            </button>
+                            <p className="modal_footer_text mar-top-15">
+                              {t("thisinformationisused")}
+                              <br /> {t("willbekept")}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {levelScndstart && (
-                    <div class="modal-dialog modal-dialog-centered modal-md">
-                      <div class="modal-content">
-                        <div class="modal-header lvl-one-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            Level - 2{" "}
-                            <span className="mar-lft-2">
-                              {t("verification")}
-                            </span>
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close btn-close-custom"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-not-header">
-                          <div className="modal-notify-content">
-                            {t("pleaseselectadocument")}
+                    {levelScndstart && (
+                      <div class="modal-dialog modal-dialog-centered modal-md">
+                        <div class="modal-content">
+                          <div class="modal-header lvl-one-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                              Level - 2{" "}
+                              <span className="mar-lft-2">
+                                {t("verification")}
+                              </span>
+                            </h1>
+                            <button
+                              type="button"
+                              class="btn-close btn-close-custom"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
-                        </div>
-                        <div className="modal-body lvl-one-body">
-                          {/* <div className="country-content">
+                          <div className="modal-not-header">
+                            <div className="modal-notify-content">
+                              {t("pleaseselectadocument")}
+                            </div>
+                          </div>
+                          <div className="modal-body lvl-one-body">
+                            {/* <div className="country-content">
                                       <h4>Country/Region of Residence</h4>
                                       <PhoneInput
                                         country={"us"}
@@ -1487,379 +1440,385 @@ const startVerificationLast = async () => {
                                         inputStyle={{ width: "100%" }}
                                       />
                                     </div> */}
-                          <h4 className="select_id_text">{t("selecIDType")}</h4>
-                          <div className="seleted_id_type">
-                            <div className="passport">
-                              <img
-                                src={require("../assets/passport_icon.png")}
-                                alt=""
-                              />
-                              <p>{t("passport")}</p>
-                            </div>
+                            <h4 className="select_id_text">
+                              {t("selecIDType")}
+                            </h4>
+                            <div className="seleted_id_type">
+                              <div className="passport">
+                                <img
+                                  src={require("../assets/passport_icon.png")}
+                                  alt=""
+                                />
+                                <p>{t("passport")}</p>
+                              </div>
 
-                            <div class="checkbox-container">
-                              <input
-                                id="custom-passport"
-                                className="input-field regular_checkbox"
-                                type="radio"
-                                name="id-type"
-                                value="Passport" // Set the value to 'Passport'
-                                onChange={handleDocumentTypeChange}
-                                checked={formValue.verfiType === "Passport"}
-                              />
-                              <label htmlFor="custom-passport"></label>
+                              <div class="checkbox-container">
+                                <input
+                                  id="custom-passport"
+                                  className="input-field regular_checkbox"
+                                  type="radio"
+                                  name="id-type"
+                                  value="Passport" // Set the value to 'Passport'
+                                  onChange={handleDocumentTypeChange}
+                                  checked={formValue.verfiType === "Passport"}
+                                />
+                                <label htmlFor="custom-passport"></label>
+                              </div>
                             </div>
-                          </div>
-                          <div className="seleted_id_type">
-                            <div className="passport">
-                              <img
-                                src={require("../assets/passport_icon.png")}
-                                alt=""
-                              />
-                              <p>{t("aadhaarCard")}</p>
-                            </div>
-                            {/* <div className="check_circle">
+                            <div className="seleted_id_type">
+                              <div className="passport">
+                                <img
+                                  src={require("../assets/passport_icon.png")}
+                                  alt=""
+                                />
+                                <p>{t("aadhaarCard")}</p>
+                              </div>
+                              {/* <div className="check_circle">
                                         <i class="ri-checkbox-circle-fill"></i>
                                       </div> */}
-                            <div class="checkbox-container">
-                              <input
-                                id="custom-aadhar"
-                                className="input-field regular_checkbox"
-                                type="radio"
-                                name="id-type"
-                                value="Aadhaar Card" // Set the value to 'Aadhaar Card'
-                                onChange={handleDocumentTypeChange}
-                                checked={formValue.verfiType === "Aadhaar Card"}
-                              />
-                              <label htmlFor="custom-aadhar"></label>
+                              <div class="checkbox-container">
+                                <input
+                                  id="custom-aadhar"
+                                  className="input-field regular_checkbox"
+                                  type="radio"
+                                  name="id-type"
+                                  value="Aadhaar Card" // Set the value to 'Aadhaar Card'
+                                  onChange={handleDocumentTypeChange}
+                                  checked={
+                                    formValue.verfiType === "Aadhaar Card"
+                                  }
+                                />
+                                <label htmlFor="custom-aadhar"></label>
+                              </div>
                             </div>
-                          </div>
-                          <div className="seleted_id_type">
-                            <div className="passport">
-                              <img
-                                src={require("../assets/passport_icon.png")}
-                                alt=""
-                              />
-                              <p>{t("drivingLicense")}</p>
-                            </div>
-                            {/* <div className="check_circle">
+                            <div className="seleted_id_type">
+                              <div className="passport">
+                                <img
+                                  src={require("../assets/passport_icon.png")}
+                                  alt=""
+                                />
+                                <p>{t("drivingLicense")}</p>
+                              </div>
+                              {/* <div className="check_circle">
                                         <i class="ri-checkbox-circle-fill"></i>
                                       </div> */}
-                            <div class="checkbox-container">
-                              <input
-                                id="custom-license"
-                                className="input-field regular_checkbox"
-                                type="radio"
-                                name="id-type"
-                                value="Driving License" // Set the value to 'Driving License'
-                                onChange={handleDocumentTypeChange}
-                                checked={
-                                  formValue.verfiType === "Driving License"
-                                }
-                              />
-                              <label htmlFor="custom-license"></label>
+                              <div class="checkbox-container">
+                                <input
+                                  id="custom-license"
+                                  className="input-field regular_checkbox"
+                                  type="radio"
+                                  name="id-type"
+                                  value="Driving License" // Set the value to 'Driving License'
+                                  onChange={handleDocumentTypeChange}
+                                  checked={
+                                    formValue.verfiType === "Driving License"
+                                  }
+                                />
+                                <label htmlFor="custom-license"></label>
+                              </div>
                             </div>
+                            {documentTypeValidateref.current == true ? (
+                              <p className="errorcss">
+                                {validationnErr.verfiType}
+                              </p>
+                            ) : (
+                              ""
+                            )}
                           </div>
-                          {documentTypeValidateref.current == true ? (
-                            <p className="errorcss">
-                              {validationnErr.verfiType}
+                          <div class="modal-footer lvl-one-body">
+                            <div className="d-flex gap-2">
+                              <button
+                                className="modal_continue_btn"
+                                onClick={secondLvlback}
+                              >
+                                {t("back")}
+                              </button>
+                              <button
+                                className="modal_continue_btn"
+                                onClick={secondFirstsubmit}
+                              >
+                                {t("next")}
+                              </button>
+                            </div>
+                            <p className="modal_footer_text mar-top-15">
+                              {t("thisinformationisused")}
+                              <br /> {t("willbekept")}
                             </p>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div class="modal-footer lvl-one-body">
-                          <div className="d-flex gap-2">
-                            <button
-                              className="modal_continue_btn"
-                              onClick={secondLvlback}
-                            >
-                              {t("back")}
-                            </button>
-                            <button
-                              className="modal_continue_btn"
-                              onClick={secondFirstsubmit}
-                            >
-                              {t("next")}
-                            </button>
                           </div>
-                          <p className="modal_footer_text mar-top-15">
-                            {t("thisinformationisused")}
-                            <br /> {t("willbekept")}
-                          </p>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {levelThird && (
-                    <div class="modal-dialog modal-dialog-centered modal-md">
-                      <div class="modal-content">
-                        <div class="modal-header lvl-one-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            {t("level3")}{" "}
-                            <span className="mar-lft-2">
-                              {t("verification")}
-                            </span>
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close btn-close-custom"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-not-header">
-                          <div className="modal-note-content">
-                            {t("noteOnly")}
+                    {levelThird && (
+                      <div class="modal-dialog modal-dialog-centered modal-md">
+                        <div class="modal-content">
+                          <div class="modal-header lvl-one-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                              {t("level3")}{" "}
+                              <span className="mar-lft-2">
+                                {t("verification")}
+                              </span>
+                            </h1>
+                            <button
+                              type="button"
+                              class="btn-close btn-close-custom"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
-                        </div>
-
-                        <div className="modal-body lvl-one-body">
-                          <div className="mar-top-9">
-                            <div className="first_name">
-                              <h4 className="select_id_text">{t("front")}</h4>
-                              <div className="upload-container">
-                                {idproofLoad == false ? (
-                                  valididproof == 0 ? (
-                                    <>
-                                      <div className="inner_frst_display">
-                                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                                        <p>{t("uploadfront")}</p>
-                                      </div>
-                                    </>
-                                  ) : valididproof == 1 ? (
-                                    <i class="bi bi-file-earmark-bar-graph"></i>
-                                  ) : (
-                                    <img
-                                      src={idproofref.current}
-                                      className="up_im_past"
-                                      alt="National Id Front"
-                                    />
-                                  )
-                                ) : (
-                                  <div className="inner_frst_display">
-                                    <i class="fa-solid fa-spinner fa-spin fa-sm"></i>
-                                  </div>
-                                )}
-
-                                <input
-                                  type="file"
-                                  name="image"
-                                  className="image_upload_kyc"
-                                  onChange={(e) =>
-                                    imageUpload(
-                                      "DocumentFront",
-                                      e.target.files[0]
-                                    )
-                                  }
-                                />
-
-                                {idproofnameref.current == "" ? (
-                                  ""
-                                ) : (
-                                  <div className="mt-2">
-                                    <input
-                                      className="proofs_name w-100"
-                                      disabled
-                                      value={idproofnameref.current}
-                                    ></input>
-                                  </div>
-                                )}
-                              </div>
+                          <div className="modal-not-header">
+                            <div className="modal-note-content">
+                              {t("noteOnly")}
                             </div>
                           </div>
-                          <div className="mar-top-9">
-                            <div className="first_name">
-                              <h4 className="select_id_text">{t("back")}</h4>
-                              <div className="upload-container">
-                                {addressProofLoad == false ? (
-                                  validaddressProof == 0 ? (
-                                    <>
-                                      <div className="inner_frst_display">
-                                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                                        <p>{t("uploadback")}</p>
-                                      </div>
-                                    </>
-                                  ) : validaddressProof == 1 ? (
-                                    <i class="bi bi-file-earmark-bar-graph"></i>
-                                  ) : (
-                                    <img
-                                      src={addressProofref.current}
-                                      className="up_im_past"
-                                      alt="National Id Front"
-                                    />
-                                  )
-                                ) : (
-                                  <div className="inner_frst_display">
-                                    <i class="fa-solid fa-spinner fa-spin fa-sm"></i>
-                                  </div>
-                                )}
-                                <input
-                                  type="file"
-                                  name="image"
-                                  className="image_upload_kyc"
-                                  onChange={(e) =>
-                                    imageUpload(
-                                      "DocumentBack",
-                                      e.target.files[0]
+
+                          <div className="modal-body lvl-one-body">
+                            <div className="mar-top-9">
+                              <div className="first_name">
+                                <h4 className="select_id_text">{t("front")}</h4>
+                                <div className="upload-container">
+                                  {idproofLoad == false ? (
+                                    valididproof == 0 ? (
+                                      <>
+                                        <div className="inner_frst_display">
+                                          <i class="fa-solid fa-cloud-arrow-up"></i>
+                                          <p>{t("uploadfront")}</p>
+                                        </div>
+                                      </>
+                                    ) : valididproof == 1 ? (
+                                      <i class="bi bi-file-earmark-bar-graph"></i>
+                                    ) : (
+                                      <img
+                                        src={idproofref.current}
+                                        className="up_im_past"
+                                        alt="National Id Front"
+                                      />
                                     )
-                                  }
-                                />
-                                {addressproofnameref.current == "" ? (
-                                  ""
-                                ) : (
-                                  <div className="mt-2">
-                                    <input
-                                      className="proofs_name w-100"
-                                      disabled
-                                      value={addressproofnameref.current}
-                                    ></input>
-                                  </div>
-                                )}
+                                  ) : (
+                                    <div className="inner_frst_display">
+                                      <i class="fa-solid fa-spinner fa-spin fa-sm"></i>
+                                    </div>
+                                  )}
+
+                                  <input
+                                    type="file"
+                                    name="image"
+                                    className="image_upload_kyc"
+                                    onChange={(e) =>
+                                      imageUpload(
+                                        "DocumentFront",
+                                        e.target.files[0],
+                                      )
+                                    }
+                                  />
+
+                                  {idproofnameref.current == "" ? (
+                                    ""
+                                  ) : (
+                                    <div className="mt-2">
+                                      <input
+                                        className="proofs_name w-100"
+                                        disabled
+                                        value={idproofnameref.current}
+                                      ></input>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             </div>
+                            <div className="mar-top-9">
+                              <div className="first_name">
+                                <h4 className="select_id_text">{t("back")}</h4>
+                                <div className="upload-container">
+                                  {addressProofLoad == false ? (
+                                    validaddressProof == 0 ? (
+                                      <>
+                                        <div className="inner_frst_display">
+                                          <i class="fa-solid fa-cloud-arrow-up"></i>
+                                          <p>{t("uploadback")}</p>
+                                        </div>
+                                      </>
+                                    ) : validaddressProof == 1 ? (
+                                      <i class="bi bi-file-earmark-bar-graph"></i>
+                                    ) : (
+                                      <img
+                                        src={addressProofref.current}
+                                        className="up_im_past"
+                                        alt="National Id Front"
+                                      />
+                                    )
+                                  ) : (
+                                    <div className="inner_frst_display">
+                                      <i class="fa-solid fa-spinner fa-spin fa-sm"></i>
+                                    </div>
+                                  )}
+                                  <input
+                                    type="file"
+                                    name="image"
+                                    className="image_upload_kyc"
+                                    onChange={(e) =>
+                                      imageUpload(
+                                        "DocumentBack",
+                                        e.target.files[0],
+                                      )
+                                    }
+                                  />
+                                  {addressproofnameref.current == "" ? (
+                                    ""
+                                  ) : (
+                                    <div className="mt-2">
+                                      <input
+                                        className="proofs_name w-100"
+                                        disabled
+                                        value={addressproofnameref.current}
+                                      ></input>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            {uploadErrorref.current == true ? (
+                              <p className="errorcss">
+                                {t("pleaseuploadyour")}{" "}
+                              </p>
+                            ) : (
+                              ""
+                            )}
                           </div>
-                          {uploadErrorref.current == true ? (
-                            <p className="errorcss">{t("pleaseuploadyour")} </p>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div class="modal-footer lvl-one-body">
-                          <div className="d-flex gap-2">
-                            <button
-                              className="modal_continue_btn"
-                              onClick={thirdLvlback}
-                            >
-                              {t("back")}
-                            </button>
-                            <button
-                              className="modal_continue_btn"
-                              onClick={thirdSubmit}
-                            >
-                              {t("next")}
-                            </button>
+                          <div class="modal-footer lvl-one-body">
+                            <div className="d-flex gap-2">
+                              <button
+                                className="modal_continue_btn"
+                                onClick={thirdLvlback}
+                              >
+                                {t("back")}
+                              </button>
+                              <button
+                                className="modal_continue_btn"
+                                onClick={thirdSubmit}
+                              >
+                                {t("next")}
+                              </button>
+                            </div>
+                            <p className="modal_footer_text mar-top-15">
+                              {t("thisinformationisused")}
+                              <br /> {t("willbekept")}
+                            </p>
                           </div>
-                          <p className="modal_footer_text mar-top-15">
-                            {t("thisinformationisused")}
-                            <br /> {t("willbekept")}
-                          </p>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {levelFourth && (
-                    <div class="modal-dialog modal-dialog-centered modal-md">
-                      <div class="modal-content">
-                        <div class="modal-header lvl-one-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            {t("level4")}{" "}
-                            <span className="mar-lft-2">
-                              {t("verification")}
-                            </span>
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close btn-close-custom"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-not-header">
-                          <div className="modal-notify-content">
-                            {t("seuploadacle")}
+                    {levelFourth && (
+                      <div class="modal-dialog modal-dialog-centered modal-md">
+                        <div class="modal-content">
+                          <div class="modal-header lvl-one-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                              {t("level4")}{" "}
+                              <span className="mar-lft-2">
+                                {t("verification")}
+                              </span>
+                            </h1>
+                            <button
+                              type="button"
+                              class="btn-close btn-close-custom"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
-                        </div>
-                        <div className="modal-body lvl-one-body">
-                          <div className="mar-top-9">
-                            <div className="first_name">
-                              <h4 className="select_id_text">
-                                {t("takeaSelfie")}
-                              </h4>
-                              <div className="upload-container">
-                                {SelfieProofLoad == false ? (
-                                  validSelfieProof == 0 ? (
-                                    <>
-                                      <div className="inner_frst_display">
-                                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                                        <p>{t("uploadyourphoto")}</p>
-                                      </div>
-                                    </>
-                                  ) : validSelfieProof == 1 ? (
-                                    <i class="bi bi-file-earmark-bar-graph"></i>
-                                  ) : (
-                                    <img
-                                      src={SelfieProofref.current}
-                                      className="up_im_past"
-                                      alt="National Id Front"
-                                    />
-                                  )
-                                ) : (
-                                  <div className="inner_frst_display">
-                                    <i class="fa-solid fa-spinner fa-spin fa-sm"></i>
-                                  </div>
-                                )}
-
-                                <input
-                                  type="file"
-                                  name="image"
-                                  className="image_upload_kyc"
-                                  onChange={(e) =>
-                                    imageUpload(
-                                      "selfiePhoto",
-                                      e.target.files[0]
-                                    )
-                                  }
-                                />
-                                {Selfieproofnameref.current == "" ? (
-                                  ""
-                                ) : (
-                                  <div className="mt-2">
-                                    <input
-                                      className="proofs_name w-100"
-                                      disabled
-                                      value={Selfieproofnameref.current}
-                                    ></input>
-                                  </div>
-                                )}
-                              </div>
+                          <div className="modal-not-header">
+                            <div className="modal-notify-content">
+                              {t("seuploadacle")}
                             </div>
                           </div>
-                          {selfieErrorref.current == true ? (
-                            <p className="errorcss">{t("pleaseuploadour")}</p>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div class="modal-footer lvl-one-body">
-                          <div className="d-flex gap-2">
-                            <button
-                              className="modal_continue_btn"
-                              onClick={fourthLvlback}
-                            >
-                              {t("back")}
-                            </button>
-                            <button
-                              className="modal_continue_btn"
-                              onClick={formSubmit}
-                            >
-                              {t("submit")}
-                            </button>
+                          <div className="modal-body lvl-one-body">
+                            <div className="mar-top-9">
+                              <div className="first_name">
+                                <h4 className="select_id_text">
+                                  {t("takeaSelfie")}
+                                </h4>
+                                <div className="upload-container">
+                                  {SelfieProofLoad == false ? (
+                                    validSelfieProof == 0 ? (
+                                      <>
+                                        <div className="inner_frst_display">
+                                          <i class="fa-solid fa-cloud-arrow-up"></i>
+                                          <p>{t("uploadyourphoto")}</p>
+                                        </div>
+                                      </>
+                                    ) : validSelfieProof == 1 ? (
+                                      <i class="bi bi-file-earmark-bar-graph"></i>
+                                    ) : (
+                                      <img
+                                        src={SelfieProofref.current}
+                                        className="up_im_past"
+                                        alt="National Id Front"
+                                      />
+                                    )
+                                  ) : (
+                                    <div className="inner_frst_display">
+                                      <i class="fa-solid fa-spinner fa-spin fa-sm"></i>
+                                    </div>
+                                  )}
+
+                                  <input
+                                    type="file"
+                                    name="image"
+                                    className="image_upload_kyc"
+                                    onChange={(e) =>
+                                      imageUpload(
+                                        "selfiePhoto",
+                                        e.target.files[0],
+                                      )
+                                    }
+                                  />
+                                  {Selfieproofnameref.current == "" ? (
+                                    ""
+                                  ) : (
+                                    <div className="mt-2">
+                                      <input
+                                        className="proofs_name w-100"
+                                        disabled
+                                        value={Selfieproofnameref.current}
+                                      ></input>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            {selfieErrorref.current == true ? (
+                              <p className="errorcss">{t("pleaseuploadour")}</p>
+                            ) : (
+                              ""
+                            )}
                           </div>
-                          <p className="modal_footer_text mar-top-15">
-                            {t("thisinformationisused")}
-                            <br /> {t("willbekept")}
-                          </p>
+                          <div class="modal-footer lvl-one-body">
+                            <div className="d-flex gap-2">
+                              <button
+                                className="modal_continue_btn"
+                                onClick={fourthLvlback}
+                              >
+                                {t("back")}
+                              </button>
+                              <button
+                                className="modal_continue_btn"
+                                onClick={formSubmit}
+                              >
+                                {t("submit")}
+                              </button>
+                            </div>
+                            <p className="modal_footer_text mar-top-15">
+                              {t("thisinformationisused")}
+                              <br /> {t("willbekept")}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
 
-                {/* -- Modal 3 Id and face verify--  */}
-                {/* <div
+                  {/* -- Modal 3 Id and face verify--  */}
+                  {/* <div
                 class="modal fade"
                 id="exampleModal"
                 tabindex="-1"
@@ -1920,11 +1879,12 @@ const startVerificationLast = async () => {
                   </div>
                 </div>
               </div> */}
+                </div>
               </div>
             </div>
-          </div>
-        </main>
-      )}
+          </section>
+        )}
+      </DashboardLayout>
     </>
   );
 };

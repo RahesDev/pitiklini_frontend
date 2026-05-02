@@ -6,6 +6,15 @@ import { postMethod } from "../core/service/common.api";
 import apiService from "../core/service/detail";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { Box, Modal } from "@material-ui/core";
+import Pattern from "../assets/svg/Pattern.svg";
+import Pattern1 from "../assets/svg/Pattern-1.svg";
+import Pattern2 from "../assets/svg/Pattern-2.svg";
+import Patternrow from "../assets/svg/Patternrow.svg";
+import Lock from "../assets/svg/lock.svg";
+import EmailIcon from "../assets/svg/email.svg";
+import Verification from "../assets/svg/verification.svg"
+import Tick from "../assets/svg/tick.svg"
 
 const FP = () => {
   const [isEmailSubmitted, setIsEmailSubmitted] = useState(false);
@@ -41,6 +50,12 @@ const FP = () => {
     confirmPasswordValidateref,
   ] = useState(false);
   const [validationnErr1, setvalidationnErr1] = useState("");
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const handleOpenSuccess = () => setIsSuccessModalOpen(true);
+  const handleCloseSuccess = () => {
+    setIsSuccessModalOpen(false);
+    navigate("/login");
+  };
   const [passHide, setPasshide] = useState(false);
   const [inputType, setinputType] = useState("password");
   const [passHidconf, setPasshideconf] = useState(false);
@@ -168,7 +183,9 @@ const FP = () => {
   }, [counter, isEmailSubmitted]);
 
   const handleEmailSubmit = async (e) => {
+    
     e.preventDefault();
+    // setIsEmailSubmitted(true);
     validate(formValue);
     try {
       if (formValue.email != "" && emailValidateref.current == false) {
@@ -199,10 +216,11 @@ const FP = () => {
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    // console.log("Verification code submitted:");
+    // seractiveStatus(true)
+    console.log("Verification code submitted:");
     try {
       if (OTP !== "" && otpErrorref.current == false) {
-        // console.log(OTP, "otp-=-=-");
+       
         var obj = {
           emailOtp: OTP,
           email: formValue.email,
@@ -260,6 +278,7 @@ const FP = () => {
   };
 
   const formSubmitchange = async () => {
+          //  handleOpenSuccess();
     validate1(formValue1);
     if (
       passwordValidateref.current === false &&
@@ -282,7 +301,7 @@ const FP = () => {
       setFormValue1(initialFormValue1);
       if (resp.status == true) {
         showsuccessToast(resp.Message);
-        navigate("/login");
+        handleOpenSuccess();
       } else {
         showerrorToast(resp.Message);
       }
@@ -300,314 +319,458 @@ const FP = () => {
   };
 
   return (
-    <>
-      <section className="Non_fixed_nav">
-        <Header />
-      </section>{" "}
-      <div className="reg_new_backcol">
-        <div className="Verification">
-          <div className="container">
-            <div>
-              <Link to="/login">
-                <h6 className="padfor_new_top">
-                  {" "}
-                  <i className="fa-solid fa-arrow-left-long mr-3"></i> {t('login')}
-                </h6>
-              </Link>
+    <div className="h-screen flex flex-col bg-black text-secondary overflow-hidden font-ibm">
+      <Header />
 
-              <div className="row justify-content-center cards">
-                <div className="col-lg-4">
-                  {activeStatus == false ? (
-                    <>
-                      <span class="heading">{t('forgotPassword')}</span>
-                      {!isEmailSubmitted ? (
-                        <div className="notify">
-                          {t('enteryouremail')}
-                        </div>
-                      ) : (
-                        <div className="notify">
-                          {" "}
-                          {t('wehavesent')}{" "}
-                        </div>
-                      )}
+      <div className="relative flex-1 flex flex-col items-center justify-center overflow-hidden bg-black py-0">
+        {/* Background Patterns */}
+        <img
+          src={Pattern}
+          alt="pattern"
+          className="absolute pointer-events-none opacity-[0.3] top-[87px] left-[-119px] w-[683px] h-[385px]"
+        />
+        <img
+          src={Pattern1}
+          alt="pattern-1"
+          className="absolute pointer-events-none opacity-[0.3] top-[389px] left-[757px] w-[683px] h-[385px]"
+        />
+        <img
+          src={Pattern2}
+          alt="pattern-2"
+          className="absolute pointer-events-none opacity-[0.3] top-[840px] left-[448px] w-[447px] h-[252px] -rotate-90"
+        />
 
-                      <div className="input-groups icons">
-                        <h6 className="input-label">{t('email_label')}</h6>
+        <div className="relative z-10 w-full flex flex-col items-center pt-4 pb-10">
+          <div className="relative z-10 w-[460px] max-w-[95vw] bg-[#111318] rounded-2xl px-6 pb-10 border border-[#1E2028] shadow-xl overflow-hidden font-ibm">
+            {/* Radial Gradient Glow Inside Card (Specific Light Layer) */}
+            <div className="pointer-events-none absolute top-[-301px] left-[-103px] w-[710px] h-[710px] opacity-70 z-0">
+              <div className="w-full h-full rounded-full bg-[radial-gradient(circle,_rgba(189,127,16,0.35)_0%,_rgba(13,15,20,0)_70%)]"></div>
+            </div>
+
+            {/* Back Button */}
+            <button
+              onClick={() => {
+                if (activeStatus === true) {
+                  seractiveStatus(false);
+                } else if (isEmailSubmitted === true) {
+                  setIsEmailSubmitted(false);
+                } else {
+                  navigate("/login");
+                }
+              }}
+              className="absolute top-[24px] left-[16px] w-[78px] h-[38px] border border-primary rounded-[8px] flex items-center justify-center gap-[4px] px-[16px] py-[12px] box-border text-[#B1B5C3] hover:text-white transition z-30"
+            >
+              <span className="text-lg text-secondary">
+                <i className="ri-arrow-left-s-line"></i>
+              </span>
+              <span className="text-sm font-ibm text-secondary">{t("back")}</span>
+            </button>
+
+            {/* Top Gradient Line */}
+            <div className="flex justify-center mb-6">
+              <div
+                className="w-[451px] max-w-full h-[4px] rounded-[21px]"
+                style={{
+                  background:
+                    "linear-gradient(90deg, #191B22 0%, #BD7F10 50%, #191B21 100%)",
+                  WebkitMaskImage:
+                    "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+                  maskImage:
+                    "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+                }}
+              ></div>
+            </div>
+
+            {/* Decorative Logo and Patternrow Overlaid */}
+            <div className="relative flex justify-center items-center h-[73.5px] mb-[30px] mt-16 z-20">
+              <img
+                src={Patternrow}
+                alt="pattern-row"
+                className="w-[343px] h-[42px] max-w-[90vw]"
+              />
+              <img
+                src={isEmailSubmitted ? Verification : Lock}
+                alt="lock"
+                className="absolute w-[73.5px] h-[73.5px]"
+              />
+            </div>
+
+            {/* Welcome Text */}
+            <div className="flex flex-col items-center gap-3 text-center mb-8">
+              <h1 className="text-[24px] font-bold text-secondary">
+                {activeStatus === false ? (
+                  !isEmailSubmitted ? (
+                    t("forgotPassword")
+                  ) : (
+                    t("emailVerificationCodeTitle")
+                  )
+                ) : (
+                  t("resetPassword")
+                )}
+              </h1>
+              <p className="text-[14px] text-[#B1B5C3] max-w-[320px]">
+                {activeStatus === false ? (
+                  !isEmailSubmitted ? (
+                    t("enteryouremail")
+                  ) : (
+                    t("verificationCodeSentMessage")
+                  )
+                ) : (
+                  t("continuetocreateyournewpassword")
+                )}
+              </p>
+            </div>
+
+            {/* Form */}
+            <div className="flex flex-col gap-6">
+              {activeStatus === false ? (
+                !isEmailSubmitted ? (
+                  <>
+                    {/* Email Input Step */}
+                    <div className="relative">
+                      <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
+                        {t("email_label")}
+                      </span>
+
+                      <div
+                        className={`flex items-center bg-[#23262F] border-[1.5px] ${
+                          emailValidateref.current === true
+                            ? "border-red-500"
+                            : "border-primary"
+                        } rounded-[8px] px-4 h-[56px]`}
+                      >
+                        <img
+                          src={EmailIcon}
+                          alt="email"
+                          className="w-[18px] h-[18px] mr-2"
+                        />
+
                         <input
                           type="text"
                           name="email"
                           value={email}
                           maxLength="250"
                           onChange={handleChange}
-                          className="input-field"
-                          placeholder="Enter the email"
-                          disabled={isEmailSubmitted}
+                          className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
                         />
-                        {emailValidateref.current == true ? (
-                          <p className="errorcss"> {validationnErr.email} </p>
-                        ) : (
-                          ""
-                        )}
                       </div>
-                      {isEmailSubmitted && (
-                        <div className="input-groups icons">
-                          <h6 className="input-label">{t('verificationcode')}</h6>
-                          <input
-                            type="number"
-                            name="OTP"
-                            min={1000}
-                            max={9999}
-                            value={OTP}
-                            pattern="\S*"
-                            onKeyDown={(evt) =>
-                              ["e", "E", "+", "-"].includes(evt.key) &&
-                              evt.preventDefault()
-                            }
-                            onChange={handleChangeOtp}
-                            // onChange={(e) => {
-                            //   const value = e.target.value;
-                            //   if (value.length <= 4) {
-                            //     setOTP(value);
-                            //   }
-                            // }}
-                            className="input-field"
-                            placeholder="Enter the code"
-                          />
-                          {otpErrorref.current == true ? (
-                            <p className="errorcss">{t('enteravalidOTP')}</p>
-                          ) : (
-                            ""
-                          )}
-                        </div>
+
+                      {emailValidateref.current === true && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {validationnErr.email}
+                        </p>
+                      )}
+                    </div>
+
+                    <button
+                      disabled={buttonLoader}
+                      onClick={handleEmailSubmit}
+                      className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition disabled:opacity-50"
+                    >
+                      {buttonLoader ? `${t("loading")}...` : t("submit")}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {/* OTP Verification Step */}
+                    <div className="flex flex-col items-center gap-6">
+                      <div className="flex justify-center gap-[12px]">
+                        {[...Array(6)].map((_, index) => (
+                          <div
+                            key={index}
+                            className="w-[48px] h-[48px] bg-primary border-[0.84px] border-primary rounded-[8px] flex items-center justify-center"
+                          >
+                            <input
+                              type="text"
+                              maxLength="1"
+                              className="w-full h-full bg-transparent border-none outline-none text-center text-secondary text-lg font-bold"
+                              value={OTP[index] || ""}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                if (/^[0-9]$/.test(val) || val === "") {
+                                  let newOTP = OTP.split("");
+                                  newOTP[index] = val;
+                                  setOTP(newOTP.join(""));
+                                  // Auto-focus next input
+                                  if (val && index < 5) {
+                                    e.target.parentElement.nextSibling.firstChild.focus();
+                                  }
+                                }
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Backspace" && !OTP[index] && index > 0) {
+                                  e.target.parentElement.previousSibling.firstChild.focus();
+                                }
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+
+                      {otpErrorref.current === true && (
+                        <p className="text-red-500 text-xs text-center">
+                          {t("enteravalidOTP")}
+                        </p>
                       )}
 
-                      <div className="Submit my-4">
-                        {!isEmailSubmitted ? (
-                          <>
-                            {buttonLoader == false ? (
-                              <button onClick={handleEmailSubmit}>
-                                {t('submit')}
-                              </button>
-                            ) : (
-                              <button>{t('loading')} ...</button>
-                            )}
-                          </>
-                        ) : (
-                          <>
-                            {buttonLoader == false ? (
-                              <button onClick={handleResetPassword}>
-                                {t('resetPassword')}
-                              </button>
-                            ) : (
-                              <button>{t('loading')} ...</button>
-                            )}
-                          </>
-                        )}
-                      </div>
-                      {isEmailSubmitted && (
-                        <div className="foot">
-                          <p>
-                            {t('Didnt_code')}
-                            {resendClick == false ? (
-                              <>
-                                {isResendVisible ? (
-                                  <span
-                                    onClick={handleResend}
-                                    className="cursor-pointer"
-                                  >
-                                    <a> {t('resend')}</a>
-                                  </span>
-                                ) : (
-                                  <span className="text-yellow">
-                                    {" "}
-                                    {counter}s
-                                  </span>
-                                )}
-                              </>
-                            ) : (
-                              <i class="fa-solid fa-circle-notch fa-spin text-yellow px-2"></i>
-                            )}
-                          </p>
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <span className="heading">{t('resetPassword')}</span>
+                      <button
+                        disabled={buttonLoader}
+                        onClick={handleResetPassword}
+                        className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition disabled:opacity-50"
+                      >
+                        {buttonLoader ? `${t("loading")}...` : t("resetPassword")}
+                      </button>
 
-                      <div className="notify">
-                        {t('continuetocreateyournewpassword')}
-                      </div>
-                      <div className="input-groups icons">
-                        <h6 className="input-label"> {t('newPassword')}</h6>
-                        <div className="flex_input_posion">
-                          <input
-                            type={inputType}
-                            name="password"
-                            value={password}
-                            minLength={8}
-                            maxLength={15}
-                            // onChange={handleChange1}
-                            onChange={(e) => {
-                              const { value } = e.target;
-                              setFormValue1((prev) => ({
-                                ...prev,
-                                password: value,
-                              }));
-
-                              if (!value) {
-                                setvalidationnErr1((prev) => ({
-                                  ...prev,
-                                  password: "Password is required!",
-                                }));
-                              } else if (
-                                value.length < 8 ||
-                                value.length > 15
-                              ) {
-                                setvalidationnErr1((prev) => ({
-                                  ...prev,
-                                  password:
-                                    "Password should be between 8-15 characters!",
-                                }));
-                              } else if (!value.match(/[a-z]/g)) {
-                                setvalidationnErr1((prev) => ({
-                                  ...prev,
-                                  password:
-                                    "Please enter at least one lowercase character!",
-                                }));
-                              } else if (!value.match(/[A-Z]/g)) {
-                                setvalidationnErr1((prev) => ({
-                                  ...prev,
-                                  password:
-                                    "Please enter at least one uppercase character!",
-                                }));
-                              } else if (!value.match(/[0-9]/g)) {
-                                setvalidationnErr1((prev) => ({
-                                  ...prev,
-                                  password:
-                                    "Please enter at least one numeric character!",
-                                }));
-                              } else if (!value.match(/[!@#$%^&*]/g)) {
-                                setvalidationnErr1((prev) => ({
-                                  ...prev,
-                                  password:
-                                    "Please enter at least one special character!",
-                                }));
-                              } else {
-                                setvalidationnErr1((prev) => {
-                                  const { password, ...rest } = prev;
-                                  return rest;
-                                });
-                              }
-                            }}
-                            className="input-field"
-                            placeholder="Enter new password"
-                          />
-                          {passHide == true ? (
-                            <i
-                              class="fa-regular fa-eye reg_eye"
-                              onClick={() => passwordHide("show")}
-                            ></i>
+                      <div className="text-center text-sm">
+                        <p className="text-[#B1B5C3]">
+                          {t("Didnt_code")}
+                          {resendClick === false ? (
+                            <>
+                              {isResendVisible ? (
+                                <span
+                                  onClick={handleResend}
+                                  className="cursor-pointer text-primary font-medium hover:underline ml-1"
+                                >
+                                  {t("resend")}
+                                </span>
+                              ) : (
+                                <span className="text-primary ml-1">
+                                  {counter}s
+                                </span>
+                              )}
+                            </>
                           ) : (
-                            <i
-                              class="fa-regular fa-eye-slash reg_eye"
-                              onClick={() => passwordHide("hide")}
-                            ></i>
+                            <i className="ri-loader-4-line animate-spin text-primary px-2"></i>
                           )}
-                        </div>
-                        {passwordValidate == true ? (
-                          <p className="errorcss">
-                            {" "}
-                            {validationnErr1.password}{" "}
-                          </p>
-                        ) : (
-                          ""
-                        )}
+                        </p>
                       </div>
-                      <div className="input-groups icons">
-                        <h6 className="input-label">{t('confirmNewPassword')}</h6>
-                        <div className="flex_input_posion">
-                          <input
-                            type={inputTypeconf}
-                            name="confirmPassword"
-                            value={confirmPassword}
-                            minLength={8}
-                            maxLength={15}
-                            // onChange={handleChange1}
-                            onChange={(e) => {
-                              const { value } = e.target;
-                              setFormValue1((prev) => ({
-                                ...prev,
-                                confirmPassword: value,
-                              }));
+                    </div>
+                  </>
+                )
+              ) : (
+                <>
+                  {/* New Password Input */}
+                  <div className="relative">
+                    <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
+                      {t("newPassword")}
+                    </span>
 
-                              // Inline validation for confirmPassword
-                              if (!value) {
-                                setvalidationnErr1((prev) => ({
-                                  ...prev,
-                                  confirmPassword:
-                                    "Confirm password is required!",
-                                }));
-                              } else if (value !== password) {
-                                setvalidationnErr1((prev) => ({
-                                  ...prev,
-                                  confirmPassword:
-                                    "Password and Confirm password does not match",
-                                }));
-                              } else {
-                                setvalidationnErr1((prev) => {
-                                  const { confirmPassword, ...rest } = prev;
-                                  return rest;
-                                });
-                              }
-                            }}
-                            className="input-field"
-                            placeholder="Re-Enter the password"
-                          />
-                          {passHidconf == true ? (
-                            <i
-                              class="fa-regular fa-eye reg_eye"
-                              onClick={() => passwordHideconf("show")}
-                            ></i>
-                          ) : (
-                            <i
-                              class="fa-regular fa-eye-slash reg_eye"
-                              onClick={() => passwordHideconf("hide")}
-                            ></i>
-                          )}
-                        </div>
-                        {confirmPasswordValidate == true ? (
-                          <p className="errorcss">
-                            {" "}
-                            {validationnErr1.confirmPassword}{" "}
-                          </p>
+                    <div
+                      className={`flex items-center bg-[#23262F] border-[1.5px] ${
+                        validationnErr1.password
+                          ? "border-red-500"
+                          : "border-primary"
+                      } rounded-[8px] px-4 h-[56px]`}
+                    >
+                      <i className="ri-lock-2-line text-primary mr-2 text-lg"></i>
+
+                      <input
+                        type={inputType}
+                        name="password"
+                        value={password}
+                        minLength={8}
+                        maxLength={15}
+                        onChange={(e) => {
+                          const { value } = e.target;
+                          setFormValue1((prev) => ({
+                            ...prev,
+                            password: value,
+                          }));
+
+                          if (!value) {
+                            setvalidationnErr1((prev) => ({
+                              ...prev,
+                              password: "Password is required!",
+                            }));
+                          } else if (value.length < 8 || value.length > 15) {
+                            setvalidationnErr1((prev) => ({
+                              ...prev,
+                              password:
+                                "Password should be between 8-15 characters!",
+                            }));
+                          } else if (!value.match(/[a-z]/g)) {
+                            setvalidationnErr1((prev) => ({
+                              ...prev,
+                              password:
+                                "Please enter at least one lowercase character!",
+                            }));
+                          } else if (!value.match(/[A-Z]/g)) {
+                            setvalidationnErr1((prev) => ({
+                              ...prev,
+                              password:
+                                "Please enter at least one uppercase character!",
+                            }));
+                          } else if (!value.match(/[0-9]/g)) {
+                            setvalidationnErr1((prev) => ({
+                              ...prev,
+                              password:
+                                "Please enter at least one numeric character!",
+                            }));
+                          } else if (!value.match(/[!@#$%^&*]/g)) {
+                            setvalidationnErr1((prev) => ({
+                              ...prev,
+                              password:
+                                "Please enter at least one special character!",
+                            }));
+                          } else {
+                            setvalidationnErr1((prev) => {
+                              const { password, ...rest } = prev;
+                              return rest;
+                            });
+                          }
+                        }}
+                        className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
+                      />
+
+                      <div
+                        className="cursor-pointer text-[#777E90] z-20 flex items-center justify-center px-2"
+                        onClick={() => passwordHide(passHide ? "show" : "hide")}
+                      >
+                        {passHide ? (
+                          <i className="ri-eye-line text-primary"></i>
                         ) : (
-                          ""
+                          <i className="ri-eye-off-line text-primary"></i>
                         )}
-                        {/* <img
-                          src={require("../assets/Eye.png")}
-                          width="20px"
-                          className="eyeicons"
-                        /> */}
                       </div>
-                      <div className="Submit my-4">
-                        {buttonLoader == false ? (
-                          <button onClick={formSubmitchange}>
-                            {t('resetPassword')}
-                          </button>
+                    </div>
+
+                    {validationnErr1.password && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {validationnErr1.password}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Confirm Password Input */}
+                  <div className="relative">
+                    <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
+                      {t("confirmNewPassword")}
+                    </span>
+
+                    <div
+                      className={`flex items-center bg-[#23262F] border-[1.5px] ${
+                        validationnErr1.confirmPassword
+                          ? "border-red-500"
+                          : "border-primary"
+                      } rounded-[8px] px-4 h-[56px]`}
+                    >
+                      <i className="ri-lock-2-line text-primary mr-2 text-lg"></i>
+
+                      <input
+                        type={inputTypeconf}
+                        name="confirmPassword"
+                        value={confirmPassword}
+                        minLength={8}
+                        maxLength={15}
+                        onChange={(e) => {
+                          const { value } = e.target;
+                          setFormValue1((prev) => ({
+                            ...prev,
+                            confirmPassword: value,
+                          }));
+
+                          if (!value) {
+                            setvalidationnErr1((prev) => ({
+                              ...prev,
+                              confirmPassword: "Confirm password is required!",
+                            }));
+                          } else if (value !== password) {
+                            setvalidationnErr1((prev) => ({
+                              ...prev,
+                              confirmPassword:
+                                "Password and Confirm password does not match",
+                            }));
+                          } else {
+                            setvalidationnErr1((prev) => {
+                              const { confirmPassword, ...rest } = prev;
+                              return rest;
+                            });
+                          }
+                        }}
+                        className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
+                      />
+
+                      <div
+                        className="cursor-pointer text-[#777E90] z-20 flex items-center justify-center px-2"
+                        onClick={() =>
+                          passwordHideconf(passHidconf ? "show" : "hide")
+                        }
+                      >
+                        {passHidconf ? (
+                          <i className="ri-eye-line text-primary"></i>
                         ) : (
-                          <button>{t('loading')} ...</button>
+                          <i className="ri-eye-off-line text-primary"></i>
                         )}
                       </div>
-                    </>
-                  )}
-                </div>
-              </div>
+                    </div>
+
+                    {validationnErr1.confirmPassword && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {validationnErr1.confirmPassword}
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    disabled={buttonLoader}
+                    onClick={formSubmitchange}
+                    className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition disabled:opacity-50"
+                  >
+                    {buttonLoader ? `${t("loading")}...` : t("resetPassword")}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </>
+
+      {/* Success Modal */}
+      <Modal
+        open={isSuccessModalOpen}
+        onClose={handleCloseSuccess}
+        aria-labelledby="password-changed-modal"
+        className="flex items-center justify-center"
+      >
+        <Box className="outline-none">
+          <div className="w-[400px] h-[348px] bg-[#111318] border border-[#1E2028] rounded-[16px] p-[24px] flex flex-col items-center justify-center text-center gap-[40px] font-ibm shadow-2xl relative overflow-hidden">
+            {/* Background Glow inside modal */}
+            <div className="pointer-events-none absolute top-[-150px] left-1/2 -translate-x-1/2 w-[300px] h-[300px] opacity-40 z-0">
+              <div className="w-full h-full rounded-full bg-[radial-gradient(circle,_rgba(189,127,16,0.35)_0%,_rgba(13,15,20,0)_70%)]"></div>
+            </div>
+
+            {/* Success Icon */}
+            <div className="relative z-10">
+              <div className="w-[80px] h-[80px] bg-primary/20 rounded-full flex items-center justify-center">
+                <img
+                          src={Tick}
+                          alt="tick"
+                          className="w-[80px] h-[80px] "
+                        />
+              </div>
+            </div>
+
+            {/* Text Content */}
+            <div className="relative z-10 flex flex-col gap-2">
+              <h2 className="text-[24px] font-bold text-primary">
+                {t("passwordChangedSuccessful")}
+              </h2>
+              <p className="text-[14px] text-[#B1B5C3] leading-relaxed px-4">
+                {t("passwordChangedSubheading")}
+              </p>
+            </div>
+
+            {/* Login Button */}
+            <button
+              onClick={handleCloseSuccess}
+              className="relative z-10 w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition shadow-lg"
+            >
+              {t("login")}
+            </button>
+          </div>
+        </Box>
+      </Modal>
+    </div>
   );
 };
 

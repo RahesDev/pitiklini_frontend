@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import Moment from "moment";
 import { getAuthToken } from "../core/lib/localStorage";
 import { setAuthorization } from "../core/service/axios";
+import DashboardLayout from "./DashboardLayout";
 const Dashboard = () => {
   useEffect(() => {
     let token_socket = sessionStorage.getItem("user_token");
@@ -111,9 +112,9 @@ const Dashboard = () => {
           resp.Message.AntiphisingEnabledStatus == 0
             ? "Low"
             : resp.Message.tfastatus == 0 ||
-              resp.Message.AntiphisingEnabledStatus == 0
-            ? "Medium"
-            : "High";
+                resp.Message.AntiphisingEnabledStatus == 0
+              ? "Medium"
+              : "High";
         setprofileDataLevel(lvelDidct);
         sessionStorage.setItem("tfa_status", resp.Message.tfastatus);
         setSiteLoader(false);
@@ -126,20 +127,20 @@ const Dashboard = () => {
     }
   };
 
-    const getvipuser = async () => {
-          try {
-            var data = {
-              apiUrl: apiService.getVipUserDetail,
-            };
-            setSiteLoader(true);
-            var resp = await getMethod(data);
-            setSiteLoader(false);
-            if (resp.status) {
-              // console.log(resp, "---resp---");
-               setdataExist(resp.PhishinStatus === "true");
-            }
-          } catch (error) {}
-    }
+  const getvipuser = async () => {
+    try {
+      var data = {
+        apiUrl: apiService.getVipUserDetail,
+      };
+      setSiteLoader(true);
+      var resp = await getMethod(data);
+      setSiteLoader(false);
+      if (resp.status) {
+        // console.log(resp, "---resp---");
+        setdataExist(resp.PhishinStatus === "true");
+      }
+    } catch (error) {}
+  };
 
   const Kycdata = async () => {
     setSiteLoader(true);
@@ -237,7 +238,7 @@ const Dashboard = () => {
     ) {
       const regexPattern = new RegExp(searchref.current, "i");
       const searchWallet = balanceDatas.filter((data) =>
-        regexPattern.test(data.currencysymbol)
+        regexPattern.test(data.currencysymbol),
       );
       // const searchWallet = balanceDatas.filter(data => data.currencysymbol.toLowerCase() === searchref.current.toLowerCase());
       if (searchWallet.length > 0) {
@@ -325,185 +326,217 @@ const Dashboard = () => {
 
   return (
     <>
-      <section>
-        <Header />
-      </section>
+      <DashboardLayout>
+        {siteLoaderref.current == true ? (
+          <div className="loadercss">
+            <Bars
+              height="80"
+              width="80"
+              color="#bd7f10"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        ) : (
+          <div className="w-full">
+            <div className="dashboard_content">
+              {/* <div className="row pad-y-40">
+                    <div className="col-lg-6">
+                      <div className="secuirty_box">
+                        <div className="secuirty_box_title">
+                          <h3>Balance</h3>
+                          <Link to="/assets">
+                            <p className="bln_view">
+                              View <i class="ri-arrow-right-s-line"></i>
+                            </p>
+                          </Link>
+                        </div>
+                        <div className="secuirty_box_content deposit_blc_content">
+                          <div className="login_verify_content">
+                            <h4>Total Balance</h4>
+                            <p className="total_balance_amt">
+                              {AvailablePrice == "" ||
+                              AvailablePrice == null ||
+                              AvailablePrice == undefined
+                                ? 0.0
+                                : AvailablePrice.toFixed(4)}
+                              <span className="usd_text"> USD</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="secuirty_box border_none">
+                        <div className="secuirty_box_title">
+                          <h3>Referral </h3>
+                          <Link to="/refferal">
+                            <p className="bln_view">
+                              Invite Now <i class="ri-arrow-right-s-line"></i>
+                            </p>
+                          </Link>
+                        </div>
+                        <div className="secuirty_box_content refer_content">
+                          <div className="login_verify_content">
+                            <h4>Referral Code</h4>
+                            <p>
+                              {profileData.referralCode}{" "}
+                              <i
+                                class="ri-file-copy-line cursor-pointer mx-2"
+                                onClick={() => copy(profileData.referralCode)}
+                              ></i>
+                            </p>
+                          </div>
+                          <div className="referral_asset">
+                            <img
+                              src={require("../assets/referral_asset.webp")}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div> */}
 
-      {siteLoaderref.current == true ? (
-        <div className="loadercss">
-          <Bars
-            height="80"
-            width="80"
-            color="#bd7f10"
-            ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      ) : (
-        <main className="dashboard_main">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-lg-2 col-md-0 padlef_0_col">
-                <Side_bar />
-              </div>
+              {/* <div className="container dash-btn-flex">
+                    <button className="deposit_btn" onClick={depositNav}>
+                      Deposit
+                    </button>
+                    <button className="withdraw_btn" onClick={withdrawNav}>
+                      Withdrawal
+                    </button>
+                  </div> */}
 
-              <div className="col-lg-10 col-md-12 padin_lefrig_dash">
-                <div className="dashboard_content">
-                  <div className="dash_user_name">
-                    <h3>
-                      {t("hello")} {profileData.displayname}{" "}
-                      {profileData.vipBadge &&
-                        profileData.vipBadge === true &&
+              {/* table */}
+              <div className="w-full">
+                <div className="bg-black rounded-xl p-4 ">
+                  <div className="flex items-center px-8 flex-wrap gap-3">
+                    {/* Left: Name + VIP */}
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-lg text-secondary font-bold">
+                        {t("hello")} {profileData.displayname}
+                      </h3>
+
+                      {profileData.vipBadge === true &&
                         dataExistref.current && (
-                          <span className="vipbge_dhbrd"> [ ⭐VIP ]</span>
+                          <span className="text-yellow-500 text-sm font-medium">
+                            ⭐ VIP
+                          </span>
                         )}
-                    </h3>
-                  </div>
+                    </div>
 
-                  <div className="verified_low_btn">
-                    {getKYCData.kycstatus == 1 ? (
-                      <>
-                        <p className="dash-verified mt-1">
-                          <img
-                            src={require("../assets/icons/verified.webp")}
-                            alt="verify"
-                            x
-                          />{" "}
-                          {t("verifiedProfile")}
-                        </p>
-                      </>
-                    ) : getKYCData.kycstatus == 2 ? (
-                      <>
-                        <p className="verify_medium mt-1">
-                          <i class="ri-error-warning-fill"></i> {t("pending")}
-                        </p>
-                      </>
-                    ) : getKYCData.kycstatus == 3 ? (
-                      <>
-                        <p className="dash-notVerified mt-1">
-                          <img
-                            src={require("../assets/icons/notverify.webp")}
-                            alt="rejected"
-                          />{" "}
-                          {t("rejected")}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="dash-notVerified mt-1">
-                          <img
-                            src={require("../assets/icons/notverify.webp")}
-                            alt="not-verify"
-                          />{" "}
-                          {t("notverified")}
-                        </p>
-                      </>
-                    )}
+                    {/* Right: Status + Security */}
+                    <div className="flex items-center gap-4 flex-wrap">
+                      {/* KYC Status */}
+                      <div className="flex items-center gap-1 text-sm">
+                        {getKYCData.kycstatus == 1 ? (
+                          <span className="flex items-center gap-1 text-green-600">
+                            <img
+                              src={require("../assets/icons/verified.webp")}
+                              className="w-4 h-4"
+                              alt=""
+                            />
+                            {t("verifiedProfile")}
+                          </span>
+                        ) : getKYCData.kycstatus == 2 ? (
+                          <span className="flex items-center gap-1 text-yellow-500">
+                            <i className="ri-error-warning-fill"></i>
+                            {t("pending")}
+                          </span>
+                        ) : getKYCData.kycstatus == 3 ? (
+                          <span className="flex items-center gap-1 text-red-500">
+                            <img
+                              src={require("../assets/icons/notverify.webp")}
+                              className="w-4 h-4"
+                              alt=""
+                            />
+                            {t("rejected")}
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-1 text-gray-500">
+                            <img
+                              src={require("../assets/icons/notverify.webp")}
+                              className="w-4 h-4"
+                              alt=""
+                            />
+                            {t("notverified")}
+                          </span>
+                        )}
+                      </div>
 
-                    {/* <div className="secuirty_box_title mt-0">
-                      {profileDataref.current.tfastatus == 0 &&
-                        profileDataref.current.AntiphisingEnabledStatus == 0 ? (
-                        <>
-                          <p className="verify_fail">
-                            <i class="ri-shield-keyhole-line"></i>
-                            <span className="mx-2">Low</span>
-                          </p>
-                        </>
-                      ) : profileDataref.current.tfastatus == 0 ||
-                          profileDataref.current.AntiphisingEnabledStatus == 0 ? (
-                        <>
-                          <p className="verify_medium">
-                            <i class="ri-shield-keyhole-line"></i>
-                            <span className="mx-2">Medium</span>
-                          </p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="verify_success">
-                            <i class="ri-shield-keyhole-line"></i>
-                            <span className="mx-2">High</span>
-                          </p>
-                        </>
-                      )}
-                    </div> */}
-                    <div className="secuirty_box_title mt-0">
-                      {profileDataLevelref.current == "Low" ? (
-                        <>
-                          <p className="verify_fail">
-                            <i class="ri-shield-keyhole-line"></i>
-                            <span className="mx-2">{t("low")}</span>
-                          </p>
-                        </>
-                      ) : profileDataLevelref.current == "Medium" ? (
-                        <>
-                          <p className="verify_medium">
-                            <i class="ri-shield-keyhole-line"></i>
-                            <span className="mx-2">{t("medium")}</span>
-                          </p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="verify_success">
-                            <i class="ri-shield-keyhole-line"></i>
-                            <span className="mx-2">{t("high")}</span>
-                          </p>
-                        </>
-                      )}
+                      {/* Security Level */}
+                      <div className="flex items-center gap-1 text-sm">
+                        {profileDataLevelref.current === "Low" ? (
+                          <span className="flex items-center gap-1 text-red-500">
+                            <i className="ri-shield-keyhole-line"></i>
+                            {t("low")}
+                          </span>
+                        ) : profileDataLevelref.current === "Medium" ? (
+                          <span className="flex items-center gap-1 text-yellow-500">
+                            <i className="ri-shield-keyhole-line"></i>
+                            {t("medium")}
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-1 text-green-600">
+                            <i className="ri-shield-keyhole-line"></i>
+                            {t("high")}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-
-                  <div className="user_id_card">
-                    <div className="uid_content">
-                      <h4>{t("Name")}</h4>
-                      <p>{profileData.displayname}</p>
-                    </div>
-                    <div className="uid_content">
-                      <h4>{t("email_label")}</h4>
-                      <p>{profileData.email}</p>
-                    </div>
-                    <div className="uid_content">
-                      <Link to="/security">
-                        <h4 className="mb-3">
-                          {t("securityLevel")}{" "}
-                          <i class="ri-arrow-right-s-line"></i>
-                        </h4>
-                      </Link>
-                      {profileDataLevelref.current == "Low" ? (
-                        <>
-                          <p className="verify_fail">{t("low")}</p>
-                        </>
-                      ) : profileDataLevelref.current == "Medium" ? (
-                        <>
-                          <p className="verify_medium">{t("medium")}</p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="verify_success">{t("high")}</p>
-                        </>
-                      )}
-                    </div>
-                    <div className="uid_content">
-                      <h4>{t("SignUpTime")}</h4>
-                      <p>{Moment(profileData.createdDate).format("lll")}</p>
-                    </div>
-                    <div className="uid_content">
-                      <Link to="/loginHistory">
-                        <h4 className="mb-3">
-                          {t("lastSignIn")}{" "}
-                          <i class="ri-arrow-right-s-line"></i>
-                        </h4>
-                      </Link>
-                      <p>{Moment(profileData.lastLogintime).format("lll")}</p>
-                    </div>
-                  </div>
-
                   <div className="row pad-y-40">
                     <div className="col-lg-12">
+                      <div className="user_id_card">
+                        <div className="uid_content">
+                          <h4 className="font-ibm">{t("UID")}</h4>
+                          <p className="font-ibm">{profileData.uuid}</p>
+                        </div>
+                        <div className="uid_content">
+                          <h4 className="font-ibm">{t("email_label")}</h4>
+                          <p className="font-ibm">{profileData.email}</p>
+                        </div>
+                        <div className="uid_content">
+                          <Link to="/security">
+                            <h4 className="mb-3">
+                              {t("securityLevel")}{" "}
+                              <i class="ri-arrow-right-s-line"></i>
+                            </h4>
+                          </Link>
+                          {profileDataLevelref.current == "Low" ? (
+                            <>
+                              <p className="verify_fail">{t("low")}</p>
+                            </>
+                          ) : profileDataLevelref.current == "Medium" ? (
+                            <>
+                              <p className="verify_medium">{t("medium")}</p>
+                            </>
+                          ) : (
+                            <>
+                              <p className="verify_success">{t("high")}</p>
+                            </>
+                          )}
+                        </div>
+                        <div className="uid_content">
+                          <h4>{t("SignUpTime")}</h4>
+                          <p>{Moment(profileData.createdDate).format("lll")}</p>
+                        </div>
+                        <div className="uid_content">
+                          <Link to="/loginHistory">
+                            <h4 className="mb-3">
+                              {t("lastSignIn")}{" "}
+                              <i class="ri-arrow-right-s-line"></i>
+                            </h4>
+                          </Link>
+                          <p>
+                            {Moment(profileData.lastLogintime).format("lll")}
+                          </p>
+                        </div>
+                      </div>
                       <div className="secuirty_box p-0">
                         <div className="secuirty_box_title">
-                          <h3>{t("balance")}</h3>
+                          <h3 className="font-ibm">{t("balance")}</h3>
                           <Link to="/assets">
                             <p className="bln_view">
                               {t("view")} <i class="ri-arrow-right-s-line"></i>
@@ -781,239 +814,158 @@ const Dashboard = () => {
                     </div> */}
                   </div>
 
-                  {/* <div className="row pad-y-40">
-                    <div className="col-lg-6">
-                      <div className="secuirty_box">
-                        <div className="secuirty_box_title">
-                          <h3>Balance</h3>
-                          <Link to="/assets">
-                            <p className="bln_view">
-                              View <i class="ri-arrow-right-s-line"></i>
-                            </p>
-                          </Link>
-                        </div>
-                        <div className="secuirty_box_content deposit_blc_content">
-                          <div className="login_verify_content">
-                            <h4>Total Balance</h4>
-                            <p className="total_balance_amt">
-                              {AvailablePrice == "" ||
-                              AvailablePrice == null ||
-                              AvailablePrice == undefined
-                                ? 0.0
-                                : AvailablePrice.toFixed(4)}
-                              <span className="usd_text"> USD</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                  {/* TOP BAR (KEEP SEARCH) */}
+                  <div className="flex justify-between items-center my-6">
+                    <div className="text-primary text-lg font-bold">
+                      {t("assets")}
                     </div>
-                    <div className="col-lg-6">
-                      <div className="secuirty_box border_none">
-                        <div className="secuirty_box_title">
-                          <h3>Referral </h3>
-                          <Link to="/refferal">
-                            <p className="bln_view">
-                              Invite Now <i class="ri-arrow-right-s-line"></i>
-                            </p>
-                          </Link>
-                        </div>
-                        <div className="secuirty_box_content refer_content">
-                          <div className="login_verify_content">
-                            <h4>Referral Code</h4>
-                            <p>
-                              {profileData.referralCode}{" "}
-                              <i
-                                class="ri-file-copy-line cursor-pointer mx-2"
-                                onClick={() => copy(profileData.referralCode)}
-                              ></i>
-                            </p>
-                          </div>
-                          <div className="referral_asset">
-                            <img
-                              src={require("../assets/referral_asset.webp")}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
 
-                  {/* <div className="container dash-btn-flex">
-                    <button className="deposit_btn" onClick={depositNav}>
-                      Deposit
-                    </button>
-                    <button className="withdraw_btn" onClick={withdrawNav}>
-                      Withdrawal
-                    </button>
-                  </div> */}
-
-                  {/* table */}
-                  <div className="dashboard_table">
-                    <div className="staking-flex dash_assets mar-top-60">
-                      <h5 className="opt-title">{t("assets")}</h5>
-                      <div className="stake-search-container">
-                        <input
-                          type="text"
-                          maxLength={15}
-                          placeholder={t("search")}
-                          className="stake-input"
-                          onChange={handleChange}
-                          onKeyDown={handleKeyDown}
-                        />
-                        <i
-                          className="fa-solid fa-magnifying-glass"
-                          onClick={() => searchWalletList()}
-                        ></i>
-                      </div>
-                    </div>
-                    <div className="table-responsive table-cont dash_table_content">
-                      <table className="table ">
-                        <thead>
-                          <tr className="stake-head">
-                            <th className="p-l-15">{t("assets")}</th>
-                            <th className="table_center_text opt-nowrap txt-center pad-left-23">
-                              {t("onOrders")}
-                            </th>
-                            <th className="table_center_text opt-nowrap txt-center pad-left-23">
-                              {t("availablebalance")}
-                            </th>
-                            <th className="table_center_text opt-nowrap txt-center pad-left-23">
-                              {t("totalBalance")}
-                            </th>
-                            <th className="text-end p-r-25">
-                              {t("actionneww")}
-                            </th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          {balanceDetails && balanceDetails.length > 0 ? (
-                            balanceDetails.map((item, i) => {
-                              return (
-                                <tr key={i}>
-                                  <td className="table-flex">
-                                    <img src={item?.currencyImage} alt="" />
-                                    <div className="table-opt-name">
-                                      <h4 className="opt-name font_14">
-                                        {item?.currencysymbol}
-                                      </h4>
-                                      <h3 className="opt-sub font_14">
-                                        {item?.currencyName}
-                                      </h3>
-                                    </div>
-                                  </td>
-                                  <td className="opt-term font_14 table_center_text pad-left-23">
-                                    {parseFloat(
-                                      item?.holdAmount +
-                                        parseFloat(item?.p2phold),
-                                    ).toFixed(4)}
-                                    {item?.currencysymbol}
-                                  </td>
-                                  <td className="opt-term font_14 table_center_text pad-left-23">
-                                    {parseFloat(
-                                      item?.currencyBalance +
-                                        parseFloat(item?.p2p),
-                                    ).toFixed(4)}{" "}
-                                    {item?.currencysymbol}
-                                  </td>
-                                  <td className="opt-term font_14 table_center_text pad-left-23">
-                                    {parseFloat(
-                                      item?.currencyBalance +
-                                        parseFloat(item?.holdAmount) +
-                                        parseFloat(item?.p2p) +
-                                        parseFloat(item?.p2phold),
-                                    ).toFixed(4)}{" "}
-                                    {item?.currencysymbol}{" "}
-                                  </td>
-                                  <td className="opt-btn-flex text-end pad-left-23">
-                                    <Link
-                                      to="/deposit"
-                                      className="deposit_top_button"
-                                    >
-                                      <button className="action_btn">
-                                        {t("deposit")}
-                                      </button>
-                                    </Link>
-                                  </td>
-                                </tr>
-                              );
-                            })
-                          ) : (
-                            <tr>
-                              <td colSpan={5} className="text-center py-5">
-                                <div className="empty_data">
-                                  <div className="empty_data_img">
-                                    <img
-                                      src={require("../assets/No-data.webp")}
-                                      width="100px"
-                                      alt=""
-                                    />
-                                  </div>
-                                  <div className="no_records_text">
-                                    {t("noAssetsFound")}
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
-
-                      {balanceDetails && balanceDetails.length > 0 ? (
-                        <div className="pagination">
-                          <Stack spacing={2}>
-                            <Pagination
-                              count={Math.ceil(total / recordPerPage)}
-                              page={currentPage}
-                              onChange={handlePageChange}
-                              size="small"
-                              sx={{
-                                "& .MuiPaginationItem-root": {
-                                  color: "#eaecef", // Default text color for pagination items
-                                  // backgroundColor: "#2D1E23",
-                                  // "&:hover": {
-                                  //   backgroundColor: "#453a1f",
-                                  //   color: "#ffc630",
-                                  // },
-                                },
-                                "& .Mui-selected": {
-                                  backgroundColor: "#bd7f10 !important", // Background color for selected item
-                                  color: "#000", // Text color for selected item
-                                  "&:hover": {
-                                    backgroundColor: "#bd7f10",
-                                    color: "#000",
-                                  },
-                                },
-                                "& .MuiPaginationItem-ellipsis": {
-                                  color: "#eaecef", // Color for ellipsis
-                                },
-                                "& .MuiPaginationItem-icon": {
-                                  color: "#eaecef", // Color for icon (if present)
-                                },
-                              }}
-                              // renderItem={(item) => (
-                              //   <PaginationItem
-                              //     slots={{
-                              //       previous: ArrowBackIcon,
-                              //       next: ArrowForwardIcon,
-                              //     }}
-                              //     {...item}
-                              //   />
-                              // )}
-                            />
-                          </Stack>
-                        </div>
-                      ) : (
-                        ""
-                      )}
+                    <div className="flex items-center bg-[#1C1E24] rounded-lg px-3 py-2">
+                      <input
+                        type="text"
+                        maxLength={15}
+                        placeholder={t("search")}
+                        className="bg-transparent outline-none text-sm text-white placeholder:text-gray-400"
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                      />
+                      <i
+                        className="fa-solid fa-magnifying-glass text-gray-400 ml-2 cursor-pointer"
+                        onClick={() => searchWalletList()}
+                      ></i>
                     </div>
                   </div>
+
+                  {/* HEADER */}
+                  <div className="flex items-center bg-[#1C1E24] rounded-lg px-4 py-3 text-primary text-sm">
+                    <div className="flex-1">{t("assets")}</div>
+                    <div className="flex-1 text-center">{t("onOrders")}</div>
+                    <div className="flex-1 text-center">
+                      {t("availablebalance")}
+                    </div>
+                    <div className="flex-1 text-center">
+                      {t("totalBalance")}
+                    </div>
+                    <div className="flex-1 text-end">{t("actionneww")}</div>
+                  </div>
+
+                  {/* BODY */}
+                  <div className="mt-3 flex flex-col gap-3">
+                    {balanceDetails && balanceDetails.length > 0 ? (
+                      balanceDetails.map((item, i) => {
+                        return (
+                          <div
+                            key={i}
+                            className="flex items-center bg-black border border-[#2A2D35] rounded-lg px-4 py-4 hover:bg-[#1C1E24] transition"
+                          >
+                            {/* ASSET */}
+                            <div className="flex-1 flex items-center gap-3">
+                              <img
+                                src={item?.currencyImage}
+                                className="w-8 h-8"
+                              />
+                              <div>
+                                <div className="text-white text-sm font-medium">
+                                  {item?.currencysymbol}
+                                </div>
+                                <div className="text-center text-secondary text-sm font-ibm">
+                                  {item?.currencyName}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* ON ORDERS */}
+                            <div className="flex-1 text-center text-secondary text-sm font-ibm">
+                              {parseFloat(
+                                item?.holdAmount + parseFloat(item?.p2phold),
+                              ).toFixed(4)}{" "}
+                              {item?.currencysymbol}
+                            </div>
+
+                            {/* AVAILABLE */}
+                            <div className="flex-1 text-center text-secondary text-sm font-ibm">
+                              {parseFloat(
+                                item?.currencyBalance + parseFloat(item?.p2p),
+                              ).toFixed(4)}{" "}
+                              {item?.currencysymbol}
+                            </div>
+
+                            {/* TOTAL */}
+                            <div className="flex-1 text-center text-secondary text-sm font-ibm">
+                              {parseFloat(
+                                item?.currencyBalance +
+                                  parseFloat(item?.holdAmount) +
+                                  parseFloat(item?.p2p) +
+                                  parseFloat(item?.p2phold),
+                              ).toFixed(4)}{" "}
+                              {item?.currencysymbol}
+                            </div>
+
+                            {/* ACTION */}
+                            <div className="flex-1 flex justify-end">
+                              <Link to="/deposit">
+                                <button className="px-4 py-1.5 rounded-md bg-[#BD7F10] text-black text-xs font-semibold hover:opacity-90">
+                                  {t("deposit")}
+                                </button>
+                              </Link>
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div className="flex flex-col items-center justify-center py-10">
+                        <img
+                          src={require("../assets/No-data.webp")}
+                          className="w-24"
+                          alt="no data"
+                        />
+                        <div className="text-gray-400 mt-3">
+                          {t("noAssetsFound")}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* PAGINATION (same style as your sample) */}
+                  {balanceDetails && balanceDetails.length > 0 && (
+                    <div className="flex justify-center mt-6">
+                      <Stack spacing={2}>
+                        <Pagination
+                          count={Math.ceil(total / recordPerPage)}
+                          page={currentPage}
+                          onChange={handlePageChange}
+                          size="small"
+                          sx={{
+                            "& .MuiPagination-ul": { gap: "6px" },
+                            "& .MuiPaginationItem-root": {
+                              color: "#fff",
+                              borderRadius: "6px",
+                              minWidth: "34px",
+                              height: "34px",
+                            },
+                            "& .MuiPaginationItem-root:hover": {
+                              backgroundColor: "#BD7F10",
+                              color: "#000",
+                            },
+                            "& .Mui-selected": {
+                              backgroundColor: "#BD7F10 !important",
+                              color: "#000",
+                              fontWeight: "600",
+                            },
+                            "& .MuiPaginationItem-icon": {
+                              color: "inherit",
+                            },
+                          }}
+                        />
+                      </Stack>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        </main>
-      )}
+        )}
+      </DashboardLayout>
     </>
   );
 };

@@ -12,7 +12,7 @@
   border: solid 1px #d0d0d0;
   cursor: pointer;
   position: relative;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -50,7 +50,7 @@ input:-webkit-autofill {
   right: 3px;
   border-radius: 130px;
   background-color: #33c2b9;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -70,7 +70,7 @@ input:-webkit-autofill {
   left: 3px;
   border-radius: 130px;
   background-color: #ffffff;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
@@ -172,7 +172,7 @@ input:checked + .head-toggle-label::after {
 
 .links > li > a {
   text-decoration: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   text-align: left;
@@ -202,7 +202,7 @@ input:checked + .head-toggle-label::after {
   padding: 12px;
   border-radius: 6px;
   border: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   text-align: left;
   color: #f45e71;
@@ -215,7 +215,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .details-mail {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   letter-spacing: 0.28px;
@@ -224,7 +224,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .details-udi {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 12px;
   font-weight: 300;
   letter-spacing: 0.24px;
@@ -285,7 +285,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 36px;
   font-weight: bold;
   line-height: normal;
@@ -295,7 +295,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-msg {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   text-align: left;
@@ -303,7 +303,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-contents {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 30px;
   font-weight: bold;
   line-height: 1.33;
@@ -313,7 +313,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-sub-para {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.8);
@@ -331,7 +331,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .staking-rewards {
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   background-color: #17171ab3;
   border: 1px solid #3a3e46;
   border-radius: 12px;
@@ -351,7 +351,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-opt-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 500;
   letter-spacing: 0.36px;
@@ -372,7 +372,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-asset {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 13px;
   letter-spacing: normal;
   text-align: left;
@@ -386,7 +386,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-sub-asset {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   font-size: 12px;
   text-align: left;
@@ -394,7 +394,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-price {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   text-align: left;
   color: #ffc630;
@@ -402,7 +402,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-total {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 12px;
   font-weight: normal;
   line-height: normal;
@@ -412,7 +412,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-profit {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 300;
   text-align: left;
@@ -421,7 +421,7 @@ input:checked + .head-toggle-label::after {
 
 .stake-profit-num {
   font-size: 16px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 500;
   line-height: normal;
   letter-spacing: normal;
@@ -430,7 +430,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .stake-profit-total {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   text-align: left;
@@ -440,7 +440,7 @@ input:checked + .head-toggle-label::after {
 /* stake option styles */
 
 .stake-input {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   padding: 8px;
   border: none;
   outline: none;
@@ -451,7 +451,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .opt-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 300;
   font-stretch: normal;
@@ -464,7 +464,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .opt-select {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   padding: 8px 10px;
   border-radius: 4px;
   background-color: #313237;
@@ -486,7 +486,7 @@ input:checked + .head-toggle-label::after {
 }
 
 .opt-select-stakeoptions {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   padding: 10px 12px;
   border-radius: 4px;
   background-color: #313237;
@@ -525,7 +525,7 @@ input:checked + .head-toggle-label::after {
   /* border: solid 1px rgba(58, 62, 70, 0.5); */
   background-color: #fff;
   margin-top: 10px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   background-color: #181a20;
 }
 
@@ -606,7 +606,7 @@ table > tbody > tr {
 
 .stake-head > th,
 .stake-head-assss > th {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 12px;
   font-weight: 300;
   color: #848e9c;
@@ -617,7 +617,7 @@ table > tbody > tr {
 }
 
 .stake-head-p2pnew > th {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #848e9c;
@@ -628,7 +628,7 @@ table > tbody > tr {
 }
 
 .stake-head-newchang > th {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 12px;
   font-weight: 300;
   color: #848e9c;
@@ -647,7 +647,7 @@ table > tbody > tr {
 }
 
 .opt-name {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -672,7 +672,7 @@ table > tbody > tr {
 }
 
 .opt-amount {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -701,7 +701,7 @@ table > tbody > tr {
 }
 
 .opt-price {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   font-stretch: normal;
@@ -766,7 +766,7 @@ table > tbody > tr {
   outline: none;
   border-radius: 6px;
   color: #fff !important;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   background-color: #ffc630;
@@ -798,7 +798,7 @@ table > tbody > tr {
 .accordion-body {
   color: #848e9c !important;
   font-size: 13px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: lighter;
 }
 
@@ -806,11 +806,11 @@ table > tbody > tr {
 .accordion-flush .accordion-item .accordion-button.collapsed {
   border-radius: 0;
   padding: 19px 0px;
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
 }
 
 .faq-title {
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.4px;
@@ -931,7 +931,7 @@ table > tbody > tr {
 
 .modal-titles,
 .modal-titles-green {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -947,7 +947,7 @@ table > tbody > tr {
 }
 
 .modal-right-titles {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -1003,7 +1003,7 @@ table > tbody > tr {
 }
 
 .modal-select-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   font-stretch: normal;
@@ -1030,7 +1030,7 @@ table > tbody > tr {
   padding: 4px 8px;
   border-radius: 22px;
   border: solid 1px rgba(208, 208, 208, 0.5);
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -1105,7 +1105,7 @@ table > tbody > tr {
 }
 
 .modal-left-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   font-stretch: normal;
@@ -1120,7 +1120,7 @@ table > tbody > tr {
   position: absolute;
   right: 48px;
   top: 18px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   letter-spacing: normal;
   color: #fff;
@@ -1131,7 +1131,7 @@ table > tbody > tr {
   right: 11px;
   top: 18px;
   color: #ffc630;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   letter-spacing: normal;
   cursor: pointer;
@@ -1155,7 +1155,7 @@ table > tbody > tr {
   outline: none;
   border-radius: 6px;
   color: #111827 !important;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 600;
   background-color: #ffc630;
@@ -1169,7 +1169,7 @@ table > tbody > tr {
   border: none;
   outline: none;
   border-radius: 6px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 600;
   background-color: #ffc63090;
@@ -1180,7 +1180,7 @@ table > tbody > tr {
 /* Modal styles - End*/
 
 .stake-flexi {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 20px;
   font-weight: 500;
   font-stretch: normal;
@@ -1196,11 +1196,11 @@ table > tbody > tr {
 
 .asset_section {
   padding: 80px 19px 119px 0px;
-  background-color: #181a20;
+  background-color: transparent;
 }
 
 .asset_title {
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   font-weight: 300;
   color: #eaecef;
@@ -1209,7 +1209,7 @@ table > tbody > tr {
 }
 
 .identify-title {
-  font-family: "Larsseit" !important;
+  font-family: "IBM Plex Sans" !important;
   font-size: 18px;
   font-weight: 300;
   color: #eaecef;
@@ -1241,7 +1241,7 @@ table > tbody > tr {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
 }
 
 .esti-title {
@@ -1322,7 +1322,7 @@ table > tbody > tr {
 
 .asset-hide {
   color: #8b8b8c;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 300;
 }
@@ -1342,7 +1342,7 @@ table > tbody > tr {
 }
 
 .asset-btn {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   padding: 8px 20px;
   border-radius: 56px;
@@ -1356,7 +1356,7 @@ table > tbody > tr {
   font-size: 14px;
   padding: 8px 20px;
   border-radius: 56px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   background-color: #ffc630;
   color: #17171a;
   border: none;
@@ -1377,7 +1377,7 @@ table > tbody > tr {
   padding: 0px;
   display: flex;
   gap: 24px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 31px;
@@ -1427,7 +1427,7 @@ table > tbody > tr {
 }
 
 .market-token-wrapper h5 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   text-align: left;
@@ -1435,7 +1435,7 @@ table > tbody > tr {
 }
 
 .market-token-wrapper p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 500;
   text-align: left;
@@ -1446,7 +1446,7 @@ table > tbody > tr {
   border: none;
   outline: none;
   background-color: transparent;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   text-align: left;
@@ -1502,7 +1502,7 @@ table > tbody > tr {
 }
 
 .set-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.32px;
@@ -1511,7 +1511,7 @@ table > tbody > tr {
 }
 
 .set-content {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   font-size: 14px;
   letter-spacing: 0.28px;
@@ -1604,7 +1604,7 @@ input:checked + .toggle-notification::before {
 /* P2P styles */
 
 .p2p_title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   font-weight: 500;
   color: #eaecef;
@@ -1641,7 +1641,7 @@ input:checked + .toggle-notification::before {
 }
 
 .p2p-right-links {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #eaecef;
@@ -1769,7 +1769,7 @@ input:checked + .toggle-notification::before {
 
 .payment-back {
   color: #eaecef;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 20px;
   font-weight: 300;
 }
@@ -1787,7 +1787,7 @@ input:checked + .toggle-notification::before {
   margin: 10px 0px 6px 0px;
   outline: none;
   border: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   color: #eaecef;
   font-size: 13px;
   font-weight: 300;
@@ -1801,7 +1801,7 @@ input:checked + .toggle-notification::before {
   margin: 10px 0px 6px 0px;
   outline: none;
   border: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   color: #eaecef;
   font-size: 13px;
   font-weight: 300;
@@ -1827,7 +1827,7 @@ input[type="file"] {
   content: "Upload File";
   /* color: transparent !important; */
   color: #eaecef;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 14px;
   font-weight: 300;
 }
@@ -1902,7 +1902,7 @@ input[type="file"] {
   height: 48px;
   color: #fff !important;
   display: flex !important;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   border: solid 2px #2f3035 !important;
   outline: none !important;
@@ -1929,7 +1929,7 @@ input[type="file"] {
 
 .fil-inr {
   position: absolute;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   font-stretch: normal;
@@ -1952,7 +1952,7 @@ input[type="file"] {
 
 .fil-search {
   position: absolute;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 500;
   font-stretch: normal;
@@ -2092,7 +2092,7 @@ input[type="file"] {
 }
 
 .pay-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   font-weight: bold;
   font-stretch: normal;
@@ -2104,7 +2104,7 @@ input[type="file"] {
 }
 
 .pay-content {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -2143,7 +2143,7 @@ input[type="file"] {
 }
 
 .pay-method {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -2155,7 +2155,7 @@ input[type="file"] {
 }
 
 .pay-bank {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   font-stretch: normal;
@@ -2180,7 +2180,7 @@ input[type="file"] {
 }
 
 .pay-name {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -2192,7 +2192,7 @@ input[type="file"] {
 }
 
 .pay-buy {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -2204,7 +2204,7 @@ input[type="file"] {
 }
 
 .pay-btc {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -2224,7 +2224,7 @@ input[type="file"] {
 }
 
 .proceed-btn {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   padding: 14px 30px;
@@ -2265,7 +2265,7 @@ input[type="file"] {
   border-radius: 4px;
   border: solid 1px #3a3e46;
   background-color: #24252a;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 300;
   font-stretch: normal;
@@ -2282,7 +2282,7 @@ input[type="file"] {
   border-radius: 4px;
   border: solid 1px #3a3e46;
   background-color: #24252a;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 300;
   width: 75%;
@@ -2303,7 +2303,7 @@ input[type="file"] {
 }
 
 .chat-para {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 300;
   font-stretch: normal;
@@ -2385,7 +2385,7 @@ input[type="file"] {
 
 .post-ad-title {
   margin-bottom: 24px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 300;
   font-stretch: normal;
@@ -2404,7 +2404,7 @@ input[type="file"] {
 }
 
 .ad-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 500;
   text-align: left;
@@ -2416,7 +2416,7 @@ input[type="file"] {
   margin: 10px 0px 6px 0px;
   outline: none;
   border: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   color: #eaecef;
   font-size: 16px;
   font-weight: normal;
@@ -2428,7 +2428,7 @@ input[type="file"] {
 }
 
 .prefer-select {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 500;
   text-align: left;
@@ -2473,7 +2473,7 @@ input[type="file"] {
 }
 
 .Play-and-Win-Your-Free-Tokens {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 38px;
   font-weight: 500;
   text-align: center;
@@ -2485,7 +2485,7 @@ input[type="file"] {
 }
 
 .free-token-content {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 300;
   line-height: 1.38;
@@ -2579,7 +2579,7 @@ input[type="file"] {
 }
 
 .STEP-1 {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 24px;
   font-weight: 500;
   text-align: center;
@@ -2587,7 +2587,7 @@ input[type="file"] {
 }
 
 .Register-with-Voltrix-Crypt-to-join-the-airdrop {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 300;
   letter-spacing: 0.16px;
@@ -2600,7 +2600,7 @@ input[type="file"] {
   width: 196px;
   border-radius: 8px;
   border: solid 1px #2f3035;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.32px;
@@ -2619,7 +2619,7 @@ input[type="file"] {
   padding: 12px 32px;
   width: 196px;
   border-radius: 8px;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.32px;
@@ -2636,7 +2636,7 @@ input[type="file"] {
 .view_leader span {
   color: #cececf;
   margin: 12px 0px;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 0.32px;
@@ -2665,7 +2665,7 @@ input[type="file"] {
 
 .countdown-style {
   margin-top: 10px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   font-weight: 400;
   letter-spacing: 0.48px;
@@ -2709,7 +2709,7 @@ input[type="file"] {
 }
 
 .identify-title-airno {
-  font-family: "Larsseit" !important;
+  font-family: "IBM Plex Sans" !important;
   font-size: 22px;
   font-weight: 300;
   color: #fff;
@@ -2719,7 +2719,7 @@ input[type="file"] {
 }
 
 .noair_head {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 30px;
   font-weight: 500;
   text-align: center;
@@ -2796,7 +2796,7 @@ input[type="file"] {
 }
 
 .welcome-title {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 24px;
   font-weight: 500;
   text-align: center;
@@ -2804,7 +2804,7 @@ input[type="file"] {
 }
 
 .welcome-content {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 300;
   letter-spacing: 0.16px;
@@ -2835,21 +2835,21 @@ input[type="file"] {
 }
 
 .wel-step {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 500;
   color: #ffc630;
 }
 
 .wel-sub-title {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 500;
   color: #eaecef;
 }
 
 .wel-sub-content {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 14px;
   font-weight: 300;
   line-height: 1.43;
@@ -2892,7 +2892,7 @@ input[type="file"] {
 }
 
 .start-box h6 {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 26px;
   font-weight: 300;
   letter-spacing: 0.52px;
@@ -2901,7 +2901,7 @@ input[type="file"] {
 }
 
 .start-box p {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 18px;
   font-weight: 300;
   line-height: 1.67;
@@ -2944,7 +2944,7 @@ input[type="file"] {
   margin: 18px 201px 0;
   border-radius: 100px;
   background-color: #ffc630;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: bold;
   letter-spacing: 0.32px;
@@ -2969,7 +2969,7 @@ input[type="file"] {
 }
 
 .stopwatch-container span {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.32px;
@@ -3004,7 +3004,7 @@ input[type="file"] {
 }
 
 .leaderboard-inner p {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 300;
   line-height: 1.25;
@@ -3070,7 +3070,7 @@ input[type="file"] {
 }
 
 .Leaderboard {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 300;
   letter-spacing: 0.32px;
@@ -3088,7 +3088,7 @@ input[type="file"] {
 }
 
 .leaderboard-main table thead tr th {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 13px;
   font-weight: 300;
   padding: 14px 20px !important;
@@ -3097,7 +3097,7 @@ input[type="file"] {
 }
 
 .leaderboard-main table tbody tr td {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 14px;
   font-weight: 300;
   color: #cececf;
@@ -3116,7 +3116,7 @@ input[type="file"] {
 }
 
 .leaderboard-footer-content {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 14px;
   font-weight: 300;
   color: #cececf;
@@ -3161,7 +3161,7 @@ input[type="file"] {
 }
 
 .table-flex-asset span {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.32px;
@@ -3202,7 +3202,7 @@ input[type="file"] {
 }
 
 .mar_inn_span {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 500;
   text-align: left;
@@ -3247,7 +3247,7 @@ input[type="file"] {
 }
 
 .feature_head {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 40px;
   font-weight: 500;
   line-height: 1.2;
@@ -3256,7 +3256,7 @@ input[type="file"] {
 }
 
 .feature_subhead {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 500;
   line-height: 1.56;
@@ -3272,7 +3272,9 @@ input[type="file"] {
   display: flex;
   flex-direction: column;
   gap: 50px;
-  transition: border 0.5s ease, transform 0.5s ease;
+  transition:
+    border 0.5s ease,
+    transform 0.5s ease;
 }
 
 .feature_card_img {
@@ -3302,7 +3304,7 @@ input[type="file"] {
 }
 
 .fetaure_inn_head {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   /* font-weight: bold; */
   text-align: left;
@@ -3310,7 +3312,7 @@ input[type="file"] {
 }
 
 .fetaure_inn_subhead {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.57;
@@ -3319,7 +3321,7 @@ input[type="file"] {
 }
 
 .advance_newchang_title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 40px;
   font-weight: 500;
   line-height: 1.2;
@@ -3332,7 +3334,7 @@ input[type="file"] {
 }
 
 .advance_subcontent_newchang {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 500;
   line-height: 1.56;
@@ -3353,7 +3355,9 @@ input[type="file"] {
   display: flex;
   align-items: end;
   padding: 0px 30px 30px;
-  transition: border 0.5s ease, transform 0.5s ease;
+  transition:
+    border 0.5s ease,
+    transform 0.5s ease;
 }
 
 .adv_card_main:hover {
@@ -3373,7 +3377,7 @@ input[type="file"] {
 }
 
 .adv_inn_subhead {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.63;
@@ -3416,7 +3420,7 @@ input[type="file"] {
 }
 
 .down_our_mob {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 500;
   text-align: left;
@@ -3443,7 +3447,7 @@ input[type="file"] {
 }
 
 .down_in_head {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 40px;
   font-weight: 500;
   line-height: 1.45;
@@ -3482,7 +3486,7 @@ input[type="file"] {
 }
 
 .down_ios_and {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 26px;
   font-weight: 500;
   text-align: left;
@@ -3519,7 +3523,7 @@ input[type="file"] {
 }
 
 .down_on_sp {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.8;
@@ -3528,7 +3532,7 @@ input[type="file"] {
 }
 
 .down_on_sp_dark {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 500;
   text-align: left;
@@ -3549,7 +3553,7 @@ input[type="file"] {
 }
 
 .ready_span_head {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 40px;
   font-weight: 500;
   line-height: 1.65;
@@ -3562,7 +3566,7 @@ input[type="file"] {
   border-radius: 8px;
   background-color: #bd7f10;
   border: none;
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   font-stretch: normal;
@@ -3628,7 +3632,7 @@ input[type="file"] {
 }
 
 .p2p_name_nw {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 300;
   color: #eaecef;
@@ -3637,14 +3641,14 @@ input[type="file"] {
   padding-left: 10px;
 }
 .nw_p2p_ordercou {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #999;
   text-wrap: nowrap;
 }
 .nwp2p_pricespa_min {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 300;
   color: #eaecef;
@@ -3652,7 +3656,7 @@ input[type="file"] {
   padding: 8px 0px;
 }
 .nwp2p_pricespa {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   font-weight: 500;
   color: #eaecef;
@@ -3665,7 +3669,7 @@ input[type="file"] {
   align-items: start;
 }
 .nwp2p_limico_man > h3 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   color: #999;
@@ -3675,7 +3679,7 @@ input[type="file"] {
 .p2pnw_payme {
   border-left: 3px solid #d739ff;
   padding-left: 5px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 300;
   color: #eaecef;
@@ -3983,7 +3987,7 @@ input[type="file"] {
   .proceed-btn {
     font-size: 14px;
   }
-  h6.timer_in_title{
+  h6.timer_in_title {
     flex-direction: column;
     align-items: flex-start;
     height: auto;
@@ -4339,7 +4343,7 @@ input[type="file"] {
 
 .payments .payment-head {
   /* ttttom: 1px solid #3a3e47 !important; */
-  font-family: "larsseit";
+  font-family: "IBM Plex Sans";
   background-color: #222327;
   padding: 14px 20px;
   color: #fff;
@@ -4365,7 +4369,7 @@ input[type="file"] {
   margin: 10px 0px;
   font-weight: 100;
   font-size: 14px;
-  font-family: "larsseit";
+  font-family: "IBM Plex Sans";
 }
 
 .payments .payment-table .content {
@@ -4373,7 +4377,7 @@ input[type="file"] {
   margin: 10px 0px;
   font-size: 14px;
   font-weight: 300;
-  font-family: "larsseit";
+  font-family: "IBM Plex Sans";
 }
 
 /* P2P Orders */
@@ -4386,7 +4390,7 @@ input[type="file"] {
 }
 
 .p2p-order-title {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
@@ -4438,14 +4442,14 @@ input[type="file"] {
 }
 
 .dep-kyc-head h6 {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 16px;
   font-weight: 300;
   color: #eaecef;
 }
 
 .p2p-pay-wrap {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans";
   font-size: 20px;
   font-weight: 500;
   color: #fff;

@@ -834,7 +834,7 @@ const Dashboard = () => {
                           <p className="">
                             {supportdataref.current
                               ? moment(
-                                  supportdataref.current.updated_at
+                                  supportdataref.current.updated_at,
                                 ).format("lll")
                               : ""}
                           </p>

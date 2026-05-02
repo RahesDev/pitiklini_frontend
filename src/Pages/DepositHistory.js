@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Header from "./Header";
+import DashboardLayout from "./DashboardLayout";
 import { stakeOpt } from "../utils/mockData2";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -16,7 +16,7 @@ import Moment from "moment";
 import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
-   const { t } = useTranslation();
+  const { t } = useTranslation();
   const [depositHistory, setdepositHistory] = useState([]);
   const [siteLoader, setSiteLoader] = useState(false);
 
@@ -63,219 +63,159 @@ const Dashboard = () => {
 
   return (
     <>
-      <section>
-        <Header />
-      </section>
-      {siteLoader == true ? (
-        <div className="loadercss">
-          <Bars
-            height="80"
-            width="80"
-            color="#bd7f10"
-            ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      ) : (
-        <main className="dashboard_main">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-lg-2 padlef_0_col">
-                <Side_bar />
-              </div>
+      <DashboardLayout>
+        {siteLoader == true ? (
+          <div className="loadercss">
+            <Bars
+              height="80"
+              width="80"
+              color="#bd7f10"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        ) : (
+          <section className="asset_section">
+            <div className="buy_head">
+              {/* <AssetListTable /> */}
+              {/* <HistoryListTable /> */}
 
-              <div className="col-lg-10 padin_lefrig_dash">
-                <section className="asset_section">
-                  <div className="row">
-                    <div className="buy_head">
-                      <div className="Buycrypto_title">{t('history')}</div>
-                      <ul className="history-lists">
-                        <Link to="/loginHistory" className="history-links">
-                          {t('login')}
-                        </Link>
-                        {/* <Link to="/referralHistory" className="history-links">
-                          Referral
-                        </Link> */}
-                        <Link
-                          to="/depositHistory"
-                          className="history-links active"
-                        >
-                          {t('deposit')}
-                        </Link>
-                        <Link to="/withdrawHistory" className="history-links">
-                          {t('withdraw')}
-                        </Link>
-                        <Link
-                          to="/internaltransferhistory"
-                          className="history-links"
-                        >
-                          {t('internalTransfer')}
-                        </Link>
-                        <Link to="/swapHistory" className="history-links">
-                          {t('convert')}
-                        </Link>
-                        {/* <Link to="/stakingHistory" className="history-links">
-                          Staking
-                        </Link> */}
-                        <Link to="/orderHistory" className="history-links">
-                          {t('openOrder')}
-                        </Link>
-                        <Link
-                          to="/cancelorderHistory"
-                          className="history-links"
-                        >
-                          {t('closeOrder')}
-                        </Link>
-                        <Link to="/tradeHistory" className="history-links">
-                          {t('trade')}
-                        </Link>
-                         <Link to="/notificationHistory" className="history-links">
-                          {t('notification')}
-                        </Link>
-                        {/* <Link to="/rewardsHistory" className="history-links">
-                          Rewards
-                        </Link> */}
-
-                        {/* <Link to="/stoporderHistory" className="history-links">
-                          Stop Order
-                        </Link> */}
-                      </ul>
-                      {/* <AssetListTable /> */}
-                      {/* <HistoryListTable /> */}
-
-                      <div className="table-responsive table-cont">
-                        <table className="table">
-                          <thead>
-                            <tr className="stake-head">
-                              <th>{t('date')}</th>
-                              <th className="opt-nowrap txt-center pad-left-23">
-                                {t('currency')}
-                              </th>
-                              <th className="opt-nowrap txt-center pad-left-23">
-                                {t('amount')}
-                              </th>
-                              <th className="opt-nowrap txt-center pad-left-23">
-                                {" "}
-                                {t('transactionId')}
-                              </th>
-                              <th className="opt-btn-flex table-action text-center">
-                                {t('status')}
-                              </th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {depositHistory && depositHistory.length > 0 ? (
-                              depositHistory.map((item, i) => {
-                                return (
-                                  <tr>
-                                    <td className="opt-percent font_14 pad-left-23 nowra_txt">
-                                      {Moment(item.date).format(
-                                        "DD.MM.YYYY hh:mm a"
-                                      )}
-                                    </td>
-
-                                    <td className="opt-percent font_14 table_center_text pad-left-23 nowra_txt">
-                                      {item.currencySymbol}
-                                    </td>
-                                    <td className="opt-term font_14 table_center_text pad-left-23 nowra_txt">
-                                      {parseFloat(item.amount).toFixed(8)}
-                                    </td>
-                                    <td className="opt-term font_14 table_center_text pad-left-23 nowra_txt">
-                                      {item.txnid != undefined
-                                        ? item.txnid.substring(0, 10) + "..."
-                                        : "-"}
-                                      <i
-                                        class="ri-file-copy-line text-yellow cursor-pointer"
-                                        onClick={() => copy(item.txnid)}
-                                      ></i>
-                                    </td>
-                                    <td className="opt-btn-flex table-action pad-left-23 text-green text-center">
-                                      {t('completed')}
-                                    </td>
-                                  </tr>
-                                );
-                              })
-                            ) : (
-                              <tr>
-                                <td colSpan={5} className="text-center py-5">
-                                  <div className="empty_data">
-                                    <div className="empty_data_img">
-                                      <img
-                                        src={require("../assets/No-data.webp")}
-                                        width="100px"
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="no_records_text">
-                                      {t('noRecordsFound')}
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                        {depositHistory && depositHistory.length > 0 ? (
-                          <div className="pagination">
-                            <Stack spacing={2}>
-                              <Pagination
-                                count={Math.ceil(
-                                  deposittotalpage / depositrecordpage
-                                )}
-                                page={depositcurrentpage}
-                                onChange={handlepagedeposit}
-                                size="small"
-                                sx={{
-                                  "& .MuiPaginationItem-root": {
-                                    color: "#fff", // Default text color for pagination items
-                                    // backgroundColor: "#2D1E23",
-                                    // "&:hover": {
-                                    //   backgroundColor: "#453a1f",
-                                    //   color: "#ffc630",
-                                    // },
-                                  },
-                                  "& .Mui-selected": {
-                                    backgroundColor: "#bd7f10 !important", // Background color for selected item
-                                    color: "#000", // Text color for selected item
-                                    "&:hover": {
-                                      backgroundColor: "#bd7f10",
-                                      color: "#000",
-                                    },
-                                  },
-                                  "& .MuiPaginationItem-ellipsis": {
-                                    color: "#fff", // Color for ellipsis
-                                  },
-                                  "& .MuiPaginationItem-icon": {
-                                    color: "#fff", // Color for icon (if present)
-                                  },
-                                }}
-                                // renderItem={(item) => (
-                                //   <PaginationItem
-                                //     slots={{
-                                //       previous: ArrowBackIcon,
-                                //       next: ArrowForwardIcon,
-                                //     }}
-                                //     {...item}
-                                //   />
-                                // )}
-                              />
-                            </Stack>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    </div>
+              <div className="w-full">
+                <div className="bg-black rounded-xl p-4">
+                  <div className="text-primary text-lg font-bold mb-8">
+                    {t("deposit")} {t("history")}
                   </div>
-                </section>
+
+                  {/* Header */}
+                  <div className="flex items-center bg-gray rounded-lg px-4 py-3 text-primary text-sm">
+                    <div className="flex-1">{t("date")}</div>
+                    <div className="flex-1 text-center">{t("currency")}</div>
+                    <div className="flex-1 text-center">{t("amount")}</div>
+                    <div className="flex-1 text-center">
+                      {t("transactionId")}
+                    </div>
+                    <div className="flex-1 text-center">{t("status")}</div>
+                  </div>
+
+                  {/* Body */}
+                  <div className="mt-3 flex flex-col gap-3">
+                    {depositHistory && depositHistory.length > 0 ? (
+                      depositHistory.map((item, i) => (
+                        <div
+                          key={i}
+                          className="flex items-center bg-black border border-gray rounded-lg px-4 py-4 hover:bg-gray transition"
+                        >
+                          {/* Date */}
+                          <div className="flex-1 text-secondary text-sm">
+                            {Moment(item.date).format("DD.MM.YYYY hh:mm a")}
+                          </div>
+
+                          {/* Currency */}
+                          <div className="flex-1 text-center text-secondary text-sm">
+                            {item.currencySymbol}
+                          </div>
+
+                          {/* Amount */}
+                          <div className="flex-1 text-center text-secondary text-sm">
+                            {parseFloat(item.amount).toFixed(8)}
+                          </div>
+
+                          {/* Transaction ID */}
+                          <div className="flex-1 flex items-center justify-center gap-2 text-secondary10 text-sm">
+                            <span className="truncate">
+                              {item.txnid
+                                ? item.txnid.substring(0, 10) + "..."
+                                : "-"}
+                            </span>
+                            <i
+                              className="ri-file-copy-line cursor-pointer text-secondary10 hover:text-primary shrink-0"
+                              onClick={() => copy(item.txnid)}
+                            ></i>
+                          </div>
+
+                          {/* Status (always completed here) */}
+                          <div className="flex-1 flex justify-center">
+                            <span className="px-4 py-1 rounded-full text-sm bg-green-custom/20 text-green-custom">
+                              {t("completed")}
+                            </span>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="flex flex-col items-center justify-center py-10">
+                        <img
+                          src={require("../assets/No-data.webp")}
+                          className="w-24"
+                          alt="no data"
+                        />
+                        <div className="text-secondary10 mt-3">
+                          {t("noRecordsFound")}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Pagination */}
+                  {depositHistory && depositHistory.length > 0 && (
+                    <div className="flex justify-center mt-6">
+                      <Stack spacing={2}>
+                        <Pagination
+                          count={Math.ceil(
+                            deposittotalpage / depositrecordpage,
+                          )}
+                          page={depositcurrentpage}
+                          onChange={handlepagedeposit}
+                          size="small"
+                          sx={{
+                            "& .MuiPagination-ul": {
+                              gap: "6px",
+                            },
+
+                            /* ALL buttons (numbers + arrows) */
+                            "& .MuiPaginationItem-root": {
+                              color: "#fff",
+                              borderRadius: "6px",
+                              minWidth: "34px",
+                              height: "34px",
+                              backgroundColor: "transparent",
+                              transition: "all 0.2s ease",
+                            },
+
+                            /* HOVER (apply to everything including arrows) */
+                            "& .MuiPaginationItem-root:hover": {
+                              backgroundColor: "#BD7F10",
+                              color: "#000",
+                            },
+
+                            /* SELECTED */
+                            "& .Mui-selected": {
+                              backgroundColor: "#BD7F10 !important",
+                              color: "#000",
+                              fontWeight: "600",
+                            },
+
+                            /* PREV / NEXT buttons (force same style) */
+                            "& .MuiPaginationItem-previousNext": {
+                              borderRadius: "6px",
+                            },
+
+                            /* ICON inside arrows */
+                            "& .MuiPaginationItem-icon": {
+                              color: "inherit", // 👈 makes arrow follow text color
+                            },
+                          }}
+                        />
+                      </Stack>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </main>
-      )}
+          </section>
+        )}
+      </DashboardLayout>
     </>
   );
 };

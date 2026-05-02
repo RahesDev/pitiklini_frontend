@@ -12,6 +12,12 @@ import apiService from "../core/service/detail";
 import { Link, useNavigate } from "react-router-dom";
 import { gsap, Elastic, Power1 } from "gsap";
 import Marquee from "react-marquee-slider";
+import Email from "../assets/svg/email.svg";
+import FeatureCards from "./FeatureCards";
+import CryptoExchange from "./CryptoExchange";
+import CryptoJourney from "./CryptoJourney";
+import FAQ from "./FAQ";
+import Testimonials from "./Testimonials";
 
 export default function Landing() {
   const settings = {
@@ -245,7 +251,7 @@ export default function Landing() {
             opacity: 0, // Fade out
             ease: Power1.easeInOut,
           },
-          `+=${vsOpts.duration / vsOpts.slides.length}` // Delay for smooth transition
+          `+=${vsOpts.duration / vsOpts.slides.length}`, // Delay for smooth transition
         );
       } else {
         // Normal slide-up effect for all other slides
@@ -336,13 +342,95 @@ export default function Landing() {
           <Header />
         </section>
 
-        {/* hero */}
         <section className="fidex_hero_section">
+          <div className="container">
+            <div className="row">
+              <div className="hero_section_content mt-20 w-full">
+                <h1 className="text-secondary text-center text-[48px] mx-auto max-w-[750px]">
+                  {t("welcome_to")}
+                  <span
+                    className={`crypto-span mar-lft text-primary ${
+                      colorChanged
+                        ? "text-animate-inview text-animate"
+                        : "text-animate"
+                    }`}
+                  >
+                    {t("pitiklini")}
+                  </span>
+                </h1>
+                <p className="text-secondary text-[24px] mb-12 text-center">
+                  {t("seize_the_moment")}
+                </p>
+                <div className="flex w-full gap-4 justify-center mx-auto">
+                  <div className="flex gap-2 justify-start max-w-[300px] bg-gray rounded-[8px] py-4 px-8">
+                    <img src={Email} className="self-center" />
+                    <p className="text-primary self-center w-[320px] mb-0">
+                      {t("email_label")}{" "}
+                    </p>
+                    {/* <span className="text-primary self-center w-fit">/</span>
+                    <p className="text-primary self-center w-fit">
+                      {t("phone_label")}{" "}
+                    </p> */}
+                  </div>
+                  <Link
+                    to="/register"
+                    className="flex bg-primary px-5 py-4 rounded-[8px]"
+                  >
+                    <p className="text-black underline self-center w-fit mb-0 capitalize">
+                      {t("signin")}{" "}
+                    </p>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div className=" w-full flex justify-center gap-[120px] mt-6">
+          <div className="flex flex-col justify-center ">
+            <p className="text-primary text-[40px] mb-0 font-bold">
+              17+<span className="text-[20px]">M</span>
+            </p>
+            <p className="text-secondary10 text-lg self-center w-fit mb-0">
+              {t("register_user")}
+            </p>
+          </div>
+          <div className="flex flex-col justify-center">
+            <p className="text-primary text-[40px] mb-0 font-bold">2500+</p>
+            <p className="text-secondary10 text-lg self-center w-fit mb-0">
+              {t("crypocurrentcies")}
+            </p>
+          </div>
+          <div className="flex flex-col justify-center">
+            <p className="text-primary text-[40px] mb-0 font-bold">
+              $6.62<span className="text-[20px]">M</span>
+            </p>
+            <p className="text-secondary10 text-lg self-center w-fit mb-0">
+              {t("trading_volume")}
+            </p>
+          </div>
+          <div className="flex flex-col justify-center">
+            <p className="text-primary text-[40px] mb-0 font-bold">
+              140+<span className="text-[20px]">M</span>
+            </p>
+            <p className="text-secondary10 text-lg self-center w-fit mb-0">
+              {t("countries")}
+            </p>
+          </div>
+        </div>
+
+        <FeatureCards />
+        <Testimonials />
+        <CryptoExchange />
+        <CryptoJourney />
+        <FAQ />
+
+        {/* hero */}
+        {/* <section className="fidex_hero_section">
           <div className="container">
             <div className="row">
               <div className="col-lg-6 " data-aos="fade-right">
                 <div className="hero_section_content ">
-                  <h1>
+                  <h1 className="text-primary">
                     {t("start_trading")}
                     <span
                       className={`crypto-span mar-lft  ${
@@ -354,7 +442,7 @@ export default function Landing() {
                       {t("pitiklini")}
                     </span>
                   </h1>
-                  <p>{t("seamless_crypto_trading")}</p>
+                  <p className="text-primary">{t("seamless_crypto_trading")}</p>
                   <Link
                     to={loginCheck ? "/dashboard" : "/register"}
                     className="get_started_btn"
@@ -366,13 +454,13 @@ export default function Landing() {
               </div>
               <div className="col-lg-6 flex-end " data-aos="fade-left">
                 <div className="hero_section_banner">
-                  {/* <img src={require("../assets/gif/mobile.gif")} /> */}
+                  {/* <img src={require("../assets/gif/mobile.gif")} /> 
                   <img src={require("../assets/new_hero.webp")} alt="" />
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* <section>
         <div className="morque_new_run">
@@ -530,8 +618,8 @@ export default function Landing() {
             </div>
         </section> */}
 
-        <section>
-          <div className="morque_new_run">
+        {/* <section>
+          <div className="">
             <div className="marquee-container">
               {currencies.length > 0 && (
                 <Marquee
@@ -726,9 +814,9 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
-            </div> */}
+            </div> 
           </div>
-        </section>
+        </section> 
 
         <section ref={advanceTradeRef} className="advance_trade_section">
           <div className="container">
@@ -740,7 +828,7 @@ export default function Landing() {
               </p>
             </div>
 
-            {/* <div className="row adv_new_row" data-aos="fade-up"> */}
+           <div className="row adv_new_row" data-aos="fade-up">
             <div className="row adv_new_row">
               <div className="col-lg-4">
                 <div className="adv_card_main">
@@ -796,9 +884,9 @@ export default function Landing() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
-        <section className="down_new_main">
+        {/* <section className="down_new_main">
           <div className="container">
             <div className="row down_new_man">
               <div className="col-xl-4 col-lg-5  text-center">
@@ -875,9 +963,9 @@ export default function Landing() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
-        <section ref={secureRef} className="ready_hero_section">
+        {/* <section ref={secureRef} className="ready_hero_section">
           <div className="container">
             <div className="text-center">
               <div className="ready_main">
@@ -892,10 +980,10 @@ export default function Landing() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* footer */}
-        <section className="footer_section">
+        <section className="">
           <Footer />
         </section>
       </main>

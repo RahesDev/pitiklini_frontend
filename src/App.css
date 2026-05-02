@@ -1,13 +1,13 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Inter:wght@100..900&display=swap");
-*/
-@import url("https://fonts.cdnfonts.com/css/satoshi");
-
-@import url("https://fonts.cdnfonts.com/css/larsseit-font-family");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
 
 body {
-  font-family: "Larsseit" !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   background-color: #181a20 !important;
   /* background-color: #17171a !important; */
+}
+
+.font-family-ibm {
+  font-family: "IBM Plex Sans", sans-serif !important;
 }
 
 .ui.dropdown .menu > .item > .label {
@@ -20,7 +20,7 @@ body {
 
 .fidex_hero_section {
   padding: 110px 0 90px;
-  background-color: #090909;
+  background-color: #0b0f19;
 }
 
 .margin-cursor > * {
@@ -53,7 +53,7 @@ body {
 }
 
 .hero_section_content h1 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 48px;
   font-weight: bold;
   font-stretch: normal;
@@ -61,11 +61,11 @@ body {
   line-height: 1.38;
   letter-spacing: normal;
   text-align: left;
-  color: #fff;
+  /* color: #fff; */
 }
 
 .hero_section_content p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 300;
   font-stretch: normal;
@@ -73,7 +73,7 @@ body {
   line-height: 1.56;
   letter-spacing: normal;
   text-align: left;
-  color: #cececf;
+  /* color: #cececf; */
   width: 93%;
   margin-bottom: 29px;
 }
@@ -94,17 +94,13 @@ body {
   color: #bd7f10 !important;
 }
 
-.text-white {
-  color: #eaecef !important;
-}
-
 .get_started_btn {
   margin-top: 12px;
   padding: 8px 20px;
   border-radius: 46px;
   background-color: #bd7f10;
   border: none;
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   font-stretch: normal;
@@ -122,7 +118,7 @@ body {
   border: 1px solid #ffc630;
   border: none;
   outline: none;
-  font-family: "Satoshi", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   color: #17171a;
   font-size: 16px;
   font-weight: 500;
@@ -188,7 +184,7 @@ body {
 }
 
 .get-started-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 38px;
   font-weight: bold;
   text-align: center;
@@ -196,7 +192,7 @@ body {
 }
 
 .get-started-content {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   text-align: center;
@@ -221,7 +217,7 @@ body {
 .track > h1 {
   margin: 20px 0;
   font-size: 8rem;
-  font-family: Antonio;
+  font-family: "IBM Plex Sans", sans-serif !important;
   -webkit-text-fill-color: rgba(255, 255, 255, 0);
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: #f4955c;
@@ -315,7 +311,7 @@ body {
 }
 
 .process-cards h6 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   font-weight: bold;
   color: #eaecef;
@@ -323,7 +319,7 @@ body {
 }
 
 .process-cards p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   line-height: 1.57;
@@ -336,7 +332,7 @@ body {
   padding: 8px 20px;
   border-radius: 46px;
   border: solid 1px #cececf;
-  font-family: "Satoshi", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 500;
   color: #cececf;
@@ -406,7 +402,7 @@ body {
 }
 
 .slider-coin-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #fff;
@@ -445,7 +441,7 @@ body {
 }
 
 .available-crypto-section h5 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 38px;
   font-weight: bold;
   letter-spacing: 0.76px;
@@ -454,7 +450,7 @@ body {
 }
 
 .available-crypto-section p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 300;
   line-height: 1.56;
@@ -469,7 +465,7 @@ body {
 }
 
 .secrets_crypto_title h2 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   color: #fff;
   font-weight: 500;
   font-size: 32px;
@@ -489,7 +485,7 @@ body {
 
 .secrets_crypto-title {
   margin: 0px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: bold;
   font-stretch: normal;
@@ -501,7 +497,7 @@ body {
 }
 
 .secrets_crypto-para {
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px !important;
   font-weight: 300 !important;
   line-height: 1.5;
@@ -515,7 +511,7 @@ body {
 }
 
 .secrets_crypto_create_icon h4 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 500;
   color: #fff;
@@ -528,14 +524,14 @@ body {
 }
 
 .secrets_crypto_create p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   color: #fff;
   margin-top: 18px;
 }
 
 .learn_more {
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px !important;
   font-weight: 300 !important;
   font-stretch: normal;
@@ -556,7 +552,7 @@ body {
   padding: 40px 0;
 }
 .advance_trade_title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 38px;
   font-weight: bold;
   letter-spacing: 0.76px;
@@ -570,7 +566,7 @@ body {
 }
 
 .advance_subcontent {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   color: #cececf;
@@ -591,14 +587,16 @@ body {
     rgba(255, 198, 48, 0.3) 82%
   );
   border-image-slice: 1;
-  background-image: linear-gradient(to bottom, #17171a, #17171a),
+  background-image:
+    linear-gradient(to bottom, #17171a, #17171a),
     linear-gradient(130deg, #a1853a 0%, rgba(255, 198, 48, 0.3) 82%);
   background-origin: border-box;
   background-clip: content-box, border-box;
 }
 
 .fast_tranSsaction_card:hover {
-  background-image: linear-gradient(to bottom, #17171a, #17171a),
+  background-image:
+    linear-gradient(to bottom, #17171a, #17171a),
     linear-gradient(130deg, #bd7f10 0%, #bd7f10 82%);
 }
 
@@ -617,7 +615,7 @@ body {
 .advance-start-btn {
   border: none;
   outline: none;
-  font-family: "Satoshi", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 400;
   color: #cececf;
@@ -684,7 +682,7 @@ body {
 
 .fast_tranSsaction_card h4 {
   margin-top: 10px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   font-weight: 400;
   letter-spacing: 0.48px;
@@ -694,7 +692,7 @@ body {
 }
 
 .fast_tranSsaction_card p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 300;
   color: #cececf;
@@ -704,7 +702,7 @@ body {
 .trade {
   color: #ffc630 !important;
   font-size: 16px !important;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   margin-top: 12px;
   padding: 4px 12px;
 }
@@ -732,12 +730,12 @@ body {
   color: #fff;
   font-size: 18px;
   font-weight: 500;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
 }
 .discover_advance_content p {
   color: #fff;
   font-size: 18px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
 }
 .advance_trading_section_content .row {
@@ -773,7 +771,7 @@ body {
 }
 
 .supported_currencies_content h4 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 500;
   color: #cececf;
@@ -789,7 +787,7 @@ body {
 }
 
 .supported_currencies_content p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   color: #cececf;
   font-weight: 300;
@@ -809,7 +807,7 @@ body {
 }
 
 .keep_trade_content h2 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 38px;
   font-weight: 500;
   letter-spacing: 0.76px;
@@ -817,7 +815,7 @@ body {
 }
 
 .keep_trade_content p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 300;
   line-height: 1.44;
@@ -850,7 +848,7 @@ body {
 }
 
 .bonus_btns button {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   padding: 10px 12px;
   border-radius: 29px;
@@ -883,7 +881,7 @@ body {
 }
 
 .refer-title h6 {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 32px;
   font-weight: 500;
   line-height: 1.38;
@@ -892,7 +890,7 @@ body {
 }
 
 .refer-title p {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.44;
@@ -912,7 +910,7 @@ body {
 }
 
 .security-cards h3 {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.4px;
@@ -920,7 +918,7 @@ body {
 }
 
 .security-cards p {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   font-stretch: normal;
@@ -949,7 +947,7 @@ body {
 }
 
 .footer_content p {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 15px;
   font-weight: 300;
   font-stretch: normal;
@@ -984,7 +982,7 @@ body {
 }
 
 .social-links h6 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 300;
   color: #fff;
@@ -1012,7 +1010,7 @@ body {
 
 .country-content h4 {
   text-decoration: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 500;
   color: #cececf;
@@ -1022,7 +1020,7 @@ body {
   text-decoration: none;
   color: #cececf;
   font-size: 14px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
 }
 
@@ -1036,14 +1034,14 @@ body {
 }
 
 .services h3 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   font-weight: 400;
   color: #fff;
 }
 
 .copyrights {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 12px;
   font-weight: 300;
   text-align: center;
@@ -1073,8 +1071,112 @@ body {
 .dash_table_content tbody tr {
   border-bottom: 1px solid #2b3139 !important;
 }
+header.scrolled {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 1000;
+  background-color: #181a20;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100%;
+}
+
 .dashboard_main {
   background-color: #181a20;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  /* margin-top: 80px; */
+  width: 100%; /* Use width 100% instead of 100vw to avoid scrollbar issues */
+}
+
+.dashboard_main .container-fluid {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.dashboard_main .row {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: nowrap; /* Prevent sidebar from wrapping */
+}
+
+.padlef_0_col {
+  height: 100%;
+  width: auto; /* Changed to auto to support dynamic sidebar width */
+  flex: 0 0 auto; /* Allow the sidebar to control its own width */
+  overflow: visible; /* Changed from hidden to allow tooltips to show outside */
+  padding: 16px;
+  background-color: #181a20;
+  margin-top: 60px;
+}
+
+.padin_lefrig_dash {
+  height: 100%;
+  flex: 1 1 auto; /* Take all remaining width */
+  min-width: 0; /* Crucial for preventing overflow in flex items */
+  overflow-y: auto;
+  padding: 24px;
+  background-color: #0c0d10;
+}
+
+/* Custom scrollbar for independent scrolling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #353945;
+  border-radius: 10px;
+}
+
+/* Sidebar Tooltip Custom Design - Removed as we use MUI Tooltip now */
+/* 
+.sidebar-tooltip {
+  ...
+}
+*/
+
+.group:hover {
+  z-index: 1000;
+}
+
+.custom-scrollbar {
+  overflow-x: visible !important;
+}
+
+.padlef_0_col {
+  height: 100%;
+  width: auto;
+  flex: 0 0 auto;
+  overflow: visible !important;
+  padding: 16px;
+  background-color: #181a20;
+}
+
+/* Ensure no extra margins on common wrapper elements */
+.asset_section,
+.buy_head,
+.esti-container {
+  margin-bottom: 24px;
 }
 .dashboard_main .row {
   background-color: #181a20;
@@ -1090,12 +1192,8 @@ body {
   width: 250px;
 }
 
-.padlef_0_col {
-  padding-left: 0 !important;
-}
-
 .padin_lefrig_dash {
-  padding: 0 100px;
+  padding: 0 24px; /* Reduced from 100px for better visibility */
 }
 
 .dashboard_title {
@@ -1135,7 +1233,7 @@ body {
 .dashboard_title h3 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -1197,7 +1295,7 @@ body {
 
 .dash_user_name h3 {
   font-weight: 600;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   color: #eaecef;
   font-size: 20px;
   margin-bottom: 0;
@@ -1229,7 +1327,7 @@ body {
 }
 
 .uid_content h4 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   /* font-size: 13px; */
   font-weight: 300;
@@ -1239,7 +1337,7 @@ body {
 }
 
 .uid_content p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #eaecef;
@@ -1253,7 +1351,7 @@ body {
   width: fit-content;
   color: #f84960;
   font-size: 13px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
 }
 
 .dashboard_content {
@@ -1268,14 +1366,14 @@ body {
   margin-left: 8px;
 }
 .text-whte {
-  color: #f3f3f3 !important; ;
+  color: #f3f3f3 !important;
 }
 
 .secuirty_box_title {
   margin-top: 20px;
 }
 .secuirty_box_title {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   margin: 20px 0;
   display: flex;
   justify-content: space-between;
@@ -1311,7 +1409,7 @@ body {
 }
 
 .secuirty_box_title h3 {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 300;
   color: #eaecef;
@@ -1324,13 +1422,13 @@ body {
   width: 40px;
 }
 .login_verify_content h4 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   color: #848e9c;
   font-weight: 200;
 }
 .login_verify_content p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   font-size: 14px;
   color: #eaecef;
@@ -1358,7 +1456,7 @@ body {
 }
 
 .security_content h3 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   font-weight: 500;
 }
@@ -1380,7 +1478,7 @@ body {
   gap: 12px;
 }
 .low_line .verify_fail {
-  font-family: "Satoshi", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   color: #f84960;
 }
@@ -1388,12 +1486,12 @@ body {
   font-size: 20px;
 }
 .low_line .verify_medium {
-  font-family: "Satoshi", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   color: #ffaa5f;
 }
 .low_line .verify_success {
-  font-family: "Satoshi", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   color: #2ebd85;
 }
@@ -1428,7 +1526,7 @@ body {
   color: #eaecef;
   font-weight: 300;
   font-size: 14px;
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   border: none;
   outline: none;
   background-color: #313237;
@@ -1440,7 +1538,7 @@ body {
 }
 
 /* .low_line p {
-  font-family: "Larsseit", sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif !important;
   font-size: 14px;
   color: #cececf;
   margin-bottom: 0;
@@ -1462,7 +1560,7 @@ body {
   border: none;
   width: 25%;
   color: #17171a;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
 }
 .withdraw_btn {
@@ -1472,7 +1570,7 @@ body {
   border: none;
   width: 21%;
   color: #ffc630;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
 }
 .share-deposit {
@@ -1482,7 +1580,7 @@ body {
   border: none;
   width: 25%;
   color: #ffc630;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
 }
 .deposit_withdraw_btns {
@@ -1503,7 +1601,7 @@ body {
   background-color: #bd7f10;
   border: none;
   outline: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   /* font-size: 16px; */
   font-size: 14px;
   font-weight: 500;
@@ -1518,7 +1616,7 @@ body {
   background-color: transparent;
   border: 1px solid #bd7f10;
   outline: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   /* font-size: 16px; */
   font-size: 14px;
   font-weight: 500;
@@ -1540,7 +1638,7 @@ body {
   background-color: #2ebd85;
   border: none;
   outline: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   color: #fff;
@@ -1573,7 +1671,7 @@ body {
 }
 
 .youpay-form label {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #fff;
@@ -1601,7 +1699,7 @@ body {
   outline: none;
   padding: 12px;
   border-radius: 36px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
 }
@@ -1622,7 +1720,7 @@ body {
   width: 50%;
   padding: 12px;
   border-radius: 36px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   background-color: #f45e71;
@@ -1664,7 +1762,7 @@ body {
 }
 
 .opt-action-normal {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
 }
 
@@ -1707,7 +1805,7 @@ body {
 }
 
 .invite_text {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   color: rgba(17, 24, 39, 0.8);
   /* margin-bottom: 5px; */
@@ -1740,7 +1838,7 @@ body {
   text-decoration: none;
   cursor: pointer;
   /* font-family: "Satoshi"; */
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: normal;
   text-wrap: nowrap;
@@ -1757,7 +1855,7 @@ body {
   padding: 32px;
   border-radius: 12px;
   border: solid 1px #2b3139;
-  background-color: #181a20;
+  background-color: transparent;
   margin-top: 70px;
 }
 
@@ -1768,7 +1866,7 @@ body {
 }
 
 .summary-swap {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 18px;
   color: #eaecef;
 }
@@ -1781,7 +1879,7 @@ body {
 .text_yellow {
   color: #bd7f10;
   font-size: 14px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
 }
 .span_text {
@@ -1800,7 +1898,7 @@ body {
   color: #eaecef;
   margin: 0px;
   font-size: 24px;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
 }
 
@@ -1814,7 +1912,7 @@ body {
 
 .convert_sub_title h3 {
   font-size: 14px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
 }
 
@@ -1842,7 +1940,7 @@ body {
   display: inline-block;
   transition: none;
   font-weight: 300 !important;
-  font-family: "Larsseit", sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
 }
 
 .ui.dropdown .menu .active.item {
@@ -1889,7 +1987,7 @@ body {
 }
 
 .transfer-from > h5 {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -1901,7 +1999,7 @@ body {
 }
 
 .transfer-to > h5 {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 300;
   font-stretch: normal;
@@ -1933,7 +2031,7 @@ body {
 }
 
 .transfer-from input::placeholder {
-  font-family: Larsseit;
+  font-family: IBM Plex Sans;
   font-size: 13px;
   font-weight: 500;
   font-stretch: normal;
@@ -1945,7 +2043,7 @@ body {
 }
 
 .transfer-to input::placeholder {
-  font-family: Larsseit;
+  font-family: IBM Plex Sans;
   font-size: 13px;
   font-weight: 500;
   font-stretch: normal;
@@ -1972,7 +2070,7 @@ body {
   outline: none;
   width: 100%;
   cursor: pointer;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   text-align: left;
@@ -1991,14 +2089,14 @@ body {
 }
 
 .int-avail-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   font-size: 13px;
   color: #848e9c;
 }
 
 .int-avail-total {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   font-size: 14px;
   color: #eaecef;
@@ -2036,7 +2134,7 @@ body {
 
 .amount-btc {
   position: absolute;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 300;
   font-stretch: normal;
@@ -2051,7 +2149,7 @@ body {
 
 .amount-max {
   position: absolute;
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 300;
   font-stretch: normal;
@@ -2107,13 +2205,13 @@ body {
 }
 
 .spend_text h4 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   color: #cececf;
 }
 
 .spend_chng {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   color: #848e9c;
   margin: 0px;
@@ -2132,13 +2230,13 @@ body {
 }
 
 .spend-manual {
-  font-family: "Larsseit" !important;
+  font-family: "IBM Plex Sans" !important;
   font-size: 16px;
   font-weight: 300 !important;
   color: #fff !important;
 }
 /* .swap_balance {
-  font-family: "Larsseit", sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif !important;
   margin-left: 8px;
   margin-top: 15px;
   color: #cececf;
@@ -2146,13 +2244,13 @@ body {
   font-weight: 300;
 } */
 .swap_balance span {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   color: #eaecef;
   margin-left: 8px;
 }
 .Convert_btn button {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 500;
   padding: 16px 20px;
   border-radius: 56px;
@@ -2198,12 +2296,12 @@ body {
 }
 
 .security_email_item h3 {
-  /* font-family: "Larsseit", sans-serif; */
+  /* font-family: 'IBM Plex Sans', sans-serif !important; */
   color: #eaecef;
   font-size: 16px;
 }
 .security_email_item p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   color: #848e9c;
 }
@@ -2213,19 +2311,19 @@ body {
 }
 
 .email_id_text span {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   color: #848e9c;
   font-weight: 300;
 }
 
 .text-lightGrey {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   color: #848e9c;
 }
 
 .enable_btn button {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   padding: 8px 20px;
   border-radius: 56px;
   background-color: #bd7f10;
@@ -2305,7 +2403,7 @@ body {
   border: none;
   font-size: 14px;
   font-weight: 500;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
 }
 
 .reject-box {
@@ -2319,14 +2417,14 @@ body {
 }
 
 .reject-box span {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 17px;
   font-weight: 500;
   color: rgb(255, 84, 84);
   margin-right: 4px;
 }
 .reject-box .reject-reason {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   color: #fff;
@@ -2343,7 +2441,7 @@ body {
 }
 
 .pending-box span {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 17px;
   font-weight: 500;
   color: rgb(225 134 64);
@@ -2353,7 +2451,7 @@ body {
 .standard_verify_box {
   /* padding: 17px 49px 17px 24px; */
   border-radius: 12px;
-  background-color: #181a20;
+  background-color: transparent;
   border: 1px solid #2b3139;
   display: flex;
   justify-content: space-between;
@@ -2368,14 +2466,14 @@ body {
 }
 
 .standard_verify_content h3 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   color: #eaecef;
 }
 
 .standard_verify_content p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.8);
@@ -2401,7 +2499,7 @@ body {
 }
 
 .individual_title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   color: #fff;
@@ -2439,14 +2537,14 @@ body {
 
 .features h3,
 .feature-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   color: #848e9c;
 }
 
 .features p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.8);
@@ -2477,20 +2575,20 @@ body {
 }
 
 .select_id_text {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #eaecef;
 }
 
 .select_id_text1 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #737374;
 }
 .modal_continue_btn {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 600;
   color: #17171a;
@@ -2503,7 +2601,7 @@ body {
 }
 
 .modal_footer_text {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   line-height: 1.69;
@@ -2533,7 +2631,7 @@ body {
 }
 
 .passport p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #eaecef;
@@ -2549,7 +2647,7 @@ body {
   margin-top: 120px !important;
 }
 .modal-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px !important;
   font-weight: 500;
   color: #eaecef;
@@ -2575,7 +2673,7 @@ body {
 .view-p2p .secion1 h4 {
   height: 20px;
   flex-grow: 0;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 300;
   margin-bottom: 24px;
@@ -2584,7 +2682,7 @@ body {
 }
 
 .view-p2p .secion1 h6 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   text-align: left;
@@ -2594,7 +2692,7 @@ body {
 }
 
 .view-p2p .secion1 span {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   text-align: left;
@@ -2641,7 +2739,7 @@ body {
 }
 
 span.name {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   text-align: left;
@@ -2650,7 +2748,7 @@ span.name {
 
 span.volume {
   height: 14px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   text-align: left;
@@ -2658,7 +2756,7 @@ span.volume {
 }
 span.price {
   font-size: 14px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   text-align: left;
   color: rgba(206, 206, 207, 0.5);
@@ -2666,7 +2764,7 @@ span.price {
 
 span.inr {
   font-size: 14px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   text-align: left;
   color: #fff;
@@ -2770,7 +2868,7 @@ span.inr {
 }
 
 .modal-notify-content {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   color: #bd7f10;
   padding: 12px;
   border-radius: 8px;
@@ -2897,7 +2995,7 @@ span.inr {
   padding: 8px 12px;
   border-radius: 6px;
   background-color: #f5f6f8;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   color: #111827;
 }
@@ -2918,14 +3016,14 @@ span.inr {
   text-overflow: ellipsis;
 }
 .fees_content h4 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px !important;
   margin: 0px;
   color: #eaecef !important;
   font-weight: 300 !important;
 }
 .fees_content p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   color: #eaecef;
 }
@@ -2935,7 +3033,7 @@ span.inr {
   padding: 0 4px;
 }
 .sumbit_btn button {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   border: none;
   padding: 14px 20px;
   border-radius: 56px;
@@ -2950,12 +3048,6 @@ span.inr {
 }
 .dep-drops.support_textarea {
   min-height: 150px;
-}
-.deposit .form_div .dep-drops.new-clr_inp input {
-  color: #fff !important;
-}
-.deposit .form_div .dep-drops.new-clr_inp .message {
-  color: #fff !important;
 }
 .trade_qr_img {
   width: 120px;
@@ -3004,13 +3096,13 @@ span.inr {
   justify-content: center;
 }
 .referral_content_box h4 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
 }
 .referral_content_box p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   text-align: center;
@@ -3024,7 +3116,7 @@ span.inr {
 }
 .my-refferal-eraning-title {
   margin-bottom: 20px !important;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 24px;
   font-weight: 500;
   letter-spacing: 0.36px;
@@ -3032,7 +3124,7 @@ span.inr {
 }
 
 .referral-invite-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   color: #fff;
   font-weight: 300;
@@ -3048,7 +3140,7 @@ span.inr {
 }
 
 .refferal_code h4 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   margin: 0px;
   color: #fff;
   font-weight: 300;
@@ -3067,7 +3159,7 @@ span.inr {
   color: #ffc630;
 }
 .invite_btn button {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   padding: 16px 20px;
   border-radius: 46px;
   background-color: #ffc630;
@@ -3081,7 +3173,7 @@ span.inr {
 
 .name_of_fidex p {
   margin-bottom: 0px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   /* font-weight: 300 ; */
   font-size: 13px;
   font-weight: 300;
@@ -3092,13 +3184,13 @@ span.inr {
   padding-bottom: 20px;
   border-bottom: 1px solid #3a3e46;
   font-size: 14px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   color: #fff;
 }
 
 .name_of_fidex h3 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
@@ -3108,7 +3200,7 @@ span.inr {
 }
 
 .fill_text {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
@@ -3122,7 +3214,7 @@ span.inr {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 500;
   text-align: left;
@@ -3145,7 +3237,7 @@ span.inr {
 
 .fiat-notify {
   width: 100%;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-weight: 300;
   font-size: 13px;
   color: #ffc630;
@@ -3171,7 +3263,7 @@ span.inr {
 }
 
 .fiat-inputs {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 500;
   text-align: left;
@@ -3182,7 +3274,7 @@ span.inr {
 }
 
 .ref-label-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 13px;
   font-weight: 500;
   text-align: left;
@@ -3322,7 +3414,7 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: #bd7f10;
   border: none;
   outline: none;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   color: #111827;
@@ -3331,7 +3423,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .timer_element {
   color: #cececf;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
 }
@@ -3459,7 +3551,7 @@ input[type="number"]::-webkit-inner-spin-button {
   text-align: end;
 }
 .balance span {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   margin: 0px;
   letter-spacing: normal;
@@ -3507,7 +3599,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .not-found-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 38px;
   font-weight: 500;
   text-align: center;
@@ -3516,7 +3608,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .not-found-content {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.38;
@@ -3531,7 +3623,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding: 12px 32px;
   border-radius: 8px;
   background-color: #bd7f10;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.32px;
@@ -3554,7 +3646,7 @@ input[type="number"]::-webkit-inner-spin-button {
   gap: 12px;
   padding: 0;
   margin: 40px 20px 0px 340px;
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 300;
   letter-spacing: 0.4px;
@@ -3587,7 +3679,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .support-modal-title {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 20px;
   font-weight: 600;
   color: #bd7f10;
@@ -3604,14 +3696,14 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .support-modal-top h6 {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #848e9c;
 }
 
 .support-modal-top p {
-  font-family: "Larsseit", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 14px;
   font-weight: 300;
   color: #eaecef;
@@ -3627,20 +3719,6 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .p_new_end .j-img-content-two {
   margin-right: 0px !important;
-}
-.modal-content.common_buysell_box {
-  max-height: 400px;
-  min-width: 400px;
-}
-.modal-content.common_buysell_box > .personal_verify_body {
-  min-height: 100%;
-}
-
-.p2o_display_require {
-  border: solid 2px #2f3035;
-  border-radius: 15px;
-  padding: 15px;
-  color: white;
 }
 
 /* Media Queries */
@@ -4598,7 +4676,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .landing-refer-title {
-  font-family: "Larsseit";
+  font-family: "IBM Plex Sans", sans-serif !important;
   font-size: 15px;
   font-weight: 300;
   color: #cececf;

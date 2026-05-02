@@ -9,6 +9,7 @@ import apiService from "../core/service/detail";
 import { Bars } from "react-loader-spinner";
 import Switch from "react-switch";
 import { t } from "i18next";
+import DashboardLayout from "./DashboardLayout";
 
 const FeeSettings = () => {
   useEffect(() => {
@@ -30,9 +31,8 @@ const FeeSettings = () => {
       setSiteLoader(false);
       if (resp.status == true) {
         setprofileData(resp.Message);
-        if(resp.Message.ptk_fee_status == 1)
-        {
-            setChecked(true);
+        if (resp.Message.ptk_fee_status == 1) {
+          setChecked(true);
         }
         sessionStorage.setItem("tfa_status", resp.data.tfastatus);
         // localStorage.setItem("tfa_status", resp.data.tfastatus);
@@ -53,8 +53,6 @@ const FeeSettings = () => {
       getProfile();
     }
   };
-
-
 
   const obfuscateEmail = (email) => {
     if (!email) return "";
@@ -77,57 +75,48 @@ const FeeSettings = () => {
 
   return (
     <>
-      <section>
-        <Header />
-      </section>
-      {siteLoader == true ? (
-        <div className="loadercss">
-          <Bars
-            height="80"
-            width="80"
-            color="#bd7f10"
-            ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      ) : (
-        <main className="dashboard_main">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-lg-2 col-md-0 padlef_0_col">
-                <Side_bar />
-              </div>
-
-              <div className="col-lg-10 col-md-12 padin_lefrig_dash">
-                <div className="dashboard_content border_none">
+      <DashboardLayout>
+        {siteLoader == true ? (
+          <div className="loadercss">
+            <Bars
+              height="80"
+              width="80"
+              color="#bd7f10"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        ) : (
+          <section className="asset_section">
+            <div className="buy_head">
+              <div className="w-full">
+                <div className="bg-black rounded-xl p-4">
                   <div className="two_fa_heading">{t("feeSettings")}</div>
                   <div className="security_email_content">
                     <div className="security_email_item">
-                      <img
-                        src={require("../assets/icons/spot-trade.webp")}
-                      />
+                      <img src={require("../assets/icons/spot-trade.webp")} />
 
                       <div className="">
                         <div className="d-flex gap-3 align-items-center">
                           <h3>{t("ptkfeeSettings")}</h3>
                           <div className="mb-2">
-                              <Switch
-                                checked={checked}
-                                onChange={handleChange}
-                                onColor="#ffc630" // Color inside the switch when on
-                                offColor="#fa5d72" // Color inside the switch when off
-                                handleDiameter={14} // Diameter of the switch handle (button)
-                                height={19} // Height of the switch
-                                width={33} // Width of the switch
-                                uncheckedIcon={false} // No icon when off
-                                checkedIcon={false} // No icon when on
-                                handleStyle={{
-                                  boxShadow: "none", // This removes the glow or shadow around the handle
-                                  backgroundColor: "white", // Ensure the handle is white
-                                }}
-                              />
+                            <Switch
+                              checked={checked}
+                              onChange={handleChange}
+                              onColor="#ffc630" // Color inside the switch when on
+                              offColor="#fa5d72" // Color inside the switch when off
+                              handleDiameter={14} // Diameter of the switch handle (button)
+                              height={19} // Height of the switch
+                              width={33} // Width of the switch
+                              uncheckedIcon={false} // No icon when off
+                              checkedIcon={false} // No icon when on
+                              handleStyle={{
+                                boxShadow: "none", // This removes the glow or shadow around the handle
+                                backgroundColor: "white", // Ensure the handle is white
+                              }}
+                            />
                           </div>
                         </div>
                         <p>{t("ptkFeeEnable")}</p>
@@ -160,9 +149,9 @@ const FeeSettings = () => {
                         </div>
                       )}
                     </div>
-                  </div>
+                    {/* </div> */}
 
-                  {/* <div className="two_fa_heading">Account Management</div>
+                    {/* <div className="two_fa_heading">Account Management</div>
                 <div className="security_email_content">
                   <div className="security_email_item">
                     <img src={require("../assets/delete_icon.png")} />
@@ -178,14 +167,14 @@ const FeeSettings = () => {
 
                   <div className="delete_button">
                     <button>Delete</button>
+                  </div>*/}
                   </div>
-                </div> */}
                 </div>
               </div>
             </div>
-          </div>
-        </main>
-      )}
+          </section>
+        )}
+      </DashboardLayout>
     </>
   );
 };

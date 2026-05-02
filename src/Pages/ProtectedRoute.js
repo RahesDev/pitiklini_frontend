@@ -13,7 +13,8 @@ console.log(isAuthenticated,'=-=-=-isAuthenticated=-=-=-isAuthenticated')
     <Routes>
       <Route
         {...rest}
-        element={isAuthenticated ? <Component {...rest} /> : <Navigate to="/" />}
+        // element={isAuthenticated ? <Component {...rest} /> : <Navigate to="/" />}
+        element={<Component {...rest} />} // Bypassed authentication for development
       />
     </Routes>
   );

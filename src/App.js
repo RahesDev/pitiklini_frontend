@@ -90,6 +90,10 @@ import FeeSettings from "./Pages/FeeSettings";
 import NotificationHistory from "./Pages/NotificationHistory";
 import FundTransfer from "./Pages/FundTransfer";
 import UserRecharge from "./Pages/UserRecharge";
+import SupportPage from "./Pages/SupportPage";
+import FAQPage from "./Pages/FAQpage";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
+import UserAgreement from "./Pages/UserAgreement";
 
 function App() {
   const [favIconSite, setFaviconSite, favIconSiteref] = useState("");
@@ -108,16 +112,16 @@ function App() {
     document.documentElement.lang = i18n.language;
   }, [i18n.language]);
 
-    useEffect(() => {
-      const onBeforeUnload = (e) => {
-        e.preventDefault();
-        e.returnValue = " ";
-      };
+  useEffect(() => {
+    const onBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = " ";
+    };
 
-      window.addEventListener("beforeunload", onBeforeUnload);
-      return () => window.removeEventListener("beforeunload", onBeforeUnload);
-    }, []);
-  
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, []);
+
   // useEffect(() => {
   //   // Add fake history entry to block back to Google
   //   window.history.pushState({ blocked: true }, "");
@@ -220,8 +224,9 @@ function App() {
   };
 
   function RequireAuth({ children }) {
-    var data = sessionStorage.getItem("user_token");
-    return data ? children : removeAuthToken();
+    // var data = sessionStorage.getItem("user_token");
+    // return data ? children : removeAuthToken();
+    return children; // Bypass authentication for development
   }
 
   return (
@@ -345,6 +350,15 @@ function App() {
               }
             />
             {/* <Route path="/buycrypto" element={<Buycrypto />} /> */}
+            <Route
+              path="/asset"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <Assets />{" "}
+                </RequireAuth>
+              }
+            />
             <Route
               path="/assets"
               element={
@@ -524,6 +538,38 @@ function App() {
               element={
                 <RequireAuth>
                   <Support />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/support-page"
+              element={
+                <RequireAuth>
+                  <SupportPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/faq-page"
+              element={
+                <RequireAuth>
+                  <FAQPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/privacy-policy"
+              element={
+                <RequireAuth>
+                  <PrivacyPolicy />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/user-agreement"
+              element={
+                <RequireAuth>
+                  <UserAgreement />
                 </RequireAuth>
               }
             />

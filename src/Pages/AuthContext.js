@@ -5,18 +5,9 @@ const AuthContext = createContext();
 
 // Create a Provider component
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for development
 
-  // const login = () =>{
-  //   localStorage.getItem('user_token')
-  //   if( localStorage.getItem('user_token')){
-  //     setIsAuthenticated(true);
-  //   }else{
-  //     setIsAuthenticated(false);
-  //   }
-  //   }
-
-
+  /*
     const checkAuth = () => {
       const token = sessionStorage.getItem("user_token");
       setIsAuthenticated(!!token);
@@ -30,6 +21,10 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
       checkAuth();
     }, []);
+  */
+
+  const checkAuth = () => {};
+  const login = () => setIsAuthenticated(true);
    
   // const register = () => setIsAuthenticated(true);
   const logout = () => {
