@@ -16,6 +16,7 @@ import AssetListTable from "./AssetListTable";
 import WalletViewTable from "./WalletViewTable";
 import Select from "react-select";
 import { t } from "i18next";
+import DashboardLayout from "./DashboardLayout";
 
 const colourStyles = {
   option: (styles, { isDisabled, isFocused, isSelected }) => ({
@@ -204,109 +205,97 @@ const Assets = () => {
 
   return (
     <>
-      <section>
-        <Header />
-      </section>
-      {siteLoader == true ? (
-        <div className="loadercss">
-          <Bars
-            height="80"
-            width="80"
-            color="#bd7f10"
-            ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      ) : (
-        <main className="dashboard_main">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-lg-2 padlef_0_col">
-                <Side_bar />
-              </div>
-
-              <div className="col-lg-10 padin_lefrig_dash">
-                <section className="asset_section">
-                  <div className="row mt-4">
-                    <div className="asset_title">{t("spotAssets")}</div>
-                    <div className="col-lg-12">
-                      {/* Estimated Value */}
-                      <div className="esti-container">
-                        <div className="esti-sub-container">
-                          <div className="esti-left">
-                            <span className="esti-title">
-                              {t("spot-balance")}
-                              <span
-                                onClick={toggleBalanceVisibility}
-                                className="mx-2 eye-icon"
-                              >
-                                {isBalanceVisible ? (
-                                  <i class="fa-regular fa-eye ass_eye"></i>
-                                ) : (
-                                  <i class="fa-regular fa-eye-slash ass_eye"></i>
-                                )}
-                              </span>
-                            </span>
-                            <span className="esti-usdt">
-                              {/* {overallValue} */}
-                              {isBalanceVisible ? (
-                                <>
-                                  {totalSpot == "" ||
-                                  totalSpot == null ||
-                                  totalSpot == undefined
-                                    ? 0.0
-                                    : totalSpot.toFixed(4)}{" "}
-                                </>
-                              ) : (
-                                "****"
-                              )}
-                              <span className="esti-span ">
-                                USDT
-                                {/* <Select
+      <DashboardLayout>
+        {siteLoader == true ? (
+          <div className="loadercss">
+            <Bars
+              height="80"
+              width="80"
+              color="#bd7f10"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        ) : (
+          <section className="asset_section">
+            <div className="buy_head">
+              <div className="asset_title">{t("spotAssets")}</div>
+              <div className="col-lg-12">
+                {/* Estimated Value */}
+                <div className="esti-container">
+                  <div className="esti-sub-container">
+                    <div className="esti-left">
+                      <span className="esti-title">
+                        {t("spot-balance")}
+                        <span
+                          onClick={toggleBalanceVisibility}
+                          className="mx-2 eye-icon"
+                        >
+                          {isBalanceVisible ? (
+                            <i class="fa-regular fa-eye ass_eye"></i>
+                          ) : (
+                            <i class="fa-regular fa-eye-slash ass_eye"></i>
+                          )}
+                        </span>
+                      </span>
+                      <span className="esti-usdt">
+                        {/* {overallValue} */}
+                        {isBalanceVisible ? (
+                          <>
+                            {totalSpot == "" ||
+                            totalSpot == null ||
+                            totalSpot == undefined
+                              ? 0.0
+                              : totalSpot.toFixed(4)}{" "}
+                          </>
+                        ) : (
+                          "****"
+                        )}
+                        <span className="esti-span ">
+                          USDT
+                          {/* <Select
                                 options={cryptOptions}
                                 placeholder="USDT"
                                 className="esti-span"
                                 styles={colourStyles}
                                 onChange={onSelect_currency}
                               /> */}
-                              </span>{" "}
-                            </span>
-                            <span className="esti-num">
-                              ~{" "}
-                              {isBalanceVisible ? (
-                                <>
-                                  {totalSpotINR == "" ||
-                                  totalSpotINR == null ||
-                                  totalSpotINR == undefined
-                                    ? 0.0
-                                    : totalSpotINR.toFixed(4)}
-                                </>
-                              ) : (
-                                "****"
-                              )}{" "}
-                              INR
-                            </span>
-                          </div>
-                          <div className="dash-bal-btns-wrapper ">
-                            <Link to="/deposit">
-                              <button className="dash-bal-btn">
-                                {t("deposit")}
-                              </button>
-                            </Link>
-                            <Link to="/withdraw">
-                              <button className="dash-bal-btn">
-                                {t("withdrawal")}
-                              </button>
-                            </Link>
-                            {/* <Link to="/internaltransfer">
+                        </span>{" "}
+                      </span>
+                      <span className="esti-num">
+                        ~{" "}
+                        {isBalanceVisible ? (
+                          <>
+                            {totalSpotINR == "" ||
+                            totalSpotINR == null ||
+                            totalSpotINR == undefined
+                              ? 0.0
+                              : totalSpotINR.toFixed(4)}
+                          </>
+                        ) : (
+                          "****"
+                        )}{" "}
+                        INR
+                      </span>
+                    </div>
+                    <div className="dash-bal-btns-wrapper ">
+                      <Link to="/deposit">
+                        <button className="dash-bal-btn">{t("deposit")}</button>
+                      </Link>
+                      <Link to="/withdraw">
+                        <button className="dash-bal-btn">
+                          {t("withdrawal")}
+                        </button>
+                      </Link>
+                      {/* <Link to="/internaltransfer">
                               <button className="dash-bal-btn">Transfer</button>
                             </Link> */}
-                          </div>
-                        </div>
-                      </div>
-                      {/* <div
+                    </div>
+                  </div>
+                </div>
+                {/* <div
                         class="nav nav-tabs asset-nav-tabs"
                         id="nav-tab"
                         role="tablist"
@@ -349,193 +338,183 @@ const Assets = () => {
                         </button>
                       </div> */}
 
-                      <div className="terms justify-content-end">
-                        <div class="checkbox-container">
-                          <input
-                            id="custom-checkbox"
-                            checked={isChecked}
-                            onChange={(e) => setIsChecked(e.target.checked)}
-                            className="input-field regular_checkbox"
-                            type="checkbox"
-                          />
-                          <label htmlFor="custom-checkbox"></label>
-                        </div>
-                        <label
-                          htmlFor="custom-checkbox"
-                          className="terms-check"
-                        >
-                          {t("hidesmallbalances")}
-                        </label>
-                      </div>
+                <div className="terms justify-content-end">
+                  <div class="checkbox-container">
+                    <input
+                      id="custom-checkbox"
+                      checked={isChecked}
+                      onChange={(e) => setIsChecked(e.target.checked)}
+                      className="input-field regular_checkbox"
+                      type="checkbox"
+                    />
+                    <label htmlFor="custom-checkbox"></label>
+                  </div>
+                  <label htmlFor="custom-checkbox" className="terms-check">
+                    {t("hidesmallbalances")}
+                  </label>
+                </div>
 
-                      <div class="tab-content" id="nav-tabContent">
-                        {/* <div
+                <div class="tab-content" id="nav-tabContent">
+                  {/* <div
                           class="tab-pane fade mt-4"
                           id="nav-orders"
                           role="tabpanel"
                           aria-labelledby="nav-orders-tab"
                           tabindex="0"
                         > */}
-                        <div className="table-responsive table-cont">
-                          <table className="table">
-                            <thead>
-                              <tr className="stake-head-assss ">
-                                <th>{t("assets")}</th>
-                                <th className="opt-nowrap txt-center pad-left-23 pad-l-100">
-                                  {t("onOrders")}
-                                </th>
-                                <th className="opt-nowrap txt-center pad-left-23  pad-l-100">
-                                  {t("availablebalance")}
-                                </th>
-                                <th className="opt-btn-flex table-action p-r-25">
-                                  {t("totalBalance")}
-                                </th>
-                              </tr>
-                            </thead>
+                  <div className="table-responsive table-cont">
+                    <table className="table">
+                      <thead>
+                        <tr className="stake-head-assss ">
+                          <th>{t("assets")}</th>
+                          <th className="opt-nowrap txt-center pad-left-23 pad-l-100">
+                            {t("onOrders")}
+                          </th>
+                          <th className="opt-nowrap txt-center pad-left-23  pad-l-100">
+                            {t("availablebalance")}
+                          </th>
+                          <th className="opt-btn-flex table-action p-r-25">
+                            {t("totalBalance")}
+                          </th>
+                        </tr>
+                      </thead>
 
-                            <tbody>
-                              {balanceDetails && balanceDetails.length > 0 ? (
-                                balanceDetails
-                                  .filter(
-                                    (item) =>
-                                      !isChecked || item.currencyBalance > 0
-                                  )
-                                  .map((item, i) => {
-                                    return (
-                                      <tr key={i}>
-                                        <td className="table-flex">
-                                          <img
-                                            src={item?.currencyImage}
-                                            alt=""
-                                          />
-                                          <div className="table-opt-name">
-                                            <h4 className="opt-name  font_14">
-                                              {item?.currencysymbol}
-                                            </h4>
-                                            <h3 className="opt-sub font-satoshi font_14">
-                                              {item?.currencyName}
-                                            </h3>
-                                          </div>
-                                        </td>
-
-                                        <td className="opt-term  font_14 table_center_text pad-left-23 pad-l-100 nowra_txt">
-                                          {isBalanceVisible ? (
-                                            <>
-                                              {parseFloat(
-                                                item?.holdAmount
-                                              ).toFixed(4)}
-                                            </>
-                                          ) : (
-                                            " ****"
-                                          )}{" "}
-                                          {item?.currencysymbol}
-                                        </td>
-                                        <td className="opt-term  font_14 table_center_text pad-left-23 pad-l-100 nowra_txt">
-                                          {isBalanceVisible ? (
-                                            <>
-                                              {parseFloat(
-                                                item?.currencyBalance
-                                              ).toFixed(4)}
-                                            </>
-                                          ) : (
-                                            "****"
-                                          )}{" "}
-                                          {item?.currencysymbol}
-                                        </td>
-                                        <td className="opt-term  font_14 pad-left-23 assnewch_lasttd nowra_txt">
-                                          {isBalanceVisible ? (
-                                            <>
-                                              {parseFloat(
-                                                item?.currencyBalance +
-                                                  parseFloat(item?.holdAmount)
-                                              ).toFixed(4)}
-                                            </>
-                                          ) : (
-                                            "****"
-                                          )}{" "}
-                                          {item?.currencysymbol}{" "}
-                                        </td>
-                                      </tr>
-                                    );
-                                  })
-                              ) : (
-                                <tr>
-                                  <td colSpan={4} className="text-center py-5">
-                                    <div className="empty_data">
-                                      <div className="empty_data_img">
-                                        <img
-                                          src={require("../assets/No-data.webp")}
-                                          width="100px"
-                                        />
-                                      </div>
-                                      <div className="no_records_text">
-                                        {t("noRecordsFound")}
-                                      </div>
+                      <tbody>
+                        {balanceDetails && balanceDetails.length > 0 ? (
+                          balanceDetails
+                            .filter(
+                              (item) => !isChecked || item.currencyBalance > 0,
+                            )
+                            .map((item, i) => {
+                              return (
+                                <tr key={i}>
+                                  <td className="table-flex">
+                                    <img src={item?.currencyImage} alt="" />
+                                    <div className="table-opt-name">
+                                      <h4 className="opt-name  font_14">
+                                        {item?.currencysymbol}
+                                      </h4>
+                                      <h3 className="opt-sub font-satoshi font_14">
+                                        {item?.currencyName}
+                                      </h3>
                                     </div>
                                   </td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
 
-                          {balanceDetails && balanceDetails.length > 0 ? (
-                            <div className="pagination">
-                              <Stack spacing={2}>
-                                <Pagination
-                                  count={Math.ceil(total / recordPerPage)}
-                                  page={currentPage}
-                                  onChange={handlePageChange}
-                                  size="small"
-                                  sx={{
-                                    "& .MuiPaginationItem-root": {
-                                      color: "#fff", // Default text color for pagination items
-                                      // backgroundColor: "#2D1E23",
-                                      // "&:hover": {
-                                      //   backgroundColor: "#453a1f",
-                                      //   color: "#ffc630",
-                                      // },
-                                    },
-                                    "& .Mui-selected": {
-                                      backgroundColor: "#bd7f10 !important", // Background color for selected item
-                                      color: "#000", // Text color for selected item
-                                      "&:hover": {
-                                        backgroundColor: "#bd7f10",
-                                        color: "#000",
-                                      },
-                                    },
-                                    "& .MuiPaginationItem-ellipsis": {
-                                      color: "#fff", // Color for ellipsis
-                                    },
-                                    "& .MuiPaginationItem-icon": {
-                                      color: "#fff", // Color for icon (if present)
-                                    },
-                                  }}
-                                  // renderItem={(item) => (
-                                  //   <PaginationItem
-                                  //     slots={{
-                                  //       previous: ArrowBackIcon,
-                                  //       next: ArrowForwardIcon,
-                                  //     }}
-                                  //     {...item}
-                                  //   />
-                                  // )}
-                                />
-                              </Stack>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        {/* </div> */}
+                                  <td className="opt-term  font_14 table_center_text pad-left-23 pad-l-100 nowra_txt">
+                                    {isBalanceVisible ? (
+                                      <>
+                                        {parseFloat(item?.holdAmount).toFixed(
+                                          4,
+                                        )}
+                                      </>
+                                    ) : (
+                                      " ****"
+                                    )}{" "}
+                                    {item?.currencysymbol}
+                                  </td>
+                                  <td className="opt-term  font_14 table_center_text pad-left-23 pad-l-100 nowra_txt">
+                                    {isBalanceVisible ? (
+                                      <>
+                                        {parseFloat(
+                                          item?.currencyBalance,
+                                        ).toFixed(4)}
+                                      </>
+                                    ) : (
+                                      "****"
+                                    )}{" "}
+                                    {item?.currencysymbol}
+                                  </td>
+                                  <td className="opt-term  font_14 pad-left-23 assnewch_lasttd nowra_txt">
+                                    {isBalanceVisible ? (
+                                      <>
+                                        {parseFloat(
+                                          item?.currencyBalance +
+                                            parseFloat(item?.holdAmount),
+                                        ).toFixed(4)}
+                                      </>
+                                    ) : (
+                                      "****"
+                                    )}{" "}
+                                    {item?.currencysymbol}{" "}
+                                  </td>
+                                </tr>
+                              );
+                            })
+                        ) : (
+                          <tr>
+                            <td colSpan={4} className="text-center py-5">
+                              <div className="empty_data">
+                                <div className="empty_data_img">
+                                  <img
+                                    src={require("../assets/No-data.webp")}
+                                    width="100px"
+                                  />
+                                </div>
+                                <div className="no_records_text">
+                                  {t("noRecordsFound")}
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+
+                    {balanceDetails && balanceDetails.length > 0 ? (
+                      <div className="pagination">
+                        <Stack spacing={2}>
+                          <Pagination
+                            count={Math.ceil(total / recordPerPage)}
+                            page={currentPage}
+                            onChange={handlePageChange}
+                            size="small"
+                            sx={{
+                              "& .MuiPaginationItem-root": {
+                                color: "#fff", // Default text color for pagination items
+                                // backgroundColor: "#2D1E23",
+                                // "&:hover": {
+                                //   backgroundColor: "#453a1f",
+                                //   color: "#ffc630",
+                                // },
+                              },
+                              "& .Mui-selected": {
+                                backgroundColor: "#bd7f10 !important", // Background color for selected item
+                                color: "#000", // Text color for selected item
+                                "&:hover": {
+                                  backgroundColor: "#bd7f10",
+                                  color: "#000",
+                                },
+                              },
+                              "& .MuiPaginationItem-ellipsis": {
+                                color: "#fff", // Color for ellipsis
+                              },
+                              "& .MuiPaginationItem-icon": {
+                                color: "#fff", // Color for icon (if present)
+                              },
+                            }}
+                            // renderItem={(item) => (
+                            //   <PaginationItem
+                            //     slots={{
+                            //       previous: ArrowBackIcon,
+                            //       next: ArrowForwardIcon,
+                            //     }}
+                            //     {...item}
+                            //   />
+                            // )}
+                          />
+                        </Stack>
                       </div>
-                    </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
-                </section>
+                  {/* </div> */}
+                </div>
               </div>
             </div>
-          </div>
-        </main>
-      )}
+          </section>
+        )}
+      </DashboardLayout>
     </>
   );
 };

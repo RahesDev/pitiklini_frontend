@@ -242,7 +242,7 @@ const Header = () => {
   useEffect(() => {
     // let userToken = localStorage.getItem("user_token");
     let userToken = sessionStorage.getItem("user_token");
-    if (userToken) {
+    if (true) {
       // Forced true for development
       setloginCheck(true);
       if (userToken) {
@@ -409,7 +409,7 @@ const Header = () => {
                   <Typography variant="h6" className={classes.title}>
                     <div className="logo_new_sectio d-flex">
                       <Link
-                        to={!isAuthenticated ? "/" : "/dashboard"}
+                        to={isAuthenticated ? "/dashboard" : "/"}
                         className="logo-brand"
                       >
                         {/* <img src={Lightlogo} className="img-fluid" alt="logo" /> */}
@@ -1125,13 +1125,13 @@ const Header = () => {
                           </button>
                         </Link>
 
-                        {/* <span className="text-gray-400">/</span>
+                        <span className="text-gray-400">/</span>
 
                         <Link to="/register">
                           <button className="head-btn capitalize">
-                            {t("signup")}
+                            {t("signin")}
                           </button>
-                        </Link> */}
+                        </Link>
                       </div>
                     )}
                     {/* {loginCheck ? (

@@ -291,24 +291,29 @@ const Dashboard = () => {
   //   }
   // };
 
-  const startVerification = () => {
-    const userId = getKYCData?._id;
-    if (!userId) {
-      toast.error("User not found");
-      return;
+  const startVerification = async () => {
+    try {
+      setLoading(true);
+
+      const res = await postMethod({
+        apiUrl: "kyc/start-verification",
+      });
+
+      if (!res.status) {
+        toast.error(res.message || "Failed to start KYC");
+        return;
+      }
+
+      const { url } = res;
+
+      // 👉 open depasify widget
+      window.open(url, "_blank");
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
-    const redirectUrl = encodeURIComponent("https://pitiklini.com/kyc");
-
-    const url = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}&redirect_url=${redirectUrl}`;
-
-    window.open(url, "_blank");
-
-    // window.location.href = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}`;
-    // window.open(
-    //   `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=kyc_only&external_user_uuid=${userId}`,
-    //   "_blank",
-    // );
   };
 
   // const startVerification = async () => {
@@ -793,7 +798,7 @@ const Dashboard = () => {
                                     {getKYCData.kycstatus == 2 ? (
                                       <button
                                         disabled
-                                        className="action_btn opt-nowrap w-100 disabl"
+                                        className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition"
                                         type="button"
                                       >
                                         {t("pending")}
@@ -801,7 +806,7 @@ const Dashboard = () => {
                                     ) : getKYCData.kycstatus == 1 ? (
                                       <Link to="/deposit">
                                         <button
-                                          className="action_btn opt-nowrap w-100 kyc_depo_nw"
+                                          className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition"
                                           type="button"
                                         >
                                           {t("deposit")}
