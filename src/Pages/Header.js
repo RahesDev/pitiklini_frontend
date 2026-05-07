@@ -242,7 +242,8 @@ const Header = () => {
   useEffect(() => {
     // let userToken = localStorage.getItem("user_token");
     let userToken = sessionStorage.getItem("user_token");
-    if (true) {
+    // if (true) {
+    if (userToken) {
       // Forced true for development
       setloginCheck(true);
       if (userToken) {
@@ -506,28 +507,34 @@ const Header = () => {
                           {t("market")}
                         </Link>
                         <Link
-                          to="/market"
+                          to="/swap"
                           color="inherit"
                           className="contact_button px-4 uppercase font-bold"
                         >
-                          {/* Market */}
-                          {t("spot")}
+                          {t("convert")}
                         </Link>
                         <Link
-                          to="/support-page"
+                          to={isAuthenticated ? "/p2p" : "/login"}
                           color="inherit"
-                          className="contact_button px-4 uppercase font-bold"
+                          className="contact_button  uppercase font-bold"
                         >
-                          {/* Market */}
-                          {t("support")}
+                          {t("p2p")}
                         </Link>
                         <Link
-                          to="/market"
+                          to="/internaltransfer"
                           color="inherit"
                           className="contact_button px-4 uppercase font-bold"
                         >
                           {/* Market */}
-                          {t("blog")}
+                          {t("internal_transfer")}
+                        </Link>
+                        <Link
+                          to="/fundtransfer"
+                          color="inherit"
+                          className="contact_button px-4 uppercase font-bold"
+                        >
+                          {/* Market */}
+                          {t("fundtranfer")}
                         </Link>
 
                         {/* {loginCheck ? ( */}
@@ -549,13 +556,6 @@ const Header = () => {
                         >
                           Staking
                         </Link> */}
-                        {/* <Link
-                          to={isAuthenticated ? "/p2p" : "/login"}
-                          color="inherit"
-                          className="contact_button  uppercase font-bold"
-                        >
-                          {t("p2p")}
-                        </Link> */}
 
                         {/* <Link
                           to="/Checkout"
@@ -565,14 +565,14 @@ const Header = () => {
                           {t("fiat_deposit")}
                         </Link> */}
 
-                        {/* <Link
-                          to="/internaltransfer"
+                        <Link
+                          to="/recharge"
                           color="inherit"
                           className="contact_button  uppercase font-bold"
                         >
-                          {t("internal_transfer")}
+                          {t("recharge")}
                         </Link>
-                        <Link
+                        {/*  <Link
                           to="/fundtransfer"
                           color="inherit"
                           className="contact_button  uppercase font-bold"
@@ -1129,7 +1129,7 @@ const Header = () => {
 
                         <Link to="/register">
                           <button className="head-btn capitalize">
-                            {t("signin")}
+                            {t("signup")}
                           </button>
                         </Link>
                       </div>
@@ -1351,7 +1351,7 @@ const Header = () => {
                 </Toolbar>
               </AppBar>
 
-              {/* <Drawer
+              <Drawer
                 anchor="left"
                 open={mobileMenuOpen}
                 onClose={handleMobileMenuClose}
@@ -1393,7 +1393,7 @@ const Header = () => {
                       <Link to={isAuthenticated ? "/p2p" : "/login"}>
                         {t("p2p")}
                       </Link>
-                    </ListItem> */}
+                    </ListItem>
               {/* <ListItem button className="drawa">
                       <Link to="/staking">Staking</Link>
                     </ListItem> */}
@@ -1413,7 +1413,7 @@ const Header = () => {
                     <ListItem button className="drawa ">
                       <Link to="/airdroptokens">Airdrop</Link>
                     </ListItem>*/}
-              {/* {!loginCheck ? (
+              {!loginCheck ? (
                       <>
                         <ListItem button className="drawa ">
                           <Link to="/login">
@@ -1470,11 +1470,11 @@ const Header = () => {
                         </ListItem>
                         <ListItem button className="drawa ">
                           <Link to="/recharge">{t("recharge")}</Link>
-                        </ListItem> */}
+                        </ListItem>
               {/* <ListItem button className="drawa ">
                           <Link to="/rewards">My rewards</Link>
                         </ListItem> */}
-              {/* <ListItem button className="drawa ">
+               <ListItem button className="drawa ">
                           <Link to="/loginHistory">{t("histories")}</Link>
                         </ListItem>
                         <ListItem button className="drawa ">
@@ -1499,7 +1499,7 @@ const Header = () => {
                     )}
                   </div>
                 </div>
-              </Drawer> */}
+              </Drawer>
             </div>
           </div>
         </div>

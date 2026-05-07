@@ -946,7 +946,7 @@ header.scrolled .MuiAppBar-colorPrimary {
 }
 
 .menu_new_typr a {
-  margin: 0px 10px !important;
+  margin: 0px 2px !important;
   text-decoration: none;
   cursor: pointer;
   font-family: "IBM Plex Sans";

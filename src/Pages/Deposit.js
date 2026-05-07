@@ -19,6 +19,7 @@ import ICON from "../assets/deposit-imp.png";
 import WARNICON from "../assets/icons/withdraw-warn.webp";
 import { useTranslation } from "react-i18next";
 import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
+import VerticalStepper from "./VerticalStepper";
 import DashboardLayout from "./DashboardLayout";
 
 const Dashboard = () => {
@@ -39,6 +40,9 @@ const Dashboard = () => {
   const [Fullname, Setfullname, Fullnameref] = useState("Tether");
   const [Image, setImage, Imageref] = useState("");
   const [Networks, setNetworks, Networksref] = useState("");
+  /** Stepper UI: step 3 stays grey until both are true (network N/A ⇒ set true with crypto). */
+  const [selectedCrypto, setSelectedCrypto, selectedCryptoref] = useState(false);
+  const [selectedNetwork, setSelectedNetwork, selectedNetworkref] = useState(false);
   const [siteLoader, setSiteLoader] = useState(false);
   const [refreshStatus, setrefreshStatus] = useState(false);
   const [historyLoader, setHistoryLoader] = useState(false);
@@ -240,6 +244,7 @@ const Dashboard = () => {
 
     const selectedData = setcur_network([]);
     setnet_default("");
+    setSelectedCrypto(true);
     setcurrency(option.label);
     Setfullname(option.currencyName);
     setImage(option.imgurl);
@@ -251,6 +256,12 @@ const Dashboard = () => {
       var currencydata = allCryptoref.current[indexData];
       console.log("currencydata===", currencydata);
       setcur_currency(currencydata);
+
+      if (currencydata.currencyType == "2") {
+        setSelectedNetwork(false);
+      } else {
+        setSelectedNetwork(true);
+      }
 
       var network_cur = {};
       var network_names = [];
@@ -346,6 +357,7 @@ const Dashboard = () => {
   };
 
   const onSelect_network = async (e, option) => {
+    setSelectedNetwork(true);
     setNetworks(option.label);
     console.log(option, "-=-onSelect_network");
     if (
@@ -373,6 +385,117 @@ const Dashboard = () => {
       }
     }
   };
+
+  /** Stepper: step 3 active only when selectedCrypto && selectedNetwork (network auto-satisfied when currencyType !== "2"). */
+  const needsNetwork = cur_currency && String(cur_currency.currencyType) === "2";
+  const depositCurrentStep = !selectedCrypto
+    ? 1
+    : needsNetwork && !selectedNetwork
+      ? 2
+      : 3;
+  const depositSteps = [
+    {
+      key: "select-crypto",
+      title: t("Select Crypto"),
+      icon: (
+        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zm-2 5v5a2 2 0 002 2h12a2 2 0 002-2V9H2zm2 3h2v2H4v-2z" />
+        </svg>
+      ),
+      content: (
+        <div className="bg-[#181a20] border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom max-w-xl">
+          <Dropdown
+            placeholder={t("selectCoin")}
+            fluid
+            className="dep-drops w-full bg-transparent text-white border-0"
+            selection
+            options={allCurrencyref.current}
+            defaultValue={allCurrencyref.current[0]}
+            onChange={onSelect}
+          />
+        </div>
+      ),
+    },
+    {
+      key: "select-network",
+      title: t("Select Network"),
+      icon: (
+        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+        </svg>
+      ),
+      content: cur_currencyref.current?.currencyType == "2" ? (
+        <div className="max-w-xl mt-6">
+          <div className="bg-[#181a20] border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom">
+            <Dropdown
+              placeholder={t("Select Network you want to deposit through")}
+              fluid
+              className="dep-drops w-full bg-transparent text-white border-0"
+              selection
+              options={network_currencyref.current}
+              defaultValue={network_currencyref.current[0]}
+              onChange={onSelect_network}
+            />
+          </div>
+          {Networks && (
+            <div className="text-[#848E9C] text-[13px] mt-4 flex items-center gap-1">
+              <span>{t("Expected Arrival")}:</span>
+              <span className="text-[#848E9C]">{t("2min 50sec")} </span>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="text-gray-500 text-sm mt-4">{t("Network selection is not available for this currency.")}</div>
+      ),
+    },
+    {
+      key: "copy-wallet-address",
+      title: t("Copy Wallet Address"),
+      icon: (
+        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+        </svg>
+      ),
+      content: addressref.current == undefined ? (
+        <div className="text-gray-500 text-sm mt-4">{t("Select a coin and network above to generate an address.")}</div>
+      ) : (
+        <div className="max-w-[45rem] mt-4 relative z-10">
+          <div className="bg-[#14151a] border border-[#2b3139] rounded-xl p-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 relative overflow-hidden">
+            <div className="flex-1 w-full order-2 md:order-1 mt-2 md:mt-0 z-10">
+              <h4 className="text-[#f0b90b] text-[15px] font-medium mb-4">
+                {Fullname ? `${Fullname}` : `${currency}`}{Networks ? `(${Networks})` : ""} {t("address is published!")}
+              </h4>
+              <p className="text-[#848E9C] text-[13px] leading-relaxed mb-6 max-w-[28rem]">
+                {t("Please use the address below to deposit your cryptocurrency using the")} {Networks ? Networks : currency} {t("network. You can either copy the address or scan the QR code for convenience.")}
+              </p>
+
+              <div className="bg-[#1e2329] border border-[#2b3139] rounded-lg p-[7px] pl-3 flex justify-between items-center transition-colors">
+                <div className="truncate pr-4 text-[#D8DDE5] text-[13px]">
+                  {addressref.current.address}
+                </div>
+                <button
+                  className="bg-[#f0b90b] hover:bg-[#d8a60a] text-[#181a20] rounded-[4px] px-4 py-2 flex items-center justify-center gap-1.5 text-[12px] font-semibold transition-colors shrink-0"
+                  onClick={() => copy(addressref.current.address)}
+                  title="Copy Address"
+                >
+                  <i className="ri-file-copy-line text-[14px]"></i>
+                  {t("copy")}
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-white p-2 rounded-[4px] shrink-0 order-1 md:order-2 z-10 self-start md:mt-1">
+              <img
+                src={addressref.current.qrcode}
+                className="w-[110px] h-[110px] object-contain"
+                alt="QR Code"
+              />
+            </div>
+          </div>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -455,8 +578,8 @@ const Dashboard = () => {
 
                         <div className="flex flex-col lg:flex-row gap-10">
                           <div className="flex-[2]">
-                            <div className="relative pl-8 sm:pl-10 border-l-[1px] border-[#8c6b16] ml-4 space-y-12 pb-8">
-                              {/* Step 1 */}
+                            {/* <div className="relative pl-8 sm:pl-10 border-l-[1px] border-[#8c6b16] ml-4 space-y-12 pb-8">
+                              
                               <div className="relative">
                                 <div className="absolute -left-[53px] sm:-left-[61px] top-0 bg-primary p-[6px] rounded-md z-10">
                                   <svg
@@ -483,147 +606,18 @@ const Dashboard = () => {
                                   />
                                 </div>
                               </div>
+                            </div> */}
 
-                              {/* Step 2 */}
-                              <div className="relative">
-                                <div className="absolute -left-[53px] sm:-left-[61px] top-0 bg-primary p-[6px] rounded-md z-10 transition-colors">
-                                  <svg
-                                    className="w-5 h-5 text-black"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                                    ></path>
-                                  </svg>
+                            <div className="flex flex-col lg:flex-row gap-10">
+                              {/* <div className="flex-[2]"> */}
+                                <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-7/12  sm:p-5">
+                                  <VerticalStepper
+                                    steps={depositSteps}
+                                    currentStep={depositCurrentStep}
+                                    className="ml-0 pb-2"
+                                  />
                                 </div>
-                                <h3 className="text-white font-medium mb-4 text-lg">
-                                  {t("Select Network")}
-                                </h3>
-
-                                {cur_currencyref.current?.currencyType ==
-                                "2" ? (
-                                  <div className="max-w-xl mt-6">
-                                    <div className="bg-black border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom">
-                                      <Dropdown
-                                        placeholder={t(
-                                          "Select Network you want to deposit through",
-                                        )}
-                                        fluid
-                                        className="dep-drops w-full bg-transparent text-white border-0"
-                                        selection
-                                        options={network_currencyref.current}
-                                        defaultValue={
-                                          network_currencyref.current[0]
-                                        }
-                                        onChange={onSelect_network}
-                                      />
-                                    </div>
-                                    {Networks && (
-                                      <div className="text-[#848E9C] text-[13px] mt-4 flex items-center gap-1">
-                                        <span>{t("Expected Arrival")}:</span>
-                                        <span className="text-[#848E9C]">
-                                          {t("2min 50sec")}{" "}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
-                                ) : (
-                                  <div className="text-gray-500 text-sm mt-4">
-                                    {t(
-                                      "Network selection is not available for this currency.",
-                                    )}
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* Step 3 */}
-                              <div className="relative">
-                                <div className="absolute -left-[53px] sm:-left-[61px] top-0 bg-primary p-[6px] rounded-md z-10">
-                                  <svg
-                                    className="w-5 h-5 text-black"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
-                                    ></path>
-                                  </svg>
-                                </div>
-                                {/* Cover the remaining border bottom using a mask over the border */}
-                                <div className="absolute -left-[33px] sm:-left-[41px] top-8 bottom-[-80px] w-[4px] bg-[#1e2329] z-0"></div>
-                                <h3 className="text-white font-medium mb-4 text-lg">
-                                  {t("Copy Wallet Address")}
-                                </h3>
-
-                                {addressref.current == undefined ? (
-                                  <div className="text-gray-500 text-sm mt-4">
-                                    {t(
-                                      "Select a coin and network above to generate an address.",
-                                    )}
-                                  </div>
-                                ) : (
-                                  <div className="max-w-[45rem] mt-4 relative z-10">
-                                    <div className="bg-[#14151a] border border-[#2b3139] rounded-xl p-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 relative overflow-hidden">
-                                      <div className="flex-1 w-full order-2 md:order-1 mt-2 md:mt-0 z-10">
-                                        <h4 className="text-primary text-[15px] font-medium mb-4">
-                                          {Fullname
-                                            ? `${Fullname}`
-                                            : `${currency}`}
-                                          {Networks ? `(${Networks})` : ""}{" "}
-                                          {t("address is published!")}
-                                        </h4>
-                                        <p className="text-[#848E9C] text-[13px] leading-relaxed mb-6 max-w-[28rem]">
-                                          {t(
-                                            "Please use the address below to deposit your cryptocurrency using the",
-                                          )}{" "}
-                                          {Networks ? Networks : currency}{" "}
-                                          {t(
-                                            "network. You can either copy the address or scan the QR code for convenience.",
-                                          )}
-                                        </p>
-
-                                        <div className="bg-[#1e2329] border border-[#2b3139] rounded-lg p-[7px] pl-3 flex justify-between items-center transition-colors">
-                                          <div className="truncate pr-4 text-[#D8DDE5] text-[13px]">
-                                            {addressref.current.address}
-                                          </div>
-                                          <button
-                                            className="bg-primary hover:bg-[#d8a60a] text-black rounded-[4px] px-4 py-2 flex items-center justify-center gap-1.5 text-[12px] font-semibold transition-colors shrink-0"
-                                            onClick={() =>
-                                              copy(addressref.current.address)
-                                            }
-                                            title="Copy Address"
-                                          >
-                                            <i className="ri-file-copy-line text-[14px]"></i>
-                                            {t("copy")}
-                                          </button>
-                                        </div>
-                                      </div>
-
-                                      <div className="bg-white p-2 rounded-[4px] shrink-0 order-1 md:order-2 z-10 self-start md:mt-1">
-                                        <img
-                                          src={addressref.current.qrcode}
-                                          className="w-[110px] h-[110px] object-contain"
-                                          alt="QR Code"
-                                        />
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Right Side - Tips & FAQs */}
-                          <div className="flex-1 lg:ml-10 mt-10 lg:mt-0">
+                                 <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-5/12 sm:p-5">
                             <div className="mb-10">
                               <div className="flex items-center gap-2 mb-6">
                                 <h3 className="text-primary font-medium flex items-center gap-2 mb-6 text-lg">
@@ -756,6 +750,147 @@ const Dashboard = () => {
                               </div>
                             </div>
                           </div>
+
+                              {/* Step 2 */}
+                              {/* <div className="relative">
+                                <div className="absolute -left-[53px] sm:-left-[61px] top-0 bg-primary p-[6px] rounded-md z-10 transition-colors">
+                                  <svg
+                                    className="w-5 h-5 text-black"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                                    ></path>
+                                  </svg>
+                                </div>
+                                <h3 className="text-white font-medium mb-4 text-lg">
+                                  {t("Select Network")}
+                                </h3>
+
+                                {cur_currencyref.current?.currencyType ==
+                                "2" ? (
+                                  <div className="max-w-xl mt-6">
+                                    <div className="bg-black border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom">
+                                      <Dropdown
+                                        placeholder={t(
+                                          "Select Network you want to deposit through",
+                                        )}
+                                        fluid
+                                        className="dep-drops w-full bg-transparent text-white border-0"
+                                        selection
+                                        options={network_currencyref.current}
+                                        defaultValue={
+                                          network_currencyref.current[0]
+                                        }
+                                        onChange={onSelect_network}
+                                      />
+                                    </div>
+                                    {Networks && (
+                                      <div className="text-[#848E9C] text-[13px] mt-4 flex items-center gap-1">
+                                        <span>{t("Expected Arrival")}:</span>
+                                        <span className="text-[#848E9C]">
+                                          {t("2min 50sec")}{" "}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <div className="text-gray-500 text-sm mt-4">
+                                    {t(
+                                      "Network selection is not available for this currency.",
+                                    )}
+                                  </div>
+                                )}
+                              </div> */}
+
+                              {/* Step 3 */}
+                              {/* <div className="relative">
+                                <div className="absolute -left-[53px] sm:-left-[61px] top-0 bg-primary p-[6px] rounded-md z-10">
+                                  <svg
+                                    className="w-5 h-5 text-black"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
+                                    ></path>
+                                  </svg>
+                                </div>
+                               
+                                <div className="absolute -left-[33px] sm:-left-[41px] top-8 bottom-[-80px] w-[4px] bg-[#1e2329] z-0"></div>
+                                <h3 className="text-white font-medium mb-4 text-lg">
+                                  {t("Copy Wallet Address")}
+                                </h3>
+
+                                {addressref.current == undefined ? (
+                                  <div className="text-gray-500 text-sm mt-4">
+                                    {t(
+                                      "Select a coin and network above to generate an address.",
+                                    )}
+                                  </div>
+                                ) : (
+                                  <div className="max-w-[45rem] mt-4 relative z-10">
+                                    <div className="bg-[#14151a] border border-[#2b3139] rounded-xl p-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 relative overflow-hidden">
+                                      <div className="flex-1 w-full order-2 md:order-1 mt-2 md:mt-0 z-10">
+                                        <h4 className="text-primary text-[15px] font-medium mb-4">
+                                          {Fullname
+                                            ? `${Fullname}`
+                                            : `${currency}`}
+                                          {Networks ? `(${Networks})` : ""}{" "}
+                                          {t("address is published!")}
+                                        </h4>
+                                        <p className="text-[#848E9C] text-[13px] leading-relaxed mb-6 max-w-[28rem]">
+                                          {t(
+                                            "Please use the address below to deposit your cryptocurrency using the",
+                                          )}{" "}
+                                          {Networks ? Networks : currency}{" "}
+                                          {t(
+                                            "network. You can either copy the address or scan the QR code for convenience.",
+                                          )}
+                                        </p>
+
+                                        <div className="bg-[#1e2329] border border-[#2b3139] rounded-lg p-[7px] pl-3 flex justify-between items-center transition-colors">
+                                          <div className="truncate pr-4 text-[#D8DDE5] text-[13px]">
+                                            {addressref.current.address}
+                                          </div>
+                                          <button
+                                            className="bg-primary hover:bg-[#d8a60a] text-black rounded-[4px] px-4 py-2 flex items-center justify-center gap-1.5 text-[12px] font-semibold transition-colors shrink-0"
+                                            onClick={() =>
+                                              copy(addressref.current.address)
+                                            }
+                                            title="Copy Address"
+                                          >
+                                            <i className="ri-file-copy-line text-[14px]"></i>
+                                            {t("copy")}
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      <div className="bg-white p-2 rounded-[4px] shrink-0 order-1 md:order-2 z-10 self-start md:mt-1">
+                                        <img
+                                          src={addressref.current.qrcode}
+                                          className="w-[110px] h-[110px] object-contain"
+                                          alt="QR Code"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div> */}
+                            {/* </div> */}
+                          </div>
+
+                          {/* Right Side - Tips & FAQs */}
+                          
                         </div>
                       </div>
 
@@ -902,7 +1037,7 @@ const Dashboard = () => {
                           </div>
                         </div>
                       </div>
-                    </>
+                  </div>  </>
                   ) : (
                     <>
                       <div className="row ">

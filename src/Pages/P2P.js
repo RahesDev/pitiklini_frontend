@@ -1,20 +1,21 @@
 import React, { useEffect } from "react";
 import useState from "react-usestateref";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "./Header";
 import apiService from "../core/service/detail";
 import { getMethod, postMethod } from "../core/service/common.api";
 import { toast } from "react-toastify";
 import { Dropdown } from "semantic-ui-react";
 import { Bars } from "react-loader-spinner";
 import "semantic-ui-css/semantic.min.css";
-import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
+import DashboardLayout from "./DashboardLayout";
+import Payment from "./view-order";
 
 const P2P = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   const [p2pOrders, setP2POrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -23,45 +24,37 @@ const P2P = () => {
   const [orderType, setOrderType] = useState("buy");
   const [cryptoCurrencies, setCryptoCurrencies] = useState([]);
   const [fiatCurrencies, setFiatCurrencies] = useState([]);
-  const [selectedCrypto, setSelectedCrypto] = useState("");
   const [selectedFiat, setSelectedFiat] = useState("");
   const [profileData, setProfileData, profileDataRef] = useState("");
   const [isBuy, setIsBuy] = useState("");
   const [siteLoader, setSiteLoader] = useState(false);
   const [isIndexVal, setIsIndexVal] = useState("");
   const [UserID, setUserID, UserIDref] = useState("");
-
-  const confirmActionRef = React.useRef(null);
-  const [showConfirmModal, setShowConfirmModal] = React.useState(false);
-  const [payTime, setpayTime, payTimeref] = useState("15");
-
   const [loginStatus, setLoginStatus] = useState(false);
-
   const [preferPayment, setpreferPayment] = useState([]);
+  const [selectedCrypto, setSelectedCrypto] = useState("USDT");
+  const [cryptoStartIndex, setCryptoStartIndex] = useState(0);
 
-      // usePageLeaveConfirm();
-       usePageLeaveConfirm(
-         "Are you sure you want to leave P2P?",
-         "/p2p",
-         true,
-         [
-           "/p2p/order/:id",
-           "/processorders",
-           "/p2p/chat/:id",
-           "/myorders",
-           "/p2p/dispute/:id",
-           "/postad",
-           "/Paymentmethod",
-         ]
-       );
+  const visibleCryptoCount = 3;
 
-  // const preferPayment = [
-  //   { value: "All Payment", text: "All Payment" },
-  //   { key: "imps", text: "IMPS", value: "IMPS" },
-  //   { key: "upid", text: "UPI ID", value: "UPID" },
-  //   { key: "paytm", text: "Paytm", value: "Paytm" },
-  //   { key: "bankTransfer", text: "Bank Transfer", value: "BankTransfer" },
-  // ];
+  const visibleCryptos = cryptoCurrencies.slice(
+    cryptoStartIndex,
+    cryptoStartIndex + visibleCryptoCount,
+  );
+
+  const canGoPrev = cryptoStartIndex > 0;
+  const canGoNext =
+    cryptoStartIndex + visibleCryptoCount < cryptoCurrencies.length;
+
+  usePageLeaveConfirm("Are you sure you want to leave P2P?", "/p2p", true, [
+    "/p2p/order/:id",
+    "/processorders",
+    "/p2p/chat/:id",
+    "/myorders",
+    "/p2p/dispute/:id",
+    "/postad",
+    "/Paymentmethod",
+  ]);
 
   const allpayment = [
     { key: "imps", text: "IMPS", value: "IMPS" },
@@ -71,14 +64,12 @@ const P2P = () => {
   ];
 
   useEffect(() => {
-    // const token = localStorage.getItem("PTKToken");
     let token_check = sessionStorage.getItem("user_token");
     if (token_check) {
       setLoginStatus(true);
       const token = sessionStorage.getItem("PTKToken");
-      const PTK = token.split("_")[1];
+      const PTK = token ? token.split("_")[1] : "";
       setUserID(PTK);
-      console.log(UserIDref.current, "setUserID");
       getAllP2POrders();
       getProfile();
     } else {
@@ -88,10 +79,12 @@ const P2P = () => {
 
     getAllCurrency();
     getallPaymentMethods();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     filterOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     paymentMethod,
     orderType,
@@ -106,25 +99,18 @@ const P2P = () => {
       setSiteLoader(true);
       const data = {
         apiUrl: apiService.p2pGetOrderBefore,
-        payload: {
-          currency: selectedCrypto || selectedFiat,
-        },
+        payload: { currency: selectedCrypto || selectedFiat },
       };
       const resp = await postMethod(data);
       setSiteLoader(false);
       if (resp.status) {
         setP2POrders(resp.Message);
         setFilteredOrders(resp.Message);
-
-        console.log(resp, "resp");
       }
     } catch (error) {
-      console.error("Error fetching P2P orders:", error);
+      setSiteLoader(false);
+      console.error(error);
     }
-  };
-
-  const loginNave = async () => {
-    navigate("/login");
   };
 
   const getAllP2POrders = async () => {
@@ -132,59 +118,52 @@ const P2P = () => {
       setSiteLoader(true);
       const data = {
         apiUrl: apiService.p2pGetOrder,
-        payload: {
-          currency: selectedCrypto || selectedFiat,
-        },
+        payload: { currency: selectedCrypto || selectedFiat },
       };
       const resp = await postMethod(data);
       setSiteLoader(false);
       if (resp.status) {
         setP2POrders(resp.Message);
         setFilteredOrders(resp.Message);
-
-        console.log(resp, "resp");
       }
     } catch (error) {
-      console.error("Error fetching P2P orders:", error);
+      setSiteLoader(false);
+      console.error(error);
     }
   };
 
   const getAllCurrency = async () => {
-    setSiteLoader(true);
-
     try {
+      setSiteLoader(true);
       const data = { apiUrl: apiService.getP2Pcurrency };
       const resp = await getMethod(data);
       setSiteLoader(false);
       if (resp && resp.data) {
         const cryptoArray = resp.data
-          .filter((currency) => currency.coinType === "1")
+          .filter((c) => c.coinType === "1")
           .map((currency) => ({
             key: currency._id,
-            text: currency.currencySymbol,
-            value: currency.currencySymbol,
-            image: {
-              avatar: true,
-              src: currency.Currency_image,
-            },
+            text: currency.currencySymbol || currency.name || "Unknown",
+            value: currency.currencySymbol || currency.name || "Unknown",
+            image: { avatar: true, src: currency.Currency_image },
           }));
-
         const fiatArray = resp.data
-          .filter((currency) => currency.coinType === "2")
+          .filter((c) => c.coinType === "2")
           .map((currency) => ({
             key: currency._id,
-            text: currency.currencySymbol,
-            value: currency.currencySymbol,
-            image: {
-              avatar: true,
-              src: currency.Currency_image,
-            },
+            text: currency.currencySymbol || currency.name || "Unknown",
+            value: currency.currencySymbol || currency.name || "Unknown",
+            image: { avatar: true, src: currency.Currency_image },
           }));
-
+        console.log("Crypto Array:", cryptoArray);
+        console.log("Fiat Array:", fiatArray);
         setCryptoCurrencies(cryptoArray);
         setFiatCurrencies(fiatArray);
+      } else {
+        console.warn("No currency data received from API");
       }
     } catch (error) {
+      setSiteLoader(false);
       console.error("Error fetching currencies:", error);
     }
   };
@@ -192,61 +171,54 @@ const P2P = () => {
   const getProfile = async () => {
     try {
       setSiteLoader(true);
-
       const data = { apiUrl: apiService.getUserDetails };
       const resp = await getMethod(data);
       setSiteLoader(false);
+      if (resp.status) setProfileData(resp.data);
+    } catch (error) {
+      setSiteLoader(false);
+    }
+  };
 
-      if (resp.status) {
-        setProfileData(resp.data);
+  const getallPaymentMethods = async () => {
+    try {
+      setSiteLoader(true);
+      const data = { apiUrl: apiService.get_p2p_payments };
+      const resp = await getMethod(data);
+      setSiteLoader(false);
+      if (resp && resp.data && resp.data.length > 0) {
+        const response = resp.data.map((p) => ({
+          key: p._id,
+          text: p.payment_name,
+          value: p.payment_name,
+        }));
+        setpreferPayment(response);
       }
     } catch (error) {
-      console.error("Error fetching profile data:", error);
+      setSiteLoader(false);
+      console.error(error);
     }
   };
 
   const filterOrders = () => {
     setSiteLoader(true);
-
-    let filtered = p2pOrders;
-
-    if (paymentMethod) {
+    let filtered = Array.isArray(p2pOrders) ? p2pOrders.slice() : [];
+    if (paymentMethod)
+      filtered = filtered.filter((o) => o.paymentMethod === paymentMethod);
+    if (orderType) filtered = filtered.filter((o) => o.orderType !== orderType);
+    if (selectedCrypto)
+      filtered = filtered.filter((o) => o.firstCurrency === selectedCrypto);
+    if (selectedFiat)
+      filtered = filtered.filter((o) => o.secondCurrency === selectedFiat);
+    if (amount)
       filtered = filtered.filter(
-        (order) => order.paymentMethod === paymentMethod
+        (o) => amount >= o.fromLimit && amount <= o.toLimit,
       );
-    }
-
-    if (orderType) {
-      filtered = filtered.filter((order) => order.orderType != orderType);
-    }
-
-    if (selectedCrypto) {
-      filtered = filtered.filter(
-        (order) => order.firstCurrency === selectedCrypto
-      );
-    }
-
-    if (selectedFiat) {
-      console.log(selectedFiat, filtered);
-      filtered = filtered.filter(
-        (order) => order.secondCurrency == selectedFiat
-      );
-    }
-
-    if (amount) {
-      console.log(amount, filtered);
-      // filtered = filtered.filter((order) => order.price === amount);
-      // filtered = filtered.filter((order) => order.price.startsWith(amount));
-      filtered = filtered.filter((order) => amount >= order.fromLimit && amount <= order.toLimit);
-
-    }
-
     setFilteredOrders(filtered);
     setSiteLoader(false);
   };
 
   const handleClick = (i, option) => {
-    console.log(i, option);
     setIsBuy(option);
     setIsIndexVal(i);
   };
@@ -257,83 +229,44 @@ const P2P = () => {
 
   const validatePayAmount = (value) => {
     const numericValue = parseFloat(value);
-
     if (isNaN(numericValue) || value === "") {
       setError(t("pleaseEnterValidAmt"));
       return false;
-    } else if (numericValue <= 0) {
+    }
+    if (numericValue <= 0) {
       setError(t("amtMustBeGreaterThanZero"));
       return false;
-    } else if (numericValue < isBuy.fromLimit) {
+    }
+    if (isBuy && numericValue < isBuy.fromLimit) {
       setError(`${t("amtShouldNotlessThan")} ${isBuy.fromLimit}.`);
       return false;
-    } else if (numericValue > isBuy.toLimit) {
+    }
+    if (isBuy && numericValue > isBuy.toLimit) {
       setError(`${t("amountShouldNotExceed")} ${isBuy.toLimit}.`);
       return false;
-    } else if (numericValue > isBuy.available_qty) {
+    }
+    if (isBuy && numericValue > isBuy.available_qty) {
       setError(`${t("amtShouldNotExceedThanAvlQuan")} ${isBuy.available_qty}.`);
       return false;
     }
-
-    setError(""); // Clear error if all validations pass
+    setError("");
     return true;
   };
 
   const handlePayAmountChange = (e) => {
     const value = e.target.value;
-
     if (validatePayAmount(value)) {
       setPayAmount(value);
       const calculatedReceiveAmount =
-        parseFloat(value) * parseFloat(isBuy.price);
-      setReceiveAmount(calculatedReceiveAmount.toFixed(2));
+        parseFloat(value) * parseFloat(isBuy.price || 0);
+      setReceiveAmount(
+        isNaN(calculatedReceiveAmount)
+          ? ""
+          : calculatedReceiveAmount.toFixed(2),
+      );
     } else {
       setPayAmount(value);
       setReceiveAmount("");
-    }
-
-    // const numericValue = parseFloat(value);
-    // if (
-    //   !isNaN(numericValue) &&
-    //   numericValue >= isBuy.fromLimit &&
-    //   numericValue <= isBuy.toLimit
-    // ) {
-    //   setPayAmount(value);
-    //   const calculatedReceiveAmount = numericValue * parseFloat(isBuy.price);
-    //   setReceiveAmount(calculatedReceiveAmount.toFixed(2));
-    // } else {
-    //   showerrorToast("Enter the valid quantity");
-    //   setPayAmount(value);
-    //   const calculatedReceiveAmount = numericValue * parseFloat(isBuy.price);
-    //   setReceiveAmount(calculatedReceiveAmount.toFixed(2));
-    // }
-  };
-
-  const openConfirmPopup = (type) => {
-    confirmActionRef.current =
-      type === "buy" ? confirm_order_buy : confirm_order_sell;
-
-    const modalEl = document.getElementById("p2pConfirmModal");
-
-    if (modalEl && window.bootstrap?.Modal) {
-      const modal =
-        window.bootstrap.Modal.getInstance(modalEl) ||
-        new window.bootstrap.Modal(modalEl);
-      modal.show();
-    }
-  };
-
-  const handleConfirmTrade = () => {
-    // Close modal first
-    const modalEl = document.getElementById("p2pConfirmModal");
-    if (modalEl && window.bootstrap?.Modal) {
-      const inst = window.bootstrap.Modal.getInstance(modalEl);
-      inst?.hide();
-    }
-
-    // Execute actual confirm logic
-    if (confirmActionRef.current) {
-      confirmActionRef.current();
     }
   };
 
@@ -344,302 +277,410 @@ const P2P = () => {
   };
 
   const confirm_order_buy = async () => {
-    console.log("ijkjknkn");
     try {
-      console.log("buy");
-
-      if (payAmount != "" && receiveAmount != "") {
-        if (selectPayment != "") {
-          var obj = {
+      if (payAmount !== "" && receiveAmount !== "") {
+        if (selectPayment !== "") {
+          const obj = {
             qty: payAmount,
             total: receiveAmount,
             paymentMethod: selectPayment,
             orderId: isBuy.orderId,
             type: "buy",
           };
-
-          console.log(obj, "ihjujhuj");
-          var data = {
-            apiUrl: apiService.p2p_confirm_order,
-            payload: obj,
-          };
-          var resp = await postMethod(data);
+          setSiteLoader(true);
+          const data = { apiUrl: apiService.p2p_confirm_order, payload: obj };
+          const resp = await postMethod(data);
           setSiteLoader(false);
-
           if (resp.status) {
-            showsuccessToast(resp.Message);
-            navigate(resp.link);
-          } else {
-            showerrorToast(resp.Message);
-          }
-        } else {
-          showerrorToast("Please select the payment methods");
-        }
-      } else {
-        showerrorToast("Please enter valid quantity");
-      }
+            toast.success(resp.Message);
+            navigate(resp.link || "/");
+          } else toast.error(resp.Message);
+        } else toast.error("Please select the payment methods");
+      } else toast.error("Please enter valid quantity");
     } catch (error) {
-      console.log(error, "ijknkkijjkijkijmki");
+      setSiteLoader(false);
     }
   };
 
   const confirm_order_sell = async () => {
-    console.log("iiknjdnsdnsd");
     try {
-      var obj = {};
-      obj.qty = payAmount;
-      obj.paymentMethod = selectPayment;
-
-      obj.total = receiveAmount;
-      obj.orderId = isBuy.orderId;
-      obj.type = "sell";
-
-      if (obj.qty != "" && obj.total != "") {
-        if (selectPayment != "") {
-          var data = {
+      const obj = {
+        qty: payAmount,
+        paymentMethod: selectPayment,
+        total: receiveAmount,
+        orderId: isBuy.orderId,
+        type: "sell",
+      };
+      if (obj.qty !== "" && obj.total !== "") {
+        if (selectPayment !== "") {
+          setSiteLoader(true);
+          const data = {
             apiUrl: apiService.p2p_confirm_sellorder,
             payload: obj,
           };
-          setSiteLoader(true);
-
-          var resp = await postMethod(data);
+          const resp = await postMethod(data);
           setSiteLoader(false);
-
           if (resp.status) {
-            showsuccessToast(resp.Message);
-            navigate(resp.link);
-            // window.location.href = resp.link;
-          } else {
-            showerrorToast(resp.Message);
-          }
-        } else {
-          showerrorToast("Please select the payment methods");
-        }
-      } else {
-        showerrorToast("Please enter quantity");
-      }
-    } catch (error) {}
-  };
-
-  const showsuccessToast = (message) => {
-    toast.dismiss();
-    toast.success(message);
-  };
-
-  const showerrorToast = (message) => {
-    toast.dismiss();
-    toast.error(message);
-  };
-
-  const getallPaymentMethods = async () => {
-    setSiteLoader(true);
-
-    try {
-      const data = { apiUrl: apiService.get_p2p_payments };
-      const resp = await getMethod(data);
-      setSiteLoader(false);
-      if (resp && resp.data) {
-        if(resp.data.length > 0)
-        {
-          let response = [];
-          for(let i=0;i<resp.data.length;i++)
-          {
-            let obj = { 
-            key: resp.data[i]._id,
-            text: resp.data[i].payment_name,
-            value: resp.data[i].payment_name,
-            }
-            response.push(obj);
-        }
-        setpreferPayment(response);
-      }
-     }
+            toast.success(resp.Message);
+            navigate(resp.link || "/");
+            window.location.href = resp.link || "/";
+          } else toast.error(resp.Message);
+        } else toast.error("Please select the payment methods");
+      } else toast.error("Please enter quantity");
     } catch (error) {
-      console.error("Error fetching payment methods:", error);
+      setSiteLoader(false);
     }
   };
 
-  return (
-    <>
-      <Header />
+  console.log("Filtered Orders:", filteredOrders);
 
-      {siteLoader == true ? (
+  return (
+    <DashboardLayout>
+      {siteLoader ? (
         <div className="loadercss">
           <Bars
             height="80"
             width="80"
             color="#ffc630"
             ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
             visible={true}
           />
         </div>
       ) : (
-        <main className="dashboard_main">
-          <div className="container-lg">
-            <div className="row">
-              <div className="col-lg-12">
-                <section className="asset_section">
-                  <div className="row">
-                    <div className="p2p_title p2p-flex-title">
-                      {t("p2p")}{" "}
-                      <div className="p2p-head-right">
-                        <span className="p2p-right-links">
-                          <img
-                            src={require("../assets/icons/p2p-orders.webp")}
-                            alt="p2p-order"
-                            className="p2p-right-icons"
-                          />
-                          <Link
-                            to={
-                              loginStatus == true ? "/processorders" : "/login"
-                            }
-                            className="p2p-right-links"
+        <section className="asset_section">
+          <div className="buy_head">
+            <div className="w-full">
+              <div className="bg-black rounded-xl p-4">
+                <div className="p2p_header_row flex justify-between items-center mb-6">
+                  <div>
+                    <h2 className="p2p_main_title text-[#BD7F10]">
+                      P2P Platform
+                    </h2>
+                    <h3 className="p2p_main_title text-[#ffff]">
+                      P2P Marketplace
+                    </h3>
+                    <span className="p2p_subtitle text-[#BD7F10]">
+                      Institutional marketplace for high-volume asset
+                      conversion.
+                    </span>
+                  </div>
+                  <div className="flex space-x-4">
+                    <Link
+                      to={loginStatus ? "/postad" : "/login"}
+                      className="post-ad-btn bg-[#BD7F10] text-white px-4 py-2 rounded-lg flex items-center"
+                    >
+                      + Post Advertisement
+                    </Link>
+                    <Link
+                      to={loginStatus ? "/Paymentmethod" : "/login"}
+                      className="post-ad-btn bg-[#BD7F10] text-white px-4 py-2 rounded-lg flex items-center"
+                    >
+                      Payment Method
+                    </Link>
+                    <Link
+                      to={loginStatus ? "/processorders" : "/login"}
+                      className="post-ad-btn bg-[#BD7F10] text-white px-4 py-2 rounded-lg flex items-center"
+                    >
+                      {t("orders")}
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-lg-3 col-md-4 col-12">
+                    <div className="w-full max-w-[340px] space-y-6">
+                      {/* Buy / Sell Toggle */}
+                      <div className="flex rounded-2xl bg-[#060913] p-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
+                        <button
+                          type="button"
+                          onClick={() => setOrderType("buy")}
+                          className={`flex-1 rounded-xl px-6 py-3 text-sm font-extrabold uppercase tracking-[0.22em] transition-all duration-200 ${
+                            orderType === "buy"
+                              ? "bg-[#c98a11] text-[#1a1a1a] shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                              : "text-[#7f8798] hover:text-white"
+                          }`}
+                        >
+                          {t("buy")}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setOrderType("sell")}
+                          className={`flex-1 rounded-xl px-6 py-3 text-sm font-extrabold uppercase tracking-[0.22em] transition-all duration-200 ${
+                            orderType === "sell"
+                              ? "bg-[#c98a11] text-[#1a1a1a] shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                              : "text-[#7f8798] hover:text-white"
+                          }`}
+                        >
+                          {t("sell")}
+                        </button>
+                      </div>
+
+                      {/* Market Filters Card */}
+                      <div className="rounded-[28px] border border-white/5 bg-[linear-gradient(180deg,#141b2d_0%,#11182a_100%)] px-6 py-7 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+                        <div className="mb-6 flex items-center gap-3">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-5 w-5 text-white/90"
                           >
-                            {t("orders")}
-                          </Link>
-                        </span>
-                        <span className="p2p-right-links">
-                          <img
-                            src={require("../assets/icons/p2p-plus.png")}
-                            alt="p2p-order"
-                            className="p2p-right-icons"
-                          />
-                          <Link
-                            to={loginStatus == true ? "/postad" : "/login"}
-                            className="p2p-right-links"
+                            <path d="M3 5h18l-7 8v5l-4 2v-7L3 5z" />
+                          </svg>
+                          <span className="text-[13px] font-extrabold uppercase tracking-[0.22em] text-white">
+                            Market Filters
+                          </span>
+                        </div>
+
+                        {/* Asset */}
+                        <div className="mb-6">
+                          <label className="mb-3 block text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">
+                            Asset
+                          </label>
+
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                canGoPrev &&
+                                setCryptoStartIndex((prev) =>
+                                  Math.max(prev - 1, 0),
+                                )
+                              }
+                              disabled={!canGoPrev}
+                              className={`flex h-10 w-10 items-center justify-center rounded-lg border border-white/5 bg-[#282A30] transition-all ${
+                                canGoPrev
+                                  ? "text-white hover:bg-white/10"
+                                  : "cursor-not-allowed text-white/30"
+                              }`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                className="h-4 w-4"
+                              >
+                                <path d="m15 18-6-6 6-6" />
+                              </svg>
+                            </button>
+
+                            <div className="flex flex-1 gap-3 overflow-hidden">
+                              {visibleCryptos && visibleCryptos.length > 0 ? (
+                                visibleCryptos.map((crypto) => (
+                                  <button
+                                    key={crypto.key}
+                                    type="button"
+                                    onClick={() =>
+                                      setSelectedCrypto(crypto.value)
+                                    }
+                                    className={`min-w-[72px] rounded-lg px-4 py-3 text-sm font-bold uppercase transition-all duration-200 whitespace-nowrap ${
+                                      selectedCrypto === crypto.value
+                                        ? "bg-[#c98a11] text-white"
+                                        : "bg-[#282A30] text-white hover:bg-white/12"
+                                    }`}
+                                  >
+                                    {crypto.text || "N/A"}
+                                  </button>
+                                ))
+                              ) : (
+                                <div className="text-xs text-white/50">
+                                  No assets available
+                                </div>
+                              )}
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                canGoNext &&
+                                setCryptoStartIndex((prev) =>
+                                  Math.min(
+                                    prev + 1,
+                                    cryptoCurrencies.length -
+                                      visibleCryptoCount,
+                                  ),
+                                )
+                              }
+                              disabled={!canGoNext}
+                              className={`flex h-10 w-10 items-center justify-center rounded-lg border border-white/5 bg-[#282A30] transition-all ${
+                                canGoNext
+                                  ? "text-white hover:bg-white/10"
+                                  : "cursor-not-allowed text-white/30"
+                              }`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                className="h-4 w-4"
+                              >
+                                <path d="m9 18 6-6-6-6" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Amount */}
+                        <div className="mb-6">
+                          <label className="mb-3 block text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">
+                            Amount
+                          </label>
+
+                          <div className="flex items-center rounded-xl bg-[#050811] px-4 py-4">
+                            <input
+                              type="text"
+                              placeholder="Enter amount..."
+                              value={amount}
+                              onChange={(e) => {
+                                const v = e.target.value.replace(
+                                  /[^0-9.]/g,
+                                  "",
+                                );
+                                const parts = v.split(".");
+                                if (parts.length <= 2 && v.length <= 15)
+                                  setAmount(v);
+                              }}
+                              className="w-full border-none bg-transparent text-base text-white outline-none ring-0 shadow-none focus:outline-none focus:ring-0 focus:border-none focus:shadow-none placeholder:text-[#6b7280]"
+                            />
+                            <span className="ml-3 text-sm font-bold uppercase text-white">
+                              {selectedCrypto}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Fiat Currency */}
+                        <div className="mb-6">
+                          <label className="mb-3 block text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">
+                            Fiat Currency
+                          </label>
+
+                          <div className="relative">
+                            <div className="[&_.ui.selection.dropdown]:!min-h-[56px] [&_.ui.selection.dropdown]:!w-full [&_.ui.selection.dropdown]:!rounded-xl [&_.ui.selection.dropdown]:!border-0 [&_.ui.selection.dropdown]:!bg-[#050811] [&_.ui.selection.dropdown]:!px-4 [&_.ui.selection.dropdown]:!pr-12 [&_.ui.selection.dropdown]:!text-white [&_.ui.selection.dropdown]:!shadow-none [&_.ui.selection.dropdown]:!flex [&_.ui.selection.dropdown]:!items-center [&_.ui.selection.dropdown>.text]:!text-white [&_.ui.selection.dropdown>.default.text]:!text-[#6b7280] [&_.ui.selection.dropdown>.dropdown.icon]:!hidden">
+                              <Dropdown
+                                placeholder="USD - US Dollar"
+                                fluid
+                                selection
+                                options={fiatCurrencies}
+                                onChange={(e, { value }) =>
+                                  setSelectedFiat(value)
+                                }
+                                value={selectedFiat || ""}
+                              />
+                            </div>
+
+                            <svg
+                              className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7f8798]"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <path d="m6 9 6 6 6-6" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        {/* Payment Method */}
+                        <div className="mb-8">
+                          <label className="mb-3 block text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">
+                            Payment Method
+                          </label>
+
+                          <div className="relative">
+                            <div className="[&_.ui.selection.dropdown]:!min-h-[56px] [&_.ui.selection.dropdown]:!w-full [&_.ui.selection.dropdown]:!rounded-xl [&_.ui.selection.dropdown]:!border-0 [&_.ui.selection.dropdown]:!bg-[#050811] [&_.ui.selection.dropdown]:!px-4 [&_.ui.selection.dropdown]:!pr-12 [&_.ui.selection.dropdown]:!text-white [&_.ui.selection.dropdown]:!shadow-none [&_.ui.selection.dropdown]:!flex [&_.ui.selection.dropdown]:!items-center [&_.ui.selection.dropdown>.text]:!text-white [&_.ui.selection.dropdown>.default.text]:!text-[#6b7280] [&_.ui.selection.dropdown>.dropdown.icon]:!hidden">
+                              <Dropdown
+                                placeholder={t("allPaymentMethod")}
+                                fluid
+                                selection
+                                options={preferPayment}
+                                onChange={(e, { value }) => {
+                                  e.stopPropagation();
+                                  setPaymentMethod(value);
+                                }}
+                                value={paymentMethod || ""}
+                              />
+                            </div>
+
+                            <svg
+                              className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7f8798]"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <path d="m6 9 6 6 6-6" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        {/* More Filters */}
+                        <div className="mb-6 flex cursor-pointer items-center justify-between text-[#c98a11]">
+                          <span className="text-[12px] font-bold uppercase tracking-[0.2em]">
+                            More Filters
+                          </span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
                           >
-                            {t("postads")}
-                          </Link>
-                        </span>
-                        <span className="p2p-right-links">
-                          <img
-                            src={require("../assets/icons/p2p-payment.webp")}
-                            alt="p2p-payment"
-                            className="p2p-right-icons"
-                          />
-                          <Link
-                            to={
-                              loginStatus == true ? "/Paymentmethod" : "/login"
-                            }
-                            className="p2p-right-links"
-                          >
-                            {t("payment_Method")}
-                          </Link>
-                        </span>
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </div>
+
+                        <div className="border-t border-white/5 pt-6">
+                          <label className="flex items-center gap-4 cursor-pointer">
+                            <input type="checkbox" className="peer sr-only" />
+                            <span className="flex h-7 w-7 items-center justify-center rounded-md border border-[#c98a11] bg-transparent text-[#c98a11] peer-checked:bg-[#c98a11] peer-checked:text-[#111827]">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="3"
+                                className="h-3.5 w-3.5"
+                              >
+                                <path d="M5 12l5 5L20 7" />
+                              </svg>
+                            </span>
+                            <span className="text-[15px] leading-7 text-white/85">
+                              Verified Merchants
+                              <br />
+                              Only
+                            </span>
+                          </label>
+                        </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="col-lg-12">
-                      <div className="filter-btns-wrapper mb-5">
-                        <div className="fil-buy-sell">
-                          <span
-                            className={`fil-sell ${
-                              orderType === "buy" ? "fil-buy" : ""
-                            }`}
-                            onClick={() => setOrderType("buy")}
-                          >
-                            {t("buy")}
-                          </span>
-                          <span
-                            className={`fil-sell ${
-                              orderType === "sell" ? "fil-sell-red" : ""
-                            }`}
-                            onClick={() => setOrderType("sell")}
-                          >
-                            {t("sell")}
-                          </span>
-                        </div>
-
-                        <div className="fil-country fil_drp_mob">
-                          <Dropdown
-                            placeholder="Crypto "
-                            fluid
-                            selection
-                            options={cryptoCurrencies}
-                            onChange={(e, { value }) =>
-                              setSelectedCrypto(value)
-                            }
-                          />
-                        </div>
-
-                        <div className="fil-country fil_drp_mob">
-                          <Dropdown
-                            placeholder="Fiat "
-                            fluid
-                            selection
-                            options={fiatCurrencies}
-                            onChange={(e, { value }) => setSelectedFiat(value)}
-                          />
-                        </div>
-
-                        <div className="fil-payment fil_drp_mob">
-                          <Dropdown
-                            placeholder={t("allPaymentMethod")}
-                            fluid
-                            selection
-                            options={preferPayment}
-                            onChange={(e, { value }) => setPaymentMethod(value)}
-                            value={paymentMethod}
-                          />
-                        </div>
-
-                        <div className="fil-enter fil_drp_mob">
-                          <input
-                            type="text"
-                            placeholder={t("available_Limits")}
-                            className="fil-amount fil_drp_mob"
-                            value={amount}
-                            onKeyDown={(evt) =>
-                              ["e", "E", "+", "-"].includes(evt.key) &&
-                              evt.preventDefault()
-                            }
-                            // onChange={(e) => setAmount(e.target.value)}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              // const numericValue = value.replace(/\D/g, "");
-                              const numericValue = value.replace(
-                                /[^0-9.]/g,
-                                "",
-                              );
-                              const parts = numericValue.split(".");
-                              if (parts.length > 2) {
-                                return;
-                              }
-                              if (numericValue.length <= 15) {
-                                setAmount(numericValue);
-                              }
-                            }}
-                          />
-                          <span className="fil-inr">
-                            {selectedCrypto ? selectedCrypto : ""}
-                          </span>
-                          {/* <span className="white-das">|</span>
-                          <span className="fil-search">Search</span> */}
-                        </div>
-                      </div>
-
-                      <div className="table-responsive table-cont new_desig_non">
-                        <table className="table">
+                  <div className="col-lg-9 col-md-8 col-12">
+                    <div className="overflow-hidden rounded-[28px] border border-white/5 bg-[linear-gradient(180deg,#141b2d_0%,#11182a_100%)] shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+                      <div className="overflow-x-auto">
+                        <table className="table-auto w-max min-w-full border-separate border-spacing-0">
                           <thead>
-                            <tr className="stake-head-p2pnew">
-                              <th>{t("advertiser")}</th>
-                              {/* <th className="opt-nowrap txt-center pad-left-23"> */}
-                              <th className="opt-nowrap pad-left-23 newpad_respdesi">
+                            <tr className="border-b border-white/5">
+                              <th className="px-4 py-4 text-left text-[11px] font-extrabold uppercase tracking-[0.2em] text-white/55">
+                                {t("advertiser")}
+                              </th>
+                              <th className="px-4 py-4 text-left text-[11px] font-extrabold uppercase tracking-[0.2em] text-white/55">
                                 {t("price")}
                               </th>
-                              <th className="opt-nowrap pad-left-23 newpad_respdesi">
+                              <th className="px-4 py-4 text-left text-[11px] font-extrabold uppercase tracking-[0.2em] text-white/55">
                                 {t("available_Limits")}
                               </th>
-                              <th className="opt-nowrap pad-left-23 newpad_respdesi">
+                              <th className="px-1 py-4 text-left text-[11px] font-extrabold uppercase tracking-[0.2em] text-white/55 whitespace-nowrap">
                                 {t("payment_Method")}
                               </th>
-                              <th className="opt-nowrap pad-left-23 newpad_respdesi">
-                                {/* Date & Time */}
-                                {t("ordersCount")}
-                              </th>
-                              <th className="table_action p-r-25">
+                              <th className="px-3 py-4 text-center text-[11px] font-extrabold uppercase tracking-[0.2em] text-white/55 whitespace-nowrap">
                                 {t("action")}
                               </th>
                             </tr>
@@ -648,381 +689,254 @@ const P2P = () => {
                           <tbody>
                             {filteredOrders && filteredOrders.length > 0 ? (
                               filteredOrders.map((options, i) => (
-                                <React.Fragment key={options.id}>
-                                  {i === isIndexVal ? (
-                                    <tr>
-                                      <td colSpan="5">
-                                        <div className="row bord-top">
-                                          <div className="col-lg-7 pad-all-3">
-                                            <div className="table-flex">
-                                              <div className="p2p_namefrst_change">
-                                                <span>
-                                                  {options.displayname.charAt(
-                                                    0,
-                                                  )}
-                                                </span>
-                                              </div>
-                                              <div className="table-opt-name">
-                                                <h4 className="opt-nowrap opt-name font_14">
-                                                  {options.displayname}
-                                                </h4>
-                                                <h3 className="opt-nowrap opt-sub font_14 font_12_nepp">
-                                                  {` Trades : ${options.trades} | ⭐ : ${options.stars}`}
-                                                </h3>
-                                                {/* <h3 className="opt-nowrap opt-sub font_14 font_12_nepp">
-                                                  {`${
-                                                    options.orders_count
-                                                  } Volume | ${parseFloat(
-                                                    options.rating
-                                                  ).toFixed(
-                                                    2
-                                                  )} % Transaction rate`}
-                                                </h3> */}
-                                              </div>
-                                            </div>
-                                            <div className="ad-buy-details">
-                                              <div className="opt-nowrap opt-term font_14 ">
-                                                {options.price}{" "}
-                                                {options?.secondCurrency}
-                                                <div className="opt-price-span mar-t-price">
-                                                  {t("price")}
-                                                </div>
-                                              </div>
-                                              <div className="opt-nowrap opt-term font_14 ">
-                                                <span className="opt-pay">
-                                                  {options.paymentMethod}{" "}
-                                                </span>
-                                                <div className="opt-price-span mar-t-price">
-                                                  {t("payment_Method")}
-                                                </div>
-                                              </div>
-                                              <div className="opt-nowrap opt-term font_14">
-                                                {options && options.fromLimit} -{" "}
-                                                {options && options.toLimit}{" "}
-                                                {options &&
-                                                  options.firstCurrency}
-                                                <div className="opt-price-span mar-t-price">
-                                                  {t("limit")}
-                                                </div>
-                                              </div>
-                                              <div className="opt-nowrap opt-term font_14 ">
-                                                {options.pay_duration}
-                                                <div className="opt-price-span mar-t-price">
-                                                  {t("payment_Time_Limit")}
-                                                </div>
-                                              </div>
-                                              <div className="opt-nowrap opt-term font_14 ">
-                                                {options.available_qty}{" "}
-                                                {options.firstCurrency}
-                                                <div className="opt-price-span mar-t-price">
-                                                  {t("available")}
-                                                </div>
-                                              </div>
-
-                                              {options.requirements != null &&
-                                              options.requirements != "" ? (
-                                                <div className="opt-nowrap opt-term font_14 ">
-                                                  {options.requirements}{" "}
-                                                  <div className="opt-price-span mar-t-price">
-                                                    {t("advertiserinfo")}
-                                                  </div>
-                                                </div>
-                                              ) : (
-                                                ""
-                                              )}
-                                            </div>
-                                          </div>
-
-                                          <div className="col-lg-5 col-md-6 col-sm-6 col-5 youpay">
-                                            <form className="youpay-form">
-                                              <label htmlFor="quantity-sell">
-                                                {t("enterquantityto")}{" "}
-                                                {orderType == "buy"
-                                                  ? "Buy"
-                                                  : "Sell"}
-                                              </label>
-                                              <div className="p2p-pay-input mb-4">
-                                                <input
-                                                  id="quantity-sell"
-                                                  type="text"
-                                                  placeholder={t("enterAmount")}
-                                                  className="w-100 pay-input mb-0"
-                                                  value={payAmount}
-                                                  onChange={(e) => {
-                                                    // Allow only numbers and limit the length to 10 digits
-                                                    const value =
-                                                      e.target.value;
-                                                    if (
-                                                      value.length <= 30 &&
-                                                      /^[0-9]*\.?[0-9]*$/.test(
-                                                        value,
-                                                      )
-                                                    ) {
-                                                      handlePayAmountChange(e);
-                                                    }
-                                                  }}
-                                                  onKeyDown={(evt) =>
-                                                    [
-                                                      "e",
-                                                      "E",
-                                                      "+",
-                                                      "-",
-                                                    ].includes(evt.key) &&
-                                                    evt.preventDefault()
-                                                  }
-                                                />
-                                                {error && (
-                                                  <p className="errorcss mb-0">
-                                                    {error}
-                                                  </p>
-                                                )}
-                                                <span className="youpay-span">
-                                                  {options.firstCurrency}
-                                                </span>
-                                              </div>
-
-                                              <label htmlFor="you-pay">
-                                                {orderType == "buy" ? (
-                                                  <>{t("youwillpay")}</>
-                                                ) : (
-                                                  <>{t("youwillreceive")}</>
-                                                )}
-                                              </label>
-                                              <div className="p2p-pay-input">
-                                                <input
-                                                  type="text"
-                                                  placeholder="0.00"
-                                                  className="w-100 receive-input"
-                                                  value={receiveAmount}
-                                                  readOnly
-                                                />
-                                                <span>
-                                                  {options.secondCurrnecy}
-                                                </span>
-                                              </div>
-
-                                              <label>
-                                                {t("advertiserinfo")}
-                                              </label>
-                                              <div className="p2p-pay-input mb-4">
-                                                <div className="p2o_display_require">
-                                                  {options.requirements !=
-                                                    null &&
-                                                  options.requirements != ""
-                                                    ? options.requirements
-                                                    : "No Info"}
-                                                </div>
-                                              </div>
-
-                                              <label htmlFor="you-pay">
-                                                {t("selectPaymentMethod")}
-                                              </label>
-
-                                              <div className=" mb-4">
-                                                {options.paymentMethod ==
-                                                "All Payment" ? (
-                                                  <Dropdown
-                                                    placeholder={t(
-                                                      "choosePayMethod",
-                                                    )}
-                                                    className="you-pay-select"
-                                                    fluid
-                                                    selection
-                                                    options={allpayment}
-                                                    onChange={(e, { value }) =>
-                                                      setselectPayment(value)
-                                                    }
-                                                    value={selectPayment}
-                                                  />
-                                                ) : (
-                                                  <Dropdown
-                                                    placeholder={t(
-                                                      "choosePayMethod",
-                                                    )}
-                                                    className="you-pay-select"
-                                                    fluid
-                                                    selection
-                                                    options={[
-                                                      {
-                                                        value:
-                                                          options.paymentMethod,
-                                                        text: options.paymentMethod,
-                                                      },
-                                                    ]}
-                                                    onChange={(e, { value }) =>
-                                                      setselectPayment(value)
-                                                    }
-                                                    value={selectPayment}
-                                                  />
-                                                )}
-                                              </div>
-
-                                              <div className="youpay-btns">
-                                                <button
-                                                  type="button"
-                                                  className="youpay-cancel"
-                                                  onClick={handleCancel}
-                                                >
-                                                  {t("cancel")}
-                                                </button>
-                                                {orderType == "buy" ? (
-                                                  <Link
-                                                    type="submit"
-                                                    // onClick={() =>
-                                                    //   confirm_order_buy()
-                                                    // }
-                                                    onClick={() =>
-                                                      openConfirmPopup("buy")
-                                                    }
-                                                    className={`${
-                                                      orderType == "buy"
-                                                        ? "fil-buy"
-                                                        : "action_btn_sell"
-                                                    } `}
-                                                  >
-                                                    {t("buy")}
-                                                  </Link>
-                                                ) : (
-                                                  <Link
-                                                    type="submit"
-                                                    // onClick={() =>
-                                                    //   confirm_order_sell()
-                                                    // }
-                                                    onClick={() =>
-                                                      openConfirmPopup("sell")
-                                                    }
-                                                    className={`${
-                                                      orderType == "buy"
-                                                        ? "fil-buy"
-                                                        : "youpay-sell"
-                                                    } `}
-                                                  >
-                                                    <span className="mx-1">
-                                                      {t("sell")}
-                                                    </span>
-                                                    {options.firstCurrency}
-                                                  </Link>
-                                                )}
-                                              </div>
-                                            </form>
-                                          </div>
+                                <React.Fragment key={options.orderId || i}>
+                                  <tr className="border-t border-white/5 align-middle transition-colors hover:bg-white/[0.02]">
+                                    <td className="px-4 py-4">
+                                      <div className="flex items-center gap-3">
+                                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#c98a11] text-sm font-extrabold uppercase text-white shadow-[0_8px_20px_rgba(201,138,17,0.28)]">
+                                          {options.displayname?.charAt(0)}
                                         </div>
-                                      </td>
-                                    </tr>
-                                  ) : (
-                                    <tr key={options.id}>
-                                      <td>
-                                        <div className="table-flex">
-                                          {/* <img
-                                          src={require(`../assets/j.png`)}
-                                          alt={options.optName}
-                                        /> */}
-                                          <div className="p2p_namefrst_change">
-                                            <span>
-                                              {options.displayname.charAt(0)}
-                                            </span>
-                                          </div>
-                                          <div className="table-opt-name">
-                                            <h4 className="opt-nowrap opt-name font_14">
-                                              {options.displayname}
-                                            </h4>
-                                            <h3 className="opt-nowrap opt-sub font_14 font_12_nepp">
-                                              {` Trades : ${options.trades} | ⭐ : ${options.stars}`}
-                                            </h3>
-                                          </div>
-                                        </div>
-                                      </td>
-                                      {/* <td className="opt-nowrap opt-price font_14 table_center_text pad-left-23"> */}
-                                      <td className="opt-nowrap opt-price font_14 pad-left-23 newpad_respdesi">
-                                        <span className="opt-price-span">
-                                          {options.price}
-                                        </span>{" "}
-                                        {options?.secondCurrency}
-                                      </td>
 
-                                      <td className="opt-nowrap opt-percent font_14 pad-left-23 newpad_respdesi">
-                                        <div className="table-opt-name table-flex-col">
-                                          <h4 className="opt-name font_14">
-                                            <span className="opt-sub opt-sub-amt new_pp_amn">
-                                              {t("amount")}{" "}
-                                            </span>
-                                            <span className="opt-amount">
-                                              {options && options.available_qty}{" "}
-                                              {options && options.firstCurrency}
-                                            </span>
+                                        <div className="min-w-0">
+                                          <h4 className="truncate text-sm font-semibold text-white">
+                                            {options.displayname}
                                           </h4>
-                                          <h3 className="opt-sub font_14">
-                                            <span className="opt-sub opt-sub-lmt new_pp_amn">
-                                              {t("limit")}{" "}
-                                            </span>
-                                            <span className="opt-amount">
-                                              {" "}
-                                              {options &&
-                                                options.fromLimit} -{" "}
-                                              {options && options.toLimit}{" "}
-                                              {options && options.firstCurrency}
-                                            </span>
-                                          </h3>
+                                          <div className="mt-1 truncate text-xs text-white/55">
+                                            {`Trades: ${options.trades} | ⭐ ${options.stars}`}
+                                          </div>
                                         </div>
-                                      </td>
-                                      <td className="opt-nowrap opt-term font_14 pad-left-23 newpad_respdesi">
-                                        <span className="opt-pay">
-                                          {options &&
-                                            options.paymentMethod}{" "}
-                                        </span>
-                                      </td>
-                                      <td className="opt-nowrap opt-price font_14 pad-left-23 newpad_respdesi">
-                                        {/* {moment(options.date).format("lll")} */}
-                                        {/* <h3 className="opt-nowrap opt-sub font_14 font_12_nepp"> */}
-                                        <h3 className="opt-nowrap font_14">
-                                          {`${
-                                            options.orders_count
-                                          } Volume | ${parseFloat(
-                                            options.rating,
-                                          ).toFixed(2)} % Transaction rate`}
-                                        </h3>
-                                      </td>
+                                      </div>
+                                    </td>
 
-                                      <td className="opt-btn-flex table-action pad-left-23">
-                                        {loginStatus == true ? (
-                                          <>
-                                            {options.user_id ==
-                                            UserIDref.current ? (
-                                              <Link
-                                                className={`${
-                                                  orderType == "buy"
-                                                    ? "p2p-buy"
-                                                    : "action_btn_sell"
-                                                } `}
-                                                to={`/p2p/order/${options.orderId}`}
-                                              >
-                                                {t("view")}
-                                              </Link>
-                                            ) : (
-                                              <Link
-                                                className={`${
-                                                  orderType == "buy"
-                                                    ? "p2p-buy"
-                                                    : "action_btn_sell"
-                                                } `}
-                                                onClick={() =>
-                                                  handleClick(i, options)
-                                                }
-                                              >
-                                                {orderType == "buy"
-                                                  ? "Buy"
-                                                  : "Sell"}
-                                              </Link>
-                                            )}
-                                          </>
+                                    <td className="px-4 py-4 whitespace-nowrap">
+                                      <div className="text-base font-extrabold text-white">
+                                        {options.price}
+                                      </div>
+                                      <div className="mt-1 text-xs font-medium uppercase tracking-[0.14em] text-white/45">
+                                        {options.secondCurrency}
+                                      </div>
+                                    </td>
+
+                                    <td className="px-4 py-4 whitespace-nowrap">
+                                      <div className="space-y-1.5">
+                                        <div className="text-sm text-white/85">
+                                          <span className="mr-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">
+                                            Available
+                                          </span>
+                                          {options.available_qty}{" "}
+                                          {options.firstCurrency}
+                                        </div>
+                                        <div className="text-sm text-white/85">
+                                          <span className="mr-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">
+                                            Limit
+                                          </span>
+                                          {options.fromLimit} -{" "}
+                                          {options.toLimit}
+                                        </div>
+                                      </div>
+                                    </td>
+
+                                    <td className="px-1 py-4 whitespace-nowrap">
+                                      <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/85">
+                                        {options.paymentMethod}
+                                      </span>
+                                    </td>
+
+                                    <td className="px-3 py-4 text-right whitespace-nowrap">
+                                      {loginStatus ? (
+                                        options.user_id == UserIDref.current ? (
+                                          <Link
+                                            className="inline-flex min-w-[96px] items-center justify-center rounded-xl bg-white/10 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-white/15"
+                                            to={`/p2p/order/${options.orderId}`}
+                                          >
+                                            {t("view")}
+                                          </Link>
                                         ) : (
                                           <button
-                                            className="action_btn"
-                                            onClick={() => loginNave()}
+                                            className={`inline-flex min-w-[120px] items-center justify-center rounded-xl px-4 py-2.5 text-sm font-bold transition ${
+                                              orderType === "buy"
+                                                ? "bg-[#c98a11] text-white hover:bg-[#d79a1a]"
+                                                : "bg-[#d14b4b] text-white hover:bg-[#df5b5b]"
+                                            }`}
+                                            onClick={() =>
+                                              handleClick(i, options)
+                                            }
                                           >
-                                            {t("login")}
+                                            {orderType === "buy"
+                                              ? "Buy"
+                                              : "Sell"}{" "}
+                                            {options.firstCurrency}
                                           </button>
-                                        )}
+                                        )
+                                      ) : (
+                                        <button
+                                          className="inline-flex min-w-[96px] items-center justify-center rounded-xl bg-[#c98a11] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#d79a1a]"
+                                          onClick={() => navigate("/login")}
+                                        >
+                                          {t("login")}
+                                        </button>
+                                      )}
+                                    </td>
+                                  </tr>
+                                  {i === isIndexVal && (
+                                    <tr className="bg-[#09111d]">
+                                      <td colSpan={5} className="px-4 py-6">
+                                        <div className="rounded-[24px] border border-white/10 bg-[#04060d] p-6">
+                                          <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+                                            <div className="space-y-4">
+                                              <div className="flex items-start gap-4">
+                                                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#c98a11] text-base font-extrabold uppercase text-black">
+                                                  {options.displayname?.charAt(0)}
+                                                </div>
+                                                <div>
+                                                  <h4 className="text-sm font-semibold text-white">
+                                                    {options.displayname}
+                                                  </h4>
+                                                  <p className="mt-1 text-xs text-white/60">
+                                                    {`Trades: ${options.trades} | ⭐ ${options.stars}`}
+                                                  </p>
+                                                </div>
+                                              </div>
+
+                                              <div className="grid gap-3 sm:grid-cols-2">
+                                                <div className="rounded-2xl bg-white/5 p-4">
+                                                  <div className="text-[13px] uppercase tracking-[0.22em] text-white/50">
+                                                    {t("price")}
+                                                  </div>
+                                                  <div className="mt-2 text-lg font-semibold text-white">
+                                                    {options.price} {options.secondCurrency}
+                                                  </div>
+                                                </div>
+
+                                                <div className="rounded-2xl bg-white/5 p-4">
+                                                  <div className="text-[13px] uppercase tracking-[0.22em] text-white/50">
+                                                    {t("payment_Method")}
+                                                  </div>
+                                                  <div className="mt-2 text-lg font-semibold text-white">
+                                                    {options.paymentMethod}
+                                                  </div>
+                                                </div>
+
+                                                <div className="rounded-2xl bg-white/5 p-4">
+                                                  <div className="text-[13px] uppercase tracking-[0.22em] text-white/50">
+                                                    {t("limit")}
+                                                  </div>
+                                                  <div className="mt-2 text-lg font-semibold text-white">
+                                                    {options.fromLimit} - {options.toLimit} {options.firstCurrency}
+                                                  </div>
+                                                </div>
+
+                                                <div className="rounded-2xl bg-white/5 p-4">
+                                                  <div className="text-[13px] uppercase tracking-[0.22em] text-white/50">
+                                                    {t("available")}
+                                                  </div>
+                                                  <div className="mt-2 text-lg font-semibold text-white">
+                                                    {options.available_qty} {options.firstCurrency}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+
+                                            <div className="rounded-[24px] border border-white/10 bg-[#07101a] p-6">
+                                              <form className="space-y-5">
+                                                <div>
+                                                  <label className="mb-3 block text-sm font-semibold text-white/70">
+                                                    {t("enterquantityto")} {orderType === "buy" ? t("buy") : t("sell")}
+                                                  </label>
+                                                  <div className="relative">
+                                                    <input
+                                                      type="text"
+                                                      placeholder={t("enterAmount")}
+                                                      value={payAmount}
+                                                      onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        if (
+                                                          value.length <= 30 &&
+                                                          /^[0-9]*\.?[0-9]*$/.test(value)
+                                                        ) {
+                                                          handlePayAmountChange(e);
+                                                        }
+                                                      }}
+                                                      onKeyDown={(evt) =>
+                                                        ["e", "E", "+", "-"].includes(evt.key) &&
+                                                        evt.preventDefault()
+                                                      }
+                                                      className="w-full rounded-2xl border border-white/10 bg-[#02060d] px-4 py-3 text-white outline-none focus:border-[#c98a11] focus:ring-2 focus:ring-[#c98a11]/20"
+                                                    />
+                                                    <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/5 px-3 py-1 text-xs font-semibold uppercase text-white/70">
+                                                      {options.firstCurrency}
+                                                    </span>
+                                                  </div>
+                                                  {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+                                                </div>
+
+                                                <div>
+                                                  <label className="mb-3 block text-sm font-semibold text-white/70">
+                                                    {t("youwillpay")}
+                                                  </label>
+                                                  <div className="rounded-2xl border border-white/10 bg-[#02060d] px-4 py-3 text-white">
+                                                    <div className="flex items-center justify-between">
+                                                      <span>{receiveAmount || "0.00"}</span>
+                                                      <span className="text-xs uppercase text-white/70">{options.secondCurrency}</span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+
+                                                <div>
+                                                  <label className="mb-3 block text-sm font-semibold text-white/70">
+                                                    {t("selectPaymentMethod")}
+                                                  </label>
+                                                  <Dropdown
+                                                    placeholder={t("choosePayMethod")}
+                                                    fluid
+                                                    selection
+                                                    options={
+                                                      options.paymentMethod === "All Payment"
+                                                        ? allpayment
+                                                        : [
+                                                            {
+                                                              key: options.paymentMethod,
+                                                              text: options.paymentMethod,
+                                                              value: options.paymentMethod,
+                                                            },
+                                                          ]
+                                                    }
+                                                    onChange={(e, { value }) =>
+                                                      setselectPayment(value)
+                                                    }
+                                                    value={selectPayment || ""}
+                                                    className="you-pay-select"
+                                                  />
+                                                </div>
+
+                                                <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+                                                  <button
+                                                    type="button"
+                                                    className="inline-flex justify-center rounded-2xl border border-white/10 bg-transparent px-5 py-3 text-sm font-bold text-white transition hover:border-[#c98a11] hover:text-[#c98a11]"
+                                                    onClick={handleCancel}
+                                                  >
+                                                    {t("cancel")}
+                                                  </button>
+                                                  <button
+                                                    type="button"
+                                                    onClick={
+                                                      orderType === "buy"
+                                                        ? confirm_order_buy
+                                                        : confirm_order_sell
+                                                    }
+                                                    className={`inline-flex justify-center rounded-2xl px-5 py-3 text-sm font-bold text-white transition ${
+                                                      orderType === "buy"
+                                                        ? "bg-[#c98a11] hover:bg-[#d79a1a]"
+                                                        : "bg-[#d14b4b] hover:bg-[#df5b5b]"
+                                                    }`}
+                                                  >
+                                                    {orderType === "buy" ? t("buy") : t("sell")}
+                                                  </button>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
                                       </td>
                                     </tr>
                                   )}
@@ -1030,352 +944,26 @@ const P2P = () => {
                               ))
                             ) : (
                               <tr>
-                                <td colSpan={6} className="text-center py-5">
-                                  <div className="empty_data">
-                                    <div className="empty_data_img">
-                                      <img
-                                        src={require("../assets/No-data.webp")}
-                                        width="100px"
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="no_records_text">
-                                      {t("noRecordsFound")}
-                                    </div>
-                                  </div>
+                                <td
+                                  colSpan={5}
+                                  className="px-4 py-10 text-center text-sm text-white/60"
+                                >
+                                  {t("noRecordsFound")}
                                 </td>
                               </tr>
                             )}
                           </tbody>
                         </table>
                       </div>
-                      <div className="new_desig_disfrst">
-                        {filteredOrders && filteredOrders.length > 0
-                          ? filteredOrders.map((options, i) => (
-                              <div className="p2p_resp_man" key={options.id}>
-                                <div className="p2p_resp_man_dis">
-                                  <div className="p2p_resp_cente">
-                                    <div className="table-flex">
-                                      <div className="p2p_namefrst_change">
-                                        <span>
-                                          {options.displayname.charAt(0)}
-                                        </span>
-                                      </div>
-                                      <h4 className="p2p_name_nw">
-                                        {options.displayname}
-                                      </h4>
-                                    </div>
-                                    <div className="">
-                                      <h3 className="nw_p2p_ordercou">
-                                        {` Trades : ${options.trades} | ⭐ : ${options.stars}`}
-                                        {/* {`${
-                                          options.orders_count
-                                        } Volume | ${parseFloat(
-                                          options.rating,
-                                        ).toFixed(2)} % Transaction rate`}*/}
-                                      </h3>
-                                    </div>
-                                    <div className="nwp2p_pricespa_min">
-                                      <span className="nwp2p_pricespa">
-                                        {options.price}
-                                      </span>{" "}
-                                      {options?.secondCurrency}
-                                    </div>
-                                    <div className="nwp2p_limico_man">
-                                      <h3 className="">
-                                        <span className="">
-                                          {t("amount")}:{" "}
-                                        </span>
-                                        <span className="">
-                                          {options && options.available_qty}{" "}
-                                          {options && options.firstCurrency}
-                                        </span>
-                                      </h3>
-                                      <h3 className="">
-                                        <span className="">{t("limit")}: </span>
-                                        <span className="">
-                                          {" "}
-                                          {options && options.fromLimit} -{" "}
-                                          {options && options.toLimit}{" "}
-                                          {options && options.firstCurrency}
-                                        </span>
-                                      </h3>
-                                    </div>
-                                    <div className="newp2p_spa_betpay">
-                                      <div className="newp2p_spa_betpay_below">
-                                        <span className="p2pnw_payme">
-                                          {options &&
-                                            options.paymentMethod}{" "}
-                                        </span>
-                                      </div>
-                                      <div className="table-action-nwpp">
-                                        {loginStatus == true ? (
-                                          <>
-                                            {options.user_id ==
-                                            UserIDref.current ? (
-                                              <Link
-                                                className={`${
-                                                  orderType == "buy"
-                                                    ? "p2p-buy"
-                                                    : "action_btn_sell"
-                                                } `}
-                                                to={`/p2p/order/${options.orderId}`}
-                                              >
-                                                {t("view")}
-                                              </Link>
-                                            ) : (
-                                              <Link
-                                                className={`${
-                                                  orderType == "buy"
-                                                    ? "p2p-buy"
-                                                    : "action_btn_sell"
-                                                } `}
-                                                onClick={() =>
-                                                  handleClick(i, options)
-                                                }
-                                              >
-                                                {orderType == "buy"
-                                                  ? "Buy"
-                                                  : "Sell"}
-                                              </Link>
-                                            )}
-                                          </>
-                                        ) : (
-                                          <button
-                                            className="action_btn"
-                                            onClick={() => loginNave()}
-                                          >
-                                            {t("login")}
-                                          </button>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                {i === isIndexVal && (
-                                  <div className="youpay">
-                                    <form className="youpay-form">
-                                      <label htmlFor="quantity-sell">
-                                        {t("enterquantityto")}{" "}
-                                        {orderType == "buy" ? "Buy" : "Sell"}
-                                      </label>
-                                      <div className="p2p-pay-input mb-4">
-                                        <input
-                                          id="quantity-sell"
-                                          type="text"
-                                          placeholder={t("enterAmount")}
-                                          className="w-100 pay-input mb-0"
-                                          value={payAmount}
-                                          onChange={(e) => {
-                                            // Allow only numbers and limit the length to 10 digits
-                                            const value = e.target.value;
-                                            if (
-                                              value.length <= 30 &&
-                                              /^[0-9]*\.?[0-9]*$/.test(value)
-                                            ) {
-                                              handlePayAmountChange(e);
-                                            }
-                                          }}
-                                          onKeyDown={(evt) =>
-                                            ["e", "E", "+", "-"].includes(
-                                              evt.key,
-                                            ) && evt.preventDefault()
-                                          }
-                                        />
-                                        {error && (
-                                          <p className="errorcss mb-0">
-                                            {error}
-                                          </p>
-                                        )}
-                                        <span className="youpay-span">
-                                          {options.firstCurrency}
-                                        </span>
-                                      </div>
-
-                                      <label htmlFor="you-pay">
-                                        {orderType == "buy" ? (
-                                          <>{t("youwillpay")}</>
-                                        ) : (
-                                          <>{t("youwillreceive")}</>
-                                        )}
-                                      </label>
-                                      <div className="p2p-pay-input">
-                                        <input
-                                          type="text"
-                                          placeholder="0.00"
-                                          className="w-100 receive-input"
-                                          value={receiveAmount}
-                                          readOnly
-                                        />
-                                        <span>{options.secondCurrnecy}</span>
-                                      </div>
-
-                                      <label>{t("advertiserinfo")}</label>
-                                      <div className="p2p-pay-input mb-4">
-                                        <div className="p2o_display_require">
-                                          {options.requirements != null &&
-                                          options.requirements != ""
-                                            ? options.requirements
-                                            : "No Info"}
-                                        </div>
-                                      </div>
-
-                                      <label htmlFor="you-pay">
-                                        {t("selectPaymentMethod")}
-                                      </label>
-
-                                      <div className=" mb-4">
-                                        {options.paymentMethod ==
-                                        "All Payment" ? (
-                                          <Dropdown
-                                            placeholder={t("choosePayMethod")}
-                                            className="you-pay-select"
-                                            fluid
-                                            selection
-                                            options={allpayment}
-                                            onChange={(e, { value }) =>
-                                              setselectPayment(value)
-                                            }
-                                            value={selectPayment}
-                                          />
-                                        ) : (
-                                          <Dropdown
-                                            placeholder={t("choosePayMethod")}
-                                            className="you-pay-select"
-                                            fluid
-                                            selection
-                                            options={[
-                                              {
-                                                value: options.paymentMethod,
-                                                text: options.paymentMethod,
-                                              },
-                                            ]}
-                                            onChange={(e, { value }) =>
-                                              setselectPayment(value)
-                                            }
-                                            value={selectPayment}
-                                          />
-                                        )}
-                                      </div>
-
-                                      <div className="youpay-btns">
-                                        <button
-                                          type="button"
-                                          className="youpay-cancel"
-                                          onClick={handleCancel}
-                                        >
-                                          {t("cancel")}
-                                        </button>
-                                        {orderType == "buy" ? (
-                                          <Link
-                                            type="submit"
-                                            // onClick={() => confirm_order_buy()}
-                                            onClick={() =>
-                                              openConfirmPopup("buy")
-                                            }
-                                            className={`${
-                                              orderType == "buy"
-                                                ? "fil-buy"
-                                                : "action_btn_sell"
-                                            } `}
-                                          >
-                                            {t("buy")}
-                                          </Link>
-                                        ) : (
-                                          <Link
-                                            type="submit"
-                                            // onClick={() => confirm_order_sell()}
-                                            onClick={() =>
-                                              openConfirmPopup("sell")
-                                            }
-                                            className={`${
-                                              orderType == "buy"
-                                                ? "fil-buy"
-                                                : "youpay-sell"
-                                            } `}
-                                          >
-                                            <span className="mx-1">
-                                              {t("sell")}
-                                            </span>
-                                            {options.firstCurrency}
-                                          </Link>
-                                        )}
-                                      </div>
-                                    </form>
-                                  </div>
-                                )}
-                              </div>
-                            ))
-                          : ""}
-                      </div>
                     </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-            <div
-              className="modal fade"
-              id="p2pConfirmModal"
-              tabIndex="-1"
-              aria-hidden="true"
-            >
-              <div className="modal-dialog modal-dialog-centered modal-sm">
-                <div className="modal-content common_buysell_box">
-                  <div className="modal-header lvl-one-header">
-                    <h5 className="modal-title">
-                      {orderType === "buy" ? t("confirmBuy") : t("confirmSell")}
-                    </h5>
-                    <button
-                      type="button"
-                      className="btn-close btn-close-custom"
-                      data-bs-dismiss="modal"
-                    ></button>
-                  </div>
-
-                  <div className="modal-body personal_verify_body">
-                    {orderType === "buy" ? (
-                      <>
-                        <p className="pay-name mt-4">
-                          - {t("p2pcommonbuyfrst")}
-                        </p>
-                        <p className="pay-name">- {t("p2pcommonbuyscnd")}</p>
-                        <p className="pay-name">- {t("p2pcommonbuythrd")}</p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="pay-name mt-4">
-                          - {t("p2pcommonsellfrst")}
-                        </p>
-                        <p className="pay-name">- {t("p2pcommonsellscnd")}</p>
-                        <p className="pay-name">- {t("p2pcommonsellthrd")}</p>
-                      </>
-                    )}
-                  </div>
-
-                  <div className="modal-footer d-flex justify-content-center text-center w-100">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      {t("cancel")}
-                    </button>
-
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={handleConfirmTrade}
-                    >
-                      {t("confirm")}
-                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </main>
+        </section>
       )}
-    </>
+    </DashboardLayout>
   );
 };
 

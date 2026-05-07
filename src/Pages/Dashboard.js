@@ -454,7 +454,7 @@ const Dashboard = () => {
                             {t("rejected")}
                           </span>
                         ) : (
-                          <span className="flex items-center gap-1 text-gray-500">
+                          <span className="flex items-center gap-1 text-red-500">
                             <img
                               src={require("../assets/icons/notverify.webp")}
                               className="w-4 h-4"

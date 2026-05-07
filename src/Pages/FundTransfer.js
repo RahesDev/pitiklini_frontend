@@ -296,7 +296,8 @@ function FundTransfer() {
           />
         </div>
       ) : (
-        <main className="dashboard_main">
+        // <main className="dashboard_main">
+        <main className="dashboard_main_exp">
           <div className="container-fluid">
             <div className="row">
               <div className="col-lg-2 padlef_0_col">

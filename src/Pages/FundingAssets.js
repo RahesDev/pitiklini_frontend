@@ -454,7 +454,7 @@ const Assets = () => {
                       </tbody>
                     </table>
                     {balanceDetails && balanceDetails.length > 0 ? (
-                      <div className="pagination">
+                      <div className="flex justify-center my-4">
                         <Stack spacing={2}>
                           <Pagination
                             count={Math.ceil(total / recordPerPage)}
@@ -462,27 +462,24 @@ const Assets = () => {
                             onChange={handlePageChange}
                             size="small"
                             sx={{
+                              "& .MuiPagination-ul": { gap: "6px" },
                               "& .MuiPaginationItem-root": {
-                                color: "#fff", // Default text color for pagination items
-                                // backgroundColor: "#2D1E23",
-                                // "&:hover": {
-                                //   backgroundColor: "#453a1f",
-                                //   color: "#ffc630",
-                                // },
+                                color: "#fff",
+                                borderRadius: "6px",
+                                minWidth: "34px",
+                                height: "34px",
+                              },
+                              "& .MuiPaginationItem-root:hover": {
+                                backgroundColor: "#BD7F10",
+                                color: "#000",
                               },
                               "& .Mui-selected": {
-                                backgroundColor: "#bd7f10 !important", // Background color for selected item
-                                color: "#000", // Text color for selected item
-                                "&:hover": {
-                                  backgroundColor: "#bd7f10",
-                                  color: "#000",
-                                },
-                              },
-                              "& .MuiPaginationItem-ellipsis": {
-                                color: "#fff", // Color for ellipsis
+                                backgroundColor: "#BD7F10 !important",
+                                color: "#000",
+                                fontWeight: "600",
                               },
                               "& .MuiPaginationItem-icon": {
-                                color: "#fff", // Color for icon (if present)
+                                color: "inherit",
                               },
                             }}
                             // renderItem={(item) => (

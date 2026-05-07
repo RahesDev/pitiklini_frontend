@@ -19,6 +19,7 @@ import ICON from "../assets/deposit-imp.png";
 import WARNICON from "../assets/icons/withdraw-warn.webp";
 import { useTranslation } from "react-i18next";
 import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
+import VerticalStepper from "./VerticalStepper";
 import DashboardLayout from "./DashboardLayout";
 
 const Dashboard = () => {
@@ -1415,6 +1416,357 @@ const Dashboard = () => {
     showsuccessToast("Address copied");
   };
 
+  const isWithdrawStep1Done = Boolean(currentcurrencyref.current?.currencySymbol || currencyref.current);
+  const requiresWithdrawNetwork = currentcurrencyref.current?.currencyType == "2";
+  const isWithdrawNetworkDone = !requiresWithdrawNetwork || Boolean(network_currentref.current);
+  const isWithdrawAddressDone =
+    withdrawType == "1"
+      ? Boolean(withdrawAddressref.current && String(withdrawAddressref.current).trim() !== "")
+      : true;
+  const isWithdrawStep2Done = isWithdrawStep1Done && isWithdrawNetworkDone && isWithdrawAddressDone;
+  const isWithdrawStep3Done = Boolean(amount && Number(amount) > 0);
+  const withdrawCurrentStep = !isWithdrawStep1Done ? 1 : !isWithdrawStep2Done ? 2 : 3;
+
+  const withdrawSteps = [
+    {
+      key: "w-select-crypto",
+      title: t("Select Crypto"),
+      icon: (
+        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zm-2 5v5a2 2 0 002 2h12a2 2 0 002-2V9H2zm2 3h2v2H4v-2z" />
+        </svg>
+      ),
+      content: (
+        <>
+          <div className="bg-[#181a20] border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom max-w-lg">
+            <Dropdown
+              placeholder={t("selectacoin")}
+              fluid
+              className="dep-drops w-full bg-transparent text-white border-0"
+              selection
+              options={allCurrencyref.current}
+              onChange={(e, data) => {
+                const selectedOption = allCurrencyref.current.find(
+                  (option) => option.value === data.value
+                );
+                onSelect(selectedOption);
+              }}
+              search={(options, query) =>
+                options.filter((opt) => {
+                  const q = query.toLowerCase();
+                  return (
+                    (opt.searchSymbol && opt.searchSymbol.toLowerCase().includes(q)) ||
+                    (opt.searchName && opt.searchName.toLowerCase().includes(q))
+                  );
+                })}
+              disabled={show_otpref.current == true}
+            />
+          </div>
+          {withdrawcurrencyValidate && (
+            <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.withdrawcurrency}</span>
+          )}
+        </>
+      ),
+    },
+    {
+      key: "w-select-network",
+      title: t("Select Network"),
+      icon: (
+        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+        </svg>
+      ),
+      content: (
+        <>
+          {show_otpref.current == false && currentcurrencyref.current?.currencyType == "2" && (
+            <div className="mb-4 max-w-lg mt-6">
+              <label className="text-[13px] text-gray-500 mb-1 block px-1">{t("Network")}</label>
+              <div className="bg-[#181a20] border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom">
+                <Dropdown
+                  placeholder={t("Please select a withdrawal network")}
+                  fluid
+                  className="dep-drops w-full bg-transparent text-white border-0"
+                  selection
+                  options={network_currencyref.current}
+                  onChange={(e, data) => {
+                    const selectedOption = network_currencyref.current.find(
+                      (option) => option.value === data.value
+                    );
+                    onSelect_network(selectedOption);
+                  }}
+                  isSearchable={true}
+                  disabled={show_otpref.current == true}
+                />
+              </div>
+              {withdrawnetworkValidateref.current && (
+                <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.withdrawnetwork}</span>
+              )}
+            </div>
+          )}
+
+          {withdrawType == "1" && (
+            <div className="max-w-lg mt-6">
+              <div className="flex justify-between items-end mb-1 px-1">
+                <label className="text-[13px] text-gray-500">{t("Address")}</label>
+                <div className="text-[13px] text-[#ca9b27] hover:text-[#b58a23] cursor-pointer transition-colors" onClick={addresshides}>
+                  {t("Manage Address")}
+                </div>
+              </div>
+              <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center p-1 px-3">
+                <input
+                  type="text"
+                  placeholder={t("Please enter your withdraw address")}
+                  className="bg-transparent border-0 w-full text-white placeholder-gray-600 focus:outline-none focus:ring-0 py-2 h-[44px] text-[15px]"
+                  maxLength={60}
+                  onKeyDown={handlekeydown}
+                  disabled={show_otpref.current == true}
+                  value={withdrawAddressref.current || ""}
+                  onChange={onSelect_address}
+                />
+                {withdrawAddressref.current && (
+                  <button
+                    className="text-gray-500 hover:text-white p-2"
+                    onClick={() => {
+                      setwithdrawAddress("");
+                      if (withdrawAddressref) withdrawAddressref.current = "";
+                    }}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+              {withAddressValidate && (
+                <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.withAddress}</span>
+              )}
+            </div>
+          )}
+        </>
+      ),
+    },
+    {
+      key: "w-copy-or-amount",
+      title: t("Copy Wallet Address"),
+      icon: (
+        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+        </svg>
+      ),
+      content: (
+        <div className="max-w-xl">
+          <div className="flex justify-between items-end mb-2 mt-4 px-1">
+            <label className="text-sm text-gray-500">{t("Amount")}</label>
+            <div className="text-sm text-gray-400">
+              {t("Available Balance")}:{" "}
+              <span className="text-gray-300 font-medium">
+                {balanceref.current.balance ? balanceref.current.balance.toFixed(6) : "0"} {currencyref.current}
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center px-4 py-1 mb-2">
+            <input
+              type="text"
+              pattern="[0-9]*"
+              maxLength={8}
+              onKeyDown={(evt) => {
+                if (
+                  !(
+                    (evt.key >= "0" && evt.key <= "9") ||
+                    evt.key === "." ||
+                    evt.key === "Backspace" ||
+                    evt.key === "Delete" ||
+                    evt.key === "ArrowLeft" ||
+                    evt.key === "ArrowRight" ||
+                    evt.key === "Tab"
+                  )
+                ) {
+                  evt.preventDefault();
+                }
+              }}
+              autoComplete="off"
+              name="amount"
+              value={amount}
+              disabled={show_otpref.current == true}
+              onChange={(e) => {
+                if (e.target.value >= 0) handleChange(e);
+              }}
+              onInput={(evt) => {
+                if (evt.target.value.split(".").length > 2) evt.target.value = evt.target.value.slice(0, -1);
+              }}
+              placeholder={`${t("Minimum withdrawal amount")}: ${currentcurrencyref.current?.minWithdrawLimit || "0.01"} ${currencyref.current || ""}`}
+              className="bg-transparent border-0 w-full text-white placeholder-gray-500 focus:outline-none focus:ring-0 py-2 h-[44px] text-[15px] outline-none"
+            />
+            <span className="text-white font-medium ml-2 h-full items-center flex">{currencyref.current}</span>
+          </div>
+          {amountValidate && <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.amount}</span>}
+
+          <div className="flex justify-between items-end mb-2 mt-6 px-1">
+            <label className="text-sm text-gray-500">{t("Remarks (optional)")}</label>
+          </div>
+          <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center px-4 py-1 mb-2">
+            <input
+              type="text"
+              placeholder={t("e.g. Purpose of withdrawal")}
+              disabled={show_otpref.current == true}
+              className="bg-transparent border-0 w-full text-white placeholder-gray-500 focus:outline-none focus:ring-0 py-2 h-[44px] text-[15px] outline-none"
+            />
+          </div>
+
+          {show_otpref.current == true && (
+            <div className="mb-4 mt-6">
+              <label className="text-sm text-gray-500 mb-1 block px-1">{t("withdrawOTP")}</label>
+              <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center px-4 py-1 mb-1">
+                <input
+                  type="text"
+                  autoComplete="off"
+                  placeholder={t("EnterWithdrawOTP")}
+                  name="withdraw_otp"
+                  value={withdraw_otp}
+                  maxLength={4}
+                  onInput={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }}
+                  onKeyDown={(e) => {
+                    if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
+                  }}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value >= 0 && value.length <= 6) {
+                      const formData = { ...formValue, [e.target.name]: value };
+                      setFormValue(formData);
+                      validate(formData);
+                      validate_preview(formData);
+                    }
+                  }}
+                  className="bg-transparent border-0 w-full text-white placeholder-gray-600 focus:outline-none focus:ring-0 py-2 h-[44px] outline-none"
+                />
+              </div>
+              {otpValidate && <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.withdraw_otp}</span>}
+              <div className="text-right text-xs mt-2 px-1">
+                <span className="text-gray-400">{t("Didntreceivecode?")} </span>
+                {resendClick == false ? (
+                  isResendVisible ? (
+                    <button onClick={handleResend} className="text-[#f0b90b] hover:text-yellow-400 cursor-pointer">
+                      {t("resend")}
+                    </button>
+                  ) : (
+                    <span className="text-[#f0b90b]">{counter}s</span>
+                  )
+                ) : (
+                  <i className="fa-solid fa-circle-notch fa-spin text-[#f0b90b] px-2"></i>
+                )}
+              </div>
+            </div>
+          )}
+
+          {show_otpref.current == true && (sessionStorage.getItem("tfa_status") == 0 || sessionStorage.getItem("tfa_status") == 1) && (
+            <div className="mb-4 mt-4">
+              <label className="text-sm text-gray-500 mb-1 block px-1">{t("2FAVerificationCode")}</label>
+              <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center px-4 py-1 mb-1">
+                <input
+                  type="text"
+                  autoComplete="off"
+                  maxLength={6}
+                  name="tfa"
+                  value={tfa}
+                  placeholder={t("Enter2FACode")}
+                  onKeyDown={(e) => {
+                    if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
+                  }}
+                  onInput={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value >= 0 && value.length <= 6) {
+                      const formData = { ...formValue, [e.target.name]: value };
+                      setFormValue(formData);
+                      validate(formData);
+                      validate_preview(formData);
+                    }
+                  }}
+                  className="bg-transparent border-0 w-full text-white placeholder-gray-600 focus:outline-none focus:ring-0 py-2 h-[44px] outline-none"
+                />
+              </div>
+              {tfaValidate && <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.tfa}</span>}
+            </div>
+          )}
+
+          <div className="mt-14 text-right flex flex-col items-end px-1">
+            <div className="text-[22px] font-bold text-white tracking-wide">
+              {amount && !isNaN(amount) && currentcurrencyref.current ? (
+                parseFloat(amount) - parseFloat(currentcurrencyref.current.withdrawFee || 0) > 0 ? (
+                  String(Number((parseFloat(amount) - parseFloat(currentcurrencyref.current.withdrawFee || 0)).toFixed(6))) + " "
+                ) : (
+                  "0.00 "
+                )
+              ) : (
+                "--"
+              )}
+              <span>{currencyref.current}</span>
+            </div>
+            <div className="text-[13px] text-gray-500 mt-1 flex items-center gap-1">
+              {t("Fee")}: {currentcurrencyref.current?.withdrawFee || "0"} {currencyref.current}
+              <svg className="w-[14px] h-[14px] ml-0.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="mt-3">
+            {buttonLoader == false ? (
+              sessionStorage.getItem("tfa_status") == 0 ? (
+                <button onClick={() => nav_page("/enabletfa")} className="w-full bg-[#ca9b27] text-white font-semibold py-[14px] rounded-lg hover:bg-[#b58a23] transition-colors">
+                  {t("Submit")}
+                </button>
+              ) : show_otpref.current == true ? (
+                <button onClick={() => withdrawSubmit()} className="w-full bg-[#ca9b27] text-white font-semibold py-[14px] rounded-lg hover:bg-[#b58a23] transition-colors">
+                  {t("Submit")}
+                </button>
+              ) : show_otpref.current == false ? (
+                <button
+                  onClick={() => withdrawPreview()}
+                  disabled={
+                    !currentcurrencyref.current ||
+                    !amount ||
+                    isNaN(amount) ||
+                    amount <= 0 ||
+                    (currentcurrencyref.current?.currencyType == "2" && !network_currentref.current) ||
+                    (withdrawType == "1" && (!withdrawAddressref.current || withdrawAddressref.current.trim() === ""))
+                  }
+                  className={`w-full font-semibold py-[14px] rounded-lg transition-colors ${
+                    !currentcurrencyref.current ||
+                    !amount ||
+                    isNaN(amount) ||
+                    amount <= 0 ||
+                    (currentcurrencyref.current?.currencyType == "2" && !network_currentref.current) ||
+                    (withdrawType == "1" && (!withdrawAddressref.current || withdrawAddressref.current.trim() === ""))
+                      ? "bg-[#2b3139] text-[#5e6673] cursor-not-allowed"
+                      : "bg-[#ca9b27] text-white hover:bg-[#b58a23]"
+                  }`}
+                >
+                  {t("Submit")}
+                </button>
+              ) : null
+            ) : (
+              <button disabled className="w-full bg-[#2b3139] text-[#5e6673] font-semibold py-[14px] rounded-lg flex justify-center items-center gap-2 cursor-not-allowed">
+                <i className="fa-solid fa-circle-notch fa-spin"></i> {t("Loading")}...
+              </button>
+            )}
+          </div>
+
+          <div className="mt-4 text-left px-1">
+            <p className="text-[13px] text-gray-500">
+              {t("24-hour withdrawal limit")}: 0/{currentcurrencyref.current?.maxWithdrawLimit || "0"} {currencyref.current || "BTC"}
+            </p>
+          </div>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <>
       <DashboardLayout>
@@ -1494,11 +1846,11 @@ const Dashboard = () => {
                           </div>
                         </div>
 
-                        <div className="flex flex-col lg:flex-row gap-10">
+                        {/* <div className="flex flex-col lg:flex-row gap-10">
                           <div className="flex-[2]">
-                            <div className="relative pl-8 sm:pl-10 border-l-[2px] border-[#2b3139] ml-4 space-y-12 pb-8">
+                            <div className="relative pl-8 sm:pl-10 border-l-[2px] border-[#2b3139] ml-4 space-y-12 pb-8"> */}
                               {/* Step 1 */}
-                              <div className="relative">
+                              {/* <div className="relative">
                                 <div className="absolute -left-[54px] sm:-left-[62px] top-0 bg-primary p-[6px] rounded-md">
                                   <svg
                                     className="w-5 h-5 text-[#181a20]"
@@ -1550,10 +1902,10 @@ const Dashboard = () => {
                                     {validationnErr.withdrawcurrency}
                                   </span>
                                 )}
-                              </div>
+                              </div> */}
 
                               {/* Step 2 */}
-                              <div className="relative">
+                              {/* <div className="relative">
                                 <div className="absolute -left-[54px] sm:-left-[62px] top-0 bg-primary p-[6px] rounded-md z-10">
                                   <svg
                                     className="w-5 h-5 text-white"
@@ -1573,8 +1925,12 @@ const Dashboard = () => {
                                 <h3 className="text-white font-medium mb-4 text-lg">
                                   {t("Withdraw To")}
                                 </h3>
-
-                                {show_otpref.current == false &&
+                                </div> */}
+                          
+                            <div className="flex flex-col lg:flex-row gap-10">
+                               <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-7/12  sm:p-5">
+                                <VerticalStepper steps={withdrawSteps} currentStep={withdrawCurrentStep} className="ml-2 pb-8" />
+                                {/* {show_otpref.current == false &&
                                   currentcurrencyref.current?.currencyType ==
                                     "2" && (
                                     <div className="mb-4 max-w-lg mt-6">
@@ -1667,11 +2023,12 @@ const Dashboard = () => {
                                       </span>
                                     )}
                                   </div>
-                                )}
+                                )} */}
                               </div>
+                            
 
                               {/* Step 3 */}
-                              <div className="relative">
+                              {/* <div className="relative">
                                 <div className="absolute -left-[54px] sm:-left-[62px] top-0 bg-primary p-[6px] rounded-md">
                                   <svg
                                     className="w-5 h-5 text-[#181a20]"
@@ -1772,7 +2129,7 @@ const Dashboard = () => {
                                   </div>
 
                                   {/* OTP and 2FA Inputs when show_otp is true */}
-                                  {show_otpref.current == true && (
+                                  {/* {show_otpref.current == true && (
                                     <div className="mb-4 mt-6">
                                       <label className="text-sm text-gray-500 mb-1 block px-1">
                                         {t("withdrawOTP")}
@@ -1911,10 +2268,10 @@ const Dashboard = () => {
                                           </span>
                                         )}
                                       </div>
-                                    )}
+                                    )} */}
 
                                   {/* Total and Fee */}
-                                  <div className="mt-14 text-right flex flex-col items-end px-1">
+                                  {/* <div className="mt-14 text-right flex flex-col items-end px-1">
                                     <div className="text-[22px] font-bold text-white tracking-wide">
                                       {amount &&
                                       !isNaN(amount) &&
@@ -1959,10 +2316,10 @@ const Dashboard = () => {
                                         ></path>
                                       </svg>
                                     </div>
-                                  </div>
+                                  </div> */}
 
                                   {/* Action Button */}
-                                  <div className="mt-3">
+                                  {/* <div className="mt-3">
                                     {buttonLoader == false ? (
                                       sessionStorage.getItem("tfa_status") ==
                                       0 ? (
@@ -2023,24 +2380,24 @@ const Dashboard = () => {
                                         {t("Loading")}...
                                       </button>
                                     )}
-                                  </div>
+                                  </div> */}
 
                                   {/* Bottom limits note */}
-                                  <div className="mt-4 text-left px-1">
+                                  {/* <div className="mt-4 text-left px-1">
                                     <p className="text-[13px] text-gray-500">
                                       {t("24-hour withdrawal limit")}: 0/
                                       {currentcurrencyref.current
                                         ?.maxWithdrawLimit || "0"}{" "}
                                       {currencyref.current || "BTC"}
                                     </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                                  </div> */}
+                                
+                               
+                            {/* </div> */}
+                          {/* </div> */}
 
                           {/* Right column content: Tips & FAQs */}
-                          <div className="flex-1 lg:pl-10 pt-2 lg:ml-10">
+                         <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-5/12  sm:p-5">
                             <h3 className="text-primary font-medium flex items-center gap-2 mb-6 text-lg">
                               <svg
                                 className="w-5 h-5"
@@ -2155,8 +2512,9 @@ const Dashboard = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                            </div>
+                    
+                     
 
                       <div className="dashboard_table">
                         <div className="staking-flex dash_assets">
@@ -2262,6 +2620,7 @@ const Dashboard = () => {
                           </table>
                         </div>
                       </div>
+                          </div>
                     </>
                   ) : (
                     <>

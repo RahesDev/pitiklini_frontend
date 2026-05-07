@@ -1,163 +1,52 @@
-import React, { useEffect } from "react";
-import Header from "./Header";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import useState from "react-usestateref";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useStateRef from "react-usestateref";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { postMethod } from "../core/service/common.api";
 import apiService from "../core/service/detail";
 import { useAuth } from "./AuthContext";
 import { useTranslation } from "react-i18next";
-export default function Register() {
-  const { t } = useTranslation();
-  const [isReferralFromUrl, setIsReferralFromUrl] = useState(false);
-  // useEffect(() => {
-  //   let str = window.location.href;
-  //   const letters = str.includes("?");
-  //   if (letters) {
-  //     console.log(
-  //       window.location.href.split("=")[1],
-  //       "window.location.href",
-  //       letters
-  //     );
-  //     // setReferalGet(window.location.href.split("=")[1]) ;
-  //     let locationData = window.location.href.split("=")[1];
-  //     let formData = { ...formValue, ...{ referral_code: locationData } };
-  //     setFormValue(formData);
-  //     setIsReferralFromUrl(true);
-  //   } else {
-  //     // console.log("asfasdfasdfasdfasdfsd");
-  //   }
-  // }, []);
+import Header from "./Header";
+import Pattern from "../assets/svg/Pattern.svg";
+import Pattern1 from "../assets/svg/Pattern-1.svg";
+import Pattern2 from "../assets/svg/Pattern-2.svg";
+import Email from "../assets/svg/email.svg";
 
-  const { register } = useAuth();
+export default function RegisterTesting() {
+  const { t } = useTranslation();
+  useAuth();
+  const navigate = useNavigate();
+  const createUid = uuidv4();
+  const createdUuid = createUid.split("-")[0].toString();
+
   const initialFormValue = {
     email: "",
     password: "",
     confirmPassword: "",
-    // referral_code: "",
   };
 
-  const [validationnErr, setvalidationnErr] = useState("");
   const [formValue, setFormValue] = useState(initialFormValue);
-  const [emailValidate, setemailValidate, emailValidateref] = useState(false);
-  const [passwordValidate, setpasswordValidate, passwordValidateref] =
-    useState(false);
-  const [
-    confirmPasswordValidate,
-    setconfirmPasswordValidate,
-    confirmPasswordValidateref,
-  ] = useState(false);
-  const [isChecked, setIschecked] = useState(false);
-  const [Terms, setTerms, Termsref] = useState(false);
+  const [, , emailValidateref] = useStateRef(false);
+  const [, , passwordValidateref] = useStateRef(false);
+  const [, , confirmPasswordValidateref] = useStateRef(false);
+  const [Terms, setTerms] = useState(false);
   const [termsValidation, setTermsValidation] = useState(false);
   const [buttonLoader, setbuttonLoader] = useState(false);
+  const [validationnErr, setvalidationnErr] = useState({});
   const [passHide, setPasshide] = useState(false);
   const [inputType, setinputType] = useState("password");
   const [passHidconf, setPasshideconf] = useState(false);
   const [inputTypeconf, setinputTypeconf] = useState("password");
 
-  const { email, password, confirmPassword, referral_code } = formValue;
+  const { email, password, confirmPassword } = formValue;
 
-  const navigate = useNavigate();
-  const createUid = uuidv4();
-  const createdUuid = createUid.split("-")[0].toString();
-
-  const handleChange = async (e) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    const sanitizedValue = value.replace(/\s/g, "");
-    let formData = { ...formValue, ...{ [name]: sanitizedValue } };
-    setFormValue(formData);
-    validate(formData);
-  };
-
-  const handleTerms = (event) => {
-    setIschecked(event.target.checked);
-    setTerms(event.target.checked);
-    setTermsValidation(!event.target.checked);
-  };
-
-  const validate = (values) => {
-    let errors = {};
-    const username = values.email.split("@")[0];
-
-    if (!values.email) {
-      errors.email = t("emailIsRequiredField");
-      setemailValidate(true);
-    } else if (
-      !/^[a-zA-Z0-9.]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(values.email)
-    ) {
-      errors.email = t("invalidEmailAddress");
-      setemailValidate(true);
-    } else if (username.length < 3 || username.length > 150) {
-      errors.email = t("emailMustBe3-150char");
-      setemailValidate(true);
-    } else if (!/^[a-zA-Z0-9.]+$/i.test(username)) {
-      errors.email = t("only-letter-num-per-are-allowed");
-      setemailValidate(true);
-    } else if (!/[a-zA-Z]/.test(username)) {
-      errors.email = t("emailUsernameContainAtleastOneLetter");
-      setemailValidate(true);
-    } else {
-      setemailValidate(false);
-    }
-
-    if (values.password == "") {
-      setpasswordValidate(true);
-      errors.password = t("passwordIsRequired");
-    } else if (values.password.length < 8 || values.password.length > 15) {
-      setpasswordValidate(true);
-      // errors.password = t("passwordShoulNotBelow1530letters");
-      errors.password = t("passwordShouldBe1530Char");
-    } else if (!values.password.match(/[a-z]/g)) {
-      setpasswordValidate(true);
-      errors.password = t("pleaseEnteratleastlowercharacter");
-    } else if (!values.password.match(/[A-Z]/g)) {
-      setpasswordValidate(true);
-      errors.password = t("pleaseEnteratleastuppercharacter");
-    } else if (!values.password.match(/[0-9]/g)) {
-      setpasswordValidate(true);
-      errors.password = t("pleaseEnterAtOneDigitChar");
-    } else if (!values.password.match(/[!@#$%^&*]/g)) {
-      setpasswordValidate(true);
-      errors.password = t("pleaseEnterAtleastOneSpecialChar");
-    } else {
-      setpasswordValidate(false);
-    }
-
-    if (!values.confirmPassword) {
-      errors.confirmPassword = t("confirmPasswordIsaRequiredField");
-      setconfirmPasswordValidate(true);
-    } else if (
-      values.password &&
-      values.confirmPassword &&
-      values.password !== values.confirmPassword
-    ) {
-      errors.confirmPassword = t("passwordAndConfirmPassDoesntmatch");
-      setconfirmPasswordValidate(true);
-    } else {
-      setconfirmPasswordValidate(false);
-    }
-
-    if (!Terms) {
-      errors.terms = t("termsIsARequiredField");
-      setTermsValidation(true);
-    } else {
-      errors.terms = "";
-      // setconfirmPasswordValidate(false);
-      // setpasswordValidate(false);
-      // setemailValidate(false);
-      setTermsValidation(false);
-    }
-
-    setvalidationnErr(errors);
-
-    return errors;
+  const handleBackClick = () => {
+    navigate(-1);
   };
 
   const passwordHide = (data) => {
-    if (data == "hide") {
+    if (data === "hide") {
       setPasshide(true);
       setinputType("text");
     } else {
@@ -167,7 +56,7 @@ export default function Register() {
   };
 
   const passwordHideconf = (data) => {
-    if (data == "hide") {
+    if (data === "hide") {
       setPasshideconf(true);
       setinputTypeconf("text");
     } else {
@@ -176,345 +65,408 @@ export default function Register() {
     }
   };
 
-  const formSubmit = async (payload) => {
-    let errros = validate(formValue);
-    formValue["UUID"] = createdUuid;
-    console.log(formValue, "=-=-=-formvalue=-=-");
+  const handleEmailChange = (e) => {
+    const { value } = e.target;
+    const sanitizedValue = value.replace(/\s/g, "");
+    setFormValue((prev) => ({
+      ...prev,
+      email: sanitizedValue,
+    }));
+
+    if (!sanitizedValue) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        email: t("emailIsRequiredField"),
+      }));
+      emailValidateref.current = true;
+    } else if (
+      !/^[a-zA-Z0-9.]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(sanitizedValue)
+    ) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        email: t("invalidEmailAddress"),
+      }));
+      emailValidateref.current = true;
+    } else {
+      setvalidationnErr((prev) => {
+        const { email, ...rest } = prev;
+        return rest;
+      });
+      emailValidateref.current = false;
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const { value } = e.target;
+    setFormValue((prev) => ({
+      ...prev,
+      password: value,
+    }));
+
+    if (!value) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        password: t("passwordIsRequired"),
+      }));
+      passwordValidateref.current = true;
+    } else if (value.length < 8 || value.length > 15) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        password: t("passwordShouldBe1530Char"),
+      }));
+      passwordValidateref.current = true;
+    } else if (!value.match(/[a-z]/g)) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        password: t("pleaseEnteratleastlowercharacter"),
+      }));
+      passwordValidateref.current = true;
+    } else if (!value.match(/[A-Z]/g)) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        password: t("pleaseEnteratleastuppercharacter"),
+      }));
+      passwordValidateref.current = true;
+    } else if (!value.match(/[0-9]/g)) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        password: t("pleaseEnterAtOneDigitChar"),
+      }));
+      passwordValidateref.current = true;
+    } else if (!value.match(/[!@#$%^&*]/g)) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        password: t("pleaseEnterAtleastOneSpecialChar"),
+      }));
+      passwordValidateref.current = true;
+    } else {
+      setvalidationnErr((prev) => {
+        const { password, ...rest } = prev;
+        return rest;
+      });
+      passwordValidateref.current = false;
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const { value } = e.target;
+    setFormValue((prev) => ({
+      ...prev,
+      confirmPassword: value,
+    }));
+
+    if (!value) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        confirmPassword: t("confirmPasswordIsaRequiredField"),
+      }));
+      confirmPasswordValidateref.current = true;
+    } else if (password && value && password !== value) {
+      setvalidationnErr((prev) => ({
+        ...prev,
+        confirmPassword: t("passwordAndConfirmPassDoesntmatch"),
+      }));
+      confirmPasswordValidateref.current = true;
+    } else {
+      setvalidationnErr((prev) => {
+        const { confirmPassword, ...rest } = prev;
+        return rest;
+      });
+      confirmPasswordValidateref.current = false;
+    }
+  };
+
+  const handleTermsChange = (e) => {
+    setTerms(e.target.checked);
+    setTermsValidation(!e.target.checked);
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    if (!Terms) {
+      setTermsValidation(true);
+      toast.error(t("termsIsARequiredField"));
+      return;
+    }
+
     if (
       emailValidateref.current === false &&
       passwordValidateref.current === false &&
-      confirmPasswordValidateref.current === false &&
-      Terms == true
+      confirmPasswordValidateref.current === false
     ) {
-      console.log(formValue);
-      var data = {
+      formValue["UUID"] = createdUuid;
+      const data = {
         apiUrl: apiService.signup,
         payload: formValue,
       };
       setbuttonLoader(true);
-      var resp = await postMethod(data);
-      setFormValue(initialFormValue);
-      setbuttonLoader(false);
-      if (resp.status == true) {
-        toast.success(resp.Message);
-        // localStorage.setItem("useremail", formValue.email);
-        sessionStorage.setItem("useremail", formValue.email);
-        navigate("/verification");
-      } else {
-        toast.error(resp.Message);
+      try {
+        const resp = await postMethod(data);
+        setFormValue(initialFormValue);
+        setbuttonLoader(false);
+        if (resp.status === true) {
+          toast.success(resp.Message);
+          sessionStorage.setItem("useremail", formValue.email);
+          navigate("/verification");
+        } else {
+          toast.error(resp.Message);
+        }
+      } catch (error) {
+        setbuttonLoader(false);
+        toast.error("An error occurred. Please try again.");
       }
     } else {
+      toast.error(t("pleaseFixAllErrors"));
     }
   };
 
   return (
-    <>
-      <main className="fidex_landing_main">
-        <section>
-          <Header />
-        </section>
-      </main>
+    <div className="min-h-screen flex flex-col bg-black font-ibm text-secondary overflow-hidden">
+      <Header />
 
-      <div className="reg_new_backcol">
-        <div className="register">
-          <div className="container">
-            <div className="row reg-container">
-              <div className="col-lg-6 left-reg ">
-                <div className="reg-left-flex">
-                  <div className="reg-left-title">{t("JoinNowandElevate")}</div>
-                  <div className="reg-gift">
-                    <img
-                      src={require("../assets/reg-gift.webp")}
-                      alt="gift-icon"
-                    />
-                  </div>
-                  <div className="reg-left-content">{t("Joinnow")}</div>
-                </div>
-              </div>
+      <div className="relative flex-1 flex flex-col items-center justify-center overflow-hidden bg-black">
+        <img
+          src={Pattern}
+          alt="pattern"
+          className="absolute pointer-events-none opacity-[0.3] top-[87px] left-[-119px] w-[683px] h-[385px]"
+        />
+        <img
+          src={Pattern1}
+          alt="pattern-1"
+          className="absolute pointer-events-none opacity-[0.3] top-[389px] left-[757px] w-[683px] h-[385px]"
+        />
+        <img
+          src={Pattern2}
+          alt="pattern-2"
+          className="absolute pointer-events-none opacity-[0.3] top-[840px] left-[448px] w-[447px] h-[252px] -rotate-90"
+        />
 
-              <div className="col-lg-6 right-reg">
-                <span class="heading">{t("WelcomeToPitiklini")}</span>
+        <div className="relative z-10 w-full flex flex-col items-center py-8 pt-20">
+          <div className="relative z-10 w-[460px] max-w-[95vw] bg-[#111318] rounded-2xl px-6 border border-[#1E2028] shadow-xl overflow-hidden py-2">
+            <div className="flex justify-center mb-6">
+              <div
+                className="w-[451px] max-w-full h-[4px] rounded-[21px]"
+                style={{
+                  background:
+                    "linear-gradient(90deg, #191B22 0%, #BD7F10 50%, #191B21 100%)",
+                  WebkitMaskImage:
+                    "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+                  maskImage:
+                    "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+                }}
+              ></div>
+            </div>
 
-                <div className="input-groups mt-4 mb-3">
-                  <h6 className="input-label mb-3">{t("email_label")}</h6>
+            <div className="flex justify-start mb-8 w-full">
+              <button
+                className="flex items-center gap-2 px-5 py-2.5 bg-transparent border-2 border-amber-600 text-amber-600 rounded-lg text-sm font-medium cursor-pointer transition-all hover:bg-amber-600/10"
+                onClick={handleBackClick}
+              >
+                <span className="text-lg">◀</span> Back
+              </button>
+            </div>
+
+            <div className="mx-auto mb-8 flex h-24 w-24 gap-x-4 items-center justify-center">
+              <img
+                src={require("../assets/Pattern.png")}
+                alt="pitiklini-icon"
+                className="w-20 h-20 object-contain drop-shadow-lg shadow-amber-600/30 mx-auto"
+              />
+              <img
+                src={require("../assets/User Profile Pic.png")}
+                alt="pitiklini-icon"
+                className="w-20 h-20 object-contain drop-shadow-lg shadow-amber-600/30 mx-auto"
+              />
+              <img
+                src={require("../assets/Pattern.png")}
+                alt="pitiklini-icon"
+                className="w-20 h-20 object-contain drop-shadow-lg shadow-amber-600/30 mx-auto"
+              />
+            </div>
+
+            <h1 className="text-3xl font-bold text-white text-center m-0 mb-2.5 tracking-wider">
+              Welcome to{" "}
+              <span className="text-amber-600 font-extrabold">PITIKLINI</span>
+            </h1>
+            <p className="text-sm text-gray-400 text-center m-0 mb-8">
+              Please enter your email to sign up
+            </p>
+
+            <form className="w-full" onSubmit={handleSignUp}>
+              {/* Email Input */}
+              <div className="relative mb-5">
+                <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none bg-[#111318] px-1">
+                  Email
+                </span>
+                <div
+                  className={`flex items-center bg-[#23262F] border-[1.5px] ${validationnErr.email ? "border-red-500" : "border-primary"} rounded-[8px] px-4 h-[56px]`}
+                >
+                  <img
+                    src={Email}
+                    alt="email"
+                    className="w-[18px] h-[18px] mr-2"
+                  />
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     value={email}
+                    onChange={handleEmailChange}
+                    placeholder="Enter your email address"
+                    className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px] placeholder:text-slate-500"
                     maxLength="250"
-                    onChange={(e) => {
-                      const { value } = e.target;
-                      const sanitizedValue = value.replace(/\s/g, "");
-                      setFormValue((prev) => ({
-                        ...prev,
-                        email: sanitizedValue,
-                      }));
-
-                      if (!sanitizedValue) {
-                        setvalidationnErr((prev) => ({
-                          ...prev,
-                          email: t("emailIsRequiredField"),
-                        }));
-                      } else if (
-                        !/^[a-zA-Z0-9.]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(
-                          sanitizedValue
-                        )
-                      ) {
-                        setvalidationnErr((prev) => ({
-                          ...prev,
-                          email: t("invalidEmailAddress"),
-                        }));
-                      } else {
-                        setvalidationnErr((prev) => {
-                          const { email, ...rest } = prev;
-                          return rest;
-                        });
-                      }
-                    }}
-                    className="input-field"
-                    placeholder={t("pleaseEnterYourEmailAddress")}
+                    autoComplete="email"
                   />
-                  {validationnErr && validationnErr.email && (
-                    <p className="errorcss">{validationnErr.email}</p>
-                  )}
                 </div>
-
-                <div className="input-groups icons my-4">
-                  <h6 className="input-label mb-3">{t("password_label")}</h6>
-                  <div className="flex_input_posion">
-                    <input
-                      type={inputType}
-                      name="password"
-                      value={password}
-                      minLength={8}
-                      maxLength={15}
-                      onChange={(e) => {
-                        const { value } = e.target;
-                        setFormValue((prev) => ({
-                          ...prev,
-                          password: value,
-                        }));
-
-                        if (!value) {
-                          setvalidationnErr((prev) => ({
-                            ...prev,
-                            password: t("passwordIsRequired"),
-                          }));
-                        } else if (value.length < 8 || value.length > 15) {
-                          setvalidationnErr((prev) => ({
-                            ...prev,
-                            password: t("passwordShouldBe1530Char"),
-                          }));
-                        } else if (!value.match(/[a-z]/g)) {
-                          setvalidationnErr((prev) => ({
-                            ...prev,
-                            password: t("please-enter-atleast-one-lower-char"),
-                          }));
-                        } else if (!value.match(/[A-Z]/g)) {
-                          setvalidationnErr((prev) => ({
-                            ...prev,
-                            password: t("please-enter-atleast-one-upper-char"),
-                          }));
-                        } else if (!value.match(/[0-9]/g)) {
-                          setvalidationnErr((prev) => ({
-                            ...prev,
-                            password: t(
-                              "please-enter-atleast-one-numeric-char"
-                            ),
-                          }));
-                        } else if (!value.match(/[!@#$%^&*]/g)) {
-                          setvalidationnErr((prev) => ({
-                            ...prev,
-                            password: t(
-                              "please-enter-atleast-one-special-char"
-                            ),
-                          }));
-                        } else {
-                          setvalidationnErr((prev) => {
-                            const { password, ...rest } = prev;
-                            return rest;
-                          });
-                        }
-                      }}
-                      className="input-field"
-                      placeholder={t("pleaseCreatePassword")}
-                    />
-                    {passHide == true ? (
-                      <i
-                        class="fa-regular fa-eye reg_eye"
-                        onClick={() => passwordHide("show")}
-                      ></i>
-                    ) : (
-                      <i
-                        class="fa-regular fa-eye-slash reg_eye"
-                        onClick={() => passwordHide("hide")}
-                      ></i>
-                    )}
-                  </div>
-                  {validationnErr && validationnErr.password && (
-                    <p className="errorcss">{validationnErr.password}</p>
-                  )}
-                </div>
-
-                <div className="input-groups icons my-4">
-                  <h6 className="input-label mb-3">{t("confirmPassword")}</h6>
-                  <div className="flex_input_posion">
-                    <input
-                      type={inputTypeconf}
-                      name="confirmPassword"
-                      value={confirmPassword}
-                      minLength={8}
-                      maxLength={15}
-                      // onChange={handleChange}
-                      onChange={(e) => {
-                        const { value } = e.target;
-                        setFormValue((prev) => ({
-                          ...prev,
-                          confirmPassword: value,
-                        }));
-
-                        // Inline validation for confirmPassword
-                        if (!value) {
-                          setvalidationnErr((prev) => ({
-                            ...prev,
-                            confirmPassword: t("confirmPasswordIsRequired"),
-                          }));
-                        } else if (value !== password) {
-                          setvalidationnErr((prev) => ({
-                            ...prev,
-                            confirmPassword: t(
-                              "passwordAndConfirmPassDoesntmatch"
-                            ),
-                          }));
-                        } else {
-                          setvalidationnErr((prev) => {
-                            const { confirmPassword, ...rest } = prev;
-                            return rest;
-                          });
-                        }
-                      }}
-                      className="input-field"
-                      placeholder={t("pleaseReenterthePassword")}
-                    />
-                    {passHidconf == true ? (
-                      <i
-                        class="fa-regular fa-eye reg_eye"
-                        onClick={() => passwordHideconf("show")}
-                      ></i>
-                    ) : (
-                      <i
-                        class="fa-regular fa-eye-slash reg_eye"
-                        onClick={() => passwordHideconf("hide")}
-                      ></i>
-                    )}
-                  </div>
-                  {validationnErr && validationnErr.confirmPassword && (
-                    <p className="errorcss">{validationnErr.confirmPassword}</p>
-                  )}
-                </div>
-
-                {/* <div className="input-groups icons">
-                  <h6 className="input-label mb-3">Refferal code</h6>
-                  <input
-                    type="text"
-                    name="referral_code"
-                    maxLength={11}
-                    value={referral_code}
-                    disabled={isReferralFromUrl}
-                    // readOnly
-                    onChange={handleChange}
-                    className="input-field"
-                    placeholder="Refferal code ( Optional )"
-                  />
-                </div> */}
-
-                {/* <div className="terms-new">
-                  <div className="terms">
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={handleTerms}
-                      id="customCheck"
-                      className="checkbox-round"
-                    />
-
-                    <label htmlFor="customCheck" className="terms-check">
-                      I have read and agree to the
-                      <span> Terms </span> and <span> Conditions</span>
-                    </label>
-                  </div>
-                  {termsValidation && (
-                    <p className="errorcss">
-                      Terms and Conditions are required
-                    </p>
-                  )}
-                </div> */}
-
-                <div className="terms-new">
-                  <div className="terms">
-                    <div class="checkbox-container">
-                      <input
-                        id="custom-checkbox"
-                        checked={isChecked}
-                        // onChange={handleTerms}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          setIschecked(checked);
-                          setTerms(checked);
-                          if (!checked) {
-                            setTermsValidation(true);
-                          } else {
-                            setTermsValidation(false);
-                          }
-                        }}
-                        className="input-field regular_checkbox"
-                        type="checkbox"
-                        placeholder={t("enterReferralId")}
-                      />
-                      <label htmlFor="custom-checkbox"></label>
-                    </div>
-                    <label htmlFor="custom-checkbox" className="terms-check">
-                      {t("Ihaveread")}
-                      <Link to="/terms" className="text-yellow" target="_blank">
-                        {" "}
-                        {t("TermsConditions")}{" "}
-                      </Link>{" "}
-                      {t("And")}{" "}
-                      <Link
-                        to="/privacy"
-                        className="text-yellow"
-                        target="_blank"
-                      >
-                        {" "}
-                        {t("PrivacyPolicy")}
-                      </Link>
-                    </label>
-                  </div>
-
-                  {termsValidation && (
-                    <p className="errorcss">{t("TermsandConditions")}</p>
-                  )}
-                </div>
-
-                <div className="Submit">
-                  {buttonLoader == false ? (
-                    <button onClick={formSubmit}>{t("register")}</button>
-                  ) : (
-                    <button>{t("Loading")} ...</button>
-                  )}
-                </div>
-
-                <div className="foot">
-                  <p>
-                    {t("Alreadyregistered")}?
-                    <Link to="/login">{t("login")}</Link>
+                {validationnErr.email && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {validationnErr.email}
                   </p>
-                </div>
+                )}
               </div>
+
+              {/* Password Input */}
+              <div className="relative mb-5">
+                <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none bg-[#111318] px-1">
+                  Password
+                </span>
+                <div
+                  className={`flex items-center bg-[#23262F] border-[1.5px] ${validationnErr.password ? "border-red-500" : "border-primary"} rounded-[8px] px-4 h-[56px]`}
+                >
+                  <span className="text-amber-600 text-base mr-2">🔒</span>
+                  <input
+                    type={inputType}
+                    name="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    placeholder="Enter your password"
+                    className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px] placeholder:text-slate-500"
+                    minLength={8}
+                    maxLength={15}
+                  />
+                  <button
+                    type="button"
+                    className="ml-2 bg-none border-none text-gray-400 text-base cursor-pointer p-0 transition-colors hover:text-amber-600"
+                    onClick={() => passwordHide(passHide ? "show" : "hide")}
+                  >
+                    {passHide ? "👁" : "👁‍🗨"}
+                  </button>
+                </div>
+                {validationnErr.password && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {validationnErr.password}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm Password Input */}
+              <div className="relative mb-5">
+                <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none bg-[#111318] px-1">
+                  Confirm Password
+                </span>
+                <div
+                  className={`flex items-center bg-[#23262F] border-[1.5px] ${validationnErr.confirmPassword ? "border-red-500" : "border-primary"} rounded-[8px] px-4 h-[56px]`}
+                >
+                  <span className="text-amber-600 text-base mr-2">🔒</span>
+                  <input
+                    type={inputTypeconf}
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                    placeholder="Confirm your password"
+                    className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px] placeholder:text-slate-500"
+                    minLength={8}
+                    maxLength={15}
+                  />
+                  <button
+                    type="button"
+                    className="ml-2 bg-none border-none text-gray-400 text-base cursor-pointer p-0 transition-colors hover:text-amber-600"
+                    onClick={() =>
+                      passwordHideconf(passHidconf ? "show" : "hide")
+                    }
+                  >
+                    {passHidconf ? "👁" : "👁‍🗨"}
+                  </button>
+                </div>
+                {validationnErr.confirmPassword && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {validationnErr.confirmPassword}
+                  </p>
+                )}
+              </div>
+
+              {/* Referral Code */}
+              {/* <div className="mb-5 mt-6">
+                <button
+                  type="button"
+                  className="w-full px-4 py-3.5 bg-slate-700 border border-slate-600 rounded-lg text-amber-600 text-sm font-medium flex items-center justify-between cursor-pointer transition-all hover:border-amber-600 hover:bg-slate-800"
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="text-base">🎁</span>
+                    Enter Referral Code (Optional)
+                  </span>
+                  <span className="text-xs transition-transform">▼</span>
+                </button>
+              </div> */}
+
+              {/* Terms Checkbox */}
+              <div className="mb-5 mt-6">
+                <label className="flex items-start gap-2.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={Terms}
+                    onChange={handleTermsChange}
+                    className="w-4.5 h-4.5 min-w-4.5 mt-0.5 cursor-pointer accent-amber-600 rounded"
+                  />
+                  <span className="text-xs text-gray-400 leading-relaxed">
+                    I have read and agree to the{" "}
+                    <Link
+                      to="/terms"
+                      className="text-amber-600 no-underline font-semibold transition-colors hover:text-amber-300 hover:underline"
+                    >
+                      User Agreement
+                    </Link>{" "}
+                    &{" "}
+                    <Link
+                      to="/privacy"
+                      className="text-amber-600 no-underline font-semibold transition-colors hover:text-amber-300 hover:underline"
+                    >
+                      Privacy Policy
+                    </Link>
+                  </span>
+                </label>
+                {termsValidation && (
+                  <p className="text-red-500 text-xs mt-1.5 mb-0">
+                    {t("termsIsARequiredField")}
+                  </p>
+                )}
+              </div>
+
+              {/* Sign Up Button */}
+              <button
+                type="submit"
+                className="w-full px-4 py-4 bg-gradient-to-r from-amber-600 to-amber-500 border-none rounded-lg text-slate-900 text-base font-bold cursor-pointer transition-all mt-5 shadow-lg shadow-amber-600/30 hover:shadow-amber-600/40 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+                disabled={buttonLoader}
+              >
+                {buttonLoader ? "Loading..." : "→ Sign up"}
+              </button>
+            </form>
+
+            {/* Login Link */}
+            <div className="text-center mt-6">
+              <p className="text-xs text-gray-400 m-0">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="text-amber-600 no-underline font-semibold transition-colors hover:text-amber-300 hover:underline"
+                >
+                  Login here
+                </Link>
+              </p>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

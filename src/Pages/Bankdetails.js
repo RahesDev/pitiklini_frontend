@@ -13,7 +13,7 @@ import apiService from "../core/service/detail";
 import { postMethod, getMethod } from "../core/service/common.api";
 import { useTranslation } from "react-i18next";
 import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
-
+import DashboardLayout from "./DashboardLayout";
 const P2P = () => {
   const [selectedMethod, setSelectedMethod] = useState("");
   const [formVisible, setFormVisible] = useState(false);
@@ -414,9 +414,7 @@ const P2P = () => {
 
   return (
     <>
-      <section>
-        <Header />
-      </section>
+     <DashboardLayout>
       {siteLoader == true ? (
         <div className="loadercss">
           <Bars
@@ -430,51 +428,56 @@ const P2P = () => {
           />
         </div>
       ) : (
-        <main className="dashboard_main">
-          <div className="container">
-            <div className="row">
+       <section className="asset_section">
+            <div className="buy_head">
+              <div className="w-full">
+                <div className="bg-black rounded-xl p-4">
               {!formVisible ? (
-                <div className="col-lg-12">
-                  <section className="asset_section">
-                    <div className="row">
-                      {/* head */}
-                      <div className="p2p-pay-wrap p2p-order-head">
-                        <Link to="/p2p">
-                          <div className="p2p-order-title text-p2p">
-                            {t("p2p")}
-                          </div>
-                        </Link>
-                        <div className="p2p-side-arrow">
-                          <i className="ri-arrow-right-s-line"></i>
-                        </div>
-                        <div className="p2p-order-title text-order">
-                          {t("payments")}
-                        </div>
-                      </div>
+                
+                 
+                  <>
 
-                      {/* <div className="p2p_title align-items-center">
-                        Payment
-                      </div> */}
+                    
 
-                      <div className="p2p_method_content">
-                        <p>{t("paymentmethodonPitiklini")}</p>
+                     
 
-                        <div className="pay-coin">
-                          <span className="icon-container">
-                            <i className="fa-solid fa-plus"></i>
-                          </span>
-                          <Dropdown
-                            inline
-                            placeholder={t("addPaymentMethod")}
-                            options={paymentMethods}
-                            defaultValue={selectedMethod}
-                            onChange={handleMethodChange}
-                            className="pay-coin payment"
-                          />
-                        </div>
-                      </div>
+         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+  
+  {/* LEFT CONTENT */}
+  <div>
+    <h1 className="text-2xl md:text-3xl font-semibold text-primary">
+      P2P Platform
+    </h1>
 
-                      <div className="col-lg-12">
+    <h2 className="text-lg md:text-xl font-medium text-white mt-2">
+      Payment Methods
+    </h2>
+
+    <p className="text-sm text-primary mt-1">
+      {t("paymentmethodonPitiklini")}
+    </p>
+  </div>
+
+  {/* RIGHT BUTTON */}
+  <div className="mt-4 md:mt-0">
+    <div className="bg-primary hover:primary/10 transition px-5 py-2.5 rounded-xl flex items-center gap-2 cursor-pointer shadow-md">
+      
+      <i className="fa-solid fa-plus text-white"></i>
+
+      <Dropdown
+        inline
+        placeholder={t("addPaymentMethod")}
+        options={paymentMethods}
+        defaultValue={selectedMethod}
+        onChange={handleMethodChange}
+        className="!text-black font-medium"
+      />
+    </div>
+  </div>
+
+</div>
+
+                      <div className="col-lg-12 ">
                         <div className="mt-5">
                           {Array.isArray(Bankdetails) &&
                           Bankdetails.length > 0 ? (
@@ -587,7 +590,7 @@ const P2P = () => {
                               </div>
                             ))
                           ) : (
-                            <div className="not-pay-wrapper">
+                            <div className="flex justify-center items-center">
                               {/* No bank details available. */}
                               <img
                                 src={require("../assets/not-add-pay.png")}
@@ -598,494 +601,203 @@ const P2P = () => {
                           )}
                         </div>
                       </div>
-                    </div>
-                  </section>
-                </div>
+                    
+                 </>
+               
               ) : (
                 <>
-                  <div className="col-lg-12">
+                 
                     <section className="asset_section">
-                      <div className="row mt-5 justify-content-center">
-                        <div>
+                    
+                        <div className=" top-[24px] left-[16px] w-[78px] h-[38px] border border-primary rounded-[8px] flex items-center justify-center gap-[4px] px-[16px] py-[12px] box-border text-[#B1B5C3] hover:text-white transition z-30">
                           <Link onClick={Sentback}>
-                            <h6 className="payment-back">
-                              {" "}
-                              <i class="fa-solid fa-arrow-left-long mr-4"></i>{" "}
-                              <span>{t("back")}</span>
-                            </h6>
+                           <span className="text-lg text-secondary mr-1">
+                  <i className="ri-arrow-left-s-line"></i>
+                </span>
+                <span className="text-md font-ibm text-secondary">{t("back")}</span>
                           </Link>
+
+                        
+            
+               
+           
+           
                         </div>
 
-                        <div className="row justify-content-center pay-cards mt-4">
-                          <div className="col-lg-7 ">
-                            <form className="p2p-payment-form">
-                              <div className="p2p_payment">
-                                {/* border-left colors */}
-                                {selectedMethod === "IMPS" && (
-                                  <div className="pay-bor bg-imps"></div>
-                                )}
-                                {selectedMethod === "UPID" && (
-                                  <div className="pay-bor bg-upi"></div>
-                                )}
-                                {selectedMethod === "Paytm" && (
-                                  <div className="pay-bor bg-paytm"></div>
-                                )}
-                                {selectedMethod === "BankTransfer" && (
-                                  <div className="pay-bor bg-bank"></div>
-                                )}
+                       <div className="flex justify-center mt-6">
+  <div className="w-full bg-black rounded-2xl p-6 shadow-2xl border border-gray">
 
-                                {/* select method */}
-                                {selectedMethod}
-                              </div>
+    {/* Header */}
+    <div className="flex justify-between items-center mb-6">
+      <h2 className="text-primary font-semibold text-2xl flex items-center gap-2">
+       
+        Add Bank Transfer
+      </h2>
+      <button onClick={Sentback} className="text-gray-400 hover:text-white">
+        ✕
+      </button>
+    </div>
 
-                              <div className="pay-tips">
-                                <span>
-                                  <img
-                                    src={require("../assets/deposit-imp.png")}
-                                    alt="tips-icon"
-                                    className="pay-tips-icon"
-                                  />
-                                </span>
+    <form className="space-y-6">
 
-                                <div>
-                                  <span className="text-yellow">
-                                    {t("tips")}
-                                  </span>
+      {/* Row 1 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        {/* Account Name */}
+        <div>
+          <label className="text-md text-white mb-1 block">
+            ACCOUNT NAME
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name || ""}
+            onChange={handleInputChange}
+            className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white "
+            placeholder="Enter account name"
+          /> 
+          {errors.name && (
+            <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+          )}
+        </div>
 
-                                  {selectedMethod === "IMPS" && (
-                                    <span className="pay-tips-content">
-                                      {t("enteraccountdetails")}
-                                    </span>
-                                  )}
-                                  {selectedMethod === "UPID" && (
-                                    <span className="pay-tips-content">
-                                      {t("enterUPIID")}
-                                    </span>
-                                  )}
-                                  {selectedMethod === "Paytm" && (
-                                    <span className="pay-tips-content">
-                                      {t("enterPaytm")}
-                                    </span>
-                                  )}
-                                  {selectedMethod === "BankTransfer" && (
-                                    <span className="pay-tips-content">
-                                      {t("enterbankaccount")}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
+        {/* Bank Name */}
+        <div>
+          <label className="text-md text-white mb-1 block">
+            BANK NAME
+          </label>
+          <input
+            type="text"
+            name="bankName"
+            value={formData.bankName || ""}
+            onChange={handleInputChange}
+            className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
+            placeholder="Enter a Bank name"
+          />
+          {errors.bankName && (
+            <p className="text-red-500 text-xs mt-1">{errors.bankName}</p>
+          )}
+        </div>
+      </div>
 
-                              {/* <div className="input-groups">
-                                <h6 className="input-label text-white">
-                                  {t("name")}
-                                </h6>
-                                <input
-                                  type="text"
-                                  name="name"
-                                  className="payment-input"
-                                  placeholder={t("pleaseEnterYourName")}
-                                  maxLength="30"
-                                  value={formData.name || ""}
-                                  onChange={handleInputChange}
-                                />
-                                {errors.name && (
-                                  <span className="errorcss">
-                                    {errors.name}
-                                  </span>
-                                )}
-                              </div> */}
+      {/* Row 2 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        {/* Account Number */}
+        <div>
+          <label className=" text-md text-white mb-1 block">
+            ACCOUNT NUMBER
+          </label>
+          <input
+            type="text"
+            name="accountNumber"
+            value={formData.accountNumber || ""}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value.length <= 30) handleInputChange(e);
+            }}
+            className={`w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white 
+              ${errors.accountNumber ? "border-red-500" : "border-gray "}`}
+            placeholder="Enter account number"
+          />
+          {errors.accountNumber && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.accountNumber}
+            </p>
+          )}
+        </div>
 
-                              {/* {selectedMethod === "IMPS" ||
-                              selectedMethod === "BankTransfer" ? ( */}
-                                <>
-                                    
+        {/* IFSC (optional UI only) */}
+        <div>
+          <label className="text-md text-white mb-1 block">
+            SWIFT / IFSC CODE
+          </label>
+          <input
+            type="text"
+            className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
+            placeholder="Enter routing code"
+          />
+        </div>
+     
 
-                                  <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("bankAccountDetails")}
-                                    </h6>
-                                    <input
-                                      type="text"
-                                      name="accountNumber"
-                                      onChange={(e) => {
-                                        // Allow only numbers and limit the length to 10 digits
-                                        const value = e.target.value;
-                                        if (
-                                          value.length <= 30 
-                                          // && /^[0-9]*$/.test(value)
-                                        ) {
-                                          handleInputChange(e);
-                                        }
-                                      }}
-                                      onKeyDown={(evt) =>
-                                        ["e", "E", "+", "-"].includes(
-                                          evt.key
-                                        ) && evt.preventDefault()
-                                      }
-                                      className="payment-input"
-                                      placeholder={t("pleaseEnterAccount")}
-                                      value={formData.accountNumber || ""}
-                                      // onChange={handleInputChange}
-                                    />
-                                    {errors.accountNumber && (
-                                      <span className="errorcss">
-                                        {errors.accountNumber}
-                                      </span>
-                                    )}
-                                  </div>
+      {/* Currency */}
+     <div >
+  <label className="text-md text-white mb-2 block">
+    CURRENCY
+  </label>
 
-                                  <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("account_name")}
-                                    </h6>
-                                    <input
-                                      type="text"
-                                      name="name"
-                                      className="payment-input"
-                                      placeholder={t("pleaseEnterHolderName")}
-                                      maxLength="30"
-                                      value={formData.name || ""}
-                                      onChange={handleInputChange}
-                                    />
-                                    {errors.name && (
-                                      <span className="errorcss">
-                                        {errors.name}
-                                      </span>
-                                    )}
-                                  </div>
+  <div className="w-full [&_.ui.dropdown]:w-full">
+  <Dropdown
+  fluid
+  selection
+  options={fiatCurrencies}
+  value={selectedfiat}
+  onChange={handlecurrencyChange}
+  className="!w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
+/>
+  </div>
 
-                                  {/* ifsc */}
-                                  {/* <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("ifscCode")}
-                                    </h6>
-                                    <input
-                                      type="text"
-                                      maxLength="30"
-                                      name="ifsc"
-                                      className="payment-input"
-                                      placeholder={t("pleaseEnterIfscCode")}
-                                      value={formData.ifsc || ""}
-                                      onChange={handleInputChange}
-                                    />
-                                    {errors.ifsc && (
-                                      <span className="errorcss">
-                                        {errors.ifsc}
-                                      </span>
-                                    )}
-                                  </div> */}
+  {errors.Currency && (
+    <p className="text-red-500 text-xs mt-1">{errors.Currency}</p>
+  )}
+</div>
+<div></div> </div>
 
-                                  <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("bankName")}
-                                    </h6>
-                                    <input
-                                      type="text"
-                                      name="bankName"
-                                      maxLength="30"
-                                      className="payment-input"
-                                      placeholder={t("pleaseEnterBankName")}
-                                      value={formData.bankName || ""}
-                                      onChange={handleInputChange}
-                                    />
-                                    {errors.bankName && (
-                                      <span className="errorcss">
-                                        {errors.bankName}
-                                      </span>
-                                    )}
-                                  </div>
+      {/* Instructions */}
+      <div>
+        <label className="text-md text-white mb-1 block">
+          INSTRUCTIONS (OPTIONAL)
+        </label>
+        <textarea
+          className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
+          placeholder="Add specific payment notes for the counterparty..."
+        />
+      </div>
 
-                                  {/* <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("Paymentmethod_name")}
-                                    </h6> */}
-                                    {/* <input
-                                      type="text"
-                                      name="Paymentmethod_name"
-                                      maxLength="30"
-                                      className="payment-input"
-                                      placeholder={t("pleaseEnterPaymentMethod")}
-                                      value={formData.Paymentmethod_name || ""}
-                                      onChange={handleInputChange}
-                                    /> */}
-                                     {/* <Dropdown
-                                      inline
-                                      placeholder="Select Payment Method"
-                                      options={paymentMethod}
-                                      defaultValue={selectedpaymentMethod}
-                                      onChange={handlepaymentChange}
-                                      className="pay-coin payment"
-                                    />
-                                    {errors.Paymentmethod_name && (
-                                      <span className="errorcss">
-                                        {errors.Paymentmethod_name}
-                                      </span>
-                                    )}
-                                  </div> */}
+      {/* Buttons */}
+      <div className="flex justify-end items-center gap-4 pt-4">
+        <button
+          type="button"
+          onClick={Sentback}
+          className="bg-primary text-black font-medium px-6 py-2 rounded-lg"
+        >
+          Cancel
+        </button>
 
-                                  <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("Currency")}
-                                    </h6>
-                                    {/* <input
-                                      type="text"
-                                      name="Currency"
-                                      maxLength="30"
-                                      className="payment-input"
-                                      placeholder={t("pleaseEnterCurrency")}
-                                      value={formData.Currency || ""}
-                                      onChange={handleInputChange}
-                                    /> */}
-                                    <Dropdown
-                                      inline
-                                      placeholder="Select Currency"
-                                      options={fiatCurrencies}
-                                      value={selectedfiat}
-                                      onChange={handlecurrencyChange}
-                                      className="pay-coin payment"
-                                    />
-                                    {errors.Currency && (
-                                      <span className="errorcss">
-                                        {errors.Currency}
-                                      </span>
-                                    )}
-                                  </div>
+        {Editstatus == false ? (
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            className="bg-primary text-black font-medium px-6 py-2 rounded-lg"
+          >
+            {buttonLoader ? "Loading..." : "Save Method"}
+          </button>
+        ) : (
+          <button
+            type="submit"
+            onClick={handleEdit}
+            className="bg-primary text-black font-medium px-6 py-2 rounded-lg"
+          >
+            {buttonLoaderEdit ? "Loading..." : "Update Method"}
+          </button>
+        )}
+      </div>
 
-                                  {/* <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("accountType")}
-                                    </h6>
-                                    <input
-                                      type="text"
-                                      name="accountType"
-                                      maxLength={50}
-                                      className="payment-input"
-                                      placeholder={t("specifyAccountType")}
-                                      value={formData.accountType || ""}
-                                      onChange={handleInputChange}
-                                    />
-                                    {errors.accountType && (
-                                      <span className="errorcss">
-                                        {errors.accountType}
-                                      </span>
-                                    )}
-                                  </div>
-
-                                  <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("accountBranch")}
-                                    </h6>
-                                    <input
-                                      type="text"
-                                      name="branch"
-                                      maxLength="30"
-                                      className="payment-input"
-                                      placeholder={t("pleaseEnterAccBranch")}
-                                      value={formData.branch || ""}
-                                      onChange={handleInputChange}
-                                    />
-                                    {errors.branch && (
-                                      <span className="errorcss">
-                                        {errors.branch}
-                                      </span>
-                                    )}
-                                  </div> */}
-                                </>
-                              {/* // ) : null} */}
-
-                              {/* {selectedMethod === "UPID" && (
-                                <>
-                                  <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("UPIID")}
-                                    </h6>
-                                    <input
-                                      type="text"
-                                      name="upid"
-                                      maxLength={50}
-                                      className="payment-input"
-                                      placeholder={t("pleaseEnterUPIid")}
-                                      value={formData.upid || ""}
-                                      onChange={handleInputChange}
-                                    />
-                                    {errors.upid && (
-                                      <span className="errorcss">
-                                        {errors.upid}
-                                      </span>
-                                    )}
-                                  </div>
-
-                                  <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("paymentQRCode")}
-                                    </h6>
-
-                                    <div className="file-input-wrapper">
-                                      <input
-                                        id="file-input"
-                                        type="file"
-                                        name="upidQR"
-                                        className="payment-input-QR bg-transparent cursor-pointer"
-                                        onChange={(e) =>
-                                          handleFileChange(e.target.files[0])
-                                        }
-                                      />
-                                      <label
-                                        htmlFor="file-input"
-                                        className="file-input-label"
-                                      >
-                                        {imageload ? (
-                                          <i class="fa-solid fa-spinner fa-spin"></i>
-                                        ) : (
-                                          <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                        )}
-                                      </label>
-                                    </div>
-
-                                    {errors.upidQR && (
-                                      <span className="errorcss">
-                                        {errors.upidQR}
-                                      </span>
-                                    )}
-
-                                    {formData.QRcode ? (
-                                      <img
-                                        src={formData.QRcode}
-                                        width="100px"
-                                      />
-                                    ) : (
-                                      ""
-                                    )}
-                                  </div>
-                                </>
-                              )}
-
-                              {selectedMethod === "Paytm" && (
-                                <>
-                                  <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {" "}
-                                      {t("paytmNo")}
-                                    </h6>
-                                    <input
-                                      type="number"
-                                      name="upid"
-                                      className="payment-input"
-                                      placeholder={t("enterPaytmNum")}
-                                      onKeyDown={(evt) =>
-                                        ["e", "E", "+", "-"].includes(
-                                          evt.key
-                                        ) && evt.preventDefault()
-                                      }
-                                      value={formData.upid || ""}
-                                      onChange={(e) => {
-                                        const value = e.target.value;
-                                        // Allow only up to 15 digits for Paytm No
-                                        if (value.length <= 15) {
-                                          setFormData({
-                                            ...formData,
-                                            upid: value,
-                                          });
-                                          validateForm(formDataref.current); // Call the validation after setting form data
-                                        }
-                                      }}
-                                      // onChange={handleInputChange}
-                                    />
-                                    {errors.upid && (
-                                      <span className="errorcss">
-                                        {errors.upid}
-                                      </span>
-                                    )}
-                                  </div>
-
-                                  <div className="input-groups">
-                                    <h6 className="input-label text-white">
-                                      {t("paytmQRImage")}
-                                    </h6>
-                                    <div className="file-input-wrapper">
-                                      <input
-                                        id="file-input-paytm"
-                                        type="file"
-                                        name="paytmQR"
-                                        className="payment-input-QR bg-transparent cursor-pointer"
-                                        onChange={(e) =>
-                                          handleFileChange(e.target.files[0])
-                                        }
-                                      />
-                                      <label
-                                        htmlFor="file-input-paytm"
-                                        className="file-input-label"
-                                      >
-                                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                      </label>
-                                    </div>
-
-                                    {errors.paytmQR && (
-                                      <span className="errorcss">
-                                        {errors.paytmQR}
-                                      </span>
-                                    )}
-
-                                    {formData.QRcode ? (
-                                      <img
-                                        src={formData.QRcode}
-                                        width="100px"
-                                      />
-                                    ) : (
-                                      ""
-                                    )}
-                                  </div>
-                                </>
-                              )} */}
-
-                              <div className="ad-upload">
-                                <div className="Submit mt-4">
-                                  {Editstatus == false ? (
-                                    <>
-                                      {buttonLoader == false ? (
-                                        <button
-                                          type="submit"
-                                          onClick={handleSubmit}
-                                        >
-                                          {t("addPaymentMethod")}
-                                        </button>
-                                      ) : (
-                                        <button type="submit">
-                                          {t("loading")}...
-                                        </button>
-                                      )}
-                                    </>
-                                  ) : (
-                                    <>
-                                      {buttonLoaderEdit == false ? (
-                                        <button
-                                          type="submit"
-                                          onClick={handleEdit}
-                                        >
-                                          {t("editPaymentMethod")}
-                                        </button>
-                                      ) : (
-                                        <button type="submit">
-                                          {t("loading")} ...
-                                        </button>
-                                      )}
-                                    </>
-                                  )}
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
+    </form>
+  </div>
+</div>
+                  
                     </section>
-                  </div>
+               
                 </>
               )}
             </div>
           </div>
-        </main>
-      )}
-    </>
+          </div>
+          </section>
+               )}
+             </DashboardLayout>
+           </>
   );
 };
 

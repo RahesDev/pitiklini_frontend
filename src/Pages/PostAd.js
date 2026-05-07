@@ -10,7 +10,7 @@ import apiService from "../core/service/detail";
 import { postMethod, getMethod } from "../core/service/common.api";
 import { useTranslation } from "react-i18next";
 import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
-
+import DashboardLayout from "./DashboardLayout";
 const PostAd = () => {
     const { t } = useTranslation();
   const [cryptoCurrencies, setCryptoCurrencies] = useState([]);
@@ -448,944 +448,202 @@ const PostAd = () => {
     }
   };
 
+  const tradeType = formDataref.current.orderType || "buy";
+  const updateTradeType = (type) => {
+    setFormData((prev) => ({ ...prev, orderType: type }));
+  };
+
   return (
     <>
-      <section className="Non_fixed_nav">
-        <Header />
-      </section>
+      <DashboardLayout>
+        {siteLoader == true ? (
+          <div className="loadercss">
+            <Bars
+              height="80"
+              width="80"
+              color="#ffc630"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        ) : (
+          <section className="asset_section bg-[#0f1117] py-6 pt-6 lg:pt-20 ">
+            <div className="mx-auto max-w-[1160px] pt-0 lg:pt-6 px-2 md:px-4">
+              <h2 className="text-2xl font-semibold text-[#B87A13]">P2P Platform</h2>
+              <h3 className="mt-2 text-2xl font-semibold text-[#e7ecf6]">Post Advertisement</h3>
+              <p className="mt-2 text-sm text-[#8f96a7]">
+                Create a new buy or sell order for the P2P marketplace. Configure your pricing strategy and payment parameters below.
+              </p>
 
-      {siteLoader == true ? (
-        <div className="loadercss">
-          <Bars
-            height="80"
-            width="80"
-            color="#ffc630"
-            ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      ) : (
-        <div>
-          <div className="Verification">
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="mt-5">
-                    <h6>
-                      <Link to="/p2p" className="text-white">
-                        <i className="fa-solid fa-arrow-left-long mr-3"></i>{" "}
-                        {t('back')}
-                      </Link>
-                    </h6>
-
-                    <div className="row justify-content-center">
-                      <div className="col-lg-7 post-ad-card mt-4">
-                        <div className="post-ad-title">{t('postAd')}</div>
-
-                        <form>
-                          <div
-                            className="nav nav-tabs nav_bottom_line"
-                            id="nav-tab"
-                            role="tablist"
-                          >
-                            <button
-                              className="nav-link nav-das active"
-                              id="nav-buy-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#nav-buy"
-                              type="button"
-                              role="tab"
-                              aria-controls="nav-buy"
-                              aria-selected="true"
-                            >
-                              {t('iwantobuy')}
-                            </button>
-                            <button
-                              className="nav-link nav-das"
-                              id="sell-profile-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#sell-profile"
-                              type="button"
-                              role="tab"
-                              aria-controls="nav-profile"
-                              aria-selected="false"
-                            >
-                              {t('iwanttosell')}
-                            </button>
-                          </div>
-
-                          <div className="tab-content" id="nav-tabContent">
-                            {/* Buy Tab Content */}
-                            <div
-                              className="tab-pane fade show active"
-                              id="nav-buy"
-                              role="tabpanel"
-                              aria-labelledby="nav-buy-tab"
-                              tabindex="0"
-                            >
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('cryptoCurrency')}
-                                </h6>
-                                <Dropdown
-                                  inline
-                                  placeholder="Please Select The Crypto"
-                                  options={cryptoCurrencies}
-                                  value={formData.cryptoCurrency}
-                                  onChange={(e, { value }) => {
-                                    setFormData((prevData) => {
-                                      const updatedData = {
-                                        ...prevData,
-                                        cryptoCurrency: value,
-                                      };
-                                      validateForm(updatedData);
-                                      return updatedData;
-                                    });
-                                  }}
-                                  className="ad-input-field"
-                                />
-                                {errors.cryptoCurrency && (
-                                  <p className="errorcss">
-                                    {errors.cryptoCurrency}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('fiatCurrency')}
-                                </h6>
-                                <Dropdown
-                                  inline
-                                  placeholder="Please Select The Fiat"
-                                  options={fiatCurrencies}
-                                  value={formData.fiatCurrency}
-                                  onChange={(e, { value }) => {
-                                    setFormData((prevData) => {
-                                      const updatedData = {
-                                        ...prevData,
-                                        fiatCurrency: value,
-                                      };
-                                      validateForm(updatedData);
-                                      return updatedData;
-                                    });
-                                  }}
-                                  className="ad-input-field"
-                                />
-                                {errors.fiatCurrency && (
-                                  <p className="errorcss">
-                                    {errors.fiatCurrency}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('quantity')}
-                                </h6>
-                                <input
-                                  type="number"
-                                  name="quantity"
-                                  value={formData.quantity}
-                                  // onChange={(e) => {
-                                  //   // Allow only numbers and limit the length to 10 digits
-                                  //   const value = e.target.value;
-                                  //   if (
-                                  //     value.length <= 10 &&
-                                  //     /^[0-9]*$/.test(value)
-                                  //   ) {
-                                  //     handleChange(e);
-                                  //   }
-                                  // }}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 10
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Quantity"
-                                />
-
-                                {errors.quantity && (
-                                  <p className="errorcss">{errors.quantity}</p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('minimumQuantity')}
-                                </h6>
-                                <input
-                                  type="number"
-                                  name="minQuantity"
-                                  value={formData.minQuantity}
-                                  // onChange={(e) => {
-                                  //   // Allow only numbers and limit the length to 10 digits
-                                  //   const value = e.target.value;
-                                  //   if (
-                                  //     value.length <= 10 &&
-                                  //     /^[0-9]*$/.test(value)
-                                  //   ) {
-                                  //     handleChange(e);
-                                  //   }
-                                  // }}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 10
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Minimum Quantity"
-                                />
-                                {errors.minQuantity && (
-                                  <p className="errorcss">
-                                    {errors.minQuantity}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('maximumQuantity')}
-                                </h6>
-                                <input
-                                  type="number"
-                                  name="maxQuantity"
-                                  value={formData.maxQuantity}
-                                  // onChange={(e) => {
-                                  //   // Allow only numbers and limit the length to 10 digits
-                                  //   const value = e.target.value;
-                                  //   if (
-                                  //     value.length <= 10 &&
-                                  //     /^[0-9]*$/.test(value)
-                                  //   ) {
-                                  //     handleChange(e);
-                                  //   }
-                                  // }}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 10
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Maximum Quantity"
-                                />
-                                {errors.maxQuantity && (
-                                  <p className="errorcss">
-                                    {errors.maxQuantity}
-                                  </p>
-                                )}
-                                {errors.quantityRange && (
-                                  <p className="errorcss">
-                                    {errors.quantityRange}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">{t('price')}</h6>
-                                <input
-                                  type="number"
-                                  name="price"
-                                  value={formData.price}
-                                  // onChange={(e) => {
-                                  //   // Allow only numbers and limit the length to 10 digits
-                                  //   const value = e.target.value;
-                                  //   if (
-                                  //     value.length <= 20 &&
-                                  //     /^[0-9]*$/.test(value)
-                                  //   ) {
-                                  //     handleChange(e);
-                                  //   }
-                                  // }}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 20
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Price"
-                                />
-                                {errors.price && (
-                                  <p className="errorcss">{errors.price}</p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('lowestOrderPrice')}
-                                </h6>
-                                <input
-                                  readOnly
-                                  type="number"
-                                  name="lowestOrderPrice"
-                                  value={formData.lowestOrderPrice}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 20 &&
-                                      /^[0-9]*$/.test(value)
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Lowest Order Price"
-                                />
-                              </div>
-
-                              {/* <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  Preferred Payment
-                                </h6>
-                                <select
-                                  className="ad-input-field prefer-select"
-                                  name="preferredPayment"
-                                  value={formData.preferredPayment}
-                                  onChange={handleChange}
-                                >
-                                  <option value="All Payment">
-                                    All Payment
-                                  </option>
-                                  <option value="IMPS">IMPS</option>
-                                  <option value="UPID">UPI</option>
-                                  <option value="Paytm">PAYTM</option>
-                                  <option value="BankTransfer">
-                                    Account Transfer
-                                  </option>
-                                </select>
-                              </div> */}
-
-                              {/*FIXME:  Test All PAYMENTS*/}
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('preferredPayment')}
-                                </h6>
-                                <Dropdown
-                                  inline
-                                  placeholder="Select Payment Method"
-                                  options={paymentMethods}
-                                  value={formData.preferredPayment}
-                                  onChange={(e, { value }) =>
-                                    setFormData((prevData) => ({
-                                      ...prevData,
-                                      preferredPayment: value,
-                                    }))
-                                  }
-                                  className="ad-input-field"
-                                />
-                              </div>
-
-                              {/* <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  Payment Time
-                                </h6>
-                                <select
-                                  className="ad-input-field prefer-select"
-                                  name="paymentTime"
-                                  value={formData.paymentTime}
-                                  onChange={handleChange}
-                                >
-                                  <option value="15 Minutes">15 Minutes</option>
-                                  <option value="30 Minutes">30 Minutes</option>
-                                  <option value="45 Minutes">45 Minutes</option>
-                                  <option value="60 Minutes">60 Minutes</option>
-                                  <option value="90 Minutes">
-                                    90 Minutes Hour
-                                  </option>
-                                </select>
-                              </div> */}
-
-                              {/*FIXME:  TEST PAYMENT TIME */}
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('paymentTime')}
-                                </h6>
-
-                                <Dropdown
-                                  inline
-                                  placeholder="All Payment"
-                                  options={paymentTime}
-                                  value={formData.paymentTime}
-                                  onChange={(e, { value }) =>
-                                    setFormData((prevData) => ({
-                                      ...prevData,
-                                      paymentTime: value,
-                                    }))
-                                  }
-                                  className="ad-input-field"
-                                />
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('requirements')}
-                                </h6>
-                                <textarea
-                                  name="requirements"
-                                  value={formData.requirements}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 500
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  className="ad-input-field"
-                                  placeholder="Enter Your Requirements"
-                                  rows="10"
-                                />
-                              </div>
-
-
-                              <div className="mt-4 mb-1">
-                                <div className="terms">
-                                  <div className="checkbox-container">
-                                    <input
-                                      id="custom-checkbox"
-                                      type="checkbox"
-                                      name="termsAccepted"
-                                      checked={formData.termsAccepted}
-                                      onChange={handleChange}
-                                      className="input-field regular_checkbox"
-                                    />
-                                    <label htmlFor="custom-checkbox"></label>
-                                  </div>
-                                  <label
-                                    htmlFor="custom-checkbox"
-                                    className="terms-check "
-                                  >
-                                    {t('ihavereadandagretothe')}
-                                    <Link to="/terms" className="text-yellow">
-                                      {" "}
-                                      {t('termsConditions')}{" "}
-                                    </Link>{" "}
-                                    {t('and')}{" "}
-                                    <Link to="/privacy" className="text-yellow">
-                                      {" "}
-                                      {t('privacyPolicy')}
-                                    </Link>
-                                  </label>
-                                </div>
-                              </div>
-
-                              {errors.termsAccepted && (
-                                <p className="errorcss">
-                                  {errors.termsAccepted}
-                                </p>
-                              )}
-
-                              {/* <div className="terms">
-                                <div class="input-groups terms-checkbox">
-                                  <input
-                                    id="custom-checkbox"
-                                    type="checkbox"
-                                    name="termsAccepted"
-                                    checked={formData.termsAccepted}
-                                    onChange={handleChange}
-                                  />
-                                  <label htmlFor="custom-checkbox"></label>
-                                </div>
-                                <p className="terms-check">
-                                  I have read and agree to the
-                                  <span> Terms</span> and{" "}
-                                  <span>Conditions</span>
-                                </p>
-                                {errors.termsAccepted && (
-                                  <p className="errorcss">
-                                    {errors.termsAccepted}
-                                  </p>
-                                )}
-                              </div> */}
-
-                              <div className="Submit mt-3">
-                                <button
-                                  type="submit"
-                                  onClick={(e) => handleSubmit(e, "buy")}
-                                >
-                                  {t('postAd')}
-                                </button>
-                              </div>
-                            </div>
-
-                            <div
-                              className="tab-pane fade"
-                              id="sell-profile"
-                              role="tabpanel"
-                              aria-labelledby="sell-profile-tab"
-                              tabindex="0"
-                            >
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('cryptoCurrency')}
-                                </h6>
-                                <Dropdown
-                                  inline
-                                  placeholder="Please Select The Crypto"
-                                  options={cryptoCurrencies}
-                                  value={formData.cryptoCurrency}
-                                  onChange={(e, { value }) => {
-                                    setFormData((prevData) => {
-                                      const updatedData = {
-                                        ...prevData,
-                                        cryptoCurrency: value,
-                                      };
-                                      validateForm(updatedData);
-                                      return updatedData;
-                                    });
-                                  }}
-                                  className="ad-input-field"
-                                />
-                                {errors.cryptoCurrency && (
-                                  <p className="errorcss">
-                                    {errors.cryptoCurrency}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('fiatCurrency')}
-                                </h6>
-                                <Dropdown
-                                  inline
-                                  placeholder="Please Select The Fiat"
-                                  options={fiatCurrencies}
-                                  value={formData.fiatCurrency}
-                                  onChange={(e, { value }) => {
-                                    setFormData((prevData) => {
-                                      const updatedData = {
-                                        ...prevData,
-                                        fiatCurrency: value,
-                                      };
-                                      validateForm(updatedData);
-                                      return updatedData;
-                                    });
-                                  }}
-                                  className="ad-input-field"
-                                />
-                                {errors.fiatCurrency && (
-                                  <p className="errorcss">
-                                    {errors.fiatCurrency}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('quantity')}
-                                </h6>
-                                <input
-                                  type="text"
-                                  name="quantity"
-                                  value={formData.quantity}
-                                  // onChange={(e) => {
-                                  //   // Allow only numbers and limit the length to 10 digits
-                                  //   const value = e.target.value;
-                                  //   if (
-                                  //     value.length <= 10 &&
-                                  //     /^[0-9]*\.?[0-9]*$/.test(value)
-                                  //   ) {
-                                  //     handleChange(e);
-                                  //   }
-                                  // }}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 10
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Quantity"
-                                />
-                                {errors.quantity && (
-                                  <p className="errorcss">{errors.quantity}</p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('minimumQuantity')}
-                                </h6>
-                                <input
-                                  type="number"
-                                  name="minQuantity"
-                                  value={formData.minQuantity}
-                                  // onChange={(e) => {
-                                  //   // Allow only numbers and limit the length to 10 digits
-                                  //   const value = e.target.value;
-                                  //   if (
-                                  //     value.length <= 10 &&
-                                  //     /^[0-9]*$/.test(value)
-                                  //   ) {
-                                  //     handleChange(e);
-                                  //   }
-                                  // }}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 10
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Minimum Quantity"
-                                />
-                                {errors.minQuantity && (
-                                  <p className="errorcss">
-                                    {errors.minQuantity}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('maximumQuantity')}
-                                </h6>
-                                <input
-                                  type="number"
-                                  name="maxQuantity"
-                                  value={formData.maxQuantity}
-                                  // onChange={(e) => {
-                                  //   // Allow only numbers and limit the length to 10 digits
-                                  //   const value = e.target.value;
-                                  //   if (
-                                  //     value.length <= 10 &&
-                                  //     /^[0-9]*$/.test(value)
-                                  //   ) {
-                                  //     handleChange(e);
-                                  //   }
-                                  // }}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 10
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Maximum Quantity"
-                                />
-                                {errors.maxQuantity && (
-                                  <p className="errorcss">
-                                    {errors.maxQuantity}
-                                  </p>
-                                )}
-                                {errors.quantityRange && (
-                                  <p className="errorcss">
-                                    {errors.quantityRange}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">{t('price')}</h6>
-                                <input
-                                  type="number"
-                                  name="price"
-                                  value={formData.price}
-                                  // onChange={(e) => {
-                                  //   // Allow only numbers and limit the length to 10 digits
-                                  //   const value = e.target.value;
-                                  //   if (
-                                  //     value.length <= 20 &&
-                                  //     /^[0-9]*$/.test(value)
-                                  //   ) {
-                                  //     handleChange(e);
-                                  //   }
-                                  // }}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 20
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Price"
-                                />
-                                {errors.price && (
-                                  <p className="errorcss">{errors.price}</p>
-                                )}
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('highestOrderPrice')}
-                                </h6>
-                                <input
-                                  readOnly
-                                  type="text"
-                                  name="higeshOrderPrice"
-                                  value={formData.higeshOrderPrice}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 20 &&
-                                      /^[0-9]*$/.test(value)
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  onKeyDown={(evt) =>
-                                    ["e", "E", "+", "-"].includes(evt.key) &&
-                                    evt.preventDefault()
-                                  }
-                                  className="ad-input-field"
-                                  placeholder="Enter the Highest Order Price"
-                                />
-                              </div>
-
-                              {/* <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  Preferred Payment
-                                </h6>
-                                <select
-                                  className="ad-input-field prefer-select"
-                                  name="preferredPayment"
-                                  value={formData.preferredPayment}
-                                  onChange={handleChange}
-                                >
-                                  <option value="All Payment">
-                                    All Payment
-                                  </option>
-                                  <option value="IMPS">IMPS</option>
-                                  <option value="UPID">UPI</option>
-                                  <option value="Paytm">PAYTM</option>
-                                  <option value="BankTransfer">
-                                    Account Transfer
-                                  </option>
-                                </select>
-                              </div> */}
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('preferredPayment')}
-                                </h6>
-                                <Dropdown
-                                  inline
-                                  placeholder="All Payment"
-                                  options={paymentMethods}
-                                  value={formData.preferredPayment}
-                                  onChange={(e, { value }) =>
-                                    setFormData((prevData) => ({
-                                      ...prevData,
-                                      preferredPayment: value,
-                                    }))
-                                  }
-                                  className="ad-input-field"
-                                />
-                              </div>
-
-                              {/* <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  Payment Time
-                                </h6>
-                                <select
-                                  className="ad-input-field prefer-select"
-                                  name="paymentTime"
-                                  value={formData.paymentTime}
-                                  onChange={handleChange}
-                                >
-                                  <option value="15">15 Minutes</option>
-                                  <option value="30">30 Minutes</option>
-                                  <option value="45">45 Minutes</option>
-                                  <option value="60">60 Minutes</option>
-                                  <option value="90">90 Minutes Hour</option>
-                                </select>
-                              </div> */}
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('paymentTime')}
-                                </h6>
-
-                                <Dropdown
-                                  inline
-                                  placeholder="All Payment"
-                                  options={paymentTime}
-                                  value={formData.paymentTime}
-                                  onChange={(e, { value }) =>
-                                    setFormData((prevData) => ({
-                                      ...prevData,
-                                      paymentTime: value,
-                                    }))
-                                  }
-                                  className="ad-input-field"
-                                />
-                              </div>
-
-                              <div className="input-groups">
-                                <h6 className="input-label ad-title">
-                                  {t('requirements')}
-                                </h6>
-                                <textarea
-                                  name="requirements"
-                                  value={formData.requirements}
-                                  onChange={(e) => {
-                                    // Allow only numbers and limit the length to 10 digits
-                                    const value = e.target.value;
-                                    if (
-                                      value.length <= 500
-                                    ) {
-                                      handleChange(e);
-                                    }
-                                  }}
-                                  className="ad-input-field"
-                                  placeholder="Enter Your Requirements"
-                                  rows="10"
-                                />
-                              </div>
-
-                              <div className="my-4">
-                                <div className="terms">
-                                  <div className="checkbox-container">
-                                    <input
-                                      id="custom-checkbox"
-                                      type="checkbox"
-                                      name="termsAccepted"
-                                      checked={formData.termsAccepted}
-                                      onChange={handleChange}
-                                      className="input-field regular_checkbox"
-                                    />
-                                    <label htmlFor="custom-checkbox"></label>
-                                  </div>
-                                  <label
-                                    htmlFor="custom-checkbox"
-                                    className="terms-check "
-                                  >
-                                    {t('ihavereadandagretothe')}
-                                    <Link to="/terms" className="text-yellow">
-                                      {" "}
-                                      {t('termsConditions')}{" "}
-                                    </Link>{" "}
-                                    {t('and')}{" "}
-                                    <Link to="/privacy" className="text-yellow">
-                                      {" "}
-                                      {t('privacyPolicy')}
-                                    </Link>
-                                  </label>
-                                </div>
-                              </div>
-
-                              {errors.termsAccepted && (
-                                <p className="errorcss">
-                                  {errors.termsAccepted}
-                                </p>
-                              )}
-
-                              {/* <div className="terms">
-                                <div class="input-groups terms-checkbox">
-                                  <input
-                                    id="custom-checkbox"
-                                    type="checkbox"
-                                    name="termsAccepted"
-                                    checked={formData.termsAccepted}
-                                    onChange={handleChange}
-                                  />
-                                  <label htmlFor="custom-checkbox"></label>
-                                </div>
-                                <p className="terms-check">
-                                  I have read and agree to the
-                                  <span> Terms</span> and{" "}
-                                  <span>Conditions</span>
-                                </p>
-                                {errors.termsAccepted && (
-                                  <p className="errorcss">
-                                    {errors.termsAccepted}
-                                  </p>
-                                )}
-                              </div> */}
-
-                              <div className="Submit">
-                                <button
-                                  type="submit"
-                                  onClick={(e) => handleSubmit(e, "sell")}
-                                >
-                                  {t('postAd')}
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
+              <div className="mt-6 grid gap-5 lg:grid-cols-[1.6fr_1fr]">
+                <form className="space-y-4">
+                  <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
+                    <h4 className="mb-4 flex items-center gap-2 text-lg font-semibold text-[#dbe2ef]">
+                      <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">1</span>
+                      Pricing & Asset
+                    </h4>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Trade Type</label>
+                        <div className="rounded-lg border border-[#2a3038] bg-[#0c111a] p-1">
+                          <button type="button" onClick={() => updateTradeType("buy")} className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "buy" ? "bg-[#B87A13] text-[#11161f]" : "text-[#c7cedd]"}`}>BUY</button>
+                          <button type="button" onClick={() => updateTradeType("sell")} className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "sell" ? "bg-[#B87A13] text-[#11161f]" : "text-[#c7cedd]"}`}>SELL</button>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Asset Selection</label>
+                        <select
+                          value={formData.cryptoCurrency}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, cryptoCurrency: e.target.value }))}
+                          className="h-11 w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]"
+                        >
+                          <option value="">Select Crypto</option>
+                          {cryptoCurrencies.map((c) => (
+                            <option key={c.value} value={c.value}>{c.value} ({c.text})</option>
+                          ))}
+                        </select>
                       </div>
                     </div>
-                  </div>
-                </div>
+
+                    <div className="mt-4 grid gap-4 md:grid-cols-2">
+                      <div className="rounded-lg border border-[#2a3038] bg-[#0c111a] p-3">
+                        <p className="text-[11px] uppercase text-[#7f8799]">Pricing Type</p>
+                        <button type="button" className="mt-2 h-9 rounded-md border border-[#B87A13] px-4 text-xs font-semibold text-[#B87A13]">Fixed</button>
+                        <p className="mt-1 text-[11px] text-[#7f8799]">Stays constant</p>
+                      </div>
+                      <div>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Your Price</label>
+                        <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
+                          <input name="price" value={formData.price} onChange={handleChange} className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none" />
+                          <span className="text-[11px] text-[#8a92a5]">USD</span>
+                        </div>
+                        <div className="mt-2 flex items-center justify-between rounded-lg bg-[#0c111a] px-3 py-2 text-[11px]">
+                          <div className="text-[#8c94a6]">Market Avg <span className="ml-2 text-[#d4dbea]">{formData.lowestOrderPrice || "1.018"}</span></div>
+                          <div className="text-[#8c94a6]">Your Price <span className="ml-2 text-[#B87A13]">{formData.price || "1.015"}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
+                    <h4 className="mb-4 flex items-center gap-2 text-lg font-semibold text-[#dbe2ef]">
+                      <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">2</span>
+                      Inventory & Limits
+                    </h4>
+                    <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Total Inventory</label>
+                    <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
+                      <input name="quantity" value={formData.quantity} onChange={handleChange} className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none" />
+                      <span className="text-[11px] text-[#B87A13]">MAX USDT</span>
+                    </div>
+                    <div className="mt-4 grid gap-4 md:grid-cols-2">
+                      <div>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Order Minimum</label>
+                        <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
+                          <input name="minQuantity" value={formData.minQuantity} onChange={handleChange} className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none" />
+                          <span className="text-[11px] text-[#8a92a5]">USD</span>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Order Maximum</label>
+                        <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
+                          <input name="maxQuantity" value={formData.maxQuantity} onChange={handleChange} className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none" />
+                          <span className="text-[11px] text-[#8a92a5]">USD</span>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
+                    <h4 className="mb-4 flex items-center gap-2 text-lg font-semibold text-[#dbe2ef]">
+                      <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">3</span>
+                      Payment & Logic
+                    </h4>
+                    <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Payment Methods (select up to 3)</label>
+                    <div className="grid gap-2 sm:grid-cols-3">
+                      {paymentMethods.slice(0, 2).map((p) => (
+                        <button
+                          key={p.key}
+                          type="button"
+                          onClick={() => setFormData((prev) => ({ ...prev, preferredPayment: p.value }))}
+                          className={`h-10 rounded-lg border text-xs font-medium transition ${formData.preferredPayment === p.value ? "border-[#B87A13] bg-[#1d202b] text-[#f0c76a]" : "border-[#2a3038] bg-[#0c111a] text-[#c7cedd]"}`}
+                        >
+                          {p.text}
+                        </button>
+                      ))}
+                      <button type="button" className="h-10 rounded-lg border border-[#2a3038] bg-[#0c111a] text-xs font-medium text-[#B87A13]">ADD METHOD</button>
+                    </div>
+
+                    <div className="mt-4 grid gap-4 md:grid-cols-2">
+                      <div>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Payment Window</label>
+                        <select value={formData.paymentTime} onChange={(e) => setFormData((prev) => ({ ...prev, paymentTime: e.target.value }))} className="h-11 w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]">
+                          {paymentTime.map((pt) => (<option key={pt.value} value={pt.value}>{pt.value}</option>))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Auto Reply (Optional)</label>
+                        <input className="h-11 w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]" placeholder="I'm online, send proof after transfer..." />
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Terms of Trade</label>
+                      <textarea
+                        name="requirements"
+                        value={formData.requirements}
+                        onChange={handleChange_req}
+                        rows={3}
+                        className="w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 py-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]"
+                        placeholder="Be specific about your verification requirements..."
+                      />
+                    </div>
+                  </article>
+                </form>
+
+                <aside className="space-y-4">
+                  <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
+                    <div className="mb-3 flex items-center justify-between">
+                      <p className="text-[11px] uppercase tracking-wider text-[#7f8799]">Live Ad Preview</p>
+                      <span className="rounded bg-[#B87A13]/15 px-2 py-1 text-[10px] font-semibold text-[#B87A13]">PREVIEW</span>
+                    </div>
+                    <div className="text-4xl font-semibold text-[#f4f7ff]">{formData.price || "1.015"}</div>
+                    <p className="text-xs text-[#8b93a6]">USD</p>
+                    <div className="mt-3 flex items-center justify-between text-xs">
+                      <span className="text-[#B87A13]">Buying USDT</span>
+                      <span className="text-[#9ba4b6]">Limits {formData.minQuantity || "100.0"} - {formData.maxQuantity || "5,000.0"} USD</span>
+                    </div>
+                    <div className="mt-4 border-t border-[#2a3038] pt-4">
+                      <p className="text-sm font-semibold text-[#e6ebf5]">Alex_Institutional</p>
+                      <p className="text-xs text-[#8f97aa]">240 Trades • 99.83% Completion</p>
+                    </div>
+                  </article>
+
+                  <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
+                    <p className="text-[11px] uppercase tracking-wider text-[#7f8799]">Merchant Requirements</p>
+                    <ul className="mt-3 space-y-2 text-sm text-[#d5dcea]">
+                      <li className="flex items-center gap-2"><span className="text-[#B87A13]">■</span> Registered for 30+ days</li>
+                      <li className="flex items-center gap-2"><span className="text-[#B87A13]">■</span> Hold &gt; 0.01 BTC in Wallet</li>
+                      <li className="flex items-center gap-2"><span className="text-[#B87A13]">■</span> Completed Identity Verification</li>
+                    </ul>
+                  </article>
+
+                  <button onClick={(e) => handleSubmit(e, tradeType)} className="h-12 w-full rounded-xl bg-[#B87A13] text-sm font-semibold text-[#10151f] transition hover:bg-[#cd942f]">
+                    POST ADVERTISEMENT
+                  </button>
+                  <button type="button" className="h-11 w-full rounded-xl border border-[#2a3038] bg-[#131a26] text-xs font-semibold tracking-wide text-[#9ba4b6]">
+                    SAVE AS DRAFT
+                  </button>
+
+                  <article className="rounded-xl border border-[#2a3038] bg-[#141a24] p-4 text-xs text-[#8f97aa]">
+                    Ads are subject to a 0.1% platform fee upon successful trade completion. Ensure your wallet has sufficient liquidity before posting.
+                  </article>
+                </aside>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </section>
+        )}
+      </DashboardLayout>
     </>
   );
 };

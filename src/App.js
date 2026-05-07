@@ -51,6 +51,7 @@ import InternalTransfer from "./Pages/InternalTransfer";
 import Bankdetails from "./Pages/Bankdetails";
 
 import P2P from "./Pages/P2P";
+import P2POld from "./Pages/P2P-old";
 import P2PConvert from "./Pages/P2PConvert";
 import Payment from "./Pages/Payment";
 import DisputeChat from "./Pages/DisputeChat";
@@ -597,6 +598,14 @@ function App() {
               element={
                 // <RequireAuth>
                 <P2P />
+                // </RequireAuth>
+              }
+            />
+            <Route
+              path="/p2p-old"
+              element={
+                // <RequireAuth>
+                <P2POld />
                 // </RequireAuth>
               }
             />

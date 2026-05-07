@@ -3721,6 +3721,13 @@ input[type="number"]::-webkit-inner-spin-button {
   margin-right: 0px !important;
 }
 
+.newtablehead_chngtheme {
+  color: #bd7f10 !important;
+}
+.newtablehead_chngtheme_back {
+  background-color: #0A0E18 !important;
+}
+
 /* Media Queries */
 
 @media (max-width: 1440px) {
