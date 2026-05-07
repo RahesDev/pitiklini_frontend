@@ -1849,8 +1849,8 @@ const Dashboard = () => {
                         {/* <div className="flex flex-col lg:flex-row gap-10">
                           <div className="flex-[2]">
                             <div className="relative pl-8 sm:pl-10 border-l-[2px] border-[#2b3139] ml-4 space-y-12 pb-8"> */}
-                              {/* Step 1 */}
-                              {/* <div className="relative">
+                        {/* Step 1 */}
+                        {/* <div className="relative">
                                 <div className="absolute -left-[54px] sm:-left-[62px] top-0 bg-primary p-[6px] rounded-md">
                                   <svg
                                     className="w-5 h-5 text-[#181a20]"
@@ -1904,8 +1904,8 @@ const Dashboard = () => {
                                 )}
                               </div> */}
 
-                              {/* Step 2 */}
-                              {/* <div className="relative">
+                        {/* Step 2 */}
+                        {/* <div className="relative">
                                 <div className="absolute -left-[54px] sm:-left-[62px] top-0 bg-primary p-[6px] rounded-md z-10">
                                   <svg
                                     className="w-5 h-5 text-white"
@@ -1926,11 +1926,15 @@ const Dashboard = () => {
                                   {t("Withdraw To")}
                                 </h3>
                                 </div> */}
-                          
-                            <div className="flex flex-col lg:flex-row gap-10">
-                               <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-7/12  sm:p-5">
-                                <VerticalStepper steps={withdrawSteps} currentStep={withdrawCurrentStep} className="ml-2 pb-8" />
-                                {/* {show_otpref.current == false &&
+
+                        <div className="flex flex-col lg:flex-row gap-10">
+                          <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-7/12  sm:p-5">
+                            <VerticalStepper
+                              steps={withdrawSteps}
+                              currentStep={withdrawCurrentStep}
+                              className="ml-2 pb-8"
+                            />
+                            {/* {show_otpref.current == false &&
                                   currentcurrencyref.current?.currencyType ==
                                     "2" && (
                                     <div className="mb-4 max-w-lg mt-6">
@@ -2024,11 +2028,10 @@ const Dashboard = () => {
                                     )}
                                   </div>
                                 )} */}
-                              </div>
-                            
+                          </div>
 
-                              {/* Step 3 */}
-                              {/* <div className="relative">
+                          {/* Step 3 */}
+                          {/* <div className="relative">
                                 <div className="absolute -left-[54px] sm:-left-[62px] top-0 bg-primary p-[6px] rounded-md">
                                   <svg
                                     className="w-5 h-5 text-[#181a20]"
@@ -2129,7 +2132,7 @@ const Dashboard = () => {
                                   </div>
 
                                   {/* OTP and 2FA Inputs when show_otp is true */}
-                                  {/* {show_otpref.current == true && (
+                          {/* {show_otpref.current == true && (
                                     <div className="mb-4 mt-6">
                                       <label className="text-sm text-gray-500 mb-1 block px-1">
                                         {t("withdrawOTP")}
@@ -2270,8 +2273,8 @@ const Dashboard = () => {
                                       </div>
                                     )} */}
 
-                                  {/* Total and Fee */}
-                                  {/* <div className="mt-14 text-right flex flex-col items-end px-1">
+                          {/* Total and Fee */}
+                          {/* <div className="mt-14 text-right flex flex-col items-end px-1">
                                     <div className="text-[22px] font-bold text-white tracking-wide">
                                       {amount &&
                                       !isNaN(amount) &&
@@ -2318,8 +2321,8 @@ const Dashboard = () => {
                                     </div>
                                   </div> */}
 
-                                  {/* Action Button */}
-                                  {/* <div className="mt-3">
+                          {/* Action Button */}
+                          {/* <div className="mt-3">
                                     {buttonLoader == false ? (
                                       sessionStorage.getItem("tfa_status") ==
                                       0 ? (
@@ -2382,8 +2385,8 @@ const Dashboard = () => {
                                     )}
                                   </div> */}
 
-                                  {/* Bottom limits note */}
-                                  {/* <div className="mt-4 text-left px-1">
+                          {/* Bottom limits note */}
+                          {/* <div className="mt-4 text-left px-1">
                                     <p className="text-[13px] text-gray-500">
                                       {t("24-hour withdrawal limit")}: 0/
                                       {currentcurrencyref.current
@@ -2391,13 +2394,12 @@ const Dashboard = () => {
                                       {currencyref.current || "BTC"}
                                     </p>
                                   </div> */}
-                                
-                               
-                            {/* </div> */}
+
+                          {/* </div> */}
                           {/* </div> */}
 
                           {/* Right column content: Tips & FAQs */}
-                         <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-5/12  sm:p-5">
+                          <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-5/12  sm:p-5">
                             <h3 className="text-primary font-medium flex items-center gap-2 mb-6 text-lg">
                               <svg
                                 className="w-5 h-5"
@@ -2512,119 +2514,124 @@ const Dashboard = () => {
                               </div>
                             </div>
                           </div>
-                            </div>
-                    
-                     
-
-                      <div className="dashboard_table">
-                        <div className="staking-flex dash_assets">
-                          <h5 className="opt-title">{t("RecentWithdraw")}</h5>
-                          <Link to="/withdrawHistory">
-                            <div className="d-flex gap-2 text-yellow">
-                              {t("viewAll")}{" "}
-                              <i class="fa-solid fa-chevron-right"></i>
-                            </div>
-                          </Link>
                         </div>
 
-                        <div className="table-responsive table-cont">
-                          <table className="table">
-                            <thead>
-                              <tr className="stake-head">
-                                <th>{t("currency")}</th>
-                                <th className="opt-nowrap txt-center pad-left-23">
-                                  {t("amount")}
-                                </th>
-                                <th className="opt-nowrap txt-center pad-left-23">
-                                  {t("Fees")}
-                                </th>
-                                <th className="opt-nowrap txt-center pad-left-23">
-                                  {t("transactionId")}
-                                </th>
-                                <th className="opt-nowrap txt-center pad-left-23">
-                                  {t("dateTime")}
-                                </th>
-                                <th className="opt-btn-flex table-action text-center">
-                                  {t("status")}
-                                </th>
-                              </tr>
-                            </thead>
+                        <div className="dashboard_table">
+                          <div className="staking-flex dash_assets">
+                            <h5 className="opt-title">{t("RecentWithdraw")}</h5>
+                            <Link to="/withdrawHistory">
+                              <div className="d-flex gap-2 text-yellow">
+                                {t("viewAll")}{" "}
+                                <i class="fa-solid fa-chevron-right"></i>
+                              </div>
+                            </Link>
+                          </div>
 
-                            <tbody>
-                              {withdrawHistory && withdrawHistory.length > 0 ? (
-                                withdrawHistory.slice(0, 5).map((item, i) => {
-                                  return (
-                                    <tr>
-                                      <td className="opt-percent font_14 pad-left-23">
-                                        {item.currency}
-                                      </td>
-                                      <td className="opt-percent font_14 table_center_text pad-left-23 nowra_txt">
-                                        {parseFloat(item.amount).toFixed(6)}
-                                      </td>
-                                      <td className="opt-percent font_14 table_center_text pad-left-23 nowra_txt">
-                                        {parseFloat(item.fees).toFixed(6)}
-                                      </td>
-                                      <td className="opt-term font_14 table_center_text pad-left-23 nowra_txt">
-                                        {item.txn_id == "--------" ? (
-                                          "--------"
-                                        ) : (
-                                          <>
-                                            {item.txn_id.substring(0, 10)} ...
-                                          </>
-                                        )}{" "}
-                                        <i
-                                          class="ri-file-copy-line text-yellow"
-                                          onClick={() => copy(item.txn_id)}
-                                          style={{ cursor: "pointer" }}
-                                        ></i>
-                                      </td>
-                                      <td className="opt-term font_14 table_center_text pad-left-23 nowra_txt">
-                                        {Moment(item.created_at).format("lll")}
-                                      </td>
-                                      <td className="opt-btn-flex table-action pad-left-23 text-green text-center">
-                                        {item.status == "Cancelled" ? (
-                                          <span className="text-red">
-                                            {t("cancelled")}
-                                          </span>
-                                        ) : item.status == "Pending" ? (
-                                          <span className="text-yellow">
-                                            {t("pending")}
-                                          </span>
-                                        ) : (
-                                          <span className="text-green">
-                                            {t("completed")}
-                                          </span>
-                                        )}
-                                      </td>
-                                    </tr>
-                                  );
-                                })
-                              ) : (
-                                <tr>
-                                  <td colSpan={5} className="text-center py-5">
-                                    <div className="empty_data">
-                                      <div className="empty_data_img">
-                                        <img
-                                          src={require("../assets/No-data.webp")}
-                                          width="100px"
-                                        />
-                                      </div>
-                                      <div className="no_records_text">
-                                        {t("noRecordsFound")}
-                                      </div>
-                                    </div>
-                                  </td>
+                          <div className="table-responsive table-cont">
+                            <table className="table">
+                              <thead>
+                                <tr className="stake-head">
+                                  <th>{t("currency")}</th>
+                                  <th className="opt-nowrap txt-center pad-left-23">
+                                    {t("amount")}
+                                  </th>
+                                  <th className="opt-nowrap txt-center pad-left-23">
+                                    {t("Fees")}
+                                  </th>
+                                  <th className="opt-nowrap txt-center pad-left-23">
+                                    {t("transactionId")}
+                                  </th>
+                                  <th className="opt-nowrap txt-center pad-left-23">
+                                    {t("dateTime")}
+                                  </th>
+                                  <th className="opt-btn-flex table-action text-center">
+                                    {t("status")}
+                                  </th>
                                 </tr>
-                              )}
-                            </tbody>
-                          </table>
+                              </thead>
+
+                              <tbody>
+                                {withdrawHistory &&
+                                withdrawHistory.length > 0 ? (
+                                  withdrawHistory.slice(0, 5).map((item, i) => {
+                                    return (
+                                      <tr>
+                                        <td className="opt-percent font_14 pad-left-23">
+                                          {item.currency}
+                                        </td>
+                                        <td className="opt-percent font_14 table_center_text pad-left-23 nowra_txt">
+                                          {parseFloat(item.amount).toFixed(6)}
+                                        </td>
+                                        <td className="opt-percent font_14 table_center_text pad-left-23 nowra_txt">
+                                          {parseFloat(item.fees).toFixed(6)}
+                                        </td>
+                                        <td className="opt-term font_14 table_center_text pad-left-23 nowra_txt">
+                                          {item.txn_id == "--------" ? (
+                                            "--------"
+                                          ) : (
+                                            <>
+                                              {item.txn_id.substring(0, 10)} ...
+                                            </>
+                                          )}{" "}
+                                          <i
+                                            class="ri-file-copy-line text-yellow"
+                                            onClick={() => copy(item.txn_id)}
+                                            style={{ cursor: "pointer" }}
+                                          ></i>
+                                        </td>
+                                        <td className="opt-term font_14 table_center_text pad-left-23 nowra_txt">
+                                          {Moment(item.created_at).format(
+                                            "lll",
+                                          )}
+                                        </td>
+                                        <td className="opt-btn-flex table-action pad-left-23 text-green text-center">
+                                          {item.status == "Cancelled" ? (
+                                            <span className="text-red">
+                                              {t("cancelled")}
+                                            </span>
+                                          ) : item.status == "Pending" ? (
+                                            <span className="text-yellow">
+                                              {t("pending")}
+                                            </span>
+                                          ) : (
+                                            <span className="text-green">
+                                              {t("completed")}
+                                            </span>
+                                          )}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })
+                                ) : (
+                                  <tr>
+                                    <td
+                                      colSpan={6}
+                                      className="px-4 py-10 text-center text-sm text-white/60"
+                                    >
+                                      {/* <div className="empty_data">
+                                        <div className="empty_data_img">
+                                          <img
+                                            src={require("../assets/No-data.webp")}
+                                            width="100px"
+                                          />
+                                        </div>
+                                        <div className="no_records_text"> */}
+                                          {t("noRecordsFound")}
+                                        {/* </div>
+                                      </div> */}
+                                    </td>
+                                  </tr>
+                                )}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
-                          </div>
                     </>
                   ) : (
                     <>
-                      <div className="row ">
+                          <div className="flex flex-col lg:flex-row gap-6  ">
+                            <div className="w-full lg:w-7/12 ">
                         <div className="p2p_title">{t("withdraw")}</div>
                         <div className="col-lg-7">
                           <div className="deposit mt-5  h-100">
@@ -2655,11 +2662,12 @@ const Dashboard = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                              </div>
+                              </div>
 
-                        <div className="col-lg-5">
-                          <div>
-                            <div className="container-lg">
+                        {/* <div className="col-lg-5">
+                          <div> */}
+                            <div className="w-full lg:w-5/12">
                               <div className="deposit-imp-notes mt-5">
                                 <div className="imp-notes-title">
                                   <span>
@@ -2691,8 +2699,8 @@ const Dashboard = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          {/* </div>
+                        </div> */}
                       </div>
                     </>
                   )}

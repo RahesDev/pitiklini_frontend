@@ -610,146 +610,152 @@ const Dashboard = () => {
 
                             <div className="flex flex-col lg:flex-row gap-10">
                               {/* <div className="flex-[2]"> */}
-                                <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-7/12  sm:p-5">
-                                  <VerticalStepper
-                                    steps={depositSteps}
-                                    currentStep={depositCurrentStep}
-                                    className="ml-0 pb-2"
-                                  />
+                              <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-7/12  sm:p-5">
+                                <VerticalStepper
+                                  steps={depositSteps}
+                                  currentStep={depositCurrentStep}
+                                  className="ml-0 pb-2"
+                                />
+                              </div>
+                              <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-5/12 sm:p-5">
+                                <div className="mb-10">
+                                  <div className="flex items-center gap-2 mb-6">
+                                    <h3 className="text-primary font-medium flex items-center gap-2 mb-6 text-lg">
+                                      <svg
+                                        className="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="2"
+                                          d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                                        ></path>
+                                      </svg>
+                                      Tips
+                                    </h3>{" "}
+                                  </div>
+                                  <div className="space-y-6 text-[13px] text-[#A0AEC0] border-t border-gray-800 pt-6">
+                                    <p className="leading-relaxed">
+                                      {t(
+                                        "For the safety of your funds, our customer support team may contact you by phone to confirm your withdrawal",
+                                      )}
+                                    </p>
+                                    <p className="leading-relaxed">
+                                      {t(
+                                        "For the safety of your funds, our customer support team may contact you by phone to confirm your withdrawal",
+                                      )}
+                                    </p>
+                                  </div>
                                 </div>
-                                 <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-5/12 sm:p-5">
-                            <div className="mb-10">
-                              <div className="flex items-center gap-2 mb-6">
-                                <h3 className="text-primary font-medium flex items-center gap-2 mb-6 text-lg">
-                                  <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                                    ></path>
-                                  </svg>
-                                  Tips
-                                </h3>{" "}
-                              </div>
-                              <div className="space-y-6 text-[13px] text-[#A0AEC0] border-t border-gray-800 pt-6">
-                                <p className="leading-relaxed">
-                                  {t(
-                                    "For the safety of your funds, our customer support team may contact you by phone to confirm your withdrawal",
-                                  )}
-                                </p>
-                                <p className="leading-relaxed">
-                                  {t(
-                                    "For the safety of your funds, our customer support team may contact you by phone to confirm your withdrawal",
-                                  )}
-                                </p>
-                              </div>
-                            </div>
 
-                            <div className="mt-12">
-                              <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-primary font-medium flex items-center gap-2 text-lg">
-                                  <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    ></path>
-                                  </svg>
-                                  FAQs
-                                </h3>
-                                <Link
-                                  to="/faq"
-                                  className="text-gray-400 text-[13px] flex items-center hover:text-white transition-colors"
-                                >
-                                  {t("View more")}
-                                  <svg
-                                    className="w-4 h-4 ml-1"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M9 5l7 7-7 7"
-                                    ></path>
-                                  </svg>
-                                </Link>
+                                <div className="mt-12">
+                                  <div className="flex items-center justify-between mb-6">
+                                    <h3 className="text-primary font-medium flex items-center gap-2 text-lg">
+                                      <svg
+                                        className="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="2"
+                                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        ></path>
+                                      </svg>
+                                      FAQs
+                                    </h3>
+                                    <Link
+                                      to="/faq"
+                                      className="text-gray-400 text-[13px] flex items-center hover:text-white transition-colors"
+                                    >
+                                      {t("View more")}
+                                      <svg
+                                        className="w-4 h-4 ml-1"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="2"
+                                          d="M9 5l7 7-7 7"
+                                        ></path>
+                                      </svg>
+                                    </Link>
+                                  </div>
+                                  <div className="space-y-5 border-t border-gray-800 pt-6">
+                                    <Link
+                                      to="/faq"
+                                      className="flex items-start gap-4 text-[14px] text-[#A0AEC0] hover:text-white transition-colors group"
+                                    >
+                                      <svg
+                                        className="w-5 h-5 mt-0.5 text-gray-500 group-hover:text-gray-300 shrink-0"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="1.5"
+                                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20z"
+                                        ></path>
+                                      </svg>
+                                      <span>
+                                        {t("How to deposit on FalconX?")}
+                                      </span>
+                                    </Link>
+                                    <Link
+                                      to="/faq"
+                                      className="flex items-start gap-4 text-[14px] text-[#A0AEC0] hover:text-white transition-colors group"
+                                    >
+                                      <svg
+                                        className="w-5 h-5 mt-0.5 text-gray-500 group-hover:text-gray-300 shrink-0"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="1.5"
+                                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20z"
+                                        ></path>
+                                      </svg>
+                                      <span>
+                                        {t("What is a crypto network?")}
+                                      </span>
+                                    </Link>
+                                    <Link
+                                      to="/faq"
+                                      className="flex items-start gap-4 text-[14px] text-[#A0AEC0] hover:text-white transition-colors group"
+                                    >
+                                      <svg
+                                        className="w-5 h-5 mt-0.5 text-gray-500 group-hover:text-gray-300 shrink-0"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="1.5"
+                                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20z"
+                                        ></path>
+                                      </svg>
+                                      <span>
+                                        {t("What network should I use?")}
+                                      </span>
+                                    </Link>
+                                  </div>
+                                </div>
                               </div>
-                              <div className="space-y-5 border-t border-gray-800 pt-6">
-                                <Link
-                                  to="/faq"
-                                  className="flex items-start gap-4 text-[14px] text-[#A0AEC0] hover:text-white transition-colors group"
-                                >
-                                  <svg
-                                    className="w-5 h-5 mt-0.5 text-gray-500 group-hover:text-gray-300 shrink-0"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="1.5"
-                                      d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20z"
-                                    ></path>
-                                  </svg>
-                                  <span>{t("How to deposit on FalconX?")}</span>
-                                </Link>
-                                <Link
-                                  to="/faq"
-                                  className="flex items-start gap-4 text-[14px] text-[#A0AEC0] hover:text-white transition-colors group"
-                                >
-                                  <svg
-                                    className="w-5 h-5 mt-0.5 text-gray-500 group-hover:text-gray-300 shrink-0"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="1.5"
-                                      d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20z"
-                                    ></path>
-                                  </svg>
-                                  <span>{t("What is a crypto network?")}</span>
-                                </Link>
-                                <Link
-                                  to="/faq"
-                                  className="flex items-start gap-4 text-[14px] text-[#A0AEC0] hover:text-white transition-colors group"
-                                >
-                                  <svg
-                                    className="w-5 h-5 mt-0.5 text-gray-500 group-hover:text-gray-300 shrink-0"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="1.5"
-                                      d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20z"
-                                    ></path>
-                                  </svg>
-                                  <span>{t("What network should I use?")}</span>
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
 
                               {/* Step 2 */}
                               {/* <div className="relative">
@@ -886,228 +892,231 @@ const Dashboard = () => {
                                   </div>
                                 )}
                               </div> */}
-                            {/* </div> */}
+                              {/* </div> */}
+                            </div>
+
+                            {/* Right Side - Tips & FAQs */}
+                          </div>
+                        </div>
+
+                        {/* Last 4 Deposit Records Section */}
+                        <div className="mt-8 mb-10 w-full">
+                          <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-primary text-xl font-medium">
+                              {t("Last 4 Deposit Records")}
+                            </h2>
+                            <Link to="/depositHistory">
+                              <button className="bg-primary hover:bg-[#b58a23] text-black font-medium px-4 py-2 rounded transition-colors text-[13px] tracking-wide">
+                                {t("Deposit History")}
+                              </button>
+                            </Link>
                           </div>
 
-                          {/* Right Side - Tips & FAQs */}
-                          
-                        </div>
-                      </div>
-
-                      {/* Last 4 Deposit Records Section */}
-                      <div className="mt-8 mb-10 w-full">
-                        <div className="flex justify-between items-center mb-6">
-                          <h2 className="text-primary text-xl font-medium">
-                            {t("Last 4 Deposit Records")}
-                          </h2>
-                          <Link to="/depositHistory">
-                            <button className="bg-primary hover:bg-[#b58a23] text-black font-medium px-4 py-2 rounded transition-colors text-[13px] tracking-wide">
-                              {t("Deposit History")}
-                            </button>
-                          </Link>
-                        </div>
-
-                        <div className="bg-[#1e2329] rounded-lg overflow-hidden">
-                          <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
-                              <thead>
-                                <tr className="bg-[#242930] text-primary text-[13px]">
-                                  <th className="py-4 px-6 font-medium tracking-wide">
-                                    {t("Date/Time")}
-                                  </th>
-                                  <th className="py-4 px-6 font-medium tracking-wide">
-                                    {t("Coin")}
-                                  </th>
-                                  <th className="py-4 px-6 font-medium tracking-wide">
-                                    {t("Amount")}
-                                  </th>
-                                  <th className="py-4 px-6 font-medium tracking-wide">
-                                    {t("Blockchain Record")}
-                                  </th>
-                                  <th className="py-4 px-6 font-medium tracking-wide">
-                                    {t("Remarks")}
-                                  </th>
-                                  <th className="py-4 px-6 text-center font-medium tracking-wide">
-                                    {t("Action")}
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody className="text-sm">
-                                {historyLoader == false ? (
-                                  <>
-                                    {depositHistory &&
-                                    depositHistory.length > 0 ? (
-                                      depositHistory
-                                        .slice(0, 4)
-                                        .map((item, i) => {
-                                          return (
-                                            <tr
-                                              key={i}
-                                              className="border-b border-[#2b3139] hover:bg-[#2b3139] transition-colors"
-                                            >
-                                              <td className="py-4 px-6 text-gray-300">
-                                                {Moment(item.date).format(
-                                                  "DD/MM/YY - HH:mm:ss",
-                                                )}
-                                              </td>
-                                              <td className="py-4 px-6">
-                                                <div className="flex items-center gap-2">
-                                                  <span className="text-white font-bold text-base tracking-wide">
-                                                    {item.currencySymbol}
-                                                  </span>
-                                                  <span className="text-gray-500 text-xs mt-0.5">
-                                                    {item.currencySymbol ===
-                                                    "USDT"
-                                                      ? "Tether"
-                                                      : item.currencySymbol ===
-                                                          "BTC"
-                                                        ? "Bitcoin"
-                                                        : item.currencySymbol}
-                                                  </span>
-                                                </div>
-                                              </td>
-                                              <td className="py-4 px-6 text-gray-300">
-                                                {parseFloat(
-                                                  item.amount,
-                                                ).toFixed(4)}
-                                              </td>
-                                              <td className="py-4 px-6 text-gray-300 flex items-center gap-2">
-                                                <i
-                                                  className="ri-file-copy-line text-gray-400 hover:text-primary cursor-pointer transition-colors text-lg"
-                                                  onClick={() =>
-                                                    copy(item.txnid)
-                                                  }
-                                                  title="Copy TXN Id"
-                                                ></i>
-                                                {item.txnid.substring(0, 15)}...
-                                              </td>
-                                              <td className="py-4 px-6 text-gray-300">
-                                                -
-                                              </td>
-                                              <td className="py-4 px-6 text-center">
-                                                <Link to="/depositHistory">
-                                                  <button className="border border-[#3b4148] text-gray-300 text-[12px] px-3 py-1 rounded hover:text-white hover:border-gray-400 transition-colors bg-transparent w-[60px] h-[28px] leading-none">
-                                                    {t("Details")}
-                                                  </button>
-                                                </Link>
-                                              </td>
-                                            </tr>
-                                          );
-                                        })
-                                    ) : (
-                                      <tr>
-                                        <td
-                                          colSpan={6}
-                                          className="text-center py-10"
-                                        >
-                                          <div className="flex flex-col items-center justify-center">
-                                            <img
-                                              src={require("../assets/No-data.webp")}
-                                              width="100px"
-                                              alt="No data"
-                                            />
-                                            <div className="text-gray-400 mt-4 text-sm">
-                                              {t("noRecordsFound")}
-                                            </div>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    )}
-                                  </>
-                                ) : (
-                                  <tr>
-                                    <td
-                                      colSpan={6}
-                                      className="text-center py-10"
-                                    >
-                                      <div className="flex justify-center">
-                                        <Bars
-                                          height="40"
-                                          width="40"
-                                          color="#bd7f10"
-                                          ariaLabel="bars-loading"
-                                          visible={true}
-                                        />
-                                      </div>
-                                    </td>
+                          <div className="bg-[#1e2329] rounded-lg overflow-hidden">
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-left border-collapse">
+                                <thead>
+                                  <tr className="bg-[#242930] text-primary text-[13px]">
+                                    <th className="py-4 px-6 font-medium tracking-wide">
+                                      {t("Date/Time")}
+                                    </th>
+                                    <th className="py-4 px-6 font-medium tracking-wide">
+                                      {t("Coin")}
+                                    </th>
+                                    <th className="py-4 px-6 font-medium tracking-wide">
+                                      {t("Amount")}
+                                    </th>
+                                    <th className="py-4 px-6 font-medium tracking-wide">
+                                      {t("Blockchain Record")}
+                                    </th>
+                                    <th className="py-4 px-6 font-medium tracking-wide">
+                                      {t("Remarks")}
+                                    </th>
+                                    <th className="py-4 px-6 text-center font-medium tracking-wide">
+                                      {t("Action")}
+                                    </th>
                                   </tr>
-                                )}
-                              </tbody>
-                            </table>
+                                </thead>
+                                <tbody className="text-sm">
+                                  {historyLoader == false ? (
+                                    <>
+                                      {depositHistory &&
+                                      depositHistory.length > 0 ? (
+                                        depositHistory
+                                          .slice(0, 4)
+                                          .map((item, i) => {
+                                            return (
+                                              <tr
+                                                key={i}
+                                                className="border-b border-[#2b3139] hover:bg-[#2b3139] transition-colors"
+                                              >
+                                                <td className="py-4 px-6 text-gray-300">
+                                                  {Moment(item.date).format(
+                                                    "DD/MM/YY - HH:mm:ss",
+                                                  )}
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                  <div className="flex items-center gap-2">
+                                                    <span className="text-white font-bold text-base tracking-wide">
+                                                      {item.currencySymbol}
+                                                    </span>
+                                                    <span className="text-gray-500 text-xs mt-0.5">
+                                                      {item.currencySymbol ===
+                                                      "USDT"
+                                                        ? "Tether"
+                                                        : item.currencySymbol ===
+                                                            "BTC"
+                                                          ? "Bitcoin"
+                                                          : item.currencySymbol}
+                                                    </span>
+                                                  </div>
+                                                </td>
+                                                <td className="py-4 px-6 text-gray-300">
+                                                  {parseFloat(
+                                                    item.amount,
+                                                  ).toFixed(4)}
+                                                </td>
+                                                <td className="py-4 px-6 text-gray-300 flex items-center gap-2">
+                                                  <i
+                                                    className="ri-file-copy-line text-gray-400 hover:text-primary cursor-pointer transition-colors text-lg"
+                                                    onClick={() =>
+                                                      copy(item.txnid)
+                                                    }
+                                                    title="Copy TXN Id"
+                                                  ></i>
+                                                  {item.txnid.substring(0, 15)}
+                                                  ...
+                                                </td>
+                                                <td className="py-4 px-6 text-gray-300">
+                                                  -
+                                                </td>
+                                                <td className="py-4 px-6 text-center">
+                                                  <Link to="/depositHistory">
+                                                    <button className="border border-[#3b4148] text-gray-300 text-[12px] px-3 py-1 rounded hover:text-white hover:border-gray-400 transition-colors bg-transparent w-[60px] h-[28px] leading-none">
+                                                      {t("Details")}
+                                                    </button>
+                                                  </Link>
+                                                </td>
+                                              </tr>
+                                            );
+                                          })
+                                      ) : (
+                                        <tr>
+                                          <td
+                                            colSpan={6}
+                                            className="px-4 py-10 text-center text-sm text-white/60"
+                                          >
+                                            {/* <div className="flex flex-col items-center justify-center">
+                                              <img
+                                                src={require("../assets/No-data.webp")}
+                                                width="100px"
+                                                alt="No data"
+                                              />
+                                              <div className="text-gray-400 mt-4 text-sm"> */}
+                                                {t("noRecordsFound")}
+                                              {/* </div>
+                                            </div> */}
+                                          </td>
+                                        </tr>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <tr>
+                                      <td
+                                        colSpan={6}
+                                        className="text-center py-10"
+                                      >
+                                        <div className="flex justify-center">
+                                          <Bars
+                                            height="40"
+                                            width="40"
+                                            color="#bd7f10"
+                                            ariaLabel="bars-loading"
+                                            visible={true}
+                                          />
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                  </div>  </>
+                      </div>{" "}
+                    </>
                   ) : (
                     <>
-                      <div className="row ">
-                        <div className="p2p_title">{t("deposit")} </div>
+                      <div className="flex flex-col lg:flex-row gap-6 ">
+                        <div className="w-full lg:w-7/12 ">
+                          <div className="p2p_title">{t("deposit")} </div>
 
-                        <div className="col-lg-7">
-                          <div className="deposit mt-5 h-100">
-                            <div className="dep-kyc">
-                              <div className="dep-kyc-head">
+                          <div className="col-lg-7">
+                            <div className="deposit mt-5 h-100">
+                              <div className="dep-kyc">
+                                <div className="dep-kyc-head">
+                                  <img
+                                    src={ICON}
+                                    alt="warn-icon"
+                                    className="deposit-imp-icon"
+                                  />
+                                  <h6>{t("KYCVerificationRequired")}</h6>
+                                </div>
+                                <p>{t("completedtheKYCverification")}</p>
+                                <div>
+                                  <img
+                                    src={require("../assets/BeforeKyc.webp")}
+                                    alt="Verify kyc"
+                                    className="before_kyc_depo withdraw-p-l-24"
+                                  />
+                                </div>
+                                <p className="mt-4">{t("verifyyouraccount")}</p>
+                                <div className="withdraw-p-l-24">
+                                  <Link to="/kyc">
+                                    <button className="action_btn w-100 mb-2">
+                                      {t("verify_now")}
+                                    </button>
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* <div className="col-lg-5">
+                          <div> */}
+                        <div className="w-full lg:w-5/12">
+                          <div className="deposit-imp-notes mt-5">
+                            <div className="imp-notes-title">
+                              <span>
                                 <img
                                   src={ICON}
                                   alt="warn-icon"
                                   className="deposit-imp-icon"
                                 />
-                                <h6>{t("KYCVerificationRequired")}</h6>
-                              </div>
-                              <p>{t("completedtheKYCverification")}</p>
-                              <div>
-                                <img
-                                  src={require("../assets/BeforeKyc.webp")}
-                                  alt="Verify kyc"
-                                  className="before_kyc_depo withdraw-p-l-24"
-                                />
-                              </div>
-                              <p className="mt-4">{t("verifyyouraccount")}</p>
-                              <div className="withdraw-p-l-24">
-                                <Link to="/kyc">
-                                  <button className="action_btn w-100 mb-2">
-                                    {t("verify_now")}
-                                  </button>
-                                </Link>
-                              </div>
+                              </span>
+                              <p>{t("importantNotes")}</p>
+                            </div>
+                            <div className="imp-notes-content">
+                              <h6>{t("doublecheck")}</h6>
+                              <p>{t("ensurethedepositaddress")}</p>
+                            </div>
+                            <div className="imp-notes-content">
+                              <h6>{t("verifydepositamount")}</h6>
+                              <p>{t("confirthedeposit")}</p>
+                            </div>
+                            <div className="imp-notes-content">
+                              <h6>{t("security")}</h6>
+                              <p>{t("makesureyouraccount")}</p>
+                            </div>
+                            <div className="imp-notes-content">
+                              <h6>{t("networkcompatibility")}</h6>
+                              <p>{t("ensureyouaredepositing")}</p>
                             </div>
                           </div>
                         </div>
-
-                        <div className="col-lg-5">
-                          <div>
-                            <div className="container-lg">
-                              <div className="deposit-imp-notes mt-5">
-                                <div className="imp-notes-title">
-                                  <span>
-                                    <img
-                                      src={ICON}
-                                      alt="warn-icon"
-                                      className="deposit-imp-icon"
-                                    />
-                                  </span>
-                                  <p>{t("importantNotes")}</p>
-                                </div>
-                                <div className="imp-notes-content">
-                                  <h6>{t("doublecheck")}</h6>
-                                  <p>{t("ensurethedepositaddress")}</p>
-                                </div>
-                                <div className="imp-notes-content">
-                                  <h6>{t("verifydepositamount")}</h6>
-                                  <p>{t("confirthedeposit")}</p>
-                                </div>
-                                <div className="imp-notes-content">
-                                  <h6>{t("security")}</h6>
-                                  <p>{t("makesureyouraccount")}</p>
-                                </div>
-                                <div className="imp-notes-content">
-                                  <h6>{t("networkcompatibility")}</h6>
-                                  <p>{t("ensureyouaredepositing")}</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        {/* </div>
+                        </div> */}
                       </div>
                     </>
                   )}
