@@ -225,9 +225,9 @@ function App() {
   };
 
   function RequireAuth({ children }) {
-    // var data = sessionStorage.getItem("user_token");
-    // return data ? children : removeAuthToken();
-    return children; // Bypass authentication for development
+    var data = sessionStorage.getItem("user_token");
+    return data ? children : removeAuthToken();
+    // return children; // Bypass authentication for development
   }
 
   return (

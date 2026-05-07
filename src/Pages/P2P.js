@@ -367,19 +367,19 @@ const P2P = () => {
                   <div className="flex space-x-4">
                     <Link
                       to={loginStatus ? "/postad" : "/login"}
-                      className="post-ad-btn bg-[#BD7F10] text-white px-4 py-2 rounded-lg flex items-center"
+                      className="post-ad-btn bg-[#BD7F10] text-black px-4 py-2 rounded-lg flex items-center"
                     >
                       + Post Advertisement
                     </Link>
                     <Link
                       to={loginStatus ? "/Paymentmethod" : "/login"}
-                      className="post-ad-btn bg-[#BD7F10] text-white px-4 py-2 rounded-lg flex items-center"
+                      className="post-ad-btn bg-[#BD7F10] text-black px-4 py-2 rounded-lg flex items-center"
                     >
                       Payment Method
                     </Link>
                     <Link
                       to={loginStatus ? "/processorders" : "/login"}
-                      className="post-ad-btn bg-[#BD7F10] text-white px-4 py-2 rounded-lg flex items-center"
+                      className="post-black-btn bg-[#BD7F10] text-black px-4 py-2 rounded-lg flex items-center"
                     >
                       {t("orders")}
                     </Link>
@@ -417,7 +417,8 @@ const P2P = () => {
                       </div>
 
                       {/* Market Filters Card */}
-                      <div className="rounded-[28px] border border-white/5 bg-[linear-gradient(180deg,#141b2d_0%,#11182a_100%)] px-6 py-7 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+                      {/* <div className="rounded-[28px] border border-white/5 bg-[linear-gradient(180deg,#141b2d_0%,#11182a_100%)] px-6 py-7 shadow-[0_20px_60px_rgba(0,0,0,0.35)]"> */}
+                      <div className="rounded-[28px] border border-white/5 bg-[#181a20] px-6 py-7 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
                         <div className="mb-6 flex items-center gap-3">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -663,7 +664,8 @@ const P2P = () => {
                   </div>
 
                   <div className="col-lg-9 col-md-8 col-12">
-                    <div className="overflow-hidden rounded-[28px] border border-white/5 bg-[linear-gradient(180deg,#141b2d_0%,#11182a_100%)] shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+                    {/* <div className="overflow-hidden rounded-[28px] border border-white/5 bg-[linear-gradient(180deg,#141b2d_0%,#11182a_100%)] shadow-[0_20px_60px_rgba(0,0,0,0.35)]"> */}
+                    <div className="overflow-hidden rounded-[28px] border border-white/5 bg-[#181a20] shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
                       <div className="overflow-x-auto">
                         <table className="table-auto w-max min-w-full border-separate border-spacing-0">
                           <thead>
@@ -755,8 +757,8 @@ const P2P = () => {
                                           <button
                                             className={`inline-flex min-w-[120px] items-center justify-center rounded-xl px-4 py-2.5 text-sm font-bold transition ${
                                               orderType === "buy"
-                                                ? "bg-[#c98a11] text-white hover:bg-[#d79a1a]"
-                                                : "bg-[#d14b4b] text-white hover:bg-[#df5b5b]"
+                                                ? "bg-[#c98a11] text-black hover:bg-[#d79a1a]"
+                                                : "bg-[#d14b4b] text-black hover:bg-[#df5b5b]"
                                             }`}
                                             onClick={() =>
                                               handleClick(i, options)
@@ -770,7 +772,7 @@ const P2P = () => {
                                         )
                                       ) : (
                                         <button
-                                          className="inline-flex min-w-[96px] items-center justify-center rounded-xl bg-[#c98a11] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#d79a1a]"
+                                          className="inline-flex min-w-[96px] items-center justify-center rounded-xl bg-[#c98a11] px-4 py-2.5 text-sm font-bold text-black transition hover:bg-[#d79a1a]"
                                           onClick={() => navigate("/login")}
                                         >
                                           {t("login")}
@@ -786,7 +788,9 @@ const P2P = () => {
                                             <div className="space-y-4">
                                               <div className="flex items-start gap-4">
                                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#c98a11] text-base font-extrabold uppercase text-black">
-                                                  {options.displayname?.charAt(0)}
+                                                  {options.displayname?.charAt(
+                                                    0,
+                                                  )}
                                                 </div>
                                                 <div>
                                                   <h4 className="text-sm font-semibold text-white">
@@ -804,7 +808,8 @@ const P2P = () => {
                                                     {t("price")}
                                                   </div>
                                                   <div className="mt-2 text-lg font-semibold text-white">
-                                                    {options.price} {options.secondCurrency}
+                                                    {options.price}{" "}
+                                                    {options.secondCurrency}
                                                   </div>
                                                 </div>
 
@@ -822,7 +827,9 @@ const P2P = () => {
                                                     {t("limit")}
                                                   </div>
                                                   <div className="mt-2 text-lg font-semibold text-white">
-                                                    {options.fromLimit} - {options.toLimit} {options.firstCurrency}
+                                                    {options.fromLimit} -{" "}
+                                                    {options.toLimit}{" "}
+                                                    {options.firstCurrency}
                                                   </div>
                                                 </div>
 
@@ -831,7 +838,8 @@ const P2P = () => {
                                                     {t("available")}
                                                   </div>
                                                   <div className="mt-2 text-lg font-semibold text-white">
-                                                    {options.available_qty} {options.firstCurrency}
+                                                    {options.available_qty}{" "}
+                                                    {options.firstCurrency}
                                                   </div>
                                                 </div>
                                               </div>
@@ -841,24 +849,39 @@ const P2P = () => {
                                               <form className="space-y-5">
                                                 <div>
                                                   <label className="mb-3 block text-sm font-semibold text-white/70">
-                                                    {t("enterquantityto")} {orderType === "buy" ? t("buy") : t("sell")}
+                                                    {t("enterquantityto")}{" "}
+                                                    {orderType === "buy"
+                                                      ? t("buy")
+                                                      : t("sell")}
                                                   </label>
                                                   <div className="relative">
                                                     <input
                                                       type="text"
-                                                      placeholder={t("enterAmount")}
+                                                      placeholder={t(
+                                                        "enterAmount",
+                                                      )}
                                                       value={payAmount}
                                                       onChange={(e) => {
-                                                        const value = e.target.value;
+                                                        const value =
+                                                          e.target.value;
                                                         if (
                                                           value.length <= 30 &&
-                                                          /^[0-9]*\.?[0-9]*$/.test(value)
+                                                          /^[0-9]*\.?[0-9]*$/.test(
+                                                            value,
+                                                          )
                                                         ) {
-                                                          handlePayAmountChange(e);
+                                                          handlePayAmountChange(
+                                                            e,
+                                                          );
                                                         }
                                                       }}
                                                       onKeyDown={(evt) =>
-                                                        ["e", "E", "+", "-"].includes(evt.key) &&
+                                                        [
+                                                          "e",
+                                                          "E",
+                                                          "+",
+                                                          "-",
+                                                        ].includes(evt.key) &&
                                                         evt.preventDefault()
                                                       }
                                                       className="w-full rounded-2xl border border-white/10 bg-[#02060d] px-4 py-3 text-white outline-none focus:border-[#c98a11] focus:ring-2 focus:ring-[#c98a11]/20"
@@ -867,7 +890,11 @@ const P2P = () => {
                                                       {options.firstCurrency}
                                                     </span>
                                                   </div>
-                                                  {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+                                                  {error && (
+                                                    <p className="mt-2 text-sm text-red-500">
+                                                      {error}
+                                                    </p>
+                                                  )}
                                                 </div>
 
                                                 <div>
@@ -876,8 +903,13 @@ const P2P = () => {
                                                   </label>
                                                   <div className="rounded-2xl border border-white/10 bg-[#02060d] px-4 py-3 text-white">
                                                     <div className="flex items-center justify-between">
-                                                      <span>{receiveAmount || "0.00"}</span>
-                                                      <span className="text-xs uppercase text-white/70">{options.secondCurrency}</span>
+                                                      <span>
+                                                        {receiveAmount ||
+                                                          "0.00"}
+                                                      </span>
+                                                      <span className="text-xs uppercase text-white/70">
+                                                        {options.secondCurrency}
+                                                      </span>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -887,17 +919,21 @@ const P2P = () => {
                                                     {t("selectPaymentMethod")}
                                                   </label>
                                                   <Dropdown
-                                                    placeholder={t("choosePayMethod")}
+                                                    placeholder={t(
+                                                      "choosePayMethod",
+                                                    )}
                                                     fluid
                                                     selection
                                                     options={
-                                                      options.paymentMethod === "All Payment"
+                                                      options.paymentMethod ===
+                                                      "All Payment"
                                                         ? allpayment
                                                         : [
                                                             {
                                                               key: options.paymentMethod,
                                                               text: options.paymentMethod,
-                                                              value: options.paymentMethod,
+                                                              value:
+                                                                options.paymentMethod,
                                                             },
                                                           ]
                                                     }
@@ -930,7 +966,9 @@ const P2P = () => {
                                                         : "bg-[#d14b4b] hover:bg-[#df5b5b]"
                                                     }`}
                                                   >
-                                                    {orderType === "buy" ? t("buy") : t("sell")}
+                                                    {orderType === "buy"
+                                                      ? t("buy")
+                                                      : t("sell")}
                                                   </button>
                                                 </div>
                                               </form>

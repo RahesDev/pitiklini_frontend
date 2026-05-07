@@ -133,7 +133,7 @@ const MyHistoryTable = () => {
                     </button>
                   </div>
                 </div>
-                <div className="overflow-hidden rounded-[28px] border border-white/5 bg-[linear-gradient(180deg,#141b2d_0%,#11182a_100%)] shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+                <div className="overflow-hidden rounded-[28px] border border-white/5 bg-[#181a20] shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
                   <div className="overflow-x-auto">
                     <table className="table-auto w-max min-w-full border-separate border-spacing-0">
                       <thead>
