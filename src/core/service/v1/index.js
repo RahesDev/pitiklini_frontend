@@ -332,6 +332,8 @@ const service = {
   getVipDatas: "users/getVipDatas",
   getVipUserDetail: "users/getVipUserDetail",
   enableVipUser: "users/enableVipUser",
+
+  startFiatDeposit: "users/start-fiat-deposit",
 };
 
 export default service;

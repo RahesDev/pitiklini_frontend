@@ -188,24 +188,51 @@ const Checkout = () => {
   //   }
   // };
 
-    const handleFiatDeposit = (amount) => {
+    // const handleFiatDeposit = (amount) => {
+    //   if (!amount || amount <= 0) {
+    //     toast.error("Enter valid amount");
+    //     return;
+    //   }
+
+    //   const userId = depaIdref.current;
+    //   if (!userId) {
+    //     toast.error("User not found");
+    //     return;
+    //   }
+
+    //   const redirectUrl = encodeURIComponent("https://pitiklini.com/checkout");
+
+    //   const url = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=direct_card_payment&external_user_uuid=${userId}&amount=${amount}&redirect_url=${redirectUrl}`;
+
+    //   window.open(url, "_blank");
+  // };
+  
+  const handleFiatDeposit = async (amount) => {
+    try {
       if (!amount || amount <= 0) {
         toast.error("Enter valid amount");
         return;
       }
 
-      const userId = depaIdref.current;
-      if (!userId) {
-        toast.error("User not found");
+      const response = await postMethod({
+        apiUrl: apiService.startFiatDeposit,
+        payload: {
+          amount,
+        },
+      });
+
+      if (!response.status) {
+        toast.error(response.message);
         return;
       }
 
-      const redirectUrl = encodeURIComponent("https://pitiklini.com/checkout");
-
-      const url = `https://widget.sandbox.depa.finance/?partner=Pitiklini&scenario=direct_card_payment&external_user_uuid=${userId}&amount=${amount}&redirect_url=${redirectUrl}`;
-
-      window.open(url, "_blank");
-    };
+      // ✅ open depasify payment widget
+      window.open(response.url, "_blank");
+    } catch (err) {
+      // console.log(err);
+      toast.error("Something went wrong");
+    }
+  };
 
   const handleChange = async (e) => {
     e.preventDefault();

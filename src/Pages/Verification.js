@@ -31,14 +31,14 @@ export default function VerificationTesting() {
 
   const handleChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
-    if (value.length <= 6) {
+    if (value.length <= 4) {
       setOTP(value);
-      setotpError(value.length !== 6);
+      setotpError(value.length !== 4);
     }
   };
 
   const submit = async () => {
-    if (OTP.length !== 6) {
+    if (OTP.length !== 4) {
       setotpError(true);
       return;
     }
@@ -178,14 +178,14 @@ export default function VerificationTesting() {
                   ref={inputRef}
                   type="text"
                   inputMode="numeric"
-                  maxLength={6}
+                  maxLength={4}
                   pattern="[0-9]*"
                   value={OTP}
                   onChange={handleChange}
                   className="absolute inset-0 opacity-0"
                   aria-label={t("enterOTP") || "Enter OTP"}
                 />
-                {Array.from({ length: 6 }).map((_, idx) => (
+                {Array.from({ length: 4 }).map((_, idx) => (
                   <div
                     key={idx}
                     className={`flex h-16 w-16 items-center justify-center rounded-3xl border text-2xl font-semibold transition ${
@@ -201,7 +201,7 @@ export default function VerificationTesting() {
 
               {otpError && (
                 <p className="mt-4 text-center text-sm text-rose-400">
-                  {t("enteravalidOTP") || "Please enter the 6-digit code."}
+                  {t("enteravalidOTP") || "Please enter the 4-digit code."}
                 </p>
               )}
             </div>
