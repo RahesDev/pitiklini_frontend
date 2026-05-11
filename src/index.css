@@ -1063,6 +1063,69 @@ header.scrolled .MuiAppBar-colorPrimary {
   color: #fff !important;
 }
 
+.mobile-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  
+  padding: 0 16px 16px;
+}
+
+.mobile-sidebar-item {
+  width: 100%;
+  padding: 0;
+}
+
+.mobile-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 4px 10px;
+  border-radius: 14px;
+  color: #BD7F10 !important;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-sidebar-link span,
+.mobile-sidebar-link i {
+  color: #BD7F10 !important;
+}
+
+.mobile-sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.mobile-sidebar-toggle {
+  justify-content: space-between;
+}
+
+.mobile-sidebar-sublist {
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+}
+
+.mobile-sidebar-subitem-link {
+  padding-left: 44px;
+  color: #BD7F10 !important;
+}
+
+.mobile-sidebar-icon {
+  font-size: 20px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-sidebar-item .head-btn,
+.mobile-sidebar-item button.head-btn {
+  width: 100%;
+  justify-content: flex-start;
+}
+
 .Buycrypto_title {
   font-size: 24px;
   font-weight: 600;

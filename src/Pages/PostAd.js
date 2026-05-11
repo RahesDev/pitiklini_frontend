@@ -24,20 +24,20 @@ const PostAd = () => {
   const [paymentMethods,setpaymentMethods] = useState([]);
 
   let navigate = useNavigate();
-         usePageLeaveConfirm(
-           "Are you sure you want to leave P2P?",
-           "/postad",
-           true,
-           [
-             "/p2p/order/:id",
-             "/processorders",
-             "/p2p/chat/:id",
-             "/myorders",
-             "/p2p/dispute/:id",
-             "/p2p",
-             "/Paymentmethod",
-           ]
-         );
+        //  usePageLeaveConfirm(
+        //    "Are you sure you want to leave P2P?",
+        //    "/postad",
+        //    true,
+        //    [
+        //      "/p2p/order/:id",
+        //      "/processorders",
+        //      "/p2p/chat/:id",
+        //      "/myorders",
+        //      "/p2p/dispute/:id",
+        //      "/p2p",
+        //      "/Paymentmethod",
+        //    ]
+        //  );
 
   const [formData, setFormData, formDataref] = useState({
     cryptoCurrency: "",

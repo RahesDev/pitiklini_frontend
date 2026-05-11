@@ -10,7 +10,7 @@ const DashboardLayout = ({ children }) => (
     <main className="dashboard_main">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-2 padlef_0_col">
+          <div className="col-lg-2 padlef_0_col hidden lg:block">
             <Side_bar />
           </div>
           <div className="col-lg-10 padin_lefrig_dash">{children}</div>

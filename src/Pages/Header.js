@@ -67,20 +67,32 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     display: "block !important",
   },
-  mobileMenuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
-  },
   drawerIcon: {
     display: "none",
     [theme.breakpoints.down("sm")]: {
       display: "block",
     },
   },
+  mobileMenuButton: {
+    marginLeft: theme.spacing(1),
+    marginRight: "2px",
+    padding: theme.spacing(1),
+    color: "#BD7F10",
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
   drawer: {
     width: 300,
+    backgroundColor: "#17171a",
+    color: "#fff",
+  },
+  mobileMenu: {
+    minHeight: "100%",
+    width: "300px",
+    padding: theme.spacing(0),
+    backgroundColor: "#17171a",
+    color: "#fff",
   },
 }));
 
@@ -228,6 +240,7 @@ const Header = () => {
   };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDrawerHistoryOpen, setIsDrawerHistoryOpen] = useState(false);
 
   const classes = useStyles();
 
@@ -609,7 +622,7 @@ const Header = () => {
 
                     {/* Dropdown */}
                     {isDropdownOpen && (
-                      <div className="absolute right-0 mt-10 w-[220px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-5 z-50">
+                     <div className="absolute right-0 sm:right-0 left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 mt-10 w-[90vw] max-w-[220px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-5 z-50">
                         {/* Title */}
                         <p className="text-primary text-center text-lg font-semibold mb-5 font-ibm">
                           Languages
@@ -675,7 +688,7 @@ const Header = () => {
 
                       {/* Dropdown */}
                       {isNotifyOpen && (
-                        <div className="absolute right-0 mt-10 w-[320px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-5 z-50">
+                       <div className="absolute right-0 sm:right-0 left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 mt-10 w-[90vw] max-w-[320px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-5 z-50">
                           {/* Header */}
                           <div className="flex items-center justify-between mb-4">
                             <p className="text-secondary text-sm font-ibm">
@@ -754,7 +767,7 @@ const Header = () => {
 
                       {/* Dropdown */}
                       {isAssetOpen && (
-                        <div className="absolute right-0 mt-10 w-[220px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-4 z-50">
+                        <div className="absolute right-0 sm:right-0 left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 mt-10 w-[90vw] max-w-[220px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-4 z-50">
                           <div className="flex flex-col gap-3">
                             <Link to="/assets" className="nav-trade-links">
                               <div className="nav-trade-wrapper flex items-center gap-2">
@@ -829,7 +842,7 @@ const Header = () => {
 
                         {/* Dropdown (UNCHANGED CONTENT) */}
                         {isProfileOpen && (
-                          <div className="absolute right-0 mt-10 w-[300px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-4 z-50">
+                        <div className="absolute right-2 sm:right-0 mt-10 w-[90vw] sm:w-[300px] max-w-[300px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-4 z-50">
                             {/* <div className="frame-container"> */}
                             {/* user details */}
                             <div className="user-details">
@@ -1114,6 +1127,16 @@ const Header = () => {
                       onClick={handleMobileMenuOpen}
                     />
                   </IconButton> */}
+                  <IconButton
+                    edge="start"
+                    aria-label="menu"
+                    className={classes.mobileMenuButton}
+                    style={{ color: "#BD7F10" }}
+                    onClick={handleMobileMenuOpen}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+
                   <div
                     className={`flex justify-center rounded-[8px] px-4 ml-4 bg-primary text-black ${classes.appBarItems}`}
                   >
@@ -1355,7 +1378,7 @@ const Header = () => {
                 anchor="left"
                 open={mobileMenuOpen}
                 onClose={handleMobileMenuClose}
-                className={`mobile-drawer ${classes.drawer}`}
+                classes={{ paper: classes.drawer }}
               >
                 <div className={classes.mobileMenu}>
                   <div className="logo_new_sectio mobile_menu_icon">
@@ -1379,121 +1402,289 @@ const Header = () => {
                     </Link>
                   </div>
 
-                  <div className="menu_statis">
-                    <ListItem button className="drawa">
-                      <Link to="/trade/BTC_USDT">{t("trade")}</Link>
-                    </ListItem>
-                    <ListItem button className="drawa">
-                      <Link to="/market">{t("market")}</Link>
-                    </ListItem>
-                    <ListItem button className="drawa ">
-                      <Link to="/swap">{t("convert")}</Link>
-                    </ListItem>
-                    <ListItem button className="drawa">
-                      <Link to={isAuthenticated ? "/p2p" : "/login"}>
-                        {t("p2p")}
+                  <div className="menu_statis mobile-sidebar-list">
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/dashboard"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-home-line mobile-sidebar-icon"></i>
+                        <span>{t("dashboard")}</span>
                       </Link>
                     </ListItem>
-              {/* <ListItem button className="drawa">
-                      <Link to="/staking">Staking</Link>
-                    </ListItem> */}
-              {/* <ListItem button className="drawa">
-                      <Link to={isAuthenticated ? "/internaltransfer" : "/login"}>
-                        {t("internal_transfer")}
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/trade/BTC_USDT"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-price-tag-3-line mobile-sidebar-icon"></i>
+                        <span>{t("spot")}</span>
                       </Link>
-                    </ListItem> */}
-              {/* <ListItem button className="drawa ">
-                      <Link to="/internaltransfer">Internal Transfer</Link>
-                    </ListItem> 
-
-                    <ListItem button className="drawa ">
-                      <Link to="/refferal">Invite and Earn</Link>
                     </ListItem>
-
-                    <ListItem button className="drawa ">
-                      <Link to="/airdroptokens">Airdrop</Link>
-                    </ListItem>*/}
-              {!loginCheck ? (
-                      <>
-                        <ListItem button className="drawa ">
-                          <Link to="/login">
-                            <button className="head-btn px-4">
-                              {t("login")}
-                            </button>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/market"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-bar-chart-line mobile-sidebar-icon"></i>
+                        <span>{t("market")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/swap"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-repeat-line mobile-sidebar-icon"></i>
+                        <span>{t("convert")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to={isAuthenticated ? "/p2p" : "/login"}
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-hand-coin-line mobile-sidebar-icon"></i>
+                        <span>{t("p2p")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to={isAuthenticated ? "/internaltransfer" : "/login"}
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-switch-line mobile-sidebar-icon"></i>
+                        <span>{t("internal_transfer")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to={isAuthenticated ? "/fundtransfer" : "/login"}
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-bank-line mobile-sidebar-icon"></i>
+                        <span>{t("fundtranfer")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/recharge"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-flashlight-line mobile-sidebar-icon"></i>
+                        <span>{t("recharge")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/spotassets"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-wallet-3-line mobile-sidebar-icon"></i>
+                        <span>{t("asset")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/security"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-shield-check-line mobile-sidebar-icon"></i>
+                        <span>{t("security")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/fee-settings"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-settings-3-line mobile-sidebar-icon"></i>
+                        <span>{t("feeSettings")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/kyc"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-user-search-line mobile-sidebar-icon"></i>
+                        <span>{t("identification")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/withdraw"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-arrow-down-line mobile-sidebar-icon"></i>
+                        <span>{t("withdrawal")}</span>
+                      </Link>
+                    </ListItem>
+                    <ListItem
+                      button
+                      className="drawa mobile-sidebar-item"
+                      onClick={() => setIsDrawerHistoryOpen((prev) => !prev)}
+                    >
+                      <div className="mobile-sidebar-link mobile-sidebar-toggle">
+                        <i className="ri-history-line mobile-sidebar-icon"></i>
+                        <span>{t("history")}</span>
+                        <i
+                          className={`ri-arrow-${isDrawerHistoryOpen ? "up" : "down"}-s-line ml-auto`}
+                          style={{ fontSize: "18px" }}
+                        ></i>
+                      </div>
+                    </ListItem>
+                    {isDrawerHistoryOpen && (
+                      <div className="mobile-sidebar-sublist">
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/loginHistory"
+                            className="mobile-sidebar-link mobile-sidebar-subitem-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-login-box-line mobile-sidebar-icon"></i>
+                            <span>{t("loginHistory", "Login History")}</span>
                           </Link>
                         </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/register">
-                            <button className="head-btn">
-                              {t("register")}
-                            </button>
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/depositHistory"
+                            className="mobile-sidebar-link mobile-sidebar-subitem-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-wallet-line mobile-sidebar-icon"></i>
+                            <span>{t("depositHistory", "Deposit History")}</span>
                           </Link>
                         </ListItem>
-                      </>
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/withdrawHistory"
+                            className="mobile-sidebar-link mobile-sidebar-subitem-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-arrow-down-line mobile-sidebar-icon"></i>
+                            <span>{t("withdrawHistory", "Withdraw History")}</span>
+                          </Link>
+                        </ListItem>
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/internaltransferhistory"
+                            className="mobile-sidebar-link mobile-sidebar-subitem-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-switch-line mobile-sidebar-icon"></i>
+                            <span>{t("internal_transfer_history", "Internal Transfer History")}</span>
+                          </Link>
+                        </ListItem>
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/swapHistory"
+                            className="mobile-sidebar-link mobile-sidebar-subitem-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-repeat-line mobile-sidebar-icon"></i>
+                            <span>{t("swapHistory", "Swap History")}</span>
+                          </Link>
+                        </ListItem>
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/orderHistory"
+                            className="mobile-sidebar-link mobile-sidebar-subitem-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-file-list-line mobile-sidebar-icon"></i>
+                            <span>{t("orderHistory", "Order History")}</span>
+                          </Link>
+                        </ListItem>
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/cancelorderHistory"
+                            className="mobile-sidebar-link mobile-sidebar-subitem-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-close-circle-line mobile-sidebar-icon"></i>
+                            <span>{t("cancelorderHistory", "Cancel Order History")}</span>
+                          </Link>
+                        </ListItem>
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/tradeHistory"
+                            className="mobile-sidebar-link mobile-sidebar-subitem-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-line-chart-line mobile-sidebar-icon"></i>
+                            <span>{t("tradeHistory", "Trade History")}</span>
+                          </Link>
+                        </ListItem>
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/NotificationHistory"
+                            className="mobile-sidebar-link mobile-sidebar-subitem-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-notification-line mobile-sidebar-icon"></i>
+                            <span>{t("notificationHistory", "Notification History")}</span>
+                          </Link>
+                        </ListItem>
+                      </div>
+                    )}
+                    <ListItem button className="drawa mobile-sidebar-item">
+                      <Link
+                        to="/support"
+                        className="mobile-sidebar-link"
+                        onClick={handleMobileMenuClose}
+                      >
+                        <i className="ri-question-line mobile-sidebar-icon"></i>
+                        <span>{t("support")}</span>
+                      </Link>
+                    </ListItem>
+                    {loginCheck ? (
+                      <ListItem button className="drawa mobile-sidebar-item">
+                        <div
+                          className="mobile-sidebar-link"
+                          onClick={() => {
+                            handleMobileMenuClose();
+                            logout();
+                          }}
+                        >
+                          <i className="ri-logout-box-r-line mobile-sidebar-icon"></i>
+                          <span>{t("logout")}</span>
+                        </div>
+                      </ListItem>
                     ) : (
                       <>
-                        <ListItem button className="drawa ">
-                          <Link to="/dashboard">{t("dashboard")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/assets">{t("assets")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/spotassets">{t("spotAssets")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/fundingassets">{t("fundingAssets")}</Link>
-                        </ListItem>
-
-                        <ListItem button className="drawa ">
-                          <Link to="/security">{t("security")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/kyc">{t("identification")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/Checkout">{t("fiat_deposit")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/withdraw">{t("withdrawal")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/deposit">{t("deposit")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/internaltransfer">
-                            {t("internal_transfer")}
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/login"
+                            className="mobile-sidebar-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-login-box-line mobile-sidebar-icon"></i>
+                            <span>{t("login")}</span>
                           </Link>
                         </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/fundtransfer">{t("fundtranfer")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/recharge">{t("recharge")}</Link>
-                        </ListItem>
-              {/* <ListItem button className="drawa ">
-                          <Link to="/rewards">My rewards</Link>
-                        </ListItem> */}
-               <ListItem button className="drawa ">
-                          <Link to="/loginHistory">{t("histories")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <Link to="/support">{t("support")}</Link>
-                        </ListItem>
-                        <ListItem button className="drawa ">
-                          <div className="bor_rep_lgot">
-                            <div
-                              className="btn-wrapper security-link cursor-pointer"
-                              onClick={logout}
-                            >
-                              <span className="user-btn">{t("logout")}</span>
-                              <img
-                                src={require("../assets/icons/logout.webp")}
-                                alt="logoutimg"
-                                className="logout-img"
-                              />
-                            </div>
-                          </div>
+                        <ListItem button className="drawa mobile-sidebar-item">
+                          <Link
+                            to="/register"
+                            className="mobile-sidebar-link"
+                            onClick={handleMobileMenuClose}
+                          >
+                            <i className="ri-user-add-line mobile-sidebar-icon"></i>
+                            <span>{t("signup")}</span>
+                          </Link>
                         </ListItem>
                       </>
                     )}

@@ -20,21 +20,21 @@ const ProcessOrderTable = () => {
   const [notifyCurrentPage, setnotifyCurrentPage, notifyCurrentPageref] =
     useState(1); // Start with page 1
   const [notifytotalpage, Setnotifytotalpage, notifytotalpageref] = useState(0);
-  usePageLeaveConfirm(
-    "Are you sure you want to leave P2P?",
-    "/processorders",
-    true,
-    [
-      "/p2p/order/:id",
-      "/p2p",
-      "/p2p/chat/:id",
-      "/myorders",
-      "/myhistory",
-      "/p2p/dispute/:id",
-      "/postad",
-      "/Paymentmethod",
-    ],
-  );
+  // usePageLeaveConfirm(
+  //   "Are you sure you want to leave P2P?",
+  //   "/processorders",
+  //   true,
+  //   [
+  //     "/p2p/order/:id",
+  //     "/p2p",
+  //     "/p2p/chat/:id",
+  //     "/myorders",
+  //     "/myhistory",
+  //     "/p2p/dispute/:id",
+  //     "/postad",
+  //     "/Paymentmethod",
+  //   ],
+  // );
 
   useEffect(() => {
     notify(notifyCurrentPage);

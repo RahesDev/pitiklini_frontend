@@ -617,7 +617,7 @@ const Dashboard = () => {
                     </div> */}
                   </div>
 
-                  <div className="row pad-y-40">
+                  <div className="row newchange_rcky pad-y-40">
                     <div className="col-lg-6">
                       <div className="secuirty_box p-0 border_none">
                         <div className="secuirty_box_title">

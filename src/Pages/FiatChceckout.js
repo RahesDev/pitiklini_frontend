@@ -207,7 +207,7 @@ const Checkout = () => {
     //   window.open(url, "_blank");
   // };
   
-  const handleFiatDeposit = async (amount) => {
+    const handleFiatDeposit = async (amount) => {
     try {
       if (!amount || amount <= 0) {
         toast.error("Enter valid amount");

@@ -56,12 +56,12 @@ const Dashboard = () => {
   const [counter, setCounter] = useState(120);
 
   // usePageLeaveConfirm();
-  usePageLeaveConfirm(
-    "Are you sure you want to leave Withdrawal?",
-    "/withdraw",
-    true,
-    [],
-  );
+  // usePageLeaveConfirm(
+  //   "Are you sure you want to leave Withdrawal?",
+  //   "/withdraw",
+  //   true,
+  //   [],
+  // );
 
   useEffect(() => {
     if (counter > 0) {

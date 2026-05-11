@@ -46,15 +46,15 @@ const P2P = () => {
   const canGoNext =
     cryptoStartIndex + visibleCryptoCount < cryptoCurrencies.length;
 
-  usePageLeaveConfirm("Are you sure you want to leave P2P?", "/p2p", true, [
-    "/p2p/order/:id",
-    "/processorders",
-    "/p2p/chat/:id",
-    "/myorders",
-    "/p2p/dispute/:id",
-    "/postad",
-    "/Paymentmethod",
-  ]);
+  // usePageLeaveConfirm("Are you sure you want to leave P2P?", "/p2p", true, [
+  //   "/p2p/order/:id",
+  //   "/processorders",
+  //   "/p2p/chat/:id",
+  //   "/myorders",
+  //   "/p2p/dispute/:id",
+  //   "/postad",
+  //   "/Paymentmethod",
+  // ]);
 
   const allpayment = [
     { key: "imps", text: "IMPS", value: "IMPS" },
