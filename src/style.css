@@ -1598,7 +1598,7 @@ input:checked + .toggle-notification::before {
 }
 
 .set-phone-no {
-  color: #111827;
+color: #111827;
 }
 
 /* P2P styles */
@@ -1614,6 +1614,12 @@ input:checked + .toggle-notification::before {
   border-bottom: solid 1px #2b3139;
   display: flex;
   justify-content: space-between;
+}
+.p2p_title.rcky_ttl {
+  color: #fff;
+  margin-top: 18px;
+  margin-left: 12px;
+  padding-bottom: 18px;
 }
 
 .p2p-flex-title {
@@ -4242,6 +4248,9 @@ input[type="file"] {
   /* .down_bott_man {
     width: 126px;
   } */
+   .asset_section.fund_res {
+  margin-top: 80px;
+}
 }
 
 @media (max-width: 400px) {

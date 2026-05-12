@@ -3731,6 +3731,12 @@ input[type="number"]::-webkit-inner-spin-button {
   display: flex;
   flex-wrap: wrap !important;
 }
+.sumbit_btn.fundtrans_nwbtn {
+  padding-left: 24px;
+}
+.sumbit_btn.fundtrans_nwbtn button {
+  width: 100%;
+}
 
 /* Media Queries */
 

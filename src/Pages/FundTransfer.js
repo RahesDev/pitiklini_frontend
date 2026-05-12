@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { Bars } from "react-loader-spinner";
 import Moment from "moment";
 import { useTranslation } from "react-i18next";
+import DashboardLayout from "./DashboardLayout";
 
 function FundTransfer() {
   const { t } = useTranslation();
@@ -279,10 +280,10 @@ function FundTransfer() {
   };
 
   return (
-    <>
-      <section>
+    <DashboardLayout>
+      {/* <section>
         <Header />
-      </section>
+      </section> */}
       {siteLoader == true ? (
         <div className="loadercss">
           <Bars
@@ -297,225 +298,222 @@ function FundTransfer() {
         </div>
       ) : (
         // <main className="dashboard_main">
-        <main className="dashboard_main_exp">
-          <div className="container-fluid">
+        // <main className="dashboard_main_exp">
+        //   <div className="container-fluid">
+        //     <div className="row">
+        //       {/* <div className="col-lg-2 padlef_0_col">
+        //         <Side_bar />
+        //       </div> */}
+        //       <div className="col-lg-10 padin_lefrig_dash">
+        <section className="w-full asset_section fund_res">
+          <div className="bg-black rounded-xl p-4 mt-5">
+            <div className="p2p_title rcky_ttl">{t("fundtranfer")}</div>
             <div className="row">
-              <div className="col-lg-2 padlef_0_col">
-                <Side_bar />
-              </div>
-              <div className="col-lg-10 padin_lefrig_dash">
-                <section className="asset_section">
-                  <div className="row">
-                    <div className="p2p_title">{t("fundtranfer")}</div>
-                    <div className="col-lg-7">
-                      <div className="balance mt-5 px-1 mb-1">
-                        {" "}
-                        <span>
-                          <b>{t("balance")}</b> :{" "}
-                          {balanceref.current.balance
-                            ? balanceref.current.balance.toFixed(6)
-                            : "0.0"}
-                        </span>
-                      </div>
-                      <div className="deposit mt-2">
-                        <div className="form_div">
-                          <div className="sides">
-                            <div className="w-100 rights">
-                              <h6>{t("selectacoin")}</h6>
-                              <Dropdown
-                                placeholder={t("selectacoin")}
-                                fluid
-                                className="dep-drops"
-                                selection
-                                options={allCurrencyref.current}
-                                onChange={(e, data) => {
-                                  const selectedOption =
-                                    allCurrencyref.current.find(
-                                      (option) => option.value === data.value
-                                    );
-                                  onSelect(selectedOption);
-                                }}
-                                isSearchable={true}
-                              />
-                              {withdrawcurrencyValidate == true ? (
-                                <span className="errorcss">
-                                  {" "}
-                                  {validationnErr.withdrawcurrency}{" "}
-                                </span>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="form_div mar-bot-nwfndtra boder-none ">
-                          <h6>{t("email")}</h6>
-                          <input
-                            type="text"
-                            name="email"
-                            value={email}
-                            className="dep-drops"
-                            maxLength="250"
-                            onChange={(e) => {
-                              const { value } = e.target;
-                              const sanitizedValue = value.replace(/\s/g, "");
-                              setFormValue((prev) => ({
-                                ...prev,
-                                email: sanitizedValue,
-                              }));
-
-                              if (!sanitizedValue) {
-                                setvalidationnErr((prev) => ({
-                                  ...prev,
-                                  email: t("emailIsRequiredField"),
-                                }));
-                              } else if (
-                                !/^[a-zA-Z0-9.]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(
-                                  sanitizedValue
-                                )
-                              ) {
-                                setvalidationnErr((prev) => ({
-                                  ...prev,
-                                  email: t("invalidEmailAddress"),
-                                }));
-                              } else {
-                                setvalidationnErr((prev) => {
-                                  const { email, ...rest } = prev;
-                                  return rest;
-                                });
-                              }
-                            }}
-                            placeholder={t("pleaseEnterdestEmailAddress")}
-                          />
-                          {emailValidate == true ? (
-                            <span className="errorcss mt-0">
-                              {validationnErr.email}{" "}
-                            </span>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div className="form_div mar-bot-nwfndtra boder-none mt-4">
-                          <h6>{t("amount")}</h6>
-                          <input
-                            type="text"
-                            pattern="[0-9]*"
-                            maxLength={8}
-                            onKeyDown={(evt) => {
-                              if (
-                                !(
-                                  (
-                                    (evt.key >= "0" && evt.key <= "9") || // Allow number keys
-                                    evt.key === "." || // Allow decimal point
-                                    evt.key === "Backspace" || // Allow backspace
-                                    evt.key === "Delete" || // Allow delete
-                                    evt.key === "ArrowLeft" || // Allow left arrow key
-                                    evt.key === "ArrowRight" || // Allow right arrow key
-                                    evt.key === "Tab"
-                                  ) // Allow tab key
-                                )
-                              ) {
-                                evt.preventDefault();
-                              }
-                            }}
-                            autoComplete="off"
-                            name="amount"
-                            value={amount}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              if (value >= 0) {
-                                handleChange(e);
-                              }
-                            }}
-                            onInput={(evt) => {
-                              if (evt.target.value.split(".").length > 2) {
-                                evt.target.value = evt.target.value.slice(
-                                  0,
-                                  -1
-                                );
-                              }
-                            }}
-                            placeholder={t("Entertheamount")}
-                            fluid
-                            className="dep-drops"
-                          />
-                          {amountValidate == true ? (
-                            <span className="errorcss mt-0">
-                              {validationnErr.amount}{" "}
-                            </span>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div className="form_div mar-bot-nwfndtra boder-none mt-4">
-                          <h6>{t("2FAVerificationCode")}</h6>
-                          <input
-                            type="text"
-                            autoComplete="off"
-                            maxLength={6}
-                            name="tfa"
-                            autocomplete="off"
-                            value={tfa}
-                            placeholder={t("Enter2FACode")}
-                            onKeyDown={(e) => {
-                              if (
-                                ["e", "E", "+", "-", "."].includes(e.key) // Prevent non-numeric characters
-                              ) {
-                                e.preventDefault();
-                              }
-                            }}
-                            onInput={(e) => {
-                              e.target.value = e.target.value.replace(
-                                /[^0-9]/g,
-                                ""
-                              ); // Allows only numbers
-                            }}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              if (value >= 0 && value.length <= 6) {
-                                const formData = {
-                                  ...formValue,
-                                  [e.target.name]: value,
-                                };
-                                setFormValue(formData);
-                                validate_preview(formData);
-                              }
-                            }}
-                            className="dep-drops"
-                          />
-                          {tfaValidate === true && (
-                            <span className="errorcss mt-0">
-                              {validationnErr.tfa}
-                            </span>
-                          )}
-                        </div>
-                        {buttonLoader == false ? (
-                          <div className="sumbit_btn">
-                            {sessionStorage.getItem("tfa_status") == 0 ? (
-                              <button onClick={() => navigate("/enabletfa")}>
-                                {t("Enable2FA")}
-                              </button>
-                            ) : (
-                              <button onClick={() => fundSubmit()}>
-                                {t("submit")}
-                              </button>
-                            )}
-                          </div>
+              {/* <div className="p2p_title">{t("fundtranfer")}</div> */}
+              <div className="col-lg-7">
+                {/* <div className="p2p_title rcky_ttl">{t("fundtranfer")}</div> */}
+                <div className="balance mt-5 px-1 mb-1">
+                  {" "}
+                  <span>
+                    <b>{t("balance")}</b> :{" "}
+                    {balanceref.current.balance
+                      ? balanceref.current.balance.toFixed(6)
+                      : "0.0"}
+                  </span>
+                </div>
+                <div className="deposit mt-2">
+                  <div className="form_div">
+                    <div className="sides">
+                      <div className="w-100 rights">
+                        <h6>{t("selectacoin")}</h6>
+                        <Dropdown
+                          placeholder={t("selectacoin")}
+                          fluid
+                          className="dep-drops"
+                          selection
+                          options={allCurrencyref.current}
+                          onChange={(e, data) => {
+                            const selectedOption = allCurrencyref.current.find(
+                              (option) => option.value === data.value,
+                            );
+                            onSelect(selectedOption);
+                          }}
+                          isSearchable={true}
+                        />
+                        {withdrawcurrencyValidate == true ? (
+                          <span className="errorcss">
+                            {" "}
+                            {validationnErr.withdrawcurrency}{" "}
+                          </span>
                         ) : (
-                          <div className="sumbit_btn">
-                            <button> {t("Loading")}...</button>
-                          </div>
+                          ""
                         )}
                       </div>
                     </div>
                   </div>
-                </section>
+                  <div className="form_div mar-bot-nwfndtra boder-none ">
+                    <h6>{t("Email")}</h6>
+                    <input
+                      type="text"
+                      name="email"
+                      value={email}
+                      className="dep-drops"
+                      maxLength="250"
+                      onChange={(e) => {
+                        const { value } = e.target;
+                        const sanitizedValue = value.replace(/\s/g, "");
+                        setFormValue((prev) => ({
+                          ...prev,
+                          email: sanitizedValue,
+                        }));
+
+                        if (!sanitizedValue) {
+                          setvalidationnErr((prev) => ({
+                            ...prev,
+                            email: t("emailIsRequiredField"),
+                          }));
+                        } else if (
+                          !/^[a-zA-Z0-9.]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(
+                            sanitizedValue,
+                          )
+                        ) {
+                          setvalidationnErr((prev) => ({
+                            ...prev,
+                            email: t("invalidEmailAddress"),
+                          }));
+                        } else {
+                          setvalidationnErr((prev) => {
+                            const { email, ...rest } = prev;
+                            return rest;
+                          });
+                        }
+                      }}
+                      placeholder={t("pleaseEnterdestEmailAddress")}
+                    />
+                    {emailValidate == true ? (
+                      <span className="errorcss mt-0">
+                        {validationnErr.email}{" "}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="form_div mar-bot-nwfndtra boder-none mt-4">
+                    <h6>{t("amount")}</h6>
+                    <input
+                      type="text"
+                      pattern="[0-9]*"
+                      maxLength={8}
+                      onKeyDown={(evt) => {
+                        if (
+                          !(
+                            (
+                              (evt.key >= "0" && evt.key <= "9") || // Allow number keys
+                              evt.key === "." || // Allow decimal point
+                              evt.key === "Backspace" || // Allow backspace
+                              evt.key === "Delete" || // Allow delete
+                              evt.key === "ArrowLeft" || // Allow left arrow key
+                              evt.key === "ArrowRight" || // Allow right arrow key
+                              evt.key === "Tab"
+                            ) // Allow tab key
+                          )
+                        ) {
+                          evt.preventDefault();
+                        }
+                      }}
+                      autoComplete="off"
+                      name="amount"
+                      value={amount}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value >= 0) {
+                          handleChange(e);
+                        }
+                      }}
+                      onInput={(evt) => {
+                        if (evt.target.value.split(".").length > 2) {
+                          evt.target.value = evt.target.value.slice(0, -1);
+                        }
+                      }}
+                      placeholder={t("Entertheamount")}
+                      fluid
+                      className="dep-drops"
+                    />
+                    {amountValidate == true ? (
+                      <span className="errorcss mt-0">
+                        {validationnErr.amount}{" "}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="form_div mar-bot-nwfndtra boder-none mt-4">
+                    <h6>{t("2FAVerificationCode")}</h6>
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      maxLength={6}
+                      name="tfa"
+                      autocomplete="off"
+                      value={tfa}
+                      placeholder={t("Enter2FACode")}
+                      onKeyDown={(e) => {
+                        if (
+                          ["e", "E", "+", "-", "."].includes(e.key) // Prevent non-numeric characters
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
+                      onInput={(e) => {
+                        e.target.value = e.target.value.replace(/[^0-9]/g, ""); // Allows only numbers
+                      }}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value >= 0 && value.length <= 6) {
+                          const formData = {
+                            ...formValue,
+                            [e.target.name]: value,
+                          };
+                          setFormValue(formData);
+                          validate_preview(formData);
+                        }
+                      }}
+                      className="dep-drops"
+                    />
+                    {tfaValidate === true && (
+                      <span className="errorcss mt-0">
+                        {validationnErr.tfa}
+                      </span>
+                    )}
+                  </div>
+                  {buttonLoader == false ? (
+                    <div className="sumbit_btn fundtrans_nwbtn">
+                      {sessionStorage.getItem("tfa_status") == 0 ? (
+                        <button onClick={() => navigate("/enabletfa")}>
+                          {t("Enable2FA")}
+                        </button>
+                      ) : (
+                        <button onClick={() => fundSubmit()}>
+                          {t("submit")}
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="sumbit_btn">
+                      <button> {t("Loading")}...</button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </main>
+        </section>
+        //       </div>
+        //     </div>
+        //   </div>
+        // </main>
       )}
-    </>
+    </DashboardLayout>
   );
 }
 
