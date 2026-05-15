@@ -957,7 +957,8 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseOne"
-                                  class="accordion-collapse collapse"
+                                  // class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingOne"
                                   data-bs-parent="#accordionFlushExample"
                                 >
@@ -984,7 +985,7 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseTwo"
-                                  class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingTwo"
                                   data-bs-parent="#accordionFlushExample"
                                 >
@@ -1011,7 +1012,7 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseThree"
-                                  class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingThree"
                                   data-bs-parent="#accordionFlushExample"
                                 >
@@ -1038,7 +1039,7 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseFour"
-                                  class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingFour"
                                   data-bs-parent="#accordionFlushExample"
                                 >
@@ -1065,7 +1066,7 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseFive"
-                                  class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingFive"
                                   data-bs-parent="#accordionFlushExample"
                                 >

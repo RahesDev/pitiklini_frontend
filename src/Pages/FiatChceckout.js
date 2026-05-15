@@ -1636,9 +1636,9 @@ const Checkout = () => {
                                     <tr>
                                       <td
                                         colSpan={5}
-                                        className="text-center py-5"
+                                        className="px-4 py-10 text-center text-sm text-white/60"
                                       >
-                                        <div className="empty_data">
+                                        {/* <div className="empty_data">
                                           <div className="empty_data_img">
                                             <img
                                               src={require("../assets/No-data.webp")}
@@ -1646,10 +1646,10 @@ const Checkout = () => {
                                               alt=""
                                             />
                                           </div>
-                                          <div className="no_records_text">
-                                            {t("noRecordsFound")}
-                                          </div>
-                                        </div>
+                                          <div className="no_records_text"> */}
+                                        {t("noRecordsFound")}
+                                        {/* </div>
+                                        </div> */}
                                       </td>
                                     </tr>
                                   )}

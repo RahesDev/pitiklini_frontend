@@ -342,11 +342,11 @@ export default function Landing() {
           <Header />
         </section>
 
-        <section className="fidex_hero_section">
+        <section className="fidex_hero_section max-sm:!pt-28 sm:!pt-[110px]">
           <div className="container">
-            <div className="row">
-              <div className="hero_section_content mt-20 w-full">
-                <h1 className="text-secondary text-center text-[48px] mx-auto max-w-[750px]">
+            <div className="row max-sm:!mt-2">
+              <div className="hero_section_content mt-20 w-full max-sm:mt-4">
+                <h1 className="text-secondary mx-auto max-w-[750px] px-3 text-center text-[28px] font-bold leading-tight sm:text-4xl sm:leading-snug md:px-0 md:text-[48px]">
                   {t("welcome_to")}
                   <span
                     className={`crypto-span mar-lft text-primary ${
@@ -358,25 +358,21 @@ export default function Landing() {
                     {t("pitiklini")}
                   </span>
                 </h1>
-                <p className="text-secondary text-[24px] mb-12 text-center">
+                <p className="text-secondary mb-8 px-3 text-center text-base sm:mb-10 sm:text-xl md:mb-12 md:px-0 md:text-[24px]">
                   {t("seize_the_moment")}
                 </p>
-                <div className="flex w-full gap-4 justify-center mx-auto">
-                  <div className="flex gap-2 justify-start max-w-[300px] bg-gray rounded-[8px] py-4 px-8">
-                    <img src={Email} className="self-center" />
-                    <p className="text-primary self-center w-[320px] mb-0">
+                <div className="mx-auto flex w-full max-w-2xl flex-col items-stretch justify-center gap-3 px-3 sm:flex-row sm:items-center sm:gap-4 md:max-w-none md:px-0">
+                  <div className="flex min-w-0 flex-1 gap-2 rounded-[8px] bg-gray py-3 pl-4 pr-3 sm:max-w-[300px] sm:py-4 sm:pl-8 sm:pr-8">
+                    <img src={Email} className="h-5 w-5 shrink-0 self-center" alt="" />
+                    <p className="mb-0 min-w-0 flex-1 self-center break-words text-primary">
                       {t("email_label")}{" "}
                     </p>
-                    {/* <span className="text-primary self-center w-fit">/</span>
-                    <p className="text-primary self-center w-fit">
-                      {t("phone_label")}{" "}
-                    </p> */}
                   </div>
                   <Link
                     to="/register"
-                    className="flex bg-primary px-5 py-4 rounded-[8px]"
+                    className="flex w-full shrink-0 items-center justify-center rounded-[8px] bg-primary px-5 py-3 transition-opacity hover:opacity-90 sm:w-auto sm:py-4"
                   >
-                    <p className="text-black underline self-center w-fit mb-0 capitalize">
+                    <p className="mb-0 w-fit self-center capitalize text-black underline">
                       {t("signin")}{" "}
                     </p>
                   </Link>
@@ -385,7 +381,7 @@ export default function Landing() {
             </div>
           </div>
         </section>
-        <div className=" w-full flex justify-center gap-[120px] mt-6">
+        <div className="mt-6 flex w-full flex-wrap justify-center gap-8 px-3 sm:gap-10 md:gap-16 lg:gap-[120px]">
           <div className="flex flex-col justify-center ">
             <p className="text-primary text-[40px] mb-0 font-bold">
               17+<span className="text-[20px]">M</span>

@@ -218,18 +218,18 @@ const Dashboard = () => {
             searchSymbol: data[i].currencySymbol,
             searchName: data[i].currencyName,
             text: (
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 max-w-full items-center gap-2 sm:gap-3">
                 <img
                   src={data[i].Currency_image}
-                  className="w-[30px] h-[30px] rounded-full object-cover"
+                  className="h-[26px] w-[26px] shrink-0 rounded-full object-cover sm:h-[30px] sm:w-[30px]"
                   alt="coin"
                 />
-                <div className="flex items-baseline gap-2">
-                  <span className="text-white text-lg tracking-wide">
+                <div className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                  <span className="shrink-0 text-base tracking-wide text-white sm:text-lg">
                     {data[i].currencySymbol}
                   </span>
                   {data[i].currencyName && (
-                    <span className="text-[#6c757d] text-[15px]">
+                    <span className="min-w-0 truncate text-xs text-[#6c757d] sm:text-[15px]">
                       {data[i].currencyName}
                     </span>
                   )}
@@ -1438,11 +1438,11 @@ const Dashboard = () => {
       ),
       content: (
         <>
-          <div className="bg-[#181a20] border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom max-w-lg">
+          <div className="w-full min-w-0 max-w-full rounded-lg border border-gray-800 bg-[#181a20] p-1 withdrawal-dropdown-custom lg:max-w-lg">
             <Dropdown
               placeholder={t("selectacoin")}
               fluid
-              className="dep-drops w-full bg-transparent text-white border-0"
+              className="dep-drops w-full min-w-0 max-w-full bg-transparent border-0 text-white"
               selection
               options={allCurrencyref.current}
               onChange={(e, data) => {
@@ -1479,13 +1479,13 @@ const Dashboard = () => {
       content: (
         <>
           {show_otpref.current == false && currentcurrencyref.current?.currencyType == "2" && (
-            <div className="mb-4 max-w-lg mt-6">
-              <label className="text-[13px] text-gray-500 mb-1 block px-1">{t("Network")}</label>
-              <div className="bg-[#181a20] border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom">
+            <div className="mb-4 mt-4 w-full min-w-0 max-w-full sm:mt-6 lg:max-w-lg">
+              <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-[13px]">{t("Network")}</label>
+              <div className="rounded-lg border border-gray-800 bg-[#181a20] p-1 withdrawal-dropdown-custom">
                 <Dropdown
                   placeholder={t("Please select a withdrawal network")}
                   fluid
-                  className="dep-drops w-full bg-transparent text-white border-0"
+                  className="dep-drops w-full min-w-0 max-w-full bg-transparent border-0 text-white"
                   selection
                   options={network_currencyref.current}
                   onChange={(e, data) => {
@@ -1505,18 +1505,21 @@ const Dashboard = () => {
           )}
 
           {withdrawType == "1" && (
-            <div className="max-w-lg mt-6">
-              <div className="flex justify-between items-end mb-1 px-1">
-                <label className="text-[13px] text-gray-500">{t("Address")}</label>
-                <div className="text-[13px] text-[#ca9b27] hover:text-[#b58a23] cursor-pointer transition-colors" onClick={addresshides}>
+            <div className="mt-4 w-full min-w-0 max-w-full sm:mt-6 lg:max-w-lg">
+              <div className="mb-1 flex flex-col gap-2 px-1 sm:flex-row sm:items-end sm:justify-between sm:gap-0">
+                <label className="text-xs text-gray-500 sm:text-[13px]">{t("Address")}</label>
+                <div
+                  className="shrink-0 cursor-pointer text-xs text-[#ca9b27] transition-colors hover:text-[#b58a23] sm:text-[13px]"
+                  onClick={addresshides}
+                >
                   {t("Manage Address")}
                 </div>
               </div>
-              <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center p-1 px-3">
+              <div className="flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] p-1 px-2 sm:px-3">
                 <input
                   type="text"
                   placeholder={t("Please enter your withdraw address")}
-                  className="bg-transparent border-0 w-full text-white placeholder-gray-600 focus:outline-none focus:ring-0 py-2 h-[44px] text-[15px]"
+                  className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:ring-0 sm:text-[15px]"
                   maxLength={60}
                   onKeyDown={handlekeydown}
                   disabled={show_otpref.current == true}
@@ -1525,7 +1528,8 @@ const Dashboard = () => {
                 />
                 {withdrawAddressref.current && (
                   <button
-                    className="text-gray-500 hover:text-white p-2"
+                    type="button"
+                    className="shrink-0 p-2 text-gray-500 hover:text-white"
                     onClick={() => {
                       setwithdrawAddress("");
                       if (withdrawAddressref) withdrawAddressref.current = "";
@@ -1554,18 +1558,18 @@ const Dashboard = () => {
         </svg>
       ),
       content: (
-        <div className="max-w-xl">
-          <div className="flex justify-between items-end mb-2 mt-4 px-1">
-            <label className="text-sm text-gray-500">{t("Amount")}</label>
-            <div className="text-sm text-gray-400">
+        <div className="w-full min-w-0 max-w-full lg:max-w-xl">
+          <div className="mb-2 mt-3 flex flex-col gap-1 px-1 sm:mt-4 sm:flex-row sm:items-end sm:justify-between sm:gap-0">
+            <label className="text-xs text-gray-500 sm:text-sm">{t("Amount")}</label>
+            <div className="min-w-0 text-xs text-gray-400 sm:text-right sm:text-sm">
               {t("Available Balance")}:{" "}
-              <span className="text-gray-300 font-medium">
+              <span className="font-medium text-gray-300">
                 {balanceref.current.balance ? balanceref.current.balance.toFixed(6) : "0"} {currencyref.current}
               </span>
             </div>
           </div>
 
-          <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center px-4 py-1 mb-2">
+          <div className="mb-2 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
             <input
               type="text"
               pattern="[0-9]*"
@@ -1596,28 +1600,28 @@ const Dashboard = () => {
                 if (evt.target.value.split(".").length > 2) evt.target.value = evt.target.value.slice(0, -1);
               }}
               placeholder={`${t("Minimum withdrawal amount")}: ${currentcurrencyref.current?.minWithdrawLimit || "0.01"} ${currencyref.current || ""}`}
-              className="bg-transparent border-0 w-full text-white placeholder-gray-500 focus:outline-none focus:ring-0 py-2 h-[44px] text-[15px] outline-none"
+              className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white outline-none placeholder:text-gray-500 placeholder:text-xs focus:outline-none focus:ring-0 sm:text-[15px] sm:placeholder:text-[15px]"
             />
-            <span className="text-white font-medium ml-2 h-full items-center flex">{currencyref.current}</span>
+            <span className="ml-2 flex h-full shrink-0 items-center font-medium text-white">{currencyref.current}</span>
           </div>
           {amountValidate && <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.amount}</span>}
 
-          <div className="flex justify-between items-end mb-2 mt-6 px-1">
-            <label className="text-sm text-gray-500">{t("Remarks (optional)")}</label>
+          <div className="mb-2 mt-4 px-1 sm:mt-6">
+            <label className="text-xs text-gray-500 sm:text-sm">{t("Remarks (optional)")}</label>
           </div>
-          <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center px-4 py-1 mb-2">
+          <div className="mb-2 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
             <input
               type="text"
               placeholder={t("e.g. Purpose of withdrawal")}
               disabled={show_otpref.current == true}
-              className="bg-transparent border-0 w-full text-white placeholder-gray-500 focus:outline-none focus:ring-0 py-2 h-[44px] text-[15px] outline-none"
+              className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:outline-none focus:ring-0 sm:text-[15px]"
             />
           </div>
 
           {show_otpref.current == true && (
-            <div className="mb-4 mt-6">
-              <label className="text-sm text-gray-500 mb-1 block px-1">{t("withdrawOTP")}</label>
-              <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center px-4 py-1 mb-1">
+            <div className="mb-4 mt-4 sm:mt-6">
+              <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-sm">{t("withdrawOTP")}</label>
+              <div className="mb-1 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
                 <input
                   type="text"
                   autoComplete="off"
@@ -1640,11 +1644,11 @@ const Dashboard = () => {
                       validate_preview(formData);
                     }
                   }}
-                  className="bg-transparent border-0 w-full text-white placeholder-gray-600 focus:outline-none focus:ring-0 py-2 h-[44px] outline-none"
+                  className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white outline-none placeholder:text-gray-600 focus:outline-none focus:ring-0 sm:text-base"
                 />
               </div>
               {otpValidate && <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.withdraw_otp}</span>}
-              <div className="text-right text-xs mt-2 px-1">
+              <div className="mt-2 px-1 text-left text-xs sm:text-right">
                 <span className="text-gray-400">{t("Didntreceivecode?")} </span>
                 {resendClick == false ? (
                   isResendVisible ? (
@@ -1663,8 +1667,8 @@ const Dashboard = () => {
 
           {show_otpref.current == true && (sessionStorage.getItem("tfa_status") == 0 || sessionStorage.getItem("tfa_status") == 1) && (
             <div className="mb-4 mt-4">
-              <label className="text-sm text-gray-500 mb-1 block px-1">{t("2FAVerificationCode")}</label>
-              <div className="bg-[#181a20] border border-gray-800 rounded-lg flex items-center px-4 py-1 mb-1">
+              <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-sm">{t("2FAVerificationCode")}</label>
+              <div className="mb-1 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
                 <input
                   type="text"
                   autoComplete="off"
@@ -1687,15 +1691,15 @@ const Dashboard = () => {
                       validate_preview(formData);
                     }
                   }}
-                  className="bg-transparent border-0 w-full text-white placeholder-gray-600 focus:outline-none focus:ring-0 py-2 h-[44px] outline-none"
+                  className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white outline-none placeholder:text-gray-600 focus:outline-none focus:ring-0 sm:text-base"
                 />
               </div>
               {tfaValidate && <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.tfa}</span>}
             </div>
           )}
 
-          <div className="mt-14 text-right flex flex-col items-end px-1">
-            <div className="text-[22px] font-bold text-white tracking-wide">
+          <div className="mt-8 flex flex-col items-stretch px-1 text-right sm:mt-14 sm:items-end">
+            <div className="text-lg font-bold tracking-wide text-white sm:text-[22px]">
               {amount && !isNaN(amount) && currentcurrencyref.current ? (
                 parseFloat(amount) - parseFloat(currentcurrencyref.current.withdrawFee || 0) > 0 ? (
                   String(Number((parseFloat(amount) - parseFloat(currentcurrencyref.current.withdrawFee || 0)).toFixed(6))) + " "
@@ -1707,7 +1711,7 @@ const Dashboard = () => {
               )}
               <span>{currencyref.current}</span>
             </div>
-            <div className="text-[13px] text-gray-500 mt-1 flex items-center gap-1">
+            <div className="mt-1 flex flex-wrap items-center justify-end gap-1 text-xs text-gray-500 sm:text-[13px]">
               {t("Fee")}: {currentcurrencyref.current?.withdrawFee || "0"} {currencyref.current}
               <svg className="w-[14px] h-[14px] ml-0.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -1715,14 +1719,20 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="mt-3">
+          <div className="mt-3 w-full min-w-0">
             {buttonLoader == false ? (
               sessionStorage.getItem("tfa_status") == 0 ? (
-                <button onClick={() => nav_page("/enabletfa")} className="w-full bg-[#ca9b27] text-white font-semibold py-[14px] rounded-lg hover:bg-[#b58a23] transition-colors">
+                <button
+                  onClick={() => nav_page("/enabletfa")}
+                  className="w-full min-w-0 rounded-lg bg-[#ca9b27] py-3 text-sm font-semibold text-white transition-colors hover:bg-[#b58a23] sm:py-[14px] sm:text-base"
+                >
                   {t("Submit")}
                 </button>
               ) : show_otpref.current == true ? (
-                <button onClick={() => withdrawSubmit()} className="w-full bg-[#ca9b27] text-white font-semibold py-[14px] rounded-lg hover:bg-[#b58a23] transition-colors">
+                <button
+                  onClick={() => withdrawSubmit()}
+                  className="w-full min-w-0 rounded-lg bg-[#ca9b27] py-3 text-sm font-semibold text-white transition-colors hover:bg-[#b58a23] sm:py-[14px] sm:text-base"
+                >
                   {t("Submit")}
                 </button>
               ) : show_otpref.current == false ? (
@@ -1736,7 +1746,7 @@ const Dashboard = () => {
                     (currentcurrencyref.current?.currencyType == "2" && !network_currentref.current) ||
                     (withdrawType == "1" && (!withdrawAddressref.current || withdrawAddressref.current.trim() === ""))
                   }
-                  className={`w-full font-semibold py-[14px] rounded-lg transition-colors ${
+                  className={`w-full min-w-0 rounded-lg py-3 text-sm font-semibold transition-colors sm:py-[14px] sm:text-base ${
                     !currentcurrencyref.current ||
                     !amount ||
                     isNaN(amount) ||
@@ -1751,14 +1761,17 @@ const Dashboard = () => {
                 </button>
               ) : null
             ) : (
-              <button disabled className="w-full bg-[#2b3139] text-[#5e6673] font-semibold py-[14px] rounded-lg flex justify-center items-center gap-2 cursor-not-allowed">
+              <button
+                disabled
+                className="flex w-full min-w-0 cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-[#2b3139] py-3 text-sm font-semibold text-[#5e6673] sm:py-[14px] sm:text-base"
+              >
                 <i className="fa-solid fa-circle-notch fa-spin"></i> {t("Loading")}...
               </button>
             )}
           </div>
 
-          <div className="mt-4 text-left px-1">
-            <p className="text-[13px] text-gray-500">
+          <div className="mt-4 px-1 text-left">
+            <p className="break-words text-xs leading-relaxed text-gray-500 sm:text-[13px]">
               {t("24-hour withdrawal limit")}: 0/{currentcurrencyref.current?.maxWithdrawLimit || "0"} {currencyref.current || "BTC"}
             </p>
           </div>
@@ -1783,64 +1796,64 @@ const Dashboard = () => {
             />
           </div>
         ) : (
-          <section className="asset_section">
-            <div className="buy_head">
+          <section className="asset_section w-full min-w-0 max-w-full overflow-x-hidden px-3 sm:px-4 md:px-0 max-sm:pt-20">
+            <div className="buy_head w-full min-w-0 max-w-full">
               {withdrawstatus == "Active" ? (
                 <>
                   {kycStatusref.current == 1 ? (
                     <>
-                      <div className="w-full bg-black p-4 sm:p-6 text-white rounded-xl shadow-lg">
+                      <div className="w-full min-w-0 max-w-full rounded-xl bg-black px-4 py-5 text-white shadow-lg sm:px-5 sm:py-6 md:px-6">
                         {/* Steps Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-                          <div className="bg-[#181a20] border border-gray-800 rounded-lg p-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="bg-primary text-[#181a20] px-2 py-0.5 rounded text-sm font-bold">
+                        <div className="mb-8 grid min-w-0 grid-cols-1 gap-3.5 sm:mb-10 sm:gap-4 md:grid-cols-2 lg:mb-12 lg:grid-cols-4">
+                          <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
+                            <div className="mb-2.5 flex min-w-0 items-start gap-3">
+                              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#B87A13] text-xs font-bold text-[#0f1117] shadow-sm sm:h-9 sm:w-9 sm:text-sm">
                                 1
                               </span>
-                              <h3 className="text-primary font-medium text-sm">
+                              <h3 className="min-w-0 flex-1 pt-0.5 text-sm font-semibold leading-snug text-[#B87A13] sm:text-[15px]">
                                 {t("Select the Crypto")}
                               </h3>
                             </div>
-                            <p className="text-xs text-gray-400">
+                            <p className="pl-11 text-sm leading-relaxed text-gray-400 sm:pl-12">
                               {t("Select crypto & network for withdraw")}
                             </p>
                           </div>
-                          <div className="bg-[#181a20] border border-gray-800 rounded-lg p-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="bg-primary px-2 py-0.5 text-[#181a20] rounded text-sm font-bold">
+                          <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
+                            <div className="mb-2.5 flex min-w-0 items-start gap-3">
+                              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#B87A13] text-xs font-bold text-[#0f1117] shadow-sm sm:h-9 sm:w-9 sm:text-sm">
                                 2
                               </span>
-                              <h3 className="text-primary font-medium text-sm">
+                              <h3 className="min-w-0 flex-1 pt-0.5 text-sm font-semibold leading-snug text-[#B87A13] sm:text-[15px]">
                                 {t("Confirm Address")}
                               </h3>
                             </div>
-                            <p className="text-xs text-gray-400">
+                            <p className="pl-11 text-sm leading-relaxed text-gray-400 sm:pl-12">
                               {t("Paste the copied withdrawal address.")}
                             </p>
                           </div>
-                          <div className="bg-[#181a20] border border-gray-800 rounded-lg p-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="bg-primary px-2 py-0.5 text-[#181a20] rounded text-sm font-bold">
+                          <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
+                            <div className="mb-2.5 flex min-w-0 items-start gap-3">
+                              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#B87A13] text-xs font-bold text-[#0f1117] shadow-sm sm:h-9 sm:w-9 sm:text-sm">
                                 3
                               </span>
-                              <h3 className="text-primary font-medium text-sm">
+                              <h3 className="min-w-0 flex-1 pt-0.5 text-sm font-semibold leading-snug text-[#B87A13] sm:text-[15px]">
                                 {t("Transfer Confirmation")}
                               </h3>
                             </div>
-                            <p className="text-xs text-gray-400">
+                            <p className="pl-11 text-sm leading-relaxed text-gray-400 sm:pl-12">
                               {t("Await blockchain transfer confirmation.")}
                             </p>
                           </div>
-                          <div className="bg-[#181a20] border border-gray-800 rounded-lg p-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="bg-primary px-2 py-0.5 text-[#181a20] rounded text-sm font-bold">
+                          <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
+                            <div className="mb-2.5 flex min-w-0 items-start gap-3">
+                              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#B87A13] text-xs font-bold text-[#0f1117] shadow-sm sm:h-9 sm:w-9 sm:text-sm">
                                 4
                               </span>
-                              <h3 className="text-primary font-medium text-sm">
+                              <h3 className="min-w-0 flex-1 pt-0.5 text-sm font-semibold leading-snug text-[#B87A13] sm:text-[15px]">
                                 {t("Successful Withdrawal")}
                               </h3>
                             </div>
-                            <p className="text-xs text-gray-400">
+                            <p className="pl-11 text-sm leading-relaxed text-gray-400 sm:pl-12">
                               {t("Blockchain transfer confirmed successfully.")}
                             </p>
                           </div>
@@ -1927,12 +1940,12 @@ const Dashboard = () => {
                                 </h3>
                                 </div> */}
 
-                        <div className="flex flex-col lg:flex-row gap-10">
-                          <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-7/12  sm:p-5">
+                        <div className="flex min-w-0 flex-col gap-4 lg:flex-row lg:gap-6">
+                          <div className="w-full min-w-0 max-w-full rounded-2xl border border-gray-800/80 bg-black p-4 shadow-xl sm:p-5 lg:w-7/12 lg:max-w-none lg:flex-none">
                             <VerticalStepper
                               steps={withdrawSteps}
                               currentStep={withdrawCurrentStep}
-                              className="ml-2 pb-8"
+                              className="w-full min-w-0 pt-1 pb-6 sm:ml-1 sm:pb-8 md:ml-2"
                             />
                             {/* {show_otpref.current == false &&
                                   currentcurrencyref.current?.currencyType ==
@@ -2399,8 +2412,8 @@ const Dashboard = () => {
                           {/* </div> */}
 
                           {/* Right column content: Tips & FAQs */}
-                          <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-5/12  sm:p-5">
-                            <h3 className="text-primary font-medium flex items-center gap-2 mb-6 text-lg">
+                          <div className="w-full min-w-0 max-w-full rounded-2xl border border-gray-800/80 bg-black p-4 shadow-xl sm:p-5 lg:w-5/12 lg:max-w-none lg:flex-none">
+                            <h3 className="mb-4 flex min-w-0 items-center gap-2 text-base font-medium text-[#B87A13] sm:mb-6 sm:text-lg">
                               <svg
                                 className="w-5 h-5"
                                 fill="none"
@@ -2416,18 +2429,18 @@ const Dashboard = () => {
                               </svg>
                               Tips
                             </h3>
-                            <div className="flex flex-col gap-6 text-[13px] text-gray-400">
-                              <p className="leading-relaxed">
+                            <div className="flex flex-col gap-4 text-xs text-gray-400 sm:gap-6 sm:text-[13px]">
+                              <p className="min-w-0 leading-relaxed">
                                 For the safety of your funds, our customer
                                 support team may contact you by phone to confirm
                                 your withdrawal
                               </p>
-                              <p className="leading-relaxed">
+                              <p className="min-w-0 leading-relaxed">
                                 For the safety of your funds, our customer
                                 support team may contact you by phone to confirm
                                 your withdrawal
                               </p>
-                              <p className="leading-relaxed">
+                              <p className="min-w-0 leading-relaxed">
                                 For the safety of your funds, our customer
                                 support team may contact you by phone to confirm
                                 your withdrawal
@@ -2435,10 +2448,10 @@ const Dashboard = () => {
                             </div>
 
                             <div>
-                              <div className="flex items-center justify-between mb-6 border-t border-gray-800 pt-6">
-                                <h3 className="text-primary font-medium flex items-center gap-2 text-lg">
+                              <div className="mb-4 flex flex-col gap-3 border-t border-gray-800 pt-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between sm:gap-0 sm:pt-6">
+                                <h3 className="flex min-w-0 items-center gap-2 text-base font-medium text-[#B87A13] sm:text-lg">
                                   <svg
-                                    className="w-5 h-5"
+                                    className="h-5 w-5 shrink-0"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -2452,12 +2465,12 @@ const Dashboard = () => {
                                   </svg>
                                   FAQs
                                 </h3>
-                                <span className="text-gray-500 text-xs cursor-pointer hover:text-primary transition-colors font-medium">
+                                <span className="cursor-pointer text-xs font-medium text-gray-500 transition-colors hover:text-[#B87A13] sm:self-auto">
                                   View more &gt;
                                 </span>
                               </div>
-                              <div className="flex flex-col gap-5 text-sm text-gray-400">
-                                <div className="flex items-start gap-4 cursor-pointer hover:text-gray-200 transition-colors">
+                              <div className="flex flex-col gap-4 text-xs text-gray-400 sm:gap-5 sm:text-sm">
+                                <div className="flex min-w-0 cursor-pointer items-start gap-3 transition-colors hover:text-gray-200 sm:gap-4">
                                   <svg
                                     className="w-5 h-5 text-gray-500 mt-0.5"
                                     fill="none"
@@ -2471,11 +2484,11 @@ const Dashboard = () => {
                                       d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                                     ></path>
                                   </svg>
-                                  <span className="flex-1">
+                                  <span className="min-w-0 flex-1 break-words">
                                     How long do withdrawals take?
                                   </span>
                                 </div>
-                                <div className="flex items-start gap-4 cursor-pointer hover:text-gray-200 transition-colors">
+                                <div className="flex min-w-0 cursor-pointer items-start gap-3 transition-colors hover:text-gray-200 sm:gap-4">
                                   <svg
                                     className="w-5 h-5 text-gray-500 mt-0.5"
                                     fill="none"
@@ -2489,11 +2502,11 @@ const Dashboard = () => {
                                       d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                                     ></path>
                                   </svg>
-                                  <span className="flex-1">
+                                  <span className="min-w-0 flex-1 break-words">
                                     Why was my withdrawal rejected?
                                   </span>
                                 </div>
-                                <div className="flex items-start gap-4 cursor-pointer hover:text-gray-200 transition-colors">
+                                <div className="flex min-w-0 cursor-pointer items-start gap-3 transition-colors hover:text-gray-200 sm:gap-4">
                                   <svg
                                     className="w-5 h-5 text-gray-500 mt-0.5"
                                     fill="none"
@@ -2507,7 +2520,7 @@ const Dashboard = () => {
                                       d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                                     ></path>
                                   </svg>
-                                  <span className="flex-1">
+                                  <span className="min-w-0 flex-1 break-words">
                                     Can I cancel a withdrawa...
                                   </span>
                                 </div>
@@ -2516,19 +2529,19 @@ const Dashboard = () => {
                           </div>
                         </div>
 
-                        <div className="dashboard_table">
-                          <div className="staking-flex dash_assets">
-                            <h5 className="opt-title">{t("RecentWithdraw")}</h5>
-                            <Link to="/withdrawHistory">
-                              <div className="d-flex gap-2 text-yellow">
+                        <div className="dashboard_table mt-6 w-full min-w-0 max-w-full sm:mt-8">
+                          <div className="staking-flex dash_assets flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <h5 className="opt-title min-w-0 flex-1">{t("RecentWithdraw")}</h5>
+                            <Link to="/withdrawHistory" className="min-w-0 shrink-0 no-underline">
+                              <div className="d-flex gap-2 text-yellow whitespace-nowrap">
                                 {t("viewAll")}{" "}
                                 <i class="fa-solid fa-chevron-right"></i>
                               </div>
                             </Link>
                           </div>
 
-                          <div className="table-responsive table-cont">
-                            <table className="table">
+                          <div className="table-responsive table-cont min-w-0 max-w-full overflow-x-auto">
+                            <table className="table min-w-0">
                               <thead>
                                 <tr className="stake-head">
                                   <th>{t("currency")}</th>
@@ -2630,8 +2643,8 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <>
-                          <div className="flex flex-col lg:flex-row gap-6  ">
-                            <div className="w-full lg:w-7/12 ">
+                          <div className="flex min-w-0 max-w-full flex-col gap-6 lg:flex-row">
+                            <div className="w-full min-w-0 lg:w-7/12">
                         <div className="p2p_title">{t("withdraw")}</div>
                         <div className="col-lg-7">
                           <div className="deposit mt-5  h-100">
@@ -2645,17 +2658,17 @@ const Dashboard = () => {
                                 <h6>{t("KYCVerificationRequired")}</h6>
                               </div>
                               <p>{t("completedtheKYCverification")}</p>
-                              <div>
+                              <div className="min-w-0 max-w-full overflow-hidden">
                                 <img
                                   src={require("../assets/BeforeKyc.webp")}
                                   alt="Verify kyc"
-                                  className="before_kyc_depo withdraw-p-l-24"
+                                  className="before_kyc_depo withdraw-p-l-24 h-auto max-w-full"
                                 />
                               </div>
                               <p className="mt-4">{t("verifyyouraccount")}</p>
-                              <div className="withdraw-p-l-24">
-                                <Link to="/kyc">
-                                  <button className="action_btn w-100 mb-2">
+                              <div className="withdraw-p-l-24 w-full min-w-0 max-w-full">
+                                <Link to="/kyc" className="block w-full max-w-full">
+                                  <button type="button" className="action_btn mb-2 w-full max-w-full">
                                     {t("verify_now")}
                                   </button>
                                 </Link>
@@ -2667,8 +2680,8 @@ const Dashboard = () => {
 
                         {/* <div className="col-lg-5">
                           <div> */}
-                            <div className="w-full lg:w-5/12">
-                              <div className="deposit-imp-notes mt-5">
+                            <div className="w-full min-w-0 lg:w-5/12">
+                              <div className="deposit-imp-notes mt-5 min-w-0 max-w-full">
                                 <div className="imp-notes-title">
                                   <span>
                                     <img
@@ -2706,9 +2719,9 @@ const Dashboard = () => {
                   )}
                 </>
               ) : (
-                <div className="row ">
-                  <div className="p2p_title">{t("withdraw")}</div>
-                  <div className="col-lg-7">
+                <div className="row mx-0 w-full min-w-0 max-w-full">
+                  <div className="p2p_title w-full min-w-0">{t("withdraw")}</div>
+                  <div className="col-lg-7 w-full min-w-0 max-w-full">
                     <div className="deposit mt-5 h-100">
                       <div className="dep-kyc">
                         <div className="dep-kyc-head">
@@ -2731,19 +2744,19 @@ const Dashboard = () => {
                           {/* {withdrawContent} */}
                           {/* <span className="text-yellow">00:00:00</span> */}
                         </p>
-                        <div>
+                        <div className="min-w-0 max-w-full overflow-hidden">
                           <img
                             src={require("../assets/withdraw-unavailable.webp")}
                             alt="Verify kyc"
-                            className="before_kyc_depo withdraw-p-l-24"
+                            className="before_kyc_depo withdraw-p-l-24 h-auto max-w-full"
                           />
                         </div>
                         <p className="mt-4">
                           {t("thankyouforyourpatienceandunderstanding")}
                         </p>
-                        <div className="withdraw-p-l-24">
-                          <Link to="/dashboard">
-                            <button className="action_btn w-100 mb-2">
+                        <div className="withdraw-p-l-24 w-full min-w-0 max-w-full">
+                          <Link to="/dashboard" className="block w-full max-w-full">
+                            <button type="button" className="action_btn mb-2 w-full max-w-full">
                               {t("backToHome")}
                             </button>
                           </Link>
@@ -2752,9 +2765,9 @@ const Dashboard = () => {
                     </div>
                   </div>
 
-                  <div className="col-lg-5">
-                    <div>
-                      <div className="container-lg">
+                  <div className="col-lg-5 w-full min-w-0 max-w-full">
+                    <div className="min-w-0 max-w-full">
+                      <div className="container-lg min-w-0 max-w-full px-0 sm:px-3">
                         <div className="deposit-imp-notes mt-5">
                           <div className="imp-notes-title">
                             <span>

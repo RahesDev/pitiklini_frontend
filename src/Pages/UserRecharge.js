@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { Bars } from "react-loader-spinner";
 import Moment from "moment";
 import { useTranslation } from "react-i18next";
+import DashboardLayout from "./DashboardLayout";
 
 function UserRecharge() {
   const { t } = useTranslation();
@@ -26,10 +27,10 @@ function UserRecharge() {
   const [selectedCoin, setSelectedCoin] = useState("USDT");
   const [convertedAmount, setConvertedAmount] = useState(null);
 
-    const payCurrencies = [
-      { key: "USDT", value: "USDT", text: "USDT" },
-      { key: "PTK", value: "PTK", text: "PTK" },
-    ];
+  const payCurrencies = [
+    { key: "USDT", value: "USDT", text: "USDT" },
+    { key: "PTK", value: "PTK", text: "PTK" },
+  ];
 
   const [operatorError, setOperatorError] = useState(false);
   const [planError, setPlanError] = useState(false);
@@ -37,8 +38,11 @@ function UserRecharge() {
 
   const [selectedPlanPrice, setSelectedPlanPrice, selectedPlanPriceref] =
     useState(0);
-  const [selectedPlanCurrency, setSelectedPlanCurrency, selectedPlanCurrencyref] =
-    useState("");
+  const [
+    selectedPlanCurrency,
+    setSelectedPlanCurrency,
+    selectedPlanCurrencyref,
+  ] = useState("");
 
   const [buttonLoader, setButtonLoader, buttonLoaderref] = useState(false);
 
@@ -158,8 +162,6 @@ function UserRecharge() {
       payload,
     });
 
-    
-
     if (resp && resp.status) {
       showsuccessToast("Recharge Successful");
       setButtonLoader(false);
@@ -184,10 +186,10 @@ function UserRecharge() {
   };
 
   return (
-    <>
-      <section>
+    <DashboardLayout>
+      {/* <section>
         <Header />
-      </section>
+      </section> */}
       {siteLoader == true ? (
         <div className="loadercss">
           <Bars
@@ -202,201 +204,201 @@ function UserRecharge() {
         </div>
       ) : (
         // <main className="dashboard_main">
-        <main className="dashboard_main_exp">
-          <div className="container-fluid">
+        // <main className="dashboard_main_exp">
+        //   <div className="container-fluid">
+        //     <div className="row">
+        //       <div className="col-lg-2 padlef_0_col">
+        //         <Side_bar />
+        //       </div>
+        // <div className="col-lg-10 padin_lefrig_dash">
+        <section className="w-full asset_section">
+          <div className="bg-black rounded-xl p-4 mt-5">
+            <div className="p2p_title rcky_ttl">{t("recharge")}</div>
             <div className="row">
-              <div className="col-lg-2 padlef_0_col">
-                <Side_bar />
-              </div>
-              <div className="col-lg-10 padin_lefrig_dash">
-                <section className="asset_section">
-                  <div className="row">
-                    <div className="p2p_title">{t("recharge")}</div>
-                    <div className="col-lg-7">
-                      <div className="deposit mt-2">
-                        <div className="form_div">
-                          <div className="sides">
-                            <div className="w-100 rights">
-                              <h6>{t("Select Operator")}</h6>
-                              <Dropdown
-                                placeholder="Select Operator"
-                                fluid
-                                className="dep-drops new-clr_inp"
-                                selection
-                                search
-                                searchInput={{ autoComplete: "off" }}
-                                value={selectedOperator}
-                                options={operatorListRef.current}
-                                onChange={(e, d) => onSelectOperator(d)}
-                              />
-                              {operatorError && (
-                                <span className="errorcss">
-                                  Please select an operator
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        {planListRef.current.length > 0 && (
-                          <>
-                            <div className="form_div">
-                              <div className="sides">
-                                <div className="w-100 rights">
-                                  <h6>{t("Select Plan")}</h6>
-                                  <Dropdown
-                                    placeholder="Select Plan"
-                                    fluid
-                                    className="dep-drops"
-                                    selection
-                                    value={selectedPlan}
-                                    options={planListRef.current}
-                                    onChange={(e, d) => {
-                                      console.log("d.value----", d);
-                                      setSelectedPlan(d.value);
-                                      setPlanError(false);
-                                      const selectedObj = d.options.find(
-                                        (x) => x.value === d.value,
-                                      );
-
-                                      if (selectedObj) {
-                                        setSelectedPlanPrice(
-                                          selectedObj.cost_amount,
-                                        );
-                                        setSelectedPlanCurrency(
-                                          selectedObj.cost_currency,
-                                        );
-                                      }
-                                    }}
-                                  />
-                                  {planError && (
-                                    <span className="errorcss">
-                                      Please select a plan
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                        {selectedPlan && (
-                          <>
-                            <div className="form_div boder-none ">
-                              <h6>{t("selectacoin")}</h6>
-                              <Dropdown
-                                placeholder="Select Pay Currency"
-                                fluid
-                                className="dep-drops"
-                                selection
-                                options={payCurrencies}
-                                value={selectedCoin}
-                                onChange={async (e, d) => {
-                                  setSelectedCoin(d.value);
-
-                                  if (d.value === "PTK") {
-                                    await convertUSDTtoPTK(
-                                      selectedPlanPriceref.current,
-                                    );
-                                  } else {
-                                    setConvertedAmount(null);
-                                  }
-                                }}
-                              />
-                            </div>
-                          </>
-                        )}
-                        {selectedPlan && (
-                          <>
-                            <div className="form_div boder-none ">
-                              <h6>{t("totalAmount")}</h6>
-                              <input
-                                type="text"
-                                disabled
-                                autoComplete="off"
-                                // value={`${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`}
-                                // value={
-                                //   selectedPlanPriceref.current &&
-                                //   selectedPlanCurrencyref.current
-                                //     ? `${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`
-                                //     : "---"
-                                // }
-                                value={
-                                  selectedCoin === "USDT"
-                                    ? `${selectedPlanPriceref.current} USDT`
-                                    : convertedAmount
-                                      ? `${convertedAmount} PTK`
-                                      : "---"
-                                }
-                                className="dep-drops"
-                              />
-                            </div>
-                          </>
-                        )}
-                        {selectedPlan && (
-                          <>
-                            <div className="form_div mar-bot-nwfndtra boder-none ">
-                              <h6>{t("Enter Mobile Number")}</h6>
-                              <input
-                                type="text"
-                                pattern="[0-9]*"
-                                maxLength={10}
-                                onKeyDown={(evt) => {
-                                  if (
-                                    !(
-                                      (evt.key >= "0" && evt.key <= "9") ||
-                                      evt.key === "Backspace" ||
-                                      evt.key === "Delete" ||
-                                      evt.key === "ArrowLeft" ||
-                                      evt.key === "ArrowRight" ||
-                                      evt.key === "Tab"
-                                    )
-                                  ) {
-                                    evt.preventDefault();
-                                  }
-                                }}
-                                autoComplete="off"
-                                value={mobileNumber}
-                                onChange={(e) => {
-                                  setMobileNumber(e.target.value);
-                                  setMobileError(false);
-                                  // setPlanList([]);
-                                }}
-                                placeholder="Enter Mobile Number"
-                                className="dep-drops"
-                              />
-                              {mobileError && (
-                                <span className="errorcss">
-                                  Please enter a valid mobile number
-                                </span>
-                              )}
-                            </div>
-                          </>
-                        )}
-                        {/* <div className="sumbit_btn">
-                          <button onClick={() => handleRecharge()}>
-                            {t("Proceed Recharge")}
-                          </button>
-                        </div> */}
-                        {selectedPlan && (
-                          <div className="sumbit_btn">
-                            {buttonLoaderref.current == true ? (
-                              <button>{t("loading")}...</button>
-                            ) : (
-                              <button onClick={handleRecharge}>
-                                {t("Proceed Recharge")}
-                              </button>
-                            )}
-                          </div>
+              <div className="col-lg-7">
+                <div className="deposit mt-2">
+                  <div className="form_div">
+                    <div className="sides">
+                      <div className="w-100 rights">
+                        <h6>{t("Select Operator")}</h6>
+                        <Dropdown
+                          placeholder="Select Operator"
+                          fluid
+                          className="dep-drops new-clr_inp"
+                          selection
+                          search
+                          searchInput={{ autoComplete: "off" }}
+                          value={selectedOperator}
+                          options={operatorListRef.current}
+                          onChange={(e, d) => onSelectOperator(d)}
+                        />
+                        {operatorError && (
+                          <span className="errorcss">
+                            Please select an operator
+                          </span>
                         )}
                       </div>
                     </div>
                   </div>
-                </section>
+                  {planListRef.current.length > 0 && (
+                    <>
+                      <div className="form_div">
+                        <div className="sides">
+                          <div className="w-100 rights">
+                            <h6>{t("Select Plan")}</h6>
+                            <Dropdown
+                              placeholder="Select Plan"
+                              fluid
+                              className="dep-drops"
+                              selection
+                              value={selectedPlan}
+                              options={planListRef.current}
+                              onChange={(e, d) => {
+                                console.log("d.value----", d);
+                                setSelectedPlan(d.value);
+                                setPlanError(false);
+                                const selectedObj = d.options.find(
+                                  (x) => x.value === d.value,
+                                );
+
+                                if (selectedObj) {
+                                  setSelectedPlanPrice(selectedObj.cost_amount);
+                                  setSelectedPlanCurrency(
+                                    selectedObj.cost_currency,
+                                  );
+                                }
+                              }}
+                            />
+                            {planError && (
+                              <span className="errorcss">
+                                Please select a plan
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {selectedPlan && (
+                    <>
+                      <div className="form_div boder-none ">
+                        <h6>{t("selectacoin")}</h6>
+                        <Dropdown
+                          placeholder="Select Pay Currency"
+                          fluid
+                          className="dep-drops"
+                          selection
+                          options={payCurrencies}
+                          value={selectedCoin}
+                          onChange={async (e, d) => {
+                            setSelectedCoin(d.value);
+
+                            if (d.value === "PTK") {
+                              await convertUSDTtoPTK(
+                                selectedPlanPriceref.current,
+                              );
+                            } else {
+                              setConvertedAmount(null);
+                            }
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
+                  {selectedPlan && (
+                    <>
+                      <div className="form_div boder-none ">
+                        <h6>{t("totalAmount")}</h6>
+                        <input
+                          type="text"
+                          disabled
+                          autoComplete="off"
+                          // value={`${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`}
+                          // value={
+                          //   selectedPlanPriceref.current &&
+                          //   selectedPlanCurrencyref.current
+                          //     ? `${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`
+                          //     : "---"
+                          // }
+                          value={
+                            selectedCoin === "USDT"
+                              ? `${selectedPlanPriceref.current} USDT`
+                              : convertedAmount
+                                ? `${convertedAmount} PTK`
+                                : "---"
+                          }
+                          className="dep-drops"
+                        />
+                      </div>
+                    </>
+                  )}
+                  {selectedPlan && (
+                    <>
+                      <div className="form_div mar-bot-nwfndtra boder-none ">
+                        <h6>{t("Enter Mobile Number")}</h6>
+                        <input
+                          type="text"
+                          pattern="[0-9]*"
+                          maxLength={10}
+                          onKeyDown={(evt) => {
+                            if (
+                              !(
+                                (evt.key >= "0" && evt.key <= "9") ||
+                                evt.key === "Backspace" ||
+                                evt.key === "Delete" ||
+                                evt.key === "ArrowLeft" ||
+                                evt.key === "ArrowRight" ||
+                                evt.key === "Tab"
+                              )
+                            ) {
+                              evt.preventDefault();
+                            }
+                          }}
+                          autoComplete="off"
+                          value={mobileNumber}
+                          onChange={(e) => {
+                            setMobileNumber(e.target.value);
+                            setMobileError(false);
+                            // setPlanList([]);
+                          }}
+                          placeholder="Enter Mobile Number"
+                          className="dep-drops"
+                        />
+                        {mobileError && (
+                          <span className="errorcss">
+                            Please enter a valid mobile number
+                          </span>
+                        )}
+                      </div>
+                    </>
+                  )}
+                  {/* <div className="sumbit_btn">
+                          <button onClick={() => handleRecharge()}>
+                            {t("Proceed Recharge")}
+                          </button>
+                        </div> */}
+                  {selectedPlan && (
+                    <div className="sumbit_btn">
+                      {buttonLoaderref.current == true ? (
+                        <button>{t("loading")}...</button>
+                      ) : (
+                        <button onClick={handleRecharge}>
+                          {t("Proceed Recharge")}
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </main>
+        </section>
+        // </div>
+        //     </div>
+        //   </div>
+        // </main>
       )}
-    </>
+    </DashboardLayout>
   );
 }
 

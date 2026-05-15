@@ -469,7 +469,8 @@ const PostAd = () => {
             />
           </div>
         ) : (
-          <section className="asset_section bg-[#0f1117] py-6 pt-6 lg:pt-20 ">
+          // <section className="asset_section bg-[#0f1117] py-6 pt-6 lg:pt-20 ">
+          <section className="asset_section bg-[#0f1117]">
             <div className="mx-auto max-w-[1160px] pt-0 lg:pt-6 px-2 md:px-4">
               <h2 className="text-2xl font-semibold text-[#B87A13]">P2P Platform</h2>
               <h3 className="mt-2 text-2xl font-semibold text-[#e7ecf6]">Post Advertisement</h3>

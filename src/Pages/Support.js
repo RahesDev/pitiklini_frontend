@@ -508,7 +508,7 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseOne"
-                                  class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingOne"
                                   data-bs-parent="#accordionFlushExample"
                                 >
@@ -535,7 +535,7 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseTwo"
-                                  class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingTwo"
                                   data-bs-parent="#accordionFlushExample"
                                 >
@@ -562,7 +562,7 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseThree"
-                                  class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingThree"
                                   data-bs-parent="#accordionFlushExample"
                                 >
@@ -571,7 +571,7 @@ const Dashboard = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div class="accordion-item ">
+                              {/* <div class="accordion-item ">
                                 <h2
                                   class="accordion-header"
                                   id="flush-headingFour"
@@ -589,7 +589,7 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseFour"
-                                  class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingFour"
                                   data-bs-parent="#accordionFlushExample"
                                 >
@@ -616,7 +616,7 @@ const Dashboard = () => {
                                 </h2>
                                 <div
                                   id="flush-collapseFive"
-                                  class="accordion-collapse collapse"
+                                  class="accordion-collapse"
                                   aria-labelledby="flush-headingFive"
                                   data-bs-parent="#accordionFlushExample"
                                 >
@@ -624,7 +624,7 @@ const Dashboard = () => {
                                     {t("useastrongunique")}
                                   </div>
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                         </div>
@@ -693,8 +693,11 @@ const Dashboard = () => {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={6} className="text-center py-5">
-                            <div className="empty_data">
+                          <td
+                            colSpan={6}
+                            className="px-4 py-10 text-center text-sm text-white/60"
+                          >
+                            {/* <div className="empty_data">
                               <div className="empty_data_img">
                                 <img
                                   src={require("../assets/No-data.webp")}
@@ -702,10 +705,10 @@ const Dashboard = () => {
                                   alt=""
                                 />
                               </div>
-                              <div className="no_records_text">
-                                {t("noRecordsFound")}
-                              </div>
-                            </div>
+                              <div className="no_records_text"> */}
+                            {t("noRecordsFound")}
+                            {/* </div>
+                            </div> */}
                           </td>
                         </tr>
                       )}

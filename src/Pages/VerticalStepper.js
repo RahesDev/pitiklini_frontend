@@ -34,7 +34,10 @@ const VerticalStepper = ({ steps = [], currentStep = 1, className = "" }) => {
           .join(" ");
 
         return (
-          <div key={step.key || step.title || idx} className="grid min-w-0 grid-cols-[44px_minmax(0,1fr)] gap-x-4">
+          <div
+            key={step.key || step.title || idx}
+            className="grid min-w-0 grid-cols-[40px_minmax(0,1fr)] gap-x-3 sm:grid-cols-[44px_minmax(0,1fr)] sm:gap-x-4"
+          >
             <div className="flex min-h-0 flex-col items-center">
               <div className={iconBtnClass}>{step.icon}</div>
 
@@ -54,10 +57,10 @@ const VerticalStepper = ({ steps = [], currentStep = 1, className = "" }) => {
               )}
             </div>
 
-            <div className="min-w-0 pb-10">
+            <div className="min-w-0 pb-6 sm:pb-10">
               <h3
-                className={`mb-4 text-lg font-medium leading-snug transition-colors duration-300 ${
-                  isActive || isCompleted ? "text-white" : "text-[#7d8798]"
+                className={`mb-3 text-base font-medium leading-snug transition-colors duration-300 sm:mb-4 sm:text-lg ${
+                  isActive || isCompleted ? "text-[#B87A13]" : "text-[#7d8798]"
                 }`}
               >
                 {step.title}

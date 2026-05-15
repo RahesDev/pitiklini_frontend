@@ -1195,7 +1195,8 @@ table > tbody > tr {
 /* Asset component styles */
 
 .asset_section {
-  padding: 80px 19px 119px 0px;
+  /* padding: 80px 19px 119px 0px; */
+  padding: 80px 10px 100px 10px;
   background-color: transparent;
 }
 
@@ -3794,7 +3795,12 @@ input[type="file"] {
 
 @media (max-width: 1399px) {
   .asset_section {
-    padding: 80px 0px 119px 50px;
+    padding: 80px 30px;
+  }
+}
+@media (max-width: 1200px) {
+    .asset_section {
+    padding: 80px 20px 
   }
 }
 
@@ -3868,7 +3874,7 @@ input[type="file"] {
 
 @media (max-width: 991px) {
   .asset_section {
-    padding: 80px 0px 119px 0px;
+    padding: 80px 0px 60px 0px;
   }
   .welcome-inner-airno {
     padding: 40px 6px 0 6px;
@@ -4078,7 +4084,7 @@ input[type="file"] {
 
 @media (max-width: 482px) {
   .asset_section {
-    padding: 10px 0px 119px 0px;
+    padding: 10px 0px;
   }
   .welcome-inner-airno {
     padding: 30px 4px 0 4px;

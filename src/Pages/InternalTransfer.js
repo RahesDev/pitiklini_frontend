@@ -9,6 +9,7 @@ import { Dropdown } from "semantic-ui-react";
 import { Bars } from "react-loader-spinner";
 import Side_bar from "./Side_bar";
 import { useTranslation } from "react-i18next";
+import DashboardLayout from "./DashboardLayout";
 
 const InternalTransfer = () => {
   const { t } = useTranslation();
@@ -32,11 +33,11 @@ const InternalTransfer = () => {
   ];
 
   const filteredToWalletOptions = walletOptions.filter(
-    (option) => option.value !== selectedFromWallet
+    (option) => option.value !== selectedFromWallet,
   );
 
   const filteredFromWalletOptions = walletOptions.filter(
-    (option) => option.value !== selectedToWallet
+    (option) => option.value !== selectedToWallet,
   );
 
   const handleFromWalletChange = (e, { value }) => {
@@ -84,7 +85,7 @@ const InternalTransfer = () => {
   // };
   const handleCurrencyChange = (e, { value }) => {
     const selectedCurrencyData = allCurrencyRef.current.find(
-      (currency) => currency.value === value
+      (currency) => currency.value === value,
     );
 
     setSelectedCurrency(value);
@@ -362,10 +363,10 @@ const InternalTransfer = () => {
   };
 
   return (
-    <>
-      <section>
+    <DashboardLayout>
+      {/* <section>
         <Header />
-      </section>
+      </section> */}
       {siteLoader == true ? (
         <div className="loadercss">
           <Bars
@@ -379,15 +380,17 @@ const InternalTransfer = () => {
           />
         </div>
       ) : (
-        <main className="dashboard_main">
-          <div className="container-fluid">
-            <div className="row swap_main">
-              <div className="col-lg-2 padlef_0_col">
+        // <main className="dashboard_main">
+        //   <div className="container-fluid">
+        <section className="w-full asset_section fund_res">
+          <div className="bg-black rounded-xl p-4 mt-5">
+            <div className="row">
+              {/* <div className="col-lg-2 padlef_0_col">
                 <Side_bar />
-              </div>
+              </div> */}
 
-              <div className="col-lg-5 convert_center_box">
-                <div className="convert_card-wrapper border_none">
+              <div className="col-lg-6 convert_center_box">
+                <div className="convert_card-wrapper border_none pt-0">
                   <div className="convert_card">
                     <div className="convert_title">
                       <h3>{t("internal_transfer")}</h3>
@@ -511,9 +514,11 @@ const InternalTransfer = () => {
               </div>
             </div>
           </div>
-        </main>
+        </section>
+        //   </div>
+        // </main>
       )}
-    </>
+    </DashboardLayout>
   );
 };
 

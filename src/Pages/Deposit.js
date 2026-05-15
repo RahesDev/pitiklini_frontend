@@ -403,11 +403,11 @@ const Dashboard = () => {
         </svg>
       ),
       content: (
-        <div className="bg-[#181a20] border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom max-w-xl">
+        <div className="w-full max-w-xl rounded-xl border border-[#2a3038] bg-[#151922] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] transition-colors focus-within:border-[#B87A13] focus-within:ring-1 focus-within:ring-[#B87A13]/40 withdrawal-dropdown-custom">
           <Dropdown
             placeholder={t("selectCoin")}
             fluid
-            className="dep-drops w-full bg-transparent text-white border-0"
+            className="dep-drops w-full min-w-0 border-0 bg-transparent text-white"
             selection
             options={allCurrencyref.current}
             defaultValue={allCurrencyref.current[0]}
@@ -425,12 +425,12 @@ const Dashboard = () => {
         </svg>
       ),
       content: cur_currencyref.current?.currencyType == "2" ? (
-        <div className="max-w-xl mt-6">
-          <div className="bg-[#181a20] border border-gray-800 rounded-lg p-1 withdrawal-dropdown-custom">
+        <div className="mt-6 w-full max-w-xl">
+          <div className="rounded-xl border border-[#2a3038] bg-[#151922] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] transition-colors focus-within:border-[#B87A13] focus-within:ring-1 focus-within:ring-[#B87A13]/40 withdrawal-dropdown-custom">
             <Dropdown
               placeholder={t("Select Network you want to deposit through")}
               fluid
-              className="dep-drops w-full bg-transparent text-white border-0"
+              className="dep-drops w-full min-w-0 border-0 bg-transparent text-white"
               selection
               options={network_currencyref.current}
               defaultValue={network_currencyref.current[0]}
@@ -438,14 +438,14 @@ const Dashboard = () => {
             />
           </div>
           {Networks && (
-            <div className="text-[#848E9C] text-[13px] mt-4 flex items-center gap-1">
+            <div className="mt-4 flex items-center gap-1 text-[13px] text-[#848E9C]">
               <span>{t("Expected Arrival")}:</span>
               <span className="text-[#848E9C]">{t("2min 50sec")} </span>
             </div>
           )}
         </div>
       ) : (
-        <div className="text-gray-500 text-sm mt-4">{t("Network selection is not available for this currency.")}</div>
+        <div className="mt-4 text-sm text-gray-500">{t("Network selection is not available for this currency.")}</div>
       ),
     },
     {
@@ -459,22 +459,22 @@ const Dashboard = () => {
       content: addressref.current == undefined ? (
         <div className="text-gray-500 text-sm mt-4">{t("Select a coin and network above to generate an address.")}</div>
       ) : (
-        <div className="max-w-[45rem] mt-4 relative z-10">
-          <div className="bg-[#14151a] border border-[#2b3139] rounded-xl p-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 relative overflow-hidden">
-            <div className="flex-1 w-full order-2 md:order-1 mt-2 md:mt-0 z-10">
-              <h4 className="text-[#f0b90b] text-[15px] font-medium mb-4">
+        <div className="relative z-10 mt-4 w-full max-w-[45rem]">
+          <div className="relative flex flex-col flex-wrap justify-between gap-5 overflow-hidden rounded-xl border border-[#2a3038] bg-[#151922] p-4 md:flex-row md:items-start md:gap-6 md:p-6">
+            <div className="order-2 z-10 mt-2 w-full flex-1 md:order-1 md:mt-0">
+              <h4 className="mb-4 text-[15px] font-medium text-[#B87A13]">
                 {Fullname ? `${Fullname}` : `${currency}`}{Networks ? `(${Networks})` : ""} {t("address is published!")}
               </h4>
-              <p className="text-[#848E9C] text-[13px] leading-relaxed mb-6 max-w-[28rem]">
+              <p className="mb-6 max-w-[28rem] text-[13px] leading-relaxed text-[#848E9C]">
                 {t("Please use the address below to deposit your cryptocurrency using the")} {Networks ? Networks : currency} {t("network. You can either copy the address or scan the QR code for convenience.")}
               </p>
 
-              <div className="bg-[#1e2329] border border-[#2b3139] rounded-lg p-[7px] pl-3 flex justify-between items-center transition-colors">
-                <div className="truncate pr-4 text-[#D8DDE5] text-[13px]">
+              <div className="flex items-center justify-between rounded-lg border border-[#2a3038] bg-[#0f1117] p-[7px] pl-3 transition-colors focus-within:border-[#B87A13]">
+                <div className="truncate pr-4 text-[13px] text-[#D8DDE5]">
                   {addressref.current.address}
                 </div>
                 <button
-                  className="bg-[#f0b90b] hover:bg-[#d8a60a] text-[#181a20] rounded-[4px] px-4 py-2 flex items-center justify-center gap-1.5 text-[12px] font-semibold transition-colors shrink-0"
+                  className="flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-md bg-[#B87A13] px-4 text-[12px] font-semibold text-[#0f1117] transition-colors hover:bg-[#c88d2a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B87A13]/60"
                   onClick={() => copy(addressref.current.address)}
                   title="Copy Address"
                 >
@@ -484,7 +484,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white p-2 rounded-[4px] shrink-0 order-1 md:order-2 z-10 self-start md:mt-1">
+            <div className="order-1 z-10 mt-1 shrink-0 self-start rounded-md bg-white p-2 md:order-2">
               <img
                 src={addressref.current.qrcode}
                 className="w-[110px] h-[110px] object-contain"
@@ -513,21 +513,21 @@ const Dashboard = () => {
             />
           </div>
         ) : (
-          <section className="asset_section">
-            <div className="buy_head">
+          <section className="asset_section w-full max-w-full overflow-x-hidden px-3 sm:px-4 md:px-0 max-sm:pt-20">
+            <div className="buy_head w-full max-w-full min-w-0">
               {siteStatus == "Active" ? (
                 <>
                   {kycStatusref.current == 1 ? (
                     <>
-                      <div className="w-full bg-black p-4 sm:p-6 text-white rounded-xl shadow-lg">
+                      <div className="w-full rounded-xl border border-[#2a3038] bg-[#0f1117] p-4 text-white shadow-lg sm:p-6">
                         {/* Steps Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-                          <div className="bg-black border border-gray-800 rounded-lg p-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="bg-primary text-black px-2 py-0.5 rounded text-sm font-bold">
+                        <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                          <div className="rounded-lg border border-[#2a3038] bg-[#151922] p-4">
+                            <div className="mb-2 flex items-center gap-3">
+                              <span className="rounded bg-[#B87A13] px-2 py-0.5 text-sm font-bold text-[#0f1117]">
                                 1
                               </span>
-                              <h3 className="text-primary font-medium text-sm">
+                              <h3 className="text-sm font-medium text-[#B87A13]">
                                 {t("Copy the wallet address")}
                               </h3>
                             </div>
@@ -535,12 +535,12 @@ const Dashboard = () => {
                               {t("Select crypto, network & copy address.")}
                             </p>
                           </div>
-                          <div className="bg-black border border-gray-800 rounded-lg p-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="bg-primary px-2 py-0.5 text-black rounded text-sm font-bold">
+                          <div className="rounded-lg border border-[#2a3038] bg-[#151922] p-4">
+                            <div className="mb-2 flex items-center gap-3">
+                              <span className="rounded bg-[#B87A13] px-2 py-0.5 text-sm font-bold text-[#0f1117]">
                                 2
                               </span>
-                              <h3 className="text-primary font-medium text-sm">
+                              <h3 className="text-sm font-medium text-[#B87A13]">
                                 {t("Confirm Address")}
                               </h3>
                             </div>
@@ -548,12 +548,12 @@ const Dashboard = () => {
                               {t("Paste address on other exchange.")}
                             </p>
                           </div>
-                          <div className="bg-black border border-gray-800 rounded-lg p-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="bg-primary px-2 py-0.5 text-black rounded text-sm font-bold">
+                          <div className="rounded-lg border border-[#2a3038] bg-[#151922] p-4">
+                            <div className="mb-2 flex items-center gap-3">
+                              <span className="rounded bg-[#B87A13] px-2 py-0.5 text-sm font-bold text-[#0f1117]">
                                 3
                               </span>
-                              <h3 className="text-primary font-medium text-sm">
+                              <h3 className="text-sm font-medium text-[#B87A13]">
                                 {t("Transfer Confirmation")}
                               </h3>
                             </div>
@@ -561,12 +561,12 @@ const Dashboard = () => {
                               {t("Await blockchain confirmation for transfer.")}
                             </p>
                           </div>
-                          <div className="bg-black border border-gray-800 rounded-lg p-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="bg-primary px-2 py-0.5 text-black rounded text-sm font-bold">
+                          <div className="rounded-lg border border-[#2a3038] bg-[#151922] p-4">
+                            <div className="mb-2 flex items-center gap-3">
+                              <span className="rounded bg-[#B87A13] px-2 py-0.5 text-sm font-bold text-[#0f1117]">
                                 4
                               </span>
-                              <h3 className="text-primary font-medium text-sm">
+                              <h3 className="text-sm font-medium text-[#B87A13]">
                                 {t("Successful Deposit")}
                               </h3>
                             </div>
@@ -576,7 +576,7 @@ const Dashboard = () => {
                           </div>
                         </div>
 
-                        <div className="flex flex-col lg:flex-row gap-10">
+                        <div className="flex min-w-0 flex-col gap-10 lg:flex-row">
                           <div className="flex-[2]">
                             {/* <div className="relative pl-8 sm:pl-10 border-l-[1px] border-[#8c6b16] ml-4 space-y-12 pb-8">
                               
@@ -608,19 +608,19 @@ const Dashboard = () => {
                               </div>
                             </div> */}
 
-                            <div className="flex flex-col lg:flex-row gap-10">
+                            <div className="flex min-w-0 flex-col gap-6 lg:flex-row lg:gap-10">
                               {/* <div className="flex-[2]"> */}
-                              <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-7/12  sm:p-5">
+                              <div className="w-full min-w-0 rounded-2xl border border-[#2a3038] bg-[#0f1117] p-4 shadow-xl sm:p-5 lg:w-7/12">
                                 <VerticalStepper
                                   steps={depositSteps}
                                   currentStep={depositCurrentStep}
                                   className="ml-0 pb-2"
                                 />
                               </div>
-                              <div className="rounded-2xl bg-black p-4 border border-gray shadow-xl w-5/12 sm:p-5">
+                              <div className="w-full min-w-0 rounded-2xl border border-[#2a3038] bg-[#0f1117] p-4 shadow-xl sm:p-5 lg:w-5/12">
                                 <div className="mb-10">
                                   <div className="flex items-center gap-2 mb-6">
-                                    <h3 className="text-primary font-medium flex items-center gap-2 mb-6 text-lg">
+                                    <h3 className="mb-6 flex items-center gap-2 text-lg font-medium text-[#B87A13]">
                                       <svg
                                         className="w-5 h-5"
                                         fill="none"
@@ -637,7 +637,7 @@ const Dashboard = () => {
                                       Tips
                                     </h3>{" "}
                                   </div>
-                                  <div className="space-y-6 text-[13px] text-[#A0AEC0] border-t border-gray-800 pt-6">
+                                  <div className="space-y-6 border-t border-[#2a3038] pt-6 text-[13px] text-[#A0AEC0]">
                                     <p className="leading-relaxed">
                                       {t(
                                         "For the safety of your funds, our customer support team may contact you by phone to confirm your withdrawal",
@@ -652,8 +652,8 @@ const Dashboard = () => {
                                 </div>
 
                                 <div className="mt-12">
-                                  <div className="flex items-center justify-between mb-6">
-                                    <h3 className="text-primary font-medium flex items-center gap-2 text-lg">
+                                  <div className="mb-6 flex items-center justify-between">
+                                    <h3 className="flex items-center gap-2 text-lg font-medium text-[#B87A13]">
                                       <svg
                                         className="w-5 h-5"
                                         fill="none"
@@ -671,7 +671,7 @@ const Dashboard = () => {
                                     </h3>
                                     <Link
                                       to="/faq"
-                                      className="text-gray-400 text-[13px] flex items-center hover:text-white transition-colors"
+                                      className="flex items-center text-[13px] text-gray-400 transition-colors hover:text-[#B87A13]"
                                     >
                                       {t("View more")}
                                       <svg
@@ -689,10 +689,10 @@ const Dashboard = () => {
                                       </svg>
                                     </Link>
                                   </div>
-                                  <div className="space-y-5 border-t border-gray-800 pt-6">
+                                  <div className="space-y-5 border-t border-[#2a3038] pt-6">
                                     <Link
                                       to="/faq"
-                                      className="flex items-start gap-4 text-[14px] text-[#A0AEC0] hover:text-white transition-colors group"
+                                      className="group flex items-start gap-4 text-[14px] text-[#A0AEC0] transition-colors hover:text-white"
                                     >
                                       <svg
                                         className="w-5 h-5 mt-0.5 text-gray-500 group-hover:text-gray-300 shrink-0"
@@ -900,23 +900,23 @@ const Dashboard = () => {
                         </div>
 
                         {/* Last 4 Deposit Records Section */}
-                        <div className="mt-8 mb-10 w-full">
-                          <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-primary text-xl font-medium">
+                        <div className="mb-10 mt-8 w-full min-w-0">
+                          <div className="mb-6 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+                            <h2 className="text-xl font-medium text-[#B87A13]">
                               {t("Last 4 Deposit Records")}
                             </h2>
                             <Link to="/depositHistory">
-                              <button className="bg-primary hover:bg-[#b58a23] text-black font-medium px-4 py-2 rounded transition-colors text-[13px] tracking-wide">
+                              <button className="h-10 rounded-md bg-[#B87A13] px-4 text-[13px] font-medium tracking-wide text-[#0f1117] transition-colors hover:bg-[#c88d2a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B87A13]/60">
                                 {t("Deposit History")}
                               </button>
                             </Link>
                           </div>
 
-                          <div className="bg-[#1e2329] rounded-lg overflow-hidden">
+                          <div className="overflow-hidden rounded-lg border border-[#2a3038] bg-[#151922]">
                             <div className="overflow-x-auto">
                               <table className="w-full text-left border-collapse">
                                 <thead>
-                                  <tr className="bg-[#242930] text-primary text-[13px]">
+                                  <tr className="bg-[#11161f] text-[13px] text-[#B87A13]">
                                     <th className="py-4 px-6 font-medium tracking-wide">
                                       {t("Date/Time")}
                                     </th>
@@ -937,7 +937,7 @@ const Dashboard = () => {
                                     </th>
                                   </tr>
                                 </thead>
-                                <tbody className="text-sm">
+                                <tbody className="text-sm bg-[#151922]">
                                   {historyLoader == false ? (
                                     <>
                                       {depositHistory &&
@@ -948,7 +948,7 @@ const Dashboard = () => {
                                             return (
                                               <tr
                                                 key={i}
-                                                className="border-b border-[#2b3139] hover:bg-[#2b3139] transition-colors"
+                                                className="border-b border-[#2a3038] transition-colors hover:bg-[#1c222c]"
                                               >
                                                 <td className="py-4 px-6 text-gray-300">
                                                   {Moment(item.date).format(
@@ -978,7 +978,7 @@ const Dashboard = () => {
                                                 </td>
                                                 <td className="py-4 px-6 text-gray-300 flex items-center gap-2">
                                                   <i
-                                                    className="ri-file-copy-line text-gray-400 hover:text-primary cursor-pointer transition-colors text-lg"
+                                                    className="ri-file-copy-line cursor-pointer text-lg text-gray-400 transition-colors hover:text-[#B87A13]"
                                                     onClick={() =>
                                                       copy(item.txnid)
                                                     }
@@ -992,7 +992,7 @@ const Dashboard = () => {
                                                 </td>
                                                 <td className="py-4 px-6 text-center">
                                                   <Link to="/depositHistory">
-                                                    <button className="border border-[#3b4148] text-gray-300 text-[12px] px-3 py-1 rounded hover:text-white hover:border-gray-400 transition-colors bg-transparent w-[60px] h-[28px] leading-none">
+                                                    <button className="h-[30px] w-[68px] rounded border border-[#3b4148] bg-transparent px-3 py-1 text-[12px] leading-none text-gray-300 transition-colors hover:border-[#B87A13] hover:text-[#B87A13] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B87A13]/40">
                                                       {t("Details")}
                                                     </button>
                                                   </Link>

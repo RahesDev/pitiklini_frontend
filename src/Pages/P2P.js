@@ -350,7 +350,7 @@ const P2P = () => {
         <section className="asset_section">
           <div className="buy_head">
             <div className="w-full">
-              <div className="bg-black rounded-xl p-4">
+              <div className="bg-black rounded-xl p-md-4 p-2">
                 <div className="p2p_header_row flex justify-between items-center mb-6">
                   <div>
                     <h2 className="p2p_main_title text-[#BD7F10]">
