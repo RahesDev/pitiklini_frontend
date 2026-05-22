@@ -891,11 +891,13 @@ const Dashboard = () => {
                                   <div className="my-4">
                                     {getKYCData.kycstatus == 2 ? (
                                       <button
-                                        disabled
-                                        className="action_btn opt-nowrap w-100 disabl"
+                                        // disabled
+                                        className="action_btn opt-nowrap w-100"
                                         type="button"
+                                        onClick={startVerification}
                                       >
-                                        {t("pending")}
+                                        {/* {t("pending")} */}
+                                        {t("ContinueVerification")}
                                       </button>
                                     ) : getKYCData.kycstatus == 1 ? (
                                       <Link to="/deposit">

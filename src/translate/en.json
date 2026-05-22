@@ -247,6 +247,7 @@
   "hello": "Hello,",
   "verifiedProfile": "Verified Profile",
   "pending": "Pending",
+  "ContinueVerification": "Continue Verification",
   "rejected": "Rejected",
   "notverified": "Not verified",
   "low": "Low",
