@@ -903,7 +903,13 @@ const Dashboard = () => {
 
                             {/* ACTION */}
                             <div className="flex-1 flex justify-end">
-                              <Link to="/deposit">
+                              <Link
+                                to={
+                                  item?.coinType == "1"
+                                    ? "/deposit"
+                                    : "/Checkout"
+                                }
+                              >
                                 <button className="px-4 py-1.5 rounded-md bg-[#BD7F10] text-black text-xs font-semibold hover:opacity-90">
                                   {t("deposit")}
                                 </button>

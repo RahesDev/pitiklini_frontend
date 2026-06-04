@@ -233,7 +233,7 @@ const Swap = () => {
             setButtonLoader(true);
             var resp = await postMethod(data);
             setButtonLoader(false);
-            if (resp.status) {
+            if (resp.status == true) {
               setfromAmount(0);
               settoAmount(0);
               getUserbalance();
