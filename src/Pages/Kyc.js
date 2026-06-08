@@ -400,6 +400,24 @@ const Dashboard = () => {
       return;
     }
 
+    if (response.status == true) {
+       // Close modal
+      const modal = document.getElementById("exampleModal");
+
+      modal.classList.remove("show");
+      modal.style.display = "none";
+
+      document.body.classList.remove("modal-open");
+
+      const backdrops = document.getElementsByClassName("modal-backdrop");
+
+      while (backdrops.length > 0) {
+        backdrops[0].remove();
+      }
+
+      await startVerification();
+    }
+
   } catch (err) {
     console.log(err);
   }
@@ -643,23 +661,23 @@ const Dashboard = () => {
     ) {
       const isSaved = await saveKycBasicDetails();
 
-      if (!isSaved) return;
+      // if (!isSaved) return;
 
-      // Close modal
-      const modal = document.getElementById("exampleModal");
+      // // Close modal
+      // const modal = document.getElementById("exampleModal");
 
-      modal.classList.remove("show");
-      modal.style.display = "none";
+      // modal.classList.remove("show");
+      // modal.style.display = "none";
 
-      document.body.classList.remove("modal-open");
+      // document.body.classList.remove("modal-open");
 
-      const backdrops = document.getElementsByClassName("modal-backdrop");
+      // const backdrops = document.getElementsByClassName("modal-backdrop");
 
-      while (backdrops.length > 0) {
-        backdrops[0].remove();
-      }
+      // while (backdrops.length > 0) {
+      //   backdrops[0].remove();
+      // }
 
-      await startVerification();
+      // await startVerification();
       // setLevelFirst(false);
       // setLevelScndstart(true);
     }
