@@ -16,6 +16,7 @@ import WARNICON from "../assets/icons/withdraw-warn.webp";
 import { useTranslation } from "react-i18next";
 import { loadStripe } from "@stripe/stripe-js";
 import DashboardLayout from "./DashboardLayout";
+
 const colourStyles = {
   control: (styles, { isFocused }) => ({
     ...styles,
@@ -95,16 +96,25 @@ const Dashboard = () => {
 
   const initialFormValue = {
     fullname: "",
+    surname: "",
     dob: "",
     nationality: "",
     residential: "",
+    city: "",
+    postalcode: "",
     verfiType: "",
   };
 
   const [formValue, setFormValue] = useState(initialFormValue);
-  const { fullname, dob, nationality, residential, verfiType } = formValue;
+  const { fullname,surname, dob, nationality, residential,city,postalcode, verfiType } = formValue;
 
   const [fullNameValidate, setfullNameValidate, fullNameValidateref] =
+    useState(false);
+  const [surNameValidate, setsurNameValidate, surNameValidateref] =
+    useState(false);
+  const [cityValidate, setcityValidate, cityValidateref] =
+    useState(false);
+  const [postalcodeValidate, setpostalcodeValidate, postalcodeValidateref] =
     useState(false);
   const [DOBValidate, setDOBValidate, DOBValidateref] = useState(false);
   const [nationalityValidate, setnationalityValidate, nationalityValidateref] =
@@ -169,6 +179,31 @@ const Dashboard = () => {
           return rest;
         });
       }
+    } else if (name === "surname") {
+      if (!value) {
+        setsurNameValidate(true);
+        setvalidationnErr((prev) => ({
+          ...prev,
+          surname: t("surnameIsReqField"),
+        }));
+      } else if (!/^[a-zA-Z]/.test(value)) {
+        setsurNameValidate(true);
+        setvalidationnErr((prev) => ({
+          ...prev,
+          surname: t("surnameMustStartLetter"),
+        }));
+      } else if (value.length < 3 || value.length > 60) {
+        setvalidationnErr((prev) => ({
+          ...prev,
+          surname: t("surnameMust360Char"),
+        }));
+      } else {
+        setsurNameValidate(false);
+        setvalidationnErr((prev) => {
+          const { surname, ...rest } = prev;
+          return rest;
+        });
+      }
     } else if (name === "dob") {
       if (!value) {
         setDOBValidate(true);
@@ -189,6 +224,56 @@ const Dashboard = () => {
           return rest;
         });
       }
+    } else if (name === "city") {
+      if (!value) {
+        setcityValidate(true);
+        setvalidationnErr((prev) => ({
+          ...prev,
+          city: t("cityIsReqField"),
+        }));
+      } else if (!/^[a-zA-Z]/.test(value)) {
+        setcityValidate(true);
+        setvalidationnErr((prev) => ({
+          ...prev,
+          city: t("cityMustStartLetter"),
+        }));
+      } else {
+        setcityValidate(false);
+        setvalidationnErr((prev) => {
+          const { city, ...rest } = prev;
+          return rest;
+        });
+      }
+    } else if (name === "postalcode") {
+     
+  const numericValue = value.replace(/\D/g, "");
+
+  setFormValue((prev) => ({
+    ...prev,
+    postalcode: numericValue,
+  }));
+
+  if (!numericValue) {
+    setpostalcodeValidate(true);
+
+    setvalidationnErr((prev) => ({
+      ...prev,
+      postalcode: t("postalcodeIsReqField"),
+    }));
+  } else if (numericValue.length < 3) {
+    setpostalcodeValidate(true);
+
+    setvalidationnErr((prev) => ({
+      ...prev,
+      postalcode: t("postalCodeMustBeValid"),
+    }));
+  } else {
+    setpostalcodeValidate(false);
+    setvalidationnErr((prev) => {
+      const { postalcode, ...rest } = prev;
+      return rest;
+    });
+  }
     }
   };
 
@@ -233,7 +318,9 @@ const Dashboard = () => {
 
     // setFormValue(updatedFormValue);
     // validate(updatedFormValue);
-    const nationalityValue = selectedNationality.label;
+    console.log("selectedNationality-->>", selectedNationality);
+    // const nationalityValue = selectedNationality.label;
+    const nationalityValue = selectedNationality.value;
     setFormValue((prev) => ({ ...prev, nationality: nationalityValue }));
     if (!nationalityValue) {
       setnationalityValidate(true);
@@ -290,6 +377,33 @@ const Dashboard = () => {
   //     setLoading(false);
   //   }
   // };
+
+  const saveKycBasicDetails = async () => {
+
+  try {
+
+    const response = await postMethod({
+      apiUrl: apiService.saveKycBasicDetails,
+      payload: {
+        fullname,
+        surname,
+        dob,
+        nationality,
+        residential,
+        city,
+        postalcode,
+      },
+    });
+
+    if (!response.status) {
+      toast.error(response.message);
+      return;
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   const startVerification = async () => {
     try {
@@ -398,6 +512,21 @@ const Dashboard = () => {
       //     "FullName can only contain letters, numbers, and underscores !";
       //   setfullNameValidate(true);
       // }
+            if (!values.surname) {
+              errors.surname = t("surnameIsReqField");
+              setsurNameValidate(true);
+            } else if (!/^[a-zA-Z]/.test(values.surname)) {
+              errors.surname = t("surnameMustStartLetter");
+              setsurNameValidate(true);
+            } else if (
+              values.surname.length < 3 ||
+              values.surname.length > 60
+            ) {
+              errors.surname = t("surnameMust360Char");
+              setsurNameValidate(true);
+            } else {
+              setsurNameValidate(false);
+            }
       if (values.dob == "") {
         setDOBValidate(true);
         errors.dob = t("dateOfBirthIsReq");
@@ -430,6 +559,27 @@ const Dashboard = () => {
         // setnationalityValidate(false);
         setaddressValidate(false);
       }
+
+      if (!values.city) {
+        errors.city = t("cityIsReqField");
+        setcityValidate(true);
+      } else if (!/^[a-zA-Z]/.test(values.city)) {
+        errors.city = t("cityMustStartLetter");
+        setcityValidate(true);
+      } else {
+        setcityValidate(false);
+      }
+
+            if (!values.postalcode) {
+              errors.postalcode = t("postalcodeIsReqField");
+              setpostalcodeValidate(true);
+            } else if (values.postalcode.length < 3) {
+              errors.postalcode = t("postalCodeMustBeValid");
+              setpostalcodeValidate(true);
+            } else {
+              setpostalcodeValidate(false);
+            }
+
     }
 
     if (levelScndstartref.current == true) {
@@ -480,14 +630,38 @@ const Dashboard = () => {
 
   const Firstsubmit = async () => {
     let errros = validate(formValue);
+    console.log("formValue-->>", formValue);
+    // return;
     if (
       fullNameValidateref.current === false &&
+      surNameValidateref.current === false &&
       DOBValidateref.current === false &&
       nationalityValidateref.current === false &&
-      addressValidateref.current === false
+      addressValidateref.current === false &&
+      cityValidateref.current === false &&
+      postalcodeValidateref.current === false
     ) {
-      setLevelFirst(false);
-      setLevelScndstart(true);
+      const isSaved = await saveKycBasicDetails();
+
+      if (!isSaved) return;
+
+      // Close modal
+      const modal = document.getElementById("exampleModal");
+
+      modal.classList.remove("show");
+      modal.style.display = "none";
+
+      document.body.classList.remove("modal-open");
+
+      const backdrops = document.getElementsByClassName("modal-backdrop");
+
+      while (backdrops.length > 0) {
+        backdrops[0].remove();
+      }
+
+      await startVerification();
+      // setLevelFirst(false);
+      // setLevelScndstart(true);
     }
   };
 
@@ -894,7 +1068,9 @@ const Dashboard = () => {
                                         // disabled
                                         className="action_btn opt-nowrap w-100"
                                         type="button"
-                                        onClick={startVerification}
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
+                                        // onClick={startVerification}
                                       >
                                         {/* {t("pending")} */}
                                         {t("ContinueVerification")}
@@ -913,7 +1089,9 @@ const Dashboard = () => {
                                         className="action_btn opt-nowrap w-100"
                                         type="button"
                                         disabled={loading}
-                                        onClick={startVerification}
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
+                                        // onClick={startVerification}
                                       >
                                         {loading ? (
                                           <span
@@ -1339,6 +1517,28 @@ const Dashboard = () => {
                             </div>
                             <div className="id_number">
                               <div className="first_name">
+                                <h4 className="select_id_text">
+                                  {t("surName")}
+                                </h4>
+                                <input
+                                  type="text"
+                                  placeholder={t("enterYourSurName")}
+                                  className="w-100"
+                                  maxLength={60}
+                                  name="surname"
+                                  value={surname}
+                                  onChange={handleChange}
+                                  onKeyDown={handleKeyDown}
+                                />
+                              </div>
+                              {validationnErr && validationnErr.surname && (
+                                <p className="errorcss">
+                                  {validationnErr.surname}
+                                </p>
+                              )}
+                            </div>
+                            <div className="id_number">
+                              <div className="first_name">
                                 <h4 className="select_id_text">{t("DOB")}</h4>
                                 <input
                                   type="date"
@@ -1395,6 +1595,48 @@ const Dashboard = () => {
                               {validationnErr && validationnErr.residential && (
                                 <p className="errorcss">
                                   {validationnErr.residential}
+                                </p>
+                              )}
+                            </div>
+                            <div className="id_number">
+                              <div className="first_name">
+                                <h4 className="select_id_text">{t("city")}</h4>
+                                <input
+                                  type="text"
+                                  placeholder={t("enterYourCity")}
+                                  className="w-100"
+                                  maxLength={60}
+                                  name="city"
+                                  value={city}
+                                  onChange={handleChange}
+                                  onKeyDown={handleKeyDown}
+                                />
+                              </div>
+                              {validationnErr && validationnErr.city && (
+                                <p className="errorcss">
+                                  {validationnErr.city}
+                                </p>
+                              )}
+                            </div>
+                            <div className="id_number">
+                              <div className="first_name">
+                                <h4 className="select_id_text">
+                                  {t("postalCode")}
+                                </h4>
+                                <input
+                                  type="text"
+                                  placeholder={t("enterYourPostalcode")}
+                                  className="w-100"
+                                  maxLength={10}
+                                  name="postalcode"
+                                  value={postalcode}
+                                  onChange={handleChange}
+                                  onKeyDown={handleKeyDown}
+                                />
+                              </div>
+                              {validationnErr && validationnErr.postalcode && (
+                                <p className="errorcss">
+                                  {validationnErr.postalcode}
                                 </p>
                               )}
                             </div>

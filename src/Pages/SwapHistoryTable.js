@@ -78,7 +78,7 @@ const SwapHistoryTable = () => {
                   </div>
 
                   {/* Header */}
-                  <div className="flex items-center bg-gray rounded-lg px-4 py-3 text-primary text-sm">
+                  <div className="flex items-center bg-gray rounded-lg px-4 py-3 text-primary text-sm swaphis_mobscrl">
                     <div className="w-12">S.No</div>
                     <div className="flex-1 text-center">{t("dte_Time")}</div>
                     <div className="flex-1 text-center">
@@ -98,7 +98,7 @@ const SwapHistoryTable = () => {
                       swapHistory.map((item, i) => (
                         <div
                           key={i}
-                          className="flex items-center bg-black border border-gray rounded-lg px-4 py-4 hover:bg-gray transition"
+                          className="flex items-center bg-black border border-gray rounded-lg px-4 py-4 hover:bg-gray transition swaphis_mobscrl"
                         >
                           {/* S.No */}
                           <div className="w-12 text-secondary text-sm">
@@ -106,7 +106,7 @@ const SwapHistoryTable = () => {
                           </div>
 
                           {/* Date */}
-                          <div className="flex-1 text-center text-secondary text-sm">
+                          <div className="flex-1 text-center text-secondary text-sm swaphis_mobscrl_scdry">
                             {moment(item.createdDate).format("lll")}
                           </div>
 

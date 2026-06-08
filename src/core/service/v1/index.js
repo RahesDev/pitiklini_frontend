@@ -269,6 +269,7 @@ const service = {
   //kyc
   kycUpload: "kyc/savekyc",
   kycStripe: "kyc/create-verification-session",
+  saveKycBasicDetails: "kyc/save-kyc-basic-details",
 
   //internal transfer
   walletTransfer: "swap/walletTransfer",

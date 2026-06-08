@@ -3741,6 +3741,13 @@ input[type="number"]::-webkit-inner-spin-button {
 .sumbit_btn.fundtrans_nwbtn button {
   width: 100%;
 }
+.swaphis_mobscrl > div {
+  text-wrap: nowrap !important;
+}
+.swaphis_mobscrl > .swaphis_mobscrl_scdry {
+  text-wrap: normal !important;
+}
+
 
 /* Media Queries */
 
@@ -4226,6 +4233,12 @@ input[type="number"]::-webkit-inner-spin-button {
     flex-wrap: wrap;
     gap: 12px;
   }
+    .swaphis_mobscrl {
+    overflow-x: scroll !important;
+  }
+    .swaphis_mobscrl > div {
+  padding: 0px 4px;
+}
 }
 
 @media (max-width: 575px) {
