@@ -459,7 +459,7 @@ const Dashboard = () => {
       content: addressref.current == undefined ? (
         <div className="text-gray-500 text-sm mt-4">{t("Select a coin and network above to generate an address.")}</div>
       ) : (
-        <div className="relative z-10 mt-4 w-full max-w-[45rem]">
+        <div className="relative z-0 mt-4 w-full max-w-[45rem]">
           <div className="relative flex flex-col flex-wrap justify-between gap-5 overflow-hidden rounded-xl border border-[#2a3038] bg-[#151922] p-4 md:flex-row md:items-start md:gap-6 md:p-6">
             <div className="order-2 z-10 mt-2 w-full flex-1 md:order-1 md:mt-0">
               <h4 className="mb-4 text-[15px] font-medium text-[#B87A13]">

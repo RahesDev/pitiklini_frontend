@@ -331,18 +331,18 @@ const Market = () => {
                               })
                             ) : (
                               <tr>
-                                <td colSpan={3} className="text-center py-5">
-                                  <div className="empty_data">
+                                <td colSpan={3} className="px-4 py-10 text-center text-sm text-white/60">
+                                  {/* <div className="empty_data">
                                     <div className="empty_data_img">
                                       <img
                                         src={require("../assets/No-data.webp")}
                                         width="100px"
                                       />
                                     </div>
-                                    <div className="no_records_text">
+                                    <div className="no_records_text"> */}
                                       {t('noRecordsFound')}
-                                    </div>
-                                  </div>
+                                    {/* </div>
+                                  </div> */}
                                 </td>
                               </tr>
                             )}
