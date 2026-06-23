@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Header from "./Header";
 import Side_bar from "./Side_bar";
 import {
@@ -16,6 +16,9 @@ import {
 } from "recharts";
 import { Search } from "lucide-react";
 import DashboardLayout from "./DashboardLayout";
+import { postMethod } from "../core/service/common.api";
+import apiService from "../core/service/detail";
+import { useNavigate } from "react-router-dom";
 
 const ACCENT = "#B87A13";
 const CARD_BG = "#151922";
@@ -235,21 +238,38 @@ const CoinIcon = ({ symbol }) => {
   );
 };
 
-const AssetOverviewCard = () => (
+const AssetOverviewCard = ({
+  portfolioData,
+  totalAllbalance,
+  showBalance,
+  setShowBalance,
+}) => (
   <article className="min-h-[320px] rounded-xl border border-[#252a36] bg-black p-5 shadow-[0_12px_30px_rgba(0,0,0,0.35)] md:p-6 xl:col-span-2">
     <div className="relative z-10 mb-4 flex min-h-8 flex-nowrap items-center justify-between gap-3 border-b border-[#2a3038] pb-3">
       <h3 className="mb-0 whitespace-nowrap leading-none text-xl font-semibold text-[#e0a82d]">
         Asset Overview
       </h3>
       <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
-        <i className="ri-eye-line text-[#8c94a6]" />
-        <select
+        {/* <i className="ri-eye-line text-[#8c94a6]" /> */}
+        <button
+          onClick={() => setShowBalance(!showBalance)}
+          className="text-[#8c94a6]"
+        >
+          <i
+            className={
+              showBalance
+                ? "ri-eye-line text-lg text-[#8c94a6]"
+                : "ri-eye-off-line text-lg text-[#8c94a6]"
+            }
+          />
+        </button>
+        {/* <select
           defaultValue="USDT"
           className="h-8 rounded-md border border-[#2a3038] bg-[#1a1f2a] px-2 text-xs text-[#d8deeb] outline-none transition focus:border-[#B87A13]"
         >
           <option>USDT</option>
           <option>BTC</option>
-        </select>
+        </select> */}
       </div>
     </div>
     <div className="grid gap-2 pt-1 md:grid-cols-[190px_1fr] lg:grid-cols-[210px_1fr]">
@@ -258,7 +278,7 @@ const AssetOverviewCard = () => (
           <PieChart>
             <Pie
               data={portfolioData}
-              dataKey="percentage"
+              dataKey="pieValue"
               innerRadius={66}
               outerRadius={84}
               startAngle={30}
@@ -276,11 +296,12 @@ const AssetOverviewCard = () => (
         </ResponsiveContainer>
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="text-center">
-            <div className="text-[20px] font-semibold leading-none text-[#e7ebf4] lg:text-[24px]">
-              $6,094.96
+            <div className="text-[16px] font-semibold leading-none text-[#e7ebf4] lg:text-[20px]">
+              {/* {Number(totalAllbalance).toFixed(8)} */}
+              {showBalance ? Number(totalAllbalance).toFixed(8) : "******"}
             </div>
             <div className="mt-1.5 text-xs leading-none text-[#77829a] lg:text-sm">
-              = 0.10 BTC
+              Total Assets
             </div>
           </div>
         </div>
@@ -289,26 +310,28 @@ const AssetOverviewCard = () => (
         {portfolioData.map((item) => (
           <div
             key={item.name}
-            className="grid grid-cols-[minmax(68px,1fr)_40px_minmax(82px,1fr)_minmax(92px,1fr)] items-center gap-1.5 text-[11px] leading-tight lg:grid-cols-[minmax(72px,1fr)_44px_minmax(90px,1fr)_minmax(110px,1fr)] lg:text-xs"
+            className="grid grid-cols-[minmax(140px,2fr)_140px_minmax(82px,2fr)] items-center gap-1.5 text-[11px] leading-tight lg:grid-cols-[minmax(72px,1fr)_140px_minmax(90px,1fr)_minmax(110px,1fr)] lg:text-xs"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-1">
               <span
                 className="h-2.5 w-2.5 rounded-full shadow-[0_0_10px] shadow-current"
                 style={{ color: item.color, background: item.color }}
               />
-              <span className="truncate font-medium text-[#d4dae6]">
+              <span className="truncate font-medium text-[#d4dae6] lg:text-[16px]">
                 {item.name}
               </span>
             </div>
-            <span className="text-right font-semibold tabular-nums text-[#e8ecf5]">
+            {/* <span className="text-right font-semibold tabular-nums text-[#e8ecf5]">
               {item.percentage}%
+            </span> */}
+            <span className=" text-right tabular-nums text-[#c2c8d6] lg:text-[16px] mb-1">
+              {/* {item.balance} */}
+              {showBalance ? item.balance : "******"}
             </span>
-            <span className="truncate text-right tabular-nums text-[#c2c8d6]">
-              {item.balance}
-            </span>
-            <span className="truncate text-right font-medium tabular-nums text-[#e0a82d]">
-              = {item.usdt} USDT
-            </span>
+            {/* <span className="truncate text-right font-medium tabular-nums text-[#e0a82d]"> */}
+            {/* = {item.usdt} USDT */}
+            {/* {showBalance ? item.usdt : "******"} */}
+            {/* </span> */}
           </div>
         ))}
       </div>
@@ -316,22 +339,31 @@ const AssetOverviewCard = () => (
   </article>
 );
 
-const TotalAssetCard = () => {
-  const peak = useMemo(
-    () =>
-      trendData.reduce(
-        (max, item) => (item.value > max.value ? item : max),
-        trendData[0],
-      ),
-    [],
-  );
+const TotalAssetCard = ({
+  trendData,
+  totalAllbalance,
+  showBalance
+}) => {
+  const peak = useMemo(() => {
+    if (!trendData.length) {
+      return {
+        date: "",
+        value: 0,
+      };
+    }
+
+    return trendData.reduce(
+      (max, item) => (item.value > max.value ? item : max),
+      trendData[0],
+    );
+  }, [trendData]);
   return (
     <article className="min-h-[320px] rounded-xl border border-[#252a36] bg-black p-5 shadow-[0_12px_30px_rgba(0,0,0,0.35)] md:p-6">
       <div className="relative z-10 mb-4 flex min-h-8 flex-nowrap items-center justify-between gap-3 border-b border-[#2a3038] pb-3">
         <h3 className="mb-0 whitespace-nowrap leading-none text-xl font-semibold text-[#e0a82d]">
           Total Asset
         </h3>
-        <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
+        {/* <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
           <i className="ri-eye-line text-[#8c94a6]" />
           <select
             defaultValue="USDT"
@@ -340,18 +372,23 @@ const TotalAssetCard = () => {
             <option>USDT</option>
             <option>BTC</option>
           </select>
-        </div>
+        </div> */}
       </div>
       <div className="mb-4 flex items-center gap-3 pt-1">
-        <p className="text-3xl text-[#e7ebf4]">$6,094.96</p>
-        <span className="rounded-full bg-[#1a4e2f] px-2 py-1 text-xs font-semibold text-[#9df0be]">
+        <p className="text-3xl text-[#e7ebf4]">
+          $
+          {showBalance
+            ? `${Number(totalAllbalance).toFixed(8)} USDT`
+            : "******"}
+        </p>
+        {/* <span className="rounded-full bg-[#1a4e2f] px-2 py-1 text-xs font-semibold text-[#9df0be]">
           +6.3%
-        </span>
+        </span> */}
       </div>
       <div className="h-[165px] md:h-[182px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            data={trendData}
+            data={trendData || []}
             margin={{ left: -5, right: 4, top: 10, bottom: 4 }}
           >
             <CartesianGrid
@@ -366,12 +403,14 @@ const TotalAssetCard = () => {
               tick={{ fill: "#8a93a7", fontSize: 11 }}
             />
             <YAxis hide />
-            <ReferenceArea
-              x1={peak.date}
-              x2={peak.date}
-              fill={ACCENT}
-              fillOpacity={0.25}
-            />
+            {trendData.length > 0 && (
+              <ReferenceArea
+                x1={peak.date}
+                x2={peak.date}
+                fill={ACCENT}
+                fillOpacity={0.25}
+              />
+            )}
             <Tooltip
               cursor={{ stroke: ACCENT, strokeWidth: 1 }}
               contentStyle={{
@@ -398,7 +437,7 @@ const TotalAssetCard = () => {
   );
 };
 
-const AssetsTableSection = () => {
+const AssetsTableSection = ({ assetRows }) => {
   const [query, setQuery] = useState("");
   const [hideZero, setHideZero] = useState(false);
   const [simplified, setSimplified] = useState(false);
@@ -590,23 +629,276 @@ const AssetsTableSection = () => {
   );
 };
 
-const Assets = () => (
-  <>
-    <DashboardLayout>
-      <section className="asset_section">
-        <div className="buy_head">
-          {/* <div className="w-full bg-black p-4 sm:p-6 text-white rounded-xl shadow-lg"> */}
-          <div className="grid gap-5 xl:grid-cols-3">
-            <AssetOverviewCard />
-            <TotalAssetCard />
+const Assets = () => {
+  useEffect(() => {
+    getUserbalance();
+    getUserTotalbalance();
+    getPortfolioHistory();
+  }, []);
+
+  const chartColors = [
+    "#49C989",
+    "#FF5476",
+    "#7A5AF8",
+    "#F2C94C",
+    "#FF7A45",
+    "#4FC3F7",
+    "#26A69A",
+    "#AB47BC",
+  ];
+
+  const [portfolioData, setPortfolioData] = useState([]);
+  const [assetRows, setAssetRows] = useState([]);
+
+  const [totalAllbalance, setTotalAllbalance] = useState(0);
+
+  const [availableSpot, setavailableSpot] = useState(0);
+  const [inorderSpot, setinorderSpot] = useState(0);
+  const [totalSpot, settotalSpot] = useState(0);
+
+  const [availableFunding, setavailableFunding] = useState(0);
+  const [inorderFunding, setinorderFunding] = useState(0);
+  const [totalFunding, settotalFunding] = useState(0);
+  const [showBalance, setShowBalance] = useState(false);
+
+  const [trendData, setTrendData] = useState([]);
+
+  const getUserbalance = async () => {
+    try {
+      const obj = {
+        perpage: 100,
+        page: 1,
+        search: "",
+      };
+
+      const data = {
+        apiUrl: apiService.getUserBalance,
+        payload: obj,
+      };
+
+      const resp = await postMethod(data);
+
+      if (resp.status) {
+        const balances = resp.Message || [];
+
+        const summary = resp.balance || {};
+
+        setTotalAllbalance(
+          summary.total_balance_new || summary.total_balance || 0,
+        );
+
+        setavailableSpot(summary.available_balance || 0);
+        setinorderSpot(summary.inorder_balance || 0);
+        settotalSpot(summary.total_balance_spot || 0);
+
+        setavailableFunding(summary.available_balance_funding || 0);
+
+        setinorderFunding(summary.inorder_balance_funding || 0);
+
+        settotalFunding(summary.total_balance_funding || 0);
+
+        createPieChartData(balances);
+
+        createAssetRows(balances);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getUserTotalbalance = async () => {
+    try {
+      const obj = {
+        perpage: 100,
+        page: 1,
+        search: "",
+      };
+
+      const data = {
+        apiUrl: apiService.getUserTotalbalanceAll,
+        payload: obj,
+      };
+
+      const resp = await postMethod(data);
+
+      if (resp.status) {
+        const balanceData = resp.balance || {};
+
+        setTotalAllbalance(
+          balanceData.total_balance_new || balanceData.total_balance || 0,
+        );
+
+        setavailableSpot(balanceData.available_balance || 0);
+
+        setinorderSpot(balanceData.inorder_balance || 0);
+
+        settotalSpot(balanceData.total_balance_spot || 0);
+
+        setavailableFunding(balanceData.available_balance_funding || 0);
+
+        setinorderFunding(balanceData.inorder_balance_funding || 0);
+
+        settotalFunding(balanceData.total_balance_funding || 0);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getPortfolioHistory = async () => {
+    try {
+      const data = {
+        apiUrl: apiService.getPortfolioHistory,
+
+        payload: {},
+      };
+
+      const resp = await postMethod(data);
+
+      if (resp.status) {
+        setTrendData(resp.data || []);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+const createPieChartData = (balances) => {
+  const chartData = balances.map((item, index) => {
+    const actualBalance = Number(item.currencyBalance || 0);
+
+    return {
+      name: item.currencysymbol,
+
+      pieValue: actualBalance > 0 ? Math.max(actualBalance, 0.005) : 0.002,
+
+      actualBalance,
+
+      balance: actualBalance.toFixed(8) + " " + item.currencysymbol,
+
+      color: chartColors[index % chartColors.length],
+    };
+  });
+
+  setPortfolioData(chartData);
+};
+
+  const createAssetRows = (balances) => {
+    const rows = balances.map((item) => ({
+      symbol: item.currencysymbol,
+
+      name: item.currencyName,
+
+      image: item.currencyImage,
+
+      total: Number(item.totalBalance || 0).toFixed(8),
+
+      totalUsdt:
+        "=" + Number(item.estimatedUSDTtotal || 0).toFixed(4) + " USDT",
+
+      available: Number(item.currencyBalance || 0).toFixed(8),
+
+      availableUsdt:
+        "=" + Number(item.estimatedUSDTbalance || 0).toFixed(4) + " USDT",
+
+      frozen: Number(item.holdAmount || 0).toFixed(8),
+
+      frozenUsdt:
+        "=" + Number(item.estimatedUSDThold || 0).toFixed(4) + " USDT",
+
+      valuation: Number(item.estimatedUSDTtotal || 0).toFixed(4),
+    }));
+
+    setAssetRows(rows);
+  };
+
+  const displayBalance = (value) => {
+    if (!showBalance) {
+      return "******";
+    }
+
+    return Number(value || 0).toFixed(8);
+  };
+
+  return (
+    <>
+      <DashboardLayout>
+        <section className="asset_section">
+          <div className="buy_head">
+            {/* <div className="w-full bg-black p-4 sm:p-6 text-white rounded-xl shadow-lg"> */}
+            <div className="grid gap-5 xl:grid-cols-3">
+              {/* <AssetOverviewCard /> */}
+              <AssetOverviewCard
+                portfolioData={portfolioData}
+                totalAllbalance={totalAllbalance}
+                showBalance={showBalance}
+                setShowBalance={setShowBalance}
+              />
+
+              <TotalAssetCard
+                trendData={trendData}
+                totalAllbalance={totalAllbalance}
+                showBalance={showBalance}
+              />
+            </div>
+            <div className="mt-5 border-t border-[#2a3038]" />
+            {/* <AssetsTableSection /> */}
+            {/* <AssetsTableSection assetRows={assetRows} /> */}
+            <div className="grid gap-5 md:grid-cols-2 mt-5">
+              <div className="rounded-xl border border-[#252a36] bg-black p-5">
+                <h3 className="text-[#e0a82d] text-lg mb-4">Spot Wallet</h3>
+
+                <div className="space-y-3">
+                  <div className="flex justify-between text-[#e7ebf2]">
+                    <span>Available</span>
+                    {/* <span>{Number(availableSpot).toFixed(8)}</span> */}
+                    <span>{displayBalance(availableSpot)}</span>
+                  </div>
+
+                  <div className="flex justify-between text-[#e7ebf2]">
+                    <span>On Orders</span>
+                    {/* <span>{Number(inorderSpot).toFixed(8)}</span> */}
+                    <span>{displayBalance(inorderSpot)}</span>
+                  </div>
+
+                  <div className="flex justify-between font-bold text-[#e7ebf2]">
+                    <span>Total</span>
+                    {/* <span>{Number(totalSpot).toFixed(8)}</span> */}
+                    <span>{displayBalance(totalSpot)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-[#252a36] bg-black p-5">
+                <h3 className="text-[#e0a82d] text-lg mb-4">Funding Wallet</h3>
+
+                <div className="space-y-3">
+                  <div className="flex justify-between text-[#e7ebf2]">
+                    <span>Available</span>
+                    {/* <span>{Number(availableFunding).toFixed(8)}</span> */}
+                    <span>{displayBalance(availableFunding)}</span>
+                  </div>
+
+                  <div className="flex justify-between text-[#e7ebf2]">
+                    <span>On Orders</span>
+                    {/* <span>{Number(inorderFunding).toFixed(8)}</span> */}
+                    <span>{displayBalance(inorderFunding)}</span>
+                  </div>
+
+                  <div className="flex justify-between font-bold text-[#e7ebf2]">
+                    <span>Total</span>
+                    {/* <span>{Number(totalFunding).toFixed(8)}</span> */}
+                    <span>{displayBalance(totalFunding)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="mt-5 border-t border-[#2a3038]" />
-          <AssetsTableSection />
-        </div>
-        {/* </div> */}
-      </section>
-    </DashboardLayout>
-  </>
-);
+          {/* </div> */}
+        </section>
+      </DashboardLayout>
+    </>
+  );
+};
 
 export default Assets;
