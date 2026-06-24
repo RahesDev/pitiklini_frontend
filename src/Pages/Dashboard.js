@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import Header from "./Header";
 import { stakeOpt } from "../utils/mockData2";
 import Pagination from "@mui/material/Pagination";
@@ -18,6 +18,224 @@ import Moment from "moment";
 import { getAuthToken } from "../core/lib/localStorage";
 import { setAuthorization } from "../core/service/axios";
 import DashboardLayout from "./DashboardLayout";
+import {
+  CartesianGrid,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ReferenceArea,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { Search } from "lucide-react";
+
+const ACCENT = "#B87A13";
+const CARD_BG = "#151922";
+
+const AssetOverviewCard = ({
+  portfolioData,
+  totalAllbalance,
+  showBalance,
+  setShowBalance,
+}) => (
+  <article className="min-h-[320px] rounded-xl border border-[#252a36] bg-black p-5 shadow-[0_12px_30px_rgba(0,0,0,0.35)] md:p-6 xl:col-span-2">
+    <div className="relative z-10 mb-4 flex min-h-8 flex-nowrap items-center justify-between gap-3 border-b border-[#2a3038] pb-3">
+      <h3 className="mb-0 whitespace-nowrap leading-none text-xl font-semibold text-[#e0a82d]">
+        Asset Overview
+      </h3>
+      <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
+        {/* <i className="ri-eye-line text-[#8c94a6]" /> */}
+        <button
+          onClick={() => setShowBalance(!showBalance)}
+          className="text-[#8c94a6]"
+        >
+          <i
+            className={
+              showBalance
+                ? "ri-eye-line text-lg text-[#8c94a6]"
+                : "ri-eye-off-line text-lg text-[#8c94a6]"
+            }
+          />
+        </button>
+        {/* <select
+          defaultValue="USDT"
+          className="h-8 rounded-md border border-[#2a3038] bg-[#1a1f2a] px-2 text-xs text-[#d8deeb] outline-none transition focus:border-[#B87A13]"
+        >
+          <option>USDT</option>
+          <option>BTC</option>
+        </select> */}
+      </div>
+    </div>
+    <div className="grid gap-2 pt-1 md:grid-cols-[190px_1fr] lg:grid-cols-[210px_1fr]">
+      <div className="relative h-[176px] lg:h-[194px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={portfolioData}
+              dataKey="pieValue"
+              innerRadius={66}
+              outerRadius={84}
+              startAngle={30}
+              endAngle={390}
+              paddingAngle={6}
+              cornerRadius={10}
+              stroke={CARD_BG}
+              strokeWidth={6}
+            >
+              {portfolioData.map((entry) => (
+                <Cell key={entry.name} fill={entry.color} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-[16px] font-semibold leading-none text-[#e7ebf4] lg:text-[20px]">
+              {/* {Number(totalAllbalance).toFixed(8)} */}
+              {showBalance ? Number(totalAllbalance).toFixed(8) : "******"}
+            </div>
+            <div className="mt-1.5 text-xs leading-none text-[#77829a] lg:text-sm">
+              Total Assets
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col justify-center gap-2 overflow-hidden">
+        {portfolioData.map((item) => (
+          <div
+            key={item.name}
+            className="grid grid-cols-[minmax(140px,2fr)_140px_minmax(82px,2fr)] items-center gap-1.5 text-[11px] leading-tight lg:grid-cols-[minmax(72px,1fr)_140px_minmax(90px,1fr)_minmax(110px,1fr)] lg:text-xs"
+          >
+            <div className="flex items-center gap-2 mb-1">
+              <span
+                className="h-2.5 w-2.5 rounded-full shadow-[0_0_10px] shadow-current"
+                style={{ color: item.color, background: item.color }}
+              />
+              <span className="truncate font-medium text-[#d4dae6] lg:text-[16px]">
+                {item.name}
+              </span>
+            </div>
+            {/* <span className="text-right font-semibold tabular-nums text-[#e8ecf5]">
+              {item.percentage}%
+            </span> */}
+            <span className=" text-right tabular-nums text-[#c2c8d6] lg:text-[16px] mb-1">
+              {/* {item.balance} */}
+              {showBalance ? item.balance : "******"}
+            </span>
+            {/* <span className="truncate text-right font-medium tabular-nums text-[#e0a82d]"> */}
+            {/* = {item.usdt} USDT */}
+            {/* {showBalance ? item.usdt : "******"} */}
+            {/* </span> */}
+          </div>
+        ))}
+      </div>
+    </div>
+  </article>
+);
+
+const TotalAssetCard = ({
+  trendData,
+  totalAllbalance,
+  showBalance
+}) => {
+  const peak = useMemo(() => {
+    if (!trendData.length) {
+      return {
+        date: "",
+        value: 0,
+      };
+    }
+
+    return trendData.reduce(
+      (max, item) => (item.value > max.value ? item : max),
+      trendData[0],
+    );
+  }, [trendData]);
+  return (
+    <article className="min-h-[320px] rounded-xl border border-[#252a36] bg-black p-5 shadow-[0_12px_30px_rgba(0,0,0,0.35)] md:p-6">
+      <div className="relative z-10 mb-4 flex min-h-8 flex-nowrap items-center justify-between gap-3 border-b border-[#2a3038] pb-3">
+        <h3 className="mb-0 whitespace-nowrap leading-none text-xl font-semibold text-[#e0a82d]">
+          Total Asset
+        </h3>
+        {/* <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
+          <i className="ri-eye-line text-[#8c94a6]" />
+          <select
+            defaultValue="USDT"
+            className="h-8 rounded-md border border-[#2a3038] bg-[#1a1f2a] px-2 text-xs text-[#d8deeb] outline-none transition focus:border-[#B87A13]"
+          >
+            <option>USDT</option>
+            <option>BTC</option>
+          </select>
+        </div> */}
+      </div>
+      <div className="mb-4 flex items-center gap-3 pt-1">
+        <p className="text-3xl text-[#e7ebf4]">
+          $
+          {showBalance
+            ? `${Number(totalAllbalance).toFixed(8)} USDT`
+            : "******"}
+        </p>
+        {/* <span className="rounded-full bg-[#1a4e2f] px-2 py-1 text-xs font-semibold text-[#9df0be]">
+          +6.3%
+        </span> */}
+      </div>
+      <div className="h-[165px] md:h-[182px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={trendData || []}
+            margin={{ left: -5, right: 4, top: 10, bottom: 4 }}
+          >
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="#2b3140"
+              vertical={false}
+            />
+            <XAxis
+              dataKey="date"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: "#8a93a7", fontSize: 11 }}
+            />
+            <YAxis hide />
+            {trendData.length > 0 && (
+              <ReferenceArea
+                x1={peak.date}
+                x2={peak.date}
+                fill={ACCENT}
+                fillOpacity={0.25}
+              />
+            )}
+            <Tooltip
+              cursor={{ stroke: ACCENT, strokeWidth: 1 }}
+              contentStyle={{
+                background: "#10141d",
+                border: "1px solid #303646",
+                borderRadius: 8,
+              }}
+              formatter={(value) => [`$${value}`, "Asset"]}
+              labelStyle={{ color: "#dce2ef" }}
+              itemStyle={{ color: "#dce2ef" }}
+            />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke={ACCENT}
+              strokeWidth={2}
+              dot={{ r: 3, fill: "#cfd6e6", stroke: ACCENT, strokeWidth: 1 }}
+              activeDot={{ r: 5, fill: "#fff", stroke: ACCENT, strokeWidth: 2 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </article>
+  );
+};
+
+
 const Dashboard = () => {
   useEffect(() => {
     let token_socket = sessionStorage.getItem("user_token");
@@ -32,9 +250,21 @@ const Dashboard = () => {
     getPortfolio();
     getUserbalance(currentPage);
     getUserTotalbalance(currentPage);
+    getPortfolioHistory();
     generateWallet();
     console.log(profileData, "-=profileData=-");
   }, [0]);
+
+    const chartColors = [
+      "#49C989",
+      "#FF5476",
+      "#7A5AF8",
+      "#F2C94C",
+      "#FF7A45",
+      "#4FC3F7",
+      "#26A69A",
+      "#AB47BC",
+    ];
 
   const [perpage, setperpage] = useState(5);
   const { t } = useTranslation();
@@ -56,6 +286,16 @@ const Dashboard = () => {
   const [balanceDatas, setbalanceDatas] = useState([]);
   const recordPerPage = 5;
   const navigate = useNavigate();
+
+  const [portfolioData, setPortfolioData] = useState([]);
+  const [availableSpot, setavailableSpot] = useState(0);
+  const [inorderSpot, setinorderSpot] = useState(0);
+  const [totalSpot, settotalSpot] = useState(0);
+  const [availableFunding, setavailableFunding] = useState(0);
+  const [inorderFunding, setinorderFunding] = useState(0);
+  const [totalFunding, settotalFunding] = useState(0);
+  const [showBalance, setShowBalance] = useState(false);
+  const [trendData, setTrendData] = useState([]);
 
   const [dataExist, setdataExist, dataExistref] = useState(false);
 
@@ -179,10 +419,18 @@ const Dashboard = () => {
     var resp = await postMethod(data);
 
     if (resp.status == true) {
-      var balanceData = resp.balance;
-      setTotalAllbalance(balanceData.total_balance_new);
+      var balanceData = resp.balance || {};
+      setTotalAllbalance(
+        balanceData.total_balance_new || balanceData.total_balance || 0,
+      );
       setAvailablePrice(balanceData.available_balance);
       setinorderPrice(balanceData.inorder_balance);
+       setavailableSpot(balanceData.available_balance || 0);
+       setinorderSpot(balanceData.inorder_balance || 0);
+       settotalSpot(balanceData.total_balance_spot || 0);
+       setavailableFunding(balanceData.available_balance_funding || 0);
+       setinorderFunding(balanceData.inorder_balance_funding || 0);
+       settotalFunding(balanceData.total_balance_funding || 0);
       setSiteLoader(false);
     } else {
       setSiteLoader(false);
@@ -208,7 +456,7 @@ const Dashboard = () => {
     if (resp.status == true) {
       // setSiteLoader(false);
       // console.log(resp.Message, "=-=-=-resp.Message=-=-=-");
-      var balanceData = resp.Message;
+      var balanceData = resp.Message || [];
       setbalanceDatas(balanceData);
 
       var current_page = +resp.current * 5;
@@ -224,10 +472,72 @@ const Dashboard = () => {
       var totalnumber = resp.total;
       settotal(resp.total);
       // console.log(resp.total, "resp.totalresp.total");
-      var balanceData = resp.balance;
+      // var balanceData = resp.balance;
+
+      const summary = resp.balance || {};
+
+       setavailableSpot(summary.available_balance || 0);
+       setinorderSpot(summary.inorder_balance || 0);
+       settotalSpot(summary.total_balance_spot || 0);
+
+       setavailableFunding(summary.available_balance_funding || 0);
+
+       setinorderFunding(summary.inorder_balance_funding || 0);
+
+       settotalFunding(summary.total_balance_funding || 0);
+
+       createPieChartData(balanceData);
+
+      //  createAssetRows(balances);
     } else {
     }
   };
+
+    const getPortfolioHistory = async () => {
+      try {
+        const data = {
+          apiUrl: apiService.getPortfolioHistory,
+  
+          payload: {},
+        };
+  
+        const resp = await postMethod(data);
+  
+        if (resp.status) {
+          setTrendData(resp.data || []);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+  
+  const createPieChartData = (balances) => {
+    const chartData = balances.map((item, index) => {
+      const actualBalance = Number(item.currencyBalance || 0);
+  
+      return {
+        name: item.currencysymbol,
+  
+        pieValue: actualBalance > 0 ? Math.max(actualBalance, 0.005) : 0.002,
+  
+        actualBalance,
+  
+        balance: actualBalance.toFixed(8) + " " + item.currencysymbol,
+  
+        color: chartColors[index % chartColors.length],
+      };
+    });
+  
+    setPortfolioData(chartData);
+  };
+
+    const displayBalance = (value) => {
+      if (!showBalance) {
+        return "******";
+      }
+
+      return Number(value || 0).toFixed(8);
+    };
 
   const searchWalletList = async () => {
     // console.log(searchref.current,"-=-=searchref.current=--");
@@ -415,8 +725,11 @@ const Dashboard = () => {
                     {/* Left: Name + VIP */}
                     <div className="flex items-center gap-2">
                       <h3 className="text-lg text-secondary font-bold">
-                        {t("hello")} {profileData.displayname}
+                        {t("hello")} {profileData.uuid}
                       </h3>
+                      {/* <h3 className="text-lg text-secondary font-bold">
+                        {t("hello")} {profileData.displayname}
+                      </h3> */}
 
                       {profileData.vipBadge === true &&
                         dataExistref.current && (
@@ -615,6 +928,80 @@ const Dashboard = () => {
                         </Link>
                       </div>
                     </div> */}
+                  </div>
+
+                  <div className="row mt-5">
+                    <div className="col-lg-12">
+                      <div className="grid gap-5 xl:grid-cols-3">
+                        {/* <AssetOverviewCard /> */}
+                        <AssetOverviewCard
+                          portfolioData={portfolioData}
+                          totalAllbalance={totalAllbalance}
+                          showBalance={showBalance}
+                          setShowBalance={setShowBalance}
+                        />
+
+                        <TotalAssetCard
+                          trendData={trendData}
+                          totalAllbalance={totalAllbalance}
+                          showBalance={showBalance}
+                        />
+                      </div>
+                      <div className="mt-5 border-t border-[#2a3038]" />
+                      <div className="grid gap-5 md:grid-cols-2 mt-5">
+                        <div className="rounded-xl border border-[#252a36] bg-black p-5">
+                          <h3 className="text-[#e0a82d] text-lg mb-4">
+                            Spot Wallet
+                          </h3>
+
+                          <div className="space-y-3">
+                            <div className="flex justify-between text-[#e7ebf2]">
+                              <span>Available</span>
+                              {/* <span>{Number(availableSpot).toFixed(8)}</span> */}
+                              <span>{displayBalance(availableSpot)}</span>
+                            </div>
+
+                            <div className="flex justify-between text-[#e7ebf2]">
+                              <span>On Orders</span>
+                              {/* <span>{Number(inorderSpot).toFixed(8)}</span> */}
+                              <span>{displayBalance(inorderSpot)}</span>
+                            </div>
+
+                            <div className="flex justify-between font-bold text-[#e7ebf2]">
+                              <span>Total</span>
+                              {/* <span>{Number(totalSpot).toFixed(8)}</span> */}
+                              <span>{displayBalance(totalSpot)}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="rounded-xl border border-[#252a36] bg-black p-5">
+                          <h3 className="text-[#e0a82d] text-lg mb-4">
+                            Funding Wallet
+                          </h3>
+
+                          <div className="space-y-3">
+                            <div className="flex justify-between text-[#e7ebf2]">
+                              <span>Available</span>
+                              {/* <span>{Number(availableFunding).toFixed(8)}</span> */}
+                              <span>{displayBalance(availableFunding)}</span>
+                            </div>
+
+                            <div className="flex justify-between text-[#e7ebf2]">
+                              <span>On Orders</span>
+                              {/* <span>{Number(inorderFunding).toFixed(8)}</span> */}
+                              <span>{displayBalance(inorderFunding)}</span>
+                            </div>
+
+                            <div className="flex justify-between font-bold text-[#e7ebf2]">
+                              <span>Total</span>
+                              {/* <span>{Number(totalFunding).toFixed(8)}</span> */}
+                              <span>{displayBalance(totalFunding)}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="row newchange_rcky pad-y-40">

@@ -770,7 +770,7 @@ const Header = () => {
                         {isAssetOpen && (
                           <div className="absolute right-0 sm:right-0 left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 mt-10 w-[90vw] max-w-[220px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-4 z-50">
                             <div className="flex flex-col gap-3">
-                              <Link to="/assets" className="nav-trade-links">
+                              {/* <Link to="/assets" className="nav-trade-links">
                                 <div className="nav-trade-wrapper flex items-center gap-2">
                                   <img
                                     src={require("../assets/icons/overview-assets.webp")}
@@ -781,7 +781,7 @@ const Header = () => {
                                     <i className="bi bi-arrow-right"></i>
                                   </div>
                                 </div>
-                              </Link>
+                              </Link> */}
 
                               <Link
                                 to="/spotassets"
