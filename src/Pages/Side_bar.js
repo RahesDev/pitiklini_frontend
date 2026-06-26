@@ -200,13 +200,13 @@ const Side_bar = () => {
             </Tooltip>
 
             {/* Asset */}
-            <Tooltip title={isCollapsed ? "Asset" : ""} placement="right" arrow {...tooltipProps}>
+            {/* <Tooltip title={isCollapsed ? "Asset" : ""} placement="right" arrow {...tooltipProps}> */}
               {/* <Link to="/asset" className={menuClass("asset")}> */}
-              <Link to="/spotassets" className={menuClass("asset")}>
+              {/* <Link to="/spotassets" className={menuClass("asset")}>
                 <i className="ri-wallet-3-line text-[24px]"></i>
                 {!isCollapsed && <span className="text-[16px] font-ibm">Asset</span>}
               </Link>
-            </Tooltip>
+            </Tooltip> */}
 
             {/* Security */}
             <Tooltip

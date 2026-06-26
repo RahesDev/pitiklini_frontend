@@ -8,7 +8,7 @@ import { Dropdown } from "semantic-ui-react";
 import { Bars } from "react-loader-spinner";
 import "semantic-ui-css/semantic.min.css";
 import { useTranslation } from "react-i18next";
-import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
+// import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
 import DashboardLayout from "./DashboardLayout";
 import Payment from "./view-order";
 
@@ -34,8 +34,37 @@ const P2P = () => {
   const [preferPayment, setpreferPayment] = useState([]);
   const [selectedCrypto, setSelectedCrypto] = useState("USDT");
   const [cryptoStartIndex, setCryptoStartIndex] = useState(0);
+  const [visibleCryptoCount, setVisibleCryptoCount] = useState(0);
 
-  const visibleCryptoCount = 3;
+  // const visibleCryptoCount = 2;
+
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      const width = window.innerWidth;
+
+      if (width < 767) {
+        setVisibleCryptoCount(3);
+      } else if (width < 991) {
+        setVisibleCryptoCount(2);
+      } else if (width < 1299) {
+        setVisibleCryptoCount(1);
+      } else {
+        setVisibleCryptoCount(2);
+      }
+    };
+
+    updateVisibleCount(); // Initial check
+
+    window.addEventListener("resize", updateVisibleCount);
+
+    return () => window.removeEventListener("resize", updateVisibleCount);
+  }, []);
+
+  useEffect(() => {
+    setCryptoStartIndex((prev) =>
+      Math.min(prev, Math.max(0, cryptoCurrencies.length - visibleCryptoCount)),
+    );
+  }, [visibleCryptoCount, cryptoCurrencies.length]);
 
   const visibleCryptos = cryptoCurrencies.slice(
     cryptoStartIndex,
@@ -441,7 +470,7 @@ const P2P = () => {
                             Asset
                           </label>
 
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1">
                             <button
                               type="button"
                               onClick={() =>
@@ -469,7 +498,7 @@ const P2P = () => {
                               </svg>
                             </button>
 
-                            <div className="flex flex-1 gap-3 overflow-hidden">
+                            <div className="flex flex-1 gap-1 overflow-hidden">
                               {visibleCryptos && visibleCryptos.length > 0 ? (
                                 visibleCryptos.map((crypto) => (
                                   <button
@@ -478,7 +507,7 @@ const P2P = () => {
                                     onClick={() =>
                                       setSelectedCrypto(crypto.value)
                                     }
-                                    className={`min-w-[72px] rounded-lg px-4 py-3 text-sm font-bold uppercase transition-all duration-200 whitespace-nowrap ${
+                                    className={`min-w-[68px] rounded-lg px-4 py-3 text-sm font-bold uppercase transition-all duration-200 whitespace-nowrap ${
                                       selectedCrypto === crypto.value
                                         ? "bg-[#c98a11] text-white"
                                         : "bg-[#282A30] text-white hover:bg-white/12"
@@ -621,7 +650,7 @@ const P2P = () => {
                         </div>
 
                         {/* More Filters */}
-                        <div className="mb-6 flex cursor-pointer items-center justify-between text-[#c98a11]">
+                        {/* <div className="mb-6 flex cursor-pointer items-center justify-between text-[#c98a11]">
                           <span className="text-[12px] font-bold uppercase tracking-[0.2em]">
                             More Filters
                           </span>
@@ -635,9 +664,9 @@ const P2P = () => {
                           >
                             <path d="m6 9 6 6 6-6" />
                           </svg>
-                        </div>
+                        </div> */}
 
-                        <div className="border-t border-white/5 pt-6">
+                        {/* <div className="border-t border-white/5 pt-6">
                           <label className="flex items-center gap-4 cursor-pointer">
                             <input type="checkbox" className="peer sr-only" />
                             <span className="flex h-7 w-7 items-center justify-center rounded-md border border-[#c98a11] bg-transparent text-[#c98a11] peer-checked:bg-[#c98a11] peer-checked:text-[#111827]">
@@ -658,7 +687,7 @@ const P2P = () => {
                               Only
                             </span>
                           </label>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

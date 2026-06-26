@@ -756,20 +756,20 @@ const Header = () => {
                       ""
                     )}
 
-                    {loginCheck ? (
-                      <div className="relative" ref={assetRef}>
+                     {/* {loginCheck ? (
+                      <div className="relative" ref={assetRef}> */}
                         {/* Button */}
-                        <button
+                        {/* <button
                           onClick={() => setIsAssetOpen((prev) => !prev)}
                           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-gray sm:h-10 sm:w-10"
                         >
                           <img src={Asset} alt="Asset" className="w-5 h-5" />
-                        </button>
+                        </button> */}
 
                         {/* Dropdown */}
-                        {isAssetOpen && (
+                        {/* {isAssetOpen && (
                           <div className="absolute right-0 sm:right-0 left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 mt-10 w-[90vw] max-w-[220px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-4 z-50">
-                            <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-3"> */}
                               {/* <Link to="/assets" className="nav-trade-links">
                                 <div className="nav-trade-wrapper flex items-center gap-2">
                                   <img
@@ -783,7 +783,7 @@ const Header = () => {
                                 </div>
                               </Link> */}
 
-                              <Link
+                              {/* <Link
                                 to="/spotassets"
                                 className="nav-trade-links"
                               >
@@ -818,7 +818,7 @@ const Header = () => {
                           </div>
                         )}
                       </div>
-                    ) : null}
+                    ) : null} */}
                     {/* <IconButton
                     edge="start"
                     color="inherit"
@@ -1491,7 +1491,7 @@ const Header = () => {
                         <span>{t("recharge")}</span>
                       </Link>
                     </ListItem>
-                    <ListItem button className="drawa mobile-sidebar-item">
+                    {/* <ListItem button className="drawa mobile-sidebar-item">
                       <Link
                         to="/spotassets"
                         className="mobile-sidebar-link"
@@ -1500,7 +1500,7 @@ const Header = () => {
                         <i className="ri-wallet-3-line mobile-sidebar-icon"></i>
                         <span>{t("asset")}</span>
                       </Link>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem button className="drawa mobile-sidebar-item">
                       <Link
                         to="/security"

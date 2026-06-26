@@ -12,7 +12,7 @@ import AdvertiserTable from "./AdvertiserTable";
 import apiService from "../core/service/detail";
 import { postMethod, getMethod } from "../core/service/common.api";
 import { useTranslation } from "react-i18next";
-import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
+// import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
 import DashboardLayout from "./DashboardLayout";
 const P2P = () => {
   const [selectedMethod, setSelectedMethod] = useState("");
@@ -414,68 +414,58 @@ const P2P = () => {
 
   return (
     <>
-     <DashboardLayout>
-      {siteLoader == true ? (
-        <div className="loadercss">
-          <Bars
-            height="80"
-            width="80"
-            color="#ffc630"
-            ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      ) : (
-       <section className="asset_section">
+      <DashboardLayout>
+        {siteLoader == true ? (
+          <div className="loadercss">
+            <Bars
+              height="80"
+              width="80"
+              color="#ffc630"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        ) : (
+          <section className="asset_section">
             <div className="buy_head">
               <div className="w-full">
                 <div className="bg-black rounded-xl p-4">
-              {!formVisible ? (
-                
-                 
-                  <>
+                  {!formVisible ? (
+                    <>
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+                        {/* LEFT CONTENT */}
+                        <div>
+                          <h1 className="text-2xl md:text-3xl font-semibold text-primary">
+                            P2P Platform
+                          </h1>
 
-                    
+                          <h2 className="text-lg md:text-xl font-medium text-white mt-2">
+                            Payment Methods
+                          </h2>
 
-                     
+                          <p className="text-sm text-primary mt-1">
+                            {t("paymentmethodonPitiklini")}
+                          </p>
+                        </div>
 
-         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
-  
-  {/* LEFT CONTENT */}
-  <div>
-    <h1 className="text-2xl md:text-3xl font-semibold text-primary">
-      P2P Platform
-    </h1>
+                        {/* RIGHT BUTTON */}
+                        <div className="mt-4 md:mt-0">
+                          <div className="bg-primary hover:primary/10 transition px-5 py-2.5 rounded-xl flex items-center gap-2 cursor-pointer shadow-md">
+                            <i className="fa-solid fa-plus text-white"></i>
 
-    <h2 className="text-lg md:text-xl font-medium text-white mt-2">
-      Payment Methods
-    </h2>
-
-    <p className="text-sm text-primary mt-1">
-      {t("paymentmethodonPitiklini")}
-    </p>
-  </div>
-
-  {/* RIGHT BUTTON */}
-  <div className="mt-4 md:mt-0">
-    <div className="bg-primary hover:primary/10 transition px-5 py-2.5 rounded-xl flex items-center gap-2 cursor-pointer shadow-md">
-      
-      <i className="fa-solid fa-plus text-white"></i>
-
-      <Dropdown
-        inline
-        placeholder={t("addPaymentMethod")}
-        options={paymentMethods}
-        defaultValue={selectedMethod}
-        onChange={handleMethodChange}
-        className="!text-black font-medium"
-      />
-    </div>
-  </div>
-
-</div>
+                            <Dropdown
+                              inline
+                              placeholder={t("addPaymentMethod")}
+                              options={paymentMethods}
+                              defaultValue={selectedMethod}
+                              onChange={handleMethodChange}
+                              className="!text-black font-medium"
+                            />
+                          </div>
+                        </div>
+                      </div>
 
                       <div className="col-lg-12 ">
                         <div className="mt-5">
@@ -555,17 +545,17 @@ const P2P = () => {
 
                                   {/* {options.type == "IMPS" ||
                                   options.type == "BankTransfer" ? ( */}
-                                    <>
-                                      <div className="col-lg-4">
-                                        <div className="label">
-                                          {t("bankAccountDetails")}
-                                        </div>
-                                        <div className="content">
-                                          {options.Account_Number || "N/A"}
-                                        </div>
+                                  <>
+                                    <div className="col-lg-4">
+                                      <div className="label">
+                                        {t("bankAccountDetails")}
                                       </div>
+                                      <div className="content">
+                                        {options.Account_Number || "N/A"}
+                                      </div>
+                                    </div>
 
-                                      {/* <div className="col-lg-4">
+                                    {/* <div className="col-lg-4">
                                         <div className="label">
                                           {t("ifscCode")}
                                         </div>
@@ -574,15 +564,15 @@ const P2P = () => {
                                         </div>
                                       </div> */}
 
-                                      <div className="col-lg-4">
-                                        <div className="label">
-                                          {t("account_name")}
-                                        </div>
-                                        <div className="content">
-                                          {options.Accout_HolderName || "N/A"}
-                                        </div>
+                                    <div className="col-lg-4">
+                                      <div className="label">
+                                        {t("account_name")}
                                       </div>
-                                    </>
+                                      <div className="content">
+                                        {options.Accout_HolderName || "N/A"}
+                                      </div>
+                                    </div>
+                                  </>
                                   {/* // ) : (
                                   //   ""
                                   // )} */}
@@ -601,203 +591,199 @@ const P2P = () => {
                           )}
                         </div>
                       </div>
-                    
-                 </>
-               
-              ) : (
-                <>
-                 
-                    <section className="asset_section">
-                    
+                    </>
+                  ) : (
+                    <>
+                      <section className="asset_section">
                         <div className=" top-[24px] left-[16px] w-[78px] h-[38px] border border-primary rounded-[8px] flex items-center justify-center gap-[4px] px-[16px] py-[12px] box-border text-[#B1B5C3] hover:text-white transition z-30">
                           <Link onClick={Sentback}>
-                           <span className="text-lg text-secondary mr-1">
-                  <i className="ri-arrow-left-s-line"></i>
-                </span>
-                <span className="text-md font-ibm text-secondary">{t("back")}</span>
+                            <span className="text-lg text-secondary mr-1">
+                              <i className="ri-arrow-left-s-line"></i>
+                            </span>
+                            <span className="text-md font-ibm text-secondary">
+                              {t("back")}
+                            </span>
                           </Link>
-
-                        
-            
-               
-           
-           
                         </div>
 
-                       <div className="flex justify-center mt-6">
-  <div className="w-full bg-black rounded-2xl p-6 shadow-2xl border border-gray">
+                        <div className="flex justify-center mt-6">
+                          <div className="w-full bg-black rounded-2xl p-6 shadow-2xl border border-gray">
+                            {/* Header */}
+                            <div className="flex justify-between items-center mb-6">
+                              <h2 className="text-primary font-semibold text-2xl flex items-center gap-2">
+                                {t("addbanktrans")}
+                              </h2>
+                              <button
+                                onClick={Sentback}
+                                className="text-gray-400 hover:text-white"
+                              >
+                                ✕
+                              </button>
+                            </div>
 
-    {/* Header */}
-    <div className="flex justify-between items-center mb-6">
-      <h2 className="text-primary font-semibold text-2xl flex items-center gap-2">
-       
-        Add Bank Transfer
-      </h2>
-      <button onClick={Sentback} className="text-gray-400 hover:text-white">
-        ✕
-      </button>
-    </div>
+                            <form className="space-y-6">
+                              {/* Row 1 */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Account Name */}
+                                <div>
+                                  <label className="text-md text-white mb-1 block">
+                                    {t("account_name")}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name || ""}
+                                    onChange={handleInputChange}
+                                    className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white "
+                                    placeholder={t("pleaseEnterHolderName")}
+                                  />
+                                  {errors.name && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                      {errors.name}
+                                    </p>
+                                  )}
+                                </div>
 
-    <form className="space-y-6">
+                                {/* Bank Name */}
+                                <div>
+                                  <label className="text-md text-white mb-1 block">
+                                    {t("bankName")}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="bankName"
+                                    value={formData.bankName || ""}
+                                    onChange={handleInputChange}
+                                    className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
+                                    placeholder={t("pleaseEnterBankName")}
+                                  />
+                                  {errors.bankName && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                      {errors.bankName}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
 
-      {/* Row 1 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-        {/* Account Name */}
-        <div>
-          <label className="text-md text-white mb-1 block">
-            ACCOUNT NAME
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name || ""}
-            onChange={handleInputChange}
-            className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white "
-            placeholder="Enter account name"
-          /> 
-          {errors.name && (
-            <p className="text-red-500 text-xs mt-1">{errors.name}</p>
-          )}
-        </div>
-
-        {/* Bank Name */}
-        <div>
-          <label className="text-md text-white mb-1 block">
-            BANK NAME
-          </label>
-          <input
-            type="text"
-            name="bankName"
-            value={formData.bankName || ""}
-            onChange={handleInputChange}
-            className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
-            placeholder="Enter a Bank name"
-          />
-          {errors.bankName && (
-            <p className="text-red-500 text-xs mt-1">{errors.bankName}</p>
-          )}
-        </div>
-      </div>
-
-      {/* Row 2 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-        {/* Account Number */}
-        <div>
-          <label className=" text-md text-white mb-1 block">
-            ACCOUNT NUMBER
-          </label>
-          <input
-            type="text"
-            name="accountNumber"
-            value={formData.accountNumber || ""}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value.length <= 30) handleInputChange(e);
-            }}
-            className={`w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white 
+                              {/* Row 2 */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Account Number */}
+                                <div>
+                                  <label className=" text-md text-white mb-1 block">
+                                    {t("accountNo")}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="accountNumber"
+                                    value={formData.accountNumber || ""}
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      if (value.length <= 30)
+                                        handleInputChange(e);
+                                    }}
+                                    className={`w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white 
               ${errors.accountNumber ? "border-red-500" : "border-gray "}`}
-            placeholder="Enter account number"
-          />
-          {errors.accountNumber && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.accountNumber}
-            </p>
-          )}
-        </div>
+                                    placeholder={t("pleaseEnterBankAcNum")}
+                                  />
+                                  {errors.accountNumber && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                      {errors.accountNumber}
+                                    </p>
+                                  )}
+                                </div>
+                                {/* IFSC (optional UI only) */}
+                                <div>
+                                  <label className="text-md text-white mb-1 block">
+                                    {t("SWIFT/IFSC CODE")}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
+                                    placeholder={t("swiftplaceholder")}
+                                  />
+                                </div>
+                                {/* Currency */}
+                                <div>
+                                  <label className="text-md text-white mb-2 block">
+                                    {t("Currency")}
+                                  </label>
 
-        {/* IFSC (optional UI only) */}
-        <div>
-          <label className="text-md text-white mb-1 block">
-            SWIFT / IFSC CODE
-          </label>
-          <input
-            type="text"
-            className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
-            placeholder="Enter routing code"
-          />
-        </div>
-     
+                                  <div className="w-full [&_.ui.dropdown]:w-full">
+                                    <Dropdown
+                                      fluid
+                                      selection
+                                      options={fiatCurrencies}
+                                      value={selectedfiat}
+                                      onChange={handlecurrencyChange}
+                                      className="!w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
+                                    />
+                                  </div>
 
-      {/* Currency */}
-     <div >
-  <label className="text-md text-white mb-2 block">
-    CURRENCY
-  </label>
+                                  {errors.Currency && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                      {errors.Currency}
+                                    </p>
+                                  )}
+                                </div>
+                                <div></div>{" "}
+                              </div>
 
-  <div className="w-full [&_.ui.dropdown]:w-full">
-  <Dropdown
-  fluid
-  selection
-  options={fiatCurrencies}
-  value={selectedfiat}
-  onChange={handlecurrencyChange}
-  className="!w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
-/>
-  </div>
+                              {/* Instructions */}
+                              <div>
+                                <label className="text-md text-white mb-1 block">
+                                  {t("bankinstropti")}
+                                </label>
+                                <textarea
+                                  className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
+                                  placeholder={t("bankinstroptiplace")}
+                                />
+                              </div>
 
-  {errors.Currency && (
-    <p className="text-red-500 text-xs mt-1">{errors.Currency}</p>
-  )}
-</div>
-<div></div> </div>
+                              {/* Buttons */}
+                              <div className="flex justify-end items-center gap-4 pt-4">
+                                <button
+                                  type="button"
+                                  onClick={Sentback}
+                                  className="bg-primary text-black font-medium px-6 py-2 rounded-lg"
+                                >
+                                  Cancel
+                                </button>
 
-      {/* Instructions */}
-      <div>
-        <label className="text-md text-white mb-1 block">
-          INSTRUCTIONS (OPTIONAL)
-        </label>
-        <textarea
-          className="w-full bg-[#181a20] border border-gray shadow-lg rounded-lg px-4 py-4 text-white"
-          placeholder="Add specific payment notes for the counterparty..."
-        />
-      </div>
-
-      {/* Buttons */}
-      <div className="flex justify-end items-center gap-4 pt-4">
-        <button
-          type="button"
-          onClick={Sentback}
-          className="bg-primary text-black font-medium px-6 py-2 rounded-lg"
-        >
-          Cancel
-        </button>
-
-        {Editstatus == false ? (
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="bg-primary text-black font-medium px-6 py-2 rounded-lg"
-          >
-            {buttonLoader ? "Loading..." : "Save Method"}
-          </button>
-        ) : (
-          <button
-            type="submit"
-            onClick={handleEdit}
-            className="bg-primary text-black font-medium px-6 py-2 rounded-lg"
-          >
-            {buttonLoaderEdit ? "Loading..." : "Update Method"}
-          </button>
-        )}
-      </div>
-
-    </form>
-  </div>
-</div>
-                  
-                    </section>
-               
-                </>
-              )}
+                                {Editstatus == false ? (
+                                  <button
+                                    type="submit"
+                                    onClick={handleSubmit}
+                                    className="bg-primary text-black font-medium px-6 py-2 rounded-lg"
+                                  >
+                                    {buttonLoader
+                                      ? "Loading..."
+                                      : "Save Method"}
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="submit"
+                                    onClick={handleEdit}
+                                    className="bg-primary text-black font-medium px-6 py-2 rounded-lg"
+                                  >
+                                    {buttonLoaderEdit
+                                      ? "Loading..."
+                                      : "Update Method"}
+                                  </button>
+                                )}
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </section>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-          </div>
           </section>
-               )}
-             </DashboardLayout>
-           </>
+        )}
+      </DashboardLayout>
+    </>
   );
 };
 
