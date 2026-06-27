@@ -298,6 +298,7 @@ const PostAd = () => {
 
     if (validateForm(formDataref.current)) {
       console.log("Form submitted:", formData);
+      // return;
       setSiteLoader(true);
       var data = {
         apiUrl: apiService.p2pOrder,
@@ -472,57 +473,180 @@ const PostAd = () => {
           // <section className="asset_section bg-[#0f1117] py-6 pt-6 lg:pt-20 ">
           <section className="asset_section bg-[#0f1117]">
             <div className="mx-auto max-w-[1160px] pt-0 lg:pt-6 px-2 md:px-4">
-              <h2 className="text-2xl font-semibold text-[#B87A13]">P2P Platform</h2>
-              <h3 className="mt-2 text-2xl font-semibold text-[#e7ecf6]">Post Advertisement</h3>
+              <h2 className="text-2xl font-semibold text-[#B87A13]">
+                P2P Platform
+              </h2>
+              <h3 className="mt-2 text-2xl font-semibold text-[#e7ecf6]">
+                Post Advertisement
+              </h3>
               <p className="mt-2 text-sm text-[#8f96a7]">
-                Create a new buy or sell order for the P2P marketplace. Configure your pricing strategy and payment parameters below.
+                Create a new buy or sell order for the P2P marketplace.
+                Configure your pricing strategy and payment parameters below.
               </p>
 
               <div className="mt-6 grid gap-5 lg:grid-cols-[1.6fr_1fr]">
                 <form className="space-y-4">
                   <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
                     <h4 className="mb-4 flex items-center gap-2 text-lg font-semibold text-[#dbe2ef]">
-                      <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">1</span>
+                      <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">
+                        1
+                      </span>
                       Pricing & Asset
                     </h4>
                     <div className="grid gap-4 md:grid-cols-2">
                       <div>
-                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Trade Type</label>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                          Trade Type
+                        </label>
                         <div className="rounded-lg border border-[#2a3038] bg-[#0c111a] p-1">
-                          <button type="button" onClick={() => updateTradeType("buy")} className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "buy" ? "bg-[#B87A13] text-[#11161f]" : "text-[#c7cedd]"}`}>BUY</button>
-                          <button type="button" onClick={() => updateTradeType("sell")} className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "sell" ? "bg-[#B87A13] text-[#11161f]" : "text-[#c7cedd]"}`}>SELL</button>
+                          <button
+                            type="button"
+                            onClick={() => updateTradeType("buy")}
+                            className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "buy" ? "bg-[#B87A13] text-[#11161f]" : "text-[#c7cedd]"}`}
+                          >
+                            BUY
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => updateTradeType("sell")}
+                            className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "sell" ? "bg-[#B87A13] text-[#11161f]" : "text-[#c7cedd]"}`}
+                          >
+                            SELL
+                          </button>
                         </div>
                       </div>
                       <div>
-                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Asset Selection</label>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                          Asset Selection
+                        </label>
                         <select
                           value={formData.cryptoCurrency}
-                          onChange={(e) => setFormData((prev) => ({ ...prev, cryptoCurrency: e.target.value }))}
+                          onChange={(e) => {
+                            const updatedData = {
+                              ...formData,
+                              cryptoCurrency: e.target.value,
+                            };
+
+                            setFormData(updatedData);
+                            validateForm(updatedData);
+                          }}
                           className="h-11 w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]"
                         >
                           <option value="">Select Crypto</option>
                           {cryptoCurrencies.map((c) => (
-                            <option key={c.value} value={c.value}>{c.value} ({c.text})</option>
+                            <option key={c.value} value={c.value}>
+                              {c.value} ({c.text})
+                            </option>
                           ))}
                         </select>
+                        {errors.cryptoCurrency && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.cryptoCurrency}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                          Fiat Currency
+                        </label>
+
+                        <select
+                          value={formData.fiatCurrency}
+                          onChange={(e) => {
+                            const updatedData = {
+                              ...formData,
+                              fiatCurrency: e.target.value,
+                            };
+
+                            setFormData(updatedData);
+                            validateForm(updatedData);
+                          }}
+                          className="h-11 w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 text-sm text-[#e5eaf4]"
+                        >
+                          <option value="">Select Fiat</option>
+
+                          {fiatCurrencies.map((f) => (
+                            <option key={f.value} value={f.value}>
+                              {f.text}
+                            </option>
+                          ))}
+                        </select>
+
+                        {errors.fiatCurrency && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.fiatCurrency}
+                          </p>
+                        )}
                       </div>
                     </div>
 
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
                       <div className="rounded-lg border border-[#2a3038] bg-[#0c111a] p-3">
-                        <p className="text-[11px] uppercase text-[#7f8799]">Pricing Type</p>
-                        <button type="button" className="mt-2 h-9 rounded-md border border-[#B87A13] px-4 text-xs font-semibold text-[#B87A13]">Fixed</button>
-                        <p className="mt-1 text-[11px] text-[#7f8799]">Stays constant</p>
+                        <p className="text-[11px] uppercase text-[#7f8799]">
+                          Pricing Type
+                        </p>
+                        <button
+                          type="button"
+                          className="mt-2 h-9 rounded-md border border-[#B87A13] px-4 text-xs font-semibold text-[#B87A13]"
+                        >
+                          Fixed
+                        </button>
+                        <p className="mt-1 text-[11px] text-[#7f8799]">
+                          Stays constant
+                        </p>
                       </div>
                       <div>
-                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Your Price</label>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                          Your Price
+                        </label>
                         <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
-                          <input name="price" value={formData.price} onChange={handleChange} className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none" />
-                          <span className="text-[11px] text-[#8a92a5]">USD</span>
+                          <input
+                            type="number"
+                            name="price"
+                            value={formData.price}
+                            // onChange={handleChange}
+                            onChange={(e) => {
+                              const value = e.target.value;
+
+                              if (value.length <= 20) {
+                                handleChange(e);
+                              }
+                            }}
+                            onKeyDown={(evt) =>
+                              ["e", "E", "+", "-"].includes(evt.key) &&
+                              evt.preventDefault()
+                            }
+                            className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none"
+                          />
+                          {/* {errors.price && (
+                            <p className="text-red-500 text-xs mt-1">
+                              {errors.price}
+                            </p>
+                          )} */}
+                          <span className="text-[11px] text-[#8a92a5]">
+                            {formData.fiatCurrency}
+                          </span>
                         </div>
+                        {errors.price && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.price}
+                          </p>
+                        )}
                         <div className="mt-2 flex items-center justify-between rounded-lg bg-[#0c111a] px-3 py-2 text-[11px]">
-                          <div className="text-[#8c94a6]">Market Avg <span className="ml-2 text-[#d4dbea]">{formData.lowestOrderPrice || "1.018"}</span></div>
-                          <div className="text-[#8c94a6]">Your Price <span className="ml-2 text-[#B87A13]">{formData.price || "1.015"}</span></div>
+                          <div className="text-[#8c94a6]">
+                            Market Avg{" "}
+                            <span className="ml-2 text-[#d4dbea]">
+                              {tradeType === "buy"
+                                ? formData.lowestOrderPrice || "0"
+                                : formData.higeshOrderPrice || "0"}
+                            </span>
+                          </div>
+                          <div className="text-[#8c94a6]">
+                            Your Price{" "}
+                            <span className="ml-2 text-[#B87A13]">
+                              {formData.price || "1.015"}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -530,74 +654,218 @@ const PostAd = () => {
 
                   <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
                     <h4 className="mb-4 flex items-center gap-2 text-lg font-semibold text-[#dbe2ef]">
-                      <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">2</span>
+                      <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">
+                        2
+                      </span>
                       Inventory & Limits
                     </h4>
-                    <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Total Inventory</label>
+                    <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                      Total Inventory
+                    </label>
                     <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
-                      <input name="quantity" value={formData.quantity} onChange={handleChange} className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none" />
-                      <span className="text-[11px] text-[#B87A13]">MAX USDT</span>
+                      <input
+                        type="number"
+                        name="quantity"
+                        value={formData.quantity}
+                        // onChange={handleChange}
+                        onChange={(e) => {
+                          const value = e.target.value;
+
+                          if (value.length <= 10) {
+                            handleChange(e);
+                          }
+                        }}
+                        onKeyDown={(evt) =>
+                          ["e", "E", "+", "-"].includes(evt.key) &&
+                          evt.preventDefault()
+                        }
+                        className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none"
+                      />
+                      {/* <span className="text-[11px] text-[#B87A13]">MAX USDT</span> */}
                     </div>
+                    {errors.quantity && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.quantity}
+                      </p>
+                    )}
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
                       <div>
-                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Order Minimum</label>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                          Order Minimum
+                        </label>
                         <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
-                          <input name="minQuantity" value={formData.minQuantity} onChange={handleChange} className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none" />
-                          <span className="text-[11px] text-[#8a92a5]">USD</span>
+                          <input
+                            type="number"
+                            name="minQuantity"
+                            value={formData.minQuantity}
+                            onChange={(e) => {
+                              const value = e.target.value;
+
+                              if (value.length <= 10) {
+                                handleChange(e);
+                              }
+                            }}
+                            onKeyDown={(evt) =>
+                              ["e", "E", "+", "-"].includes(evt.key) &&
+                              evt.preventDefault()
+                            }
+                            className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none"
+                          />
+
+                          {/* <span className="text-[11px] text-[#8a92a5]">
+                            USD
+                          </span> */}
                         </div>
+                        {errors.minQuantity && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.minQuantity}
+                          </p>
+                        )}
                       </div>
                       <div>
-                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Order Maximum</label>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                          Order Maximum
+                        </label>
                         <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
-                          <input name="maxQuantity" value={formData.maxQuantity} onChange={handleChange} className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none" />
-                          <span className="text-[11px] text-[#8a92a5]">USD</span>
+                          <input
+                            type="number"
+                            name="maxQuantity"
+                            value={formData.maxQuantity}
+                            onChange={(e) => {
+                              const value = e.target.value;
+
+                              if (value.length <= 10) {
+                                handleChange(e);
+                              }
+                            }}
+                            onKeyDown={(evt) =>
+                              ["e", "E", "+", "-"].includes(evt.key) &&
+                              evt.preventDefault()
+                            }
+                            className="w-full bg-transparent text-sm text-[#e7ecf6] outline-none"
+                          />
+
+                          {/* <span className="text-[11px] text-[#8a92a5]">
+                            USD
+                          </span> */}
                         </div>
+                        {errors.maxQuantity && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.maxQuantity}
+                          </p>
+                        )}
+
+                        {errors.quantityRange && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.quantityRange}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </article>
 
                   <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
                     <h4 className="mb-4 flex items-center gap-2 text-lg font-semibold text-[#dbe2ef]">
-                      <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">3</span>
+                      <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">
+                        3
+                      </span>
                       Payment & Logic
                     </h4>
-                    <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Payment Methods (select up to 3)</label>
+                    <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                      Payment Methods
+                    </label>
                     <div className="grid gap-2 sm:grid-cols-3">
-                      {paymentMethods.slice(0, 2).map((p) => (
+                      {/* {paymentMethods.slice(0, 2).map((p) => ( */}
+                      {paymentMethods.map((p) => (
                         <button
                           key={p.key}
                           type="button"
-                          onClick={() => setFormData((prev) => ({ ...prev, preferredPayment: p.value }))}
+                          onClick={() =>
+                            setFormData((prevData) => ({
+                              ...prevData,
+                              preferredPayment: p.value,
+                            }))
+                          }
                           className={`h-10 rounded-lg border text-xs font-medium transition ${formData.preferredPayment === p.value ? "border-[#B87A13] bg-[#1d202b] text-[#f0c76a]" : "border-[#2a3038] bg-[#0c111a] text-[#c7cedd]"}`}
                         >
                           {p.text}
                         </button>
                       ))}
-                      <button type="button" className="h-10 rounded-lg border border-[#2a3038] bg-[#0c111a] text-xs font-medium text-[#B87A13]">ADD METHOD</button>
+                      <button
+                        type="button"
+                        onClick={() => navigate("/Paymentmethod")}
+                        className="h-10 rounded-lg border border-[#2a3038] bg-[#0c111a] text-xs font-medium text-[#B87A13]"
+                      >
+                        ADD METHOD
+                      </button>
+                      {errors.preferredPayment && (
+                        <p className="text-red-500 text-xs mt-2">
+                          {errors.preferredPayment}
+                        </p>
+                      )}
                     </div>
 
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
                       <div>
-                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Payment Window</label>
-                        <select value={formData.paymentTime} onChange={(e) => setFormData((prev) => ({ ...prev, paymentTime: e.target.value }))} className="h-11 w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]">
-                          {paymentTime.map((pt) => (<option key={pt.value} value={pt.value}>{pt.value}</option>))}
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                          Payment Window
+                        </label>
+                        <select
+                          value={formData.paymentTime}
+                          onChange={(e) =>
+                            setFormData((prevData) => ({
+                              ...prevData,
+                              paymentTime: e.target.value,
+                            }))
+                          }
+                          className="h-11 w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]"
+                        >
+                          {paymentTime.map((pt) => (
+                            <option key={pt.value} value={pt.value}>
+                              {pt.value}
+                            </option>
+                          ))}
                         </select>
+                        {errors.paymentTime && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.paymentTime}
+                          </p>
+                        )}
                       </div>
-                      <div>
-                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Auto Reply (Optional)</label>
-                        <input className="h-11 w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]" placeholder="I'm online, send proof after transfer..." />
-                      </div>
+                      {/* <div>
+                        <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                          Auto Reply (Optional)
+                        </label>
+                        <input
+                          className="h-11 w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]"
+                          placeholder="I'm online, send proof after transfer..."
+                        />
+                      </div> */}
                     </div>
                     <div className="mt-4">
-                      <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">Terms of Trade</label>
+                      <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
+                        Terms of Trade
+                      </label>
                       <textarea
                         name="requirements"
                         value={formData.requirements}
-                        onChange={handleChange_req}
+                        // onChange={handleChange_req}
+                        onChange={(e) => {
+                          const value = e.target.value;
+
+                          if (value.length <= 500) {
+                            handleChange(e);
+                          }
+                        }}
                         rows={3}
                         className="w-full rounded-lg border border-[#2a3038] bg-[#0c111a] px-3 py-3 text-sm text-[#e5eaf4] outline-none focus:border-[#B87A13]"
                         placeholder="Be specific about your verification requirements..."
                       />
+                      {errors.requirements && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.requirements}
+                        </p>
+                      )}
                     </div>
                   </article>
                 </form>
@@ -605,40 +873,106 @@ const PostAd = () => {
                 <aside className="space-y-4">
                   <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
                     <div className="mb-3 flex items-center justify-between">
-                      <p className="text-[11px] uppercase tracking-wider text-[#7f8799]">Live Ad Preview</p>
-                      <span className="rounded bg-[#B87A13]/15 px-2 py-1 text-[10px] font-semibold text-[#B87A13]">PREVIEW</span>
+                      <p className="text-[11px] uppercase tracking-wider text-[#7f8799]">
+                        Live Ad Preview
+                      </p>
+                      <span className="rounded bg-[#B87A13]/15 px-2 py-1 text-[10px] font-semibold text-[#B87A13]">
+                        PREVIEW
+                      </span>
                     </div>
-                    <div className="text-4xl font-semibold text-[#f4f7ff]">{formData.price || "1.015"}</div>
-                    <p className="text-xs text-[#8b93a6]">USD</p>
+                    <div className="text-4xl font-semibold text-[#f4f7ff]">
+                      {formData.price || "0"}
+                    </div>
+                    <p className="text-xs text-[#8b93a6]">
+                      {" "}
+                      {formData.fiatCurrency}
+                    </p>
                     <div className="mt-3 flex items-center justify-between text-xs">
-                      <span className="text-[#B87A13]">Buying USDT</span>
-                      <span className="text-[#9ba4b6]">Limits {formData.minQuantity || "100.0"} - {formData.maxQuantity || "5,000.0"} USD</span>
+                      <span className="text-[#B87A13]">
+                        {tradeType} {formData.cryptoCurrency}
+                      </span>
+                      <span className="text-[#9ba4b6]">
+                        Limits {formData.minQuantity || "0"} -{" "}
+                        {formData.maxQuantity || "0"} USD
+                      </span>
                     </div>
-                    <div className="mt-4 border-t border-[#2a3038] pt-4">
-                      <p className="text-sm font-semibold text-[#e6ebf5]">Alex_Institutional</p>
-                      <p className="text-xs text-[#8f97aa]">240 Trades • 99.83% Completion</p>
-                    </div>
+                    {/* <div className="mt-4 border-t border-[#2a3038] pt-4">
+                      <p className="text-sm font-semibold text-[#e6ebf5]">
+                        Alex_Institutional
+                      </p>
+                      <p className="text-xs text-[#8f97aa]">
+                        240 Trades • 99.83% Completion
+                      </p>
+                    </div> */}
                   </article>
 
-                  <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
-                    <p className="text-[11px] uppercase tracking-wider text-[#7f8799]">Merchant Requirements</p>
+                  {/* <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
+                    <p className="text-[11px] uppercase tracking-wider text-[#7f8799]">
+                      Merchant Requirements
+                    </p>
                     <ul className="mt-3 space-y-2 text-sm text-[#d5dcea]">
-                      <li className="flex items-center gap-2"><span className="text-[#B87A13]">■</span> Registered for 30+ days</li>
-                      <li className="flex items-center gap-2"><span className="text-[#B87A13]">■</span> Hold &gt; 0.01 BTC in Wallet</li>
-                      <li className="flex items-center gap-2"><span className="text-[#B87A13]">■</span> Completed Identity Verification</li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-[#B87A13]">■</span> Registered for
+                        30+ days
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-[#B87A13]">■</span> Hold &gt; 0.01
+                        BTC in Wallet
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-[#B87A13]">■</span> Completed
+                        Identity Verification
+                      </li>
                     </ul>
-                  </article>
+                  </article> */}
 
-                  <button onClick={(e) => handleSubmit(e, tradeType)} className="h-12 w-full rounded-xl bg-[#B87A13] text-sm font-semibold text-[#10151f] transition hover:bg-[#cd942f]">
+                  <div className="rounded-xl border border-[#2a3038] bg-[#151b27] p-4">
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="checkbox"
+                        name="termsAccepted"
+                        checked={formData.termsAccepted}
+                        onChange={handleChange}
+                        className="mt-1"
+                      />
+
+                      <label className="text-sm text-[#c7cedd]">
+                        I have read and agree to the
+                        <Link to="/terms" className="text-[#B87A13] ml-1">
+                          Terms & Conditions
+                        </Link>{" "}
+                        and{" "}
+                        <Link to="/privacy" className="text-[#B87A13]">
+                          Privacy Policy
+                        </Link>
+                      </label>
+                    </div>
+
+                    {errors.termsAccepted && (
+                      <p className="text-red-500 text-xs mt-2">
+                        {errors.termsAccepted}
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={(e) => handleSubmit(e, tradeType)}
+                    className="h-12 w-full rounded-xl bg-[#B87A13] text-sm font-semibold text-[#10151f] transition hover:bg-[#cd942f]"
+                  >
                     POST ADVERTISEMENT
                   </button>
-                  <button type="button" className="h-11 w-full rounded-xl border border-[#2a3038] bg-[#131a26] text-xs font-semibold tracking-wide text-[#9ba4b6]">
+                  {/* <button
+                    type="button"
+                    className="h-11 w-full rounded-xl border border-[#2a3038] bg-[#131a26] text-xs font-semibold tracking-wide text-[#9ba4b6]"
+                  >
                     SAVE AS DRAFT
-                  </button>
+                  </button> */}
 
-                  <article className="rounded-xl border border-[#2a3038] bg-[#141a24] p-4 text-xs text-[#8f97aa]">
-                    Ads are subject to a 0.1% platform fee upon successful trade completion. Ensure your wallet has sufficient liquidity before posting.
-                  </article>
+                  {/* <article className="rounded-xl border border-[#2a3038] bg-[#141a24] p-4 text-xs text-[#8f97aa]">
+                    Ads are subject to a 0.1% platform fee upon successful trade
+                    completion. Ensure your wallet has sufficient liquidity
+                    before posting.
+                  </article> */}
                 </aside>
               </div>
             </div>
