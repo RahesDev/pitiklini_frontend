@@ -269,6 +269,9 @@ const Payment = () => {
 
   const [UserID, setUserID, UserIDref] = useState("");
 
+  const isP2PChatPage =
+   window.location.pathname.includes("/p2p/chat/");
+
   useEffect(() => {
     setSiteLoader(true);
     const token = sessionStorage.getItem("PTKToken");
@@ -296,16 +299,25 @@ const Payment = () => {
     socket.on("socketResponse" + socketsplit[0], function (res) {
       console.log("socketResponse ressss-->>", res);
       if (res.Reason == "p2pchat") {
-        getp2pChat();
+        if (isP2PChatPage) {
+          getp2pChat();
+        }
+      } else if (res.Reason == "notifySingle") {
+         setnotifymessage(res.Message);
+         showsuccessToast(res.Message, {
+           toastId: "3",
+         });
       } else if (res.Reason == "notify") {
         setnotifymessage(res.Message);
         showsuccessToast(res.Message, {
           toastId: "3",
         });
-        getp2pOrder();
-        getDispute();
-        //getp2pconfirmOrder();
-        getconfirmOrder();
+        if (isP2PChatPage) {
+          getp2pOrder();
+          getDispute();
+          //getp2pconfirmOrder();
+          getconfirmOrder();
+        }
       }  else if (res.Reason == "existnotify") {
         setnotifymessage(res.Message);
         showsuccessToast(res.Message, {
@@ -375,7 +387,10 @@ const Payment = () => {
 
   const getp2pOrder = async () => {
     setSiteLoader(true);
-
+    if (!headurlref.current) {
+      console.log("Headrer url not comes-->>");
+      return;
+    };
     var onj = {
       orderId: headurlref.current,
     };

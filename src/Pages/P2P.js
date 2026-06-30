@@ -352,7 +352,7 @@ const P2P = () => {
           if (resp.status) {
             toast.success(resp.Message);
             navigate(resp.link || "/");
-            window.location.href = resp.link || "/";
+            // window.location.href = resp.link || "/";
           } else toast.error(resp.Message);
         } else toast.error("Please select the payment methods");
       } else toast.error("Please enter quantity");

@@ -76,13 +76,13 @@ const ProcessOrderTable = () => {
                 <div className="p2p_header_row flex justify-between items-center mb-6">
                   <div>
                     <h2 className="p2p_main_title text-[#BD7F10]">
-                      P2P Platform
+                      {t("p2pplatform")}
                     </h2>
                     <h3 className="p2p_main_title text-[#ffff]">
-                      Order History
+                      {t("OrderHistory")}
                     </h3>
                     <span className="p2p_subtitle text-[#BD7F10]">
-                      Order details with time stamp and order details.
+                      {t("OrderHistorydetals")}
                     </span>
                   </div>
                   {/* <div className="flex space-x-4">

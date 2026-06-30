@@ -4456,6 +4456,10 @@ input[type="number"]::-webkit-inner-spin-button {
     position: relative;
     width: max-content;
   }
+  .nowheader_poppp {
+  right: -50px !important;
+  margin-top: 24px !important;
+}
 }
 
 @media (max-width: 480px) {
@@ -4629,6 +4633,10 @@ input[type="number"]::-webkit-inner-spin-button {
   }
   header.scrolled {
     height: 58px;
+}
+  .nowheader_poppp {
+  right: -80px !important;
+  margin-top: 24px !important;
 }
 }
 

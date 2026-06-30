@@ -6,7 +6,7 @@ import UserIcon from "../assets/account.webp";
 import Avatar from "../assets/svg/avatar.svg";
 import Moment from "moment";
 import { socket } from "../context/socket";
-import HeaderLogo from "../assets/header_logo.svg";
+// import HeaderLogo from "../assets/header_logo.svg";
 import GlobalIcon from "../assets/icons/global.svg";
 import Asset from "../assets/svg/asset.svg";
 
@@ -95,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
   },
 }));
+
+const HeaderLogo =
+  "https://res.cloudinary.com/daafoiwvn/image/upload/v1740223665/douzop14nbi4ztg6yj74.webp";
 
 const Header = () => {
   useEffect(() => {
@@ -439,7 +442,7 @@ const Header = () => {
                             className="img-fluid"
                             alt="logo"
                           />
-                        )}
+                         )}
                       </Link>
 
                       <div className={`menu_new_typr ${classes.appBarItems}`}>
@@ -756,21 +759,21 @@ const Header = () => {
                       ""
                     )}
 
-                     {/* {loginCheck ? (
+                    {/* {loginCheck ? (
                       <div className="relative" ref={assetRef}> */}
-                        {/* Button */}
-                        {/* <button
+                    {/* Button */}
+                    {/* <button
                           onClick={() => setIsAssetOpen((prev) => !prev)}
                           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-gray sm:h-10 sm:w-10"
                         >
                           <img src={Asset} alt="Asset" className="w-5 h-5" />
                         </button> */}
 
-                        {/* Dropdown */}
-                        {/* {isAssetOpen && (
+                    {/* Dropdown */}
+                    {/* {isAssetOpen && (
                           <div className="absolute right-0 sm:right-0 left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 mt-10 w-[90vw] max-w-[220px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-4 z-50">
                             <div className="flex flex-col gap-3"> */}
-                              {/* <Link to="/assets" className="nav-trade-links">
+                    {/* <Link to="/assets" className="nav-trade-links">
                                 <div className="nav-trade-wrapper flex items-center gap-2">
                                   <img
                                     src={require("../assets/icons/overview-assets.webp")}
@@ -783,7 +786,7 @@ const Header = () => {
                                 </div>
                               </Link> */}
 
-                              {/* <Link
+                    {/* <Link
                                 to="/spotassets"
                                 className="nav-trade-links"
                               >
@@ -846,7 +849,7 @@ const Header = () => {
 
                           {/* Dropdown (UNCHANGED CONTENT) */}
                           {isProfileOpen && (
-                            <div className="absolute right-2 sm:right-0 mt-10 w-[90vw] sm:w-[300px] max-w-[300px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-4 z-50">
+                            <div className="absolute right-2 nowheader_poppp sm:right-0 mt-8 w-[90vw] sm:w-[300px] max-w-[300px] rounded-2xl bg-[#18191D] border border-gray shadow-xl p-4 z-50">
                               {/* <div className="frame-container"> */}
                               {/* user details */}
                               <div className="user-details">
