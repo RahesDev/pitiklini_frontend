@@ -383,14 +383,13 @@ const P2P = () => {
                 <div className="p2p_header_row flex justify-between items-center mb-6">
                   <div>
                     <h2 className="p2p_main_title text-[#BD7F10]">
-                      P2P Platform
+                      {t("p2pplatform")}
                     </h2>
                     <h3 className="p2p_main_title text-[#ffff]">
-                      P2P Marketplace
+                      {t("p2pmarketplace")}
                     </h3>
                     <span className="p2p_subtitle text-[#BD7F10]">
-                      Institutional marketplace for high-volume asset
-                      conversion.
+                      {t("p2pmarketplacedetails")}
                     </span>
                   </div>
                   <div className="flex space-x-4">
@@ -398,13 +397,14 @@ const P2P = () => {
                       to={loginStatus ? "/postad" : "/login"}
                       className="post-ad-btn bg-[#BD7F10] text-black px-4 py-2 rounded-lg flex items-center"
                     >
-                      + Post Advertisement
+                      {t("postAd")}
+                      {/* + Post Advertisement */}
                     </Link>
                     <Link
                       to={loginStatus ? "/Paymentmethod" : "/login"}
                       className="post-ad-btn bg-[#BD7F10] text-black px-4 py-2 rounded-lg flex items-center"
                     >
-                      Payment Method
+                      {t("PaymentMethods")}
                     </Link>
                     <Link
                       to={loginStatus ? "/processorders" : "/login"}
@@ -460,14 +460,14 @@ const P2P = () => {
                             <path d="M3 5h18l-7 8v5l-4 2v-7L3 5z" />
                           </svg>
                           <span className="text-[13px] font-extrabold uppercase tracking-[0.22em] text-white">
-                            Market Filters
+                            {t("marketfilter")}
                           </span>
                         </div>
 
                         {/* Asset */}
                         <div className="mb-6">
                           <label className="mb-3 block text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">
-                            Asset
+                            {t("asset")}
                           </label>
 
                           <div className="flex items-center gap-1">
@@ -559,13 +559,13 @@ const P2P = () => {
                         {/* Amount */}
                         <div className="mb-6">
                           <label className="mb-3 block text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">
-                            Amount
+                            {t("amount")}
                           </label>
 
                           <div className="flex items-center rounded-xl bg-[#050811] px-4 py-4">
                             <input
                               type="text"
-                              placeholder="Enter amount..."
+                              placeholder={t("enterAmount")}
                               value={amount}
                               onChange={(e) => {
                                 const v = e.target.value.replace(
@@ -587,13 +587,13 @@ const P2P = () => {
                         {/* Fiat Currency */}
                         <div className="mb-6">
                           <label className="mb-3 block text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">
-                            Fiat Currency
+                            {t("fiatCurrency")}
                           </label>
 
                           <div className="relative">
                             <div className="[&_.ui.selection.dropdown]:!min-h-[56px] [&_.ui.selection.dropdown]:!w-full [&_.ui.selection.dropdown]:!rounded-xl [&_.ui.selection.dropdown]:!border-0 [&_.ui.selection.dropdown]:!bg-[#050811] [&_.ui.selection.dropdown]:!px-4 [&_.ui.selection.dropdown]:!pr-12 [&_.ui.selection.dropdown]:!text-white [&_.ui.selection.dropdown]:!shadow-none [&_.ui.selection.dropdown]:!flex [&_.ui.selection.dropdown]:!items-center [&_.ui.selection.dropdown>.text]:!text-white [&_.ui.selection.dropdown>.default.text]:!text-[#6b7280] [&_.ui.selection.dropdown>.dropdown.icon]:!hidden">
                               <Dropdown
-                                placeholder="USD - US Dollar"
+                                placeholder={t("enterAmount")}
                                 fluid
                                 selection
                                 options={fiatCurrencies}
@@ -619,7 +619,7 @@ const P2P = () => {
                         {/* Payment Method */}
                         <div className="mb-8">
                           <label className="mb-3 block text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">
-                            Payment Method
+                            {t("payment_Method")}
                           </label>
 
                           <div className="relative">
@@ -725,12 +725,13 @@ const P2P = () => {
                                     <td className="px-4 py-4">
                                       <div className="flex items-center gap-3">
                                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#c98a11] text-sm font-extrabold uppercase text-white shadow-[0_8px_20px_rgba(201,138,17,0.28)]">
-                                          {options.displayname?.charAt(0)}
+                                          {/* {options.displayname?.charAt(0)} */}
+                                          {options.uuid?.charAt(0)}
                                         </div>
 
                                         <div className="min-w-0">
                                           <h4 className="truncate text-sm font-semibold text-white">
-                                            {options.displayname}
+                                            {options.uuid}
                                           </h4>
                                           <div className="mt-1 truncate text-xs text-white/55">
                                             {`Trades: ${options.trades} | ⭐ ${options.stars}`}
@@ -752,14 +753,14 @@ const P2P = () => {
                                       <div className="space-y-1.5">
                                         <div className="text-sm text-white/85">
                                           <span className="mr-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">
-                                            Available
+                                            {t("available")}
                                           </span>
                                           {options.available_qty}{" "}
                                           {options.firstCurrency}
                                         </div>
                                         <div className="text-sm text-white/85">
                                           <span className="mr-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">
-                                            Limit
+                                            {t("limit")}
                                           </span>
                                           {options.fromLimit} -{" "}
                                           {options.toLimit}
@@ -769,7 +770,10 @@ const P2P = () => {
 
                                     <td className="px-1 py-4 whitespace-nowrap">
                                       <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/85">
-                                        {options.paymentMethod}
+                                        {/* {options.paymentMethod} */}
+                                        {Array.isArray(options.paymentMethod)
+                                          ? options.paymentMethod.join(", ")
+                                          : options.paymentMethod}
                                       </span>
                                     </td>
 
@@ -817,13 +821,14 @@ const P2P = () => {
                                             <div className="space-y-4">
                                               <div className="flex items-start gap-4">
                                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#c98a11] text-base font-extrabold uppercase text-black">
-                                                  {options.displayname?.charAt(
+                                                  {/* {options.displayname?.charAt(
                                                     0,
-                                                  )}
+                                                  )} */}
+                                                  {options.uuid?.charAt(0)}
                                                 </div>
                                                 <div>
                                                   <h4 className="text-sm font-semibold text-white">
-                                                    {options.displayname}
+                                                    {options.uuid}
                                                   </h4>
                                                   <p className="mt-1 text-xs text-white/60">
                                                     {`Trades: ${options.trades} | ⭐ ${options.stars}`}
@@ -847,7 +852,14 @@ const P2P = () => {
                                                     {t("payment_Method")}
                                                   </div>
                                                   <div className="mt-2 text-lg font-semibold text-white">
-                                                    {options.paymentMethod}
+                                                    {/* {options.paymentMethod} */}
+                                                    {Array.isArray(
+                                                      options.paymentMethod,
+                                                    )
+                                                      ? options.paymentMethod.join(
+                                                          ", ",
+                                                        )
+                                                      : options.paymentMethod}
                                                   </div>
                                                 </div>
 
@@ -954,9 +966,16 @@ const P2P = () => {
                                                     fluid
                                                     selection
                                                     options={
-                                                      options.paymentMethod ===
-                                                      "All Payment"
-                                                        ? allpayment
+                                                      Array.isArray(
+                                                        options.paymentMethod,
+                                                      )
+                                                        ? options.paymentMethod.map(
+                                                            (method) => ({
+                                                              key: method,
+                                                              text: method,
+                                                              value: method,
+                                                            }),
+                                                          )
                                                         : [
                                                             {
                                                               key: options.paymentMethod,
@@ -966,6 +985,19 @@ const P2P = () => {
                                                             },
                                                           ]
                                                     }
+                                                    // options={
+                                                    //   options.paymentMethod ===
+                                                    //   "All Payment"
+                                                    //     ? allpayment
+                                                    //     : [
+                                                    //         {
+                                                    //           key: options.paymentMethod,
+                                                    //           text: options.paymentMethod,
+                                                    //           value:
+                                                    //             options.paymentMethod,
+                                                    //         },
+                                                    //       ]
+                                                    // }
                                                     onChange={(e, { value }) =>
                                                       setselectPayment(value)
                                                     }

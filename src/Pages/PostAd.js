@@ -48,7 +48,8 @@ const PostAd = () => {
     price: "",
     lowestOrderPrice: "",
     higeshOrderPrice: "",
-    preferredPayment: "All Payment",
+    // preferredPayment: "All Payment",
+    preferredPayment: [],
     testPrefPayment: "All Payment", //Test all payments
     paymentTime: "15 Minutes",
     testPaymentTime: "15 Minutes", //Test Payment time
@@ -319,10 +320,44 @@ const PostAd = () => {
         if (resp.bank) {
           toast.error(resp.Message);
           navigate("/Paymentmethod");
-          setFormData({});
+          // setFormData({});
+          setFormData({
+            cryptoCurrency: "",
+            fiatCurrency: "",
+            quantity: "",
+            minQuantity: "",
+            maxQuantity: "",
+            price: "",
+            lowestOrderPrice: "",
+            higeshOrderPrice: "",
+            // preferredPayment: "All Payment",
+            preferredPayment: [],
+            testPrefPayment: "All Payment", //Test all payments
+            paymentTime: "15 Minutes",
+            testPaymentTime: "15 Minutes", //Test Payment time
+            termsAccepted: false,
+            requirements: "",
+          });
         } else {
           // navigate("/p2p");
-          setFormData({});
+          // setFormData({});
+          setFormData({
+            cryptoCurrency: "",
+            fiatCurrency: "",
+            quantity: "",
+            minQuantity: "",
+            maxQuantity: "",
+            price: "",
+            lowestOrderPrice: "",
+            higeshOrderPrice: "",
+            // preferredPayment: "All Payment",
+            preferredPayment: [],
+            testPrefPayment: "All Payment", //Test all payments
+            paymentTime: "15 Minutes",
+            testPaymentTime: "15 Minutes", //Test Payment time
+            termsAccepted: false,
+            requirements: "",
+          });
           toast.error(resp.Message);
         }
       }
@@ -780,13 +815,33 @@ const PostAd = () => {
                         <button
                           key={p.key}
                           type="button"
-                          onClick={() =>
-                            setFormData((prevData) => ({
-                              ...prevData,
-                              preferredPayment: p.value,
-                            }))
-                          }
-                          className={`h-10 rounded-lg border text-xs font-medium transition ${formData.preferredPayment === p.value ? "border-[#B87A13] bg-[#1d202b] text-[#f0c76a]" : "border-[#2a3038] bg-[#0c111a] text-[#c7cedd]"}`}
+                          // onClick={() =>
+                          //   setFormData((prevData) => ({
+                          //     ...prevData,
+                          //     preferredPayment: p.value,
+                          //   }))
+                          // }
+                          onClick={() => {
+                            setFormData((prev) => {
+                              const exists = prev.preferredPayment.includes(
+                                p.value,
+                              );
+
+                              return {
+                                ...prev,
+                                preferredPayment: exists
+                                  ? prev.preferredPayment.filter(
+                                      (item) => item !== p.value,
+                                    )
+                                  : [...prev.preferredPayment, p.value],
+                              };
+                            });
+                          }}
+                          className={`h-10 rounded-lg border text-xs font-medium transition ${
+                            formData.preferredPayment.includes(p.value)
+                              ? "border-[#B87A13] bg-[#1d202b] text-[#f0c76a]"
+                              : "border-[#2a3038] bg-[#0c111a] text-[#c7cedd]"
+                          }`}
                         >
                           {p.text}
                         </button>

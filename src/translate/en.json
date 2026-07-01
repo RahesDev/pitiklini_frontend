@@ -477,7 +477,7 @@
   "highestOrderPrice": "Highest Order Price",
   "maximumQuantity": "Maximum Quantity",
   "minimumQuantity": "Minimum Quantity",
-  "postAd": "Post Ad",
+  "postAd": "+ Post Ad",
   "preferredPayment": "Preferred Payment",
   "lowestOrderPrice": "Lowest Order Price",
   "iwantobuy": "I want to buy",
@@ -527,6 +527,8 @@
   "Invaliddate": "Invalid date",
   "OpenOrders": "Open Orders",
   "p2pplatform": "P2P Platform",
+  "p2pmarketplace": "P2P Marketplace",
+  "p2pmarketplacedetails": "Institutional marketplace for high-volume asset conversion.",
   "OrderHistory": "Order History",
   "OrderHistorydetals": "Order details with time stamp and order details.",
   "CancelOrders": "Cancel Orders",
@@ -540,6 +542,9 @@
   "NewHigh": "New High",
   "NewLow": "New Low",
   "Last24hrsHigh": "Last 24hrs High",
+
+  "marketfilter": "Market Filters",
+  "selectfiat": "USD - US Dollar",
 
   "TermsandConditions": "Terms and Conditions",
   "Introduction": "Introduction",

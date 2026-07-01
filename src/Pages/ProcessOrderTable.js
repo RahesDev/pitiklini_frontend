@@ -175,14 +175,16 @@ const ProcessOrderTable = () => {
                               onClick={() => navchatpage(item.link)}
                               className="border-t border-white/5 align-middle transition-colors hover:bg-white/[0.02]"
                             >
-                              <td className="table-flex opt-term">{i + 1}</td>
-                              <td className="opt-term font_14 table_center_text">
+                              <td className="table-flex opt-term pl-2">
+                                {i + 1}
+                              </td>
+                              <td className="opt-term font_14 table_center_text px-4 py-2">
                                 {Moment(item.createdAt).format("lll")}
                               </td>
-                              <td className="opt-term font_14 table_center_text">
+                              <td className="opt-term font_14 table_center_text px-4 py-2">
                                 {item.from_user_name}
                               </td>
-                              <td className="table_center_text text-white">
+                              <td className="table_center_text text-white px-4 py-2">
                                 <div className="opt-action-normal">
                                   {item.message}
                                 </div>

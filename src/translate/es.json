@@ -399,7 +399,7 @@
   "highestOrderPrice": "Precio más alto del pedido",
   "maximumQuantity": "Cantidad máxima",
   "minimumQuantity": "Cantidad mínima",
-  "postAd": "Publicar anuncio",
+  "postAd": "+ Publicar anuncio",
   "preferredPayment": "Pago preferido",
   "lowestOrderPrice": "Precio más bajo del pedido",
   "iwantobuy": "Quiero comprar",
@@ -513,6 +513,8 @@
   "Invaliddate": "Fecha inválida",
   "OpenOrders": "Órdenes abiertas",
   "p2pplatform": "Plataforma P2P",
+  "p2pmarketplace": "Mercado P2P",
+  "p2pmarketplacedetails": "Mercado institucional para la conversión de activos de gran volumen.",
   "OrderHistory": "Historial de órdenes",
   "OrderHistorydetals": "Detalles del pedido con marca de tiempo y detalles del pedido.",
   "CancelOrders": "Órdenes canceladas",
@@ -526,6 +528,9 @@
   "NewHigh": "Nuevo máximo",
   "NewLow": "Nuevo mínimo",
   "Last24hrsHigh": "Máximo de las últimas 24 horas",
+
+  "marketfilter": "Filtros de mercado",
+  "selectfiat": "USD - Dólar estadounidense",
 
   "EffectiveDate": "Fecha de entrada en vigor",
   "TermsandConditions": "Términos y condiciones",

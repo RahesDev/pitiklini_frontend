@@ -240,7 +240,12 @@ const Payment = () => {
   };
 
   const getp2pChat = async () => {
-    setSiteLoader(true);
+    // setSiteLoader(true);
+
+    if (!headurlref.current) {
+      console.log("Headrer url not comes-->>");
+      return;
+    }
 
     var onj = {
       orderId: headurlref.current,
@@ -267,10 +272,17 @@ const Payment = () => {
     setFormValue(formData);
   };
 
-  const [UserID, setUserID, UserIDref] = useState("");
+  // useEffect(() => {
+  //   const urls = window.location.href;
+  //   // console.log(urls, "urls");
+  //   const chat = urls.split("/").pop();
+  //   // console.log(chat, "chat");
 
-  const isP2PChatPage =
-   window.location.pathname.includes("/p2p/chat/");
+  //   setheadurl(chat);
+  // }, [])
+  
+
+  const [UserID, setUserID, UserIDref] = useState("");
 
   useEffect(() => {
     setSiteLoader(true);
@@ -298,26 +310,21 @@ const Payment = () => {
     socket.off("socketResponse");
     socket.on("socketResponse" + socketsplit[0], function (res) {
       console.log("socketResponse ressss-->>", res);
+      console.log("headurlref.current",headurlref.current)
       if (res.Reason == "p2pchat") {
-        if (isP2PChatPage) {
           getp2pChat();
-        }
-      } else if (res.Reason == "notifySingle") {
-         setnotifymessage(res.Message);
-         showsuccessToast(res.Message, {
-           toastId: "3",
-         });
+      } else if (res.Reason == "notifysingle") {
+        //  setnotifymessage(res.Message);
+         showsuccessToast(res.Message);
       } else if (res.Reason == "notify") {
         setnotifymessage(res.Message);
         showsuccessToast(res.Message, {
           toastId: "3",
         });
-        if (isP2PChatPage) {
           getp2pOrder();
           getDispute();
           //getp2pconfirmOrder();
           getconfirmOrder();
-        }
       }  else if (res.Reason == "existnotify") {
         setnotifymessage(res.Message);
         showsuccessToast(res.Message, {
@@ -554,6 +561,11 @@ const Payment = () => {
   };
 
   const getconfirmOrder = async () => {
+     if (!headurlref.current) {
+      console.log("Headrer url not comes-->>");
+      return;
+    };
+
     var onj = {
       orderId: headurlref.current,
     };
@@ -722,14 +734,14 @@ const Payment = () => {
         UserIDref.current == p2pDataref.current.userId._id ? "advertiser" : "user";
 
       if (formValue.message != "" || formValue.file != "") {
-        setSiteLoader(true);
+        // setSiteLoader(true);
         var data = {
           apiUrl: apiService.p2pchat,
           payload: formValue,
         };
         setchatloading(true);
         var resp = await postMethod(data);
-        setSiteLoader(false);
+        // setSiteLoader(false);
 
         if (resp.status) {
           setchatloading(false);
@@ -1859,13 +1871,16 @@ const Payment = () => {
                     <div className="chat-box">
                       <div className="chat-flex">
                         <div className="p2p_namefrst_change align-items-center">
-                          {p2pDataref.current.userId?.displayname
+                          {/* {p2pDataref.current.userId?.displayname
                             ? p2pDataref.current.userId.displayname[0]
+                            : ""} */}
+                          {p2pDataref.current.userId?.uuid
+                            ? p2pDataref.current.userId.uuid[0]
                             : ""}
                         </div>
                         <div className="chat-content">
                           <span className="pay-btc">
-                            {p2pDataref.current.userId?.displayname}
+                            {p2pDataref.current.userId?.uuid}
                           </span>
                           <span className="chat-para">
                             {p2pOrdercountref.current} Volume |{" "}

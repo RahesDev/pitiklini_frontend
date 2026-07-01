@@ -101,10 +101,11 @@ const HeaderLogo =
 
 const Header = () => {
   useEffect(() => {
-    // console.log("header inside comes ->");
+    console.log("header inside comes ->");
     getSitedata();
     // let socket_token = localStorage.getItem("socketToken");
     let socket_token = sessionStorage.getItem("socketToken");
+    // console.log("socket_token ->",socket_token);
     if (
       socket_token == null ||
       socket_token == undefined ||
@@ -112,11 +113,16 @@ const Header = () => {
     ) {
       return;
     }
-    let socketsplit = socket_token?.split("_");
+    let socketsplit = socket_token?.split(`"_`);
     socket.connect();
     socket.off("socketResponse");
     socket.on("socketResponse" + socketsplit[0], function (res) {
+      console.log("socketResponse ressss header-->>", res);
       if (res.Reason == "notify") {
+        toast.success(res.Message, {
+          toastId: "3",
+        });
+      } else if (res.Reason == "notifysingle") {
         toast.success(res.Message, {
           toastId: "3",
         });
@@ -133,9 +139,10 @@ const Header = () => {
       socket.on("updatenotifications", async (response) => {
         // console.log("updatenotifications socket -->>",response);
         setnotification(response.data.notification);
-        if (response.data.status > 0) {
-          setHasUnread(true);
-        }
+        setHasUnread(response.data.status > 0);
+        // if (response.data.status > 0) {
+        //   setHasUnread(true);
+        // }
       });
     }
   }, [0]);
@@ -145,6 +152,7 @@ const Header = () => {
   const [loginCheck, setloginCheck] = useState(false);
   const [profileData, setprofileData] = useState("");
   const [notification, setnotification] = useState("");
+  const [popupNotifications, setPopupNotifications] = useState([]);
   const [hasUnread, setHasUnread] = useState(false);
   const [siteData, setSiteData] = useState("");
   const [loaderSite, setLoaderSite] = useState(true);
@@ -368,16 +376,25 @@ const Header = () => {
   // };
 
   const handleBellClick = async () => {
-    setIsNotifyOpen((prev) => !prev);
-    try {
-      var data = {
-        apiUrl: apiService.notifyStateChange,
-      };
-      var resp = await postMethod(data);
-      if (resp.status) {
-        setHasUnread(false); // Remove the bell indicator
-      }
-    } catch (error) {}
+    // setIsNotifyOpen((prev) => !prev);
+    const opening = !isNotifyOpen;
+    if (opening) {
+        // Freeze the current notifications for this popup
+        setPopupNotifications(notification);
+    }
+    setIsNotifyOpen(opening);
+
+    if (opening && hasUnread) {
+      try {
+        var data = {
+          apiUrl: apiService.notifyStateChange,
+        };
+        var resp = await postMethod(data);
+        if (resp.status) {
+          setHasUnread(false); // Remove the bell indicator
+        }
+      } catch (error) { }
+    }
   };
 
   const obfuscateEmail = (email) => {
@@ -710,8 +727,10 @@ const Header = () => {
 
                             {/* Notifications List */}
                             <div className="flex flex-col gap-4 max-h-[260px] overflow-y-auto">
-                              {notification && notification.length > 0 ? (
-                                notification.map((options, i) => (
+                              {/* {notification && notification.length > 0 ? (
+                                notification.map((options, i) => ( */}
+                              {popupNotifications && popupNotifications.length > 0 ? (
+                                popupNotifications.map((options, i) => (
                                   <Link
                                     key={i}
                                     to={
@@ -744,7 +763,8 @@ const Header = () => {
                             </div>
 
                             {/* View All Button */}
-                            {notification && notification.length > 0 && (
+                            {/* {notification && notification.length > 0 && ( */}
+                            {popupNotifications && popupNotifications.length > 0 && (
                               <button
                                 onClick={notifyNav}
                                 className="w-full mt-5 bg-primary text-black py-2.5 rounded-lg font-medium hover:opacity-90 transition"
