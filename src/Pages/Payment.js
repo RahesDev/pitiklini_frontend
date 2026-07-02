@@ -239,6 +239,41 @@ const Payment = () => {
     // }
   };
 
+      const showReleaseConfirmModal = () => {
+        setTimeout(() => {
+          const modalEl = document.getElementById("releaseConfirmModal");
+
+          if (modalEl && window.bootstrap?.Modal) {
+            let bsModal =
+              window.bootstrap.Modal.getInstance(modalEl) ||
+              new window.bootstrap.Modal(modalEl, {
+                backdrop: "static",
+                keyboard: false,
+              });
+
+            bsModal.show();
+          }
+        }, 100);
+      };
+
+      const closeReleaseConfirmModal = () => {
+        const modalEl = document.getElementById("releaseConfirmModal");
+
+        if (modalEl && window.bootstrap?.Modal) {
+          const modal = window.bootstrap.Modal.getInstance(modalEl);
+
+          if (modal) {
+            modal.hide();
+          }
+        }
+  };
+  
+  const confirmReleaseCrypto = () => {
+    closeReleaseConfirmModal();
+
+    handleChange_confirm("release");
+  };
+
   const getp2pChat = async () => {
     // setSiteLoader(true);
 
@@ -1484,7 +1519,7 @@ const Payment = () => {
                           // sellTimerstatusref.current == "active" ? (
                           <div className="timer">
                             <h6>
-                              {t("releasethecrypto")} 
+                              {t("releasethecrypto")}
                               <span>
                                 <Countdown
                                   date={sellTimerref.current}
@@ -1522,9 +1557,11 @@ const Payment = () => {
                                   type="button"
                                   class="proceed-btn txt-center"
                                   // onClick={handleChange_confirm}
-                                  onClick={() =>
-                                    handleChange_confirm("release")
-                                  }
+
+                                  // onClick={() =>
+                                  //   handleChange_confirm("release")
+                                  // }
+                                  onClick={showReleaseConfirmModal}
                                 >
                                   {t("confirmRelease")}
                                 </button>
@@ -1604,9 +1641,11 @@ const Payment = () => {
                                   type="button"
                                   class="proceed-btn txt-center"
                                   // onClick={handleChange_confirm}
-                                  onClick={() =>
-                                    handleChange_confirm("release")
-                                  }
+
+                                  // onClick={() =>
+                                  //   handleChange_confirm("release")
+                                  // }
+                                  onClick={showReleaseConfirmModal}
                                 >
                                   {t("confirmRelease")}
                                 </button>
@@ -2946,6 +2985,56 @@ const Payment = () => {
                     <p className="small text-muted">
                       Thanks for your feedback!
                     </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="modal fade"
+              id="releaseConfirmModal"
+              tabIndex="-1"
+              aria-labelledby="releaseConfirmModalLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog modal-dialog-centered modal-sm">
+                <div className="modal-content">
+                  <div className="modal-header lvl-one-header">
+                    <h5 className="modal-title" id="releaseConfirmModalLabel">
+                      Confirm Release
+                    </h5>
+
+                    <button
+                      type="button"
+                      className="btn-close btn-close-custom"
+                      onClick={closeReleaseConfirmModal}
+                    ></button>
+                  </div>
+
+                  <div className="modal-body text-center">
+                    <p className="mb-4">
+                      Are you sure you want to release the crypto?
+                      <br />
+                      This action cannot be undone.
+                    </p>
+
+                    <div className="d-flex justify-content-center gap-2">
+                      <button
+                        type="button"
+                        className="btn btn-secondary modal_continue_btn"
+                        onClick={closeReleaseConfirmModal}
+                      >
+                        Cancel
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-success modal_continue_btn"
+                        onClick={confirmReleaseCrypto}
+                      >
+                        Release Crypto
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
