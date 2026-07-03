@@ -2997,7 +2997,7 @@ const Payment = () => {
               aria-labelledby="releaseConfirmModalLabel"
               aria-hidden="true"
             >
-              <div className="modal-dialog modal-dialog-centered modal-sm">
+              <div className="modal-dialog modal-dialog-centered modal-md">
                 <div className="modal-content">
                   <div className="modal-header lvl-one-header">
                     <h5 className="modal-title" id="releaseConfirmModalLabel">
@@ -3011,25 +3011,23 @@ const Payment = () => {
                     ></button>
                   </div>
 
-                  <div className="modal-body text-center">
-                    <p className="mb-4">
+                  <div className="modal-body text-center text-white mt-4">
+                    <p className="mb-4 text-white">
                       Are you sure you want to release the crypto?
                       <br />
                       This action cannot be undone.
                     </p>
 
-                    <div className="d-flex justify-content-center gap-2">
+                    <div className="d-flex justify-content-center gap-2 mt-4">
                       <button
-                        type="button"
-                        className="btn btn-secondary modal_continue_btn"
+                        className="modal_continue_btn"
                         onClick={closeReleaseConfirmModal}
                       >
                         Cancel
                       </button>
 
                       <button
-                        type="button"
-                        className="btn btn-success modal_continue_btn"
+                        className="modal_continue_btn"
                         onClick={confirmReleaseCrypto}
                       >
                         Release Crypto

@@ -27,7 +27,8 @@ const Swap = () => {
   const [fromcurrencyImage, setFromcurrencyImage] = useState("");
   const [tocurrencyImage, setTocurrencyImage] = useState("");
   const [swapTab, setswapTab] = useState(false);
-  const [fromAmount, setfromAmount, fromAmountref] = useState(0);
+  // const [fromAmount, setfromAmount, fromAmountref] = useState(0);
+  const [fromAmount, setfromAmount, fromAmountref] = useState("");
   const [toAmount, settoAmount, toAmountref] = useState(0);
   const [minMax, setMinMax] = useState(10);
   const [price, setPrice, priceRef] = useState(0);
@@ -58,6 +59,12 @@ const Swap = () => {
       setLoginStatus(false);
     }
   }, [0]);
+
+  useEffect(() => {
+    if (fromCurrency && toCurrency) {
+      swapPrice(fromCurrency, toCurrency);
+    }
+  }, [fromCurrency, toCurrency]);
 
   const getCurrenciesDatas = async () => {
     try {
@@ -137,7 +144,14 @@ const Swap = () => {
   const setAmount = async (value, type) => {
     console.log("value", value, "type", type);
     console.log(appendFromData, "appendFromData");
+    const numericValue = Number(value || 0);
     try {
+      if (value === "") {
+        setfromAmount("");
+        settoAmount(0);
+        setErrorMsg("");
+        return;
+      }
       if (
         !isNaN(value) ||
         !value ||
@@ -170,10 +184,12 @@ const Swap = () => {
           if (fromCurrency != "" && toCurrency != "") {
             var resp = await postMethod(data);
             if (resp.status) {
-              var fee = (+value * +appendFromData.swapFee) / 100;
+              // var fee = (+value * +appendFromData.swapFee) / 100;
+              var fee = (numericValue * +appendFromData.swapFee) / 100;
               console.log("fee===", fee);
               setEstimationFee(fee);
-              var total = +value + +fee;
+              // var total = +value + +fee;
+              var total = numericValue + +fee;
               console.log("total===", total);
               //setTotalAmount(parseFloat(total).toFixed(8));
               setTotalAmount(total);
@@ -181,14 +197,16 @@ const Swap = () => {
               setPrice(resp.Message);
               console.log("price===", resp.Message);
               if (type == "fromAmount") {
-                var amount = Number(resp.Message) * Number(value);
+                // var amount = Number(resp.Message) * Number(value);
+                var amount = Number(resp.Message) * numericValue ;
                 console.log("amount===", amount);
                 // setfromAmount(parseFloat(value).toFixed(8));
                 // settoAmount(parseFloat(amount).toFixed(8));
                 // setfromAmount(value);
                 settoAmount(amount);
               } else if (type == "toAmount") {
-                var amount = Number(value) / Number(resp.Message);
+                // var amount = Number(value) / Number(resp.Message);
+                var amount = numericValue / Number(resp.Message);
                 // setfromAmount(parseFloat(amount).toFixed(8));
                 // settoAmount(parseFloat(value).toFixed(8));
                 // setfromAmount(amount);
@@ -234,7 +252,8 @@ const Swap = () => {
             var resp = await postMethod(data);
             setButtonLoader(false);
             if (resp.status == true) {
-              setfromAmount(0);
+              // setfromAmount(0);
+              setfromAmount("");
               settoAmount(0);
               getUserbalance();
               showsuccessToast(resp.Message);
@@ -254,18 +273,20 @@ const Swap = () => {
     } catch (error) {}
   };
 
-  const swapPrice = async () => {
+  const swapPrice = async (fromSymbol, toSymbol) => {
     try {
       console.log(toref.current);
       console.log(fromref.current);
       var obj = {
-        from: fromref.current != undefined ? fromref.current : "BTC",
-        to:
-          toref.current != undefined ||
-          toref.current != null ||
-          toref.current != ""
-            ? toref.current
-            : "USDT",
+        // from: fromref.current != undefined ? fromref.current : "BTC",
+        from: fromSymbol || fromref.current || "BTC",
+        to: toSymbol || toref.current || "USDT",
+        // to:
+        //   toref.current != undefined ||
+        //   toref.current != null ||
+        //   toref.current != ""
+        //     ? toref.current
+        //     : "USDT",
       };
       console.log("swap===", obj);
       var data = {
@@ -281,8 +302,10 @@ const Swap = () => {
 
   const handleOnChange_from = (e, data) => {
     console.log("handleOnChange_from", data);
-    setAmount(0, "fromAmount");
-    setfromAmount(0);
+    // setAmount(0, "fromAmount");
+    // setfromAmount(0);
+    setAmount("", "fromAmount");
+    setfromAmount("");
     settoAmount(0);
     setErrorMsg("");
     setfromSwapRef(data.value);
@@ -293,12 +316,13 @@ const Swap = () => {
       setappendFromData(fromTab[findIndexing]);
       setFromcurrencyImage(fromTab[findIndexing].image);
       setfromCurrency(fromTab[findIndexing].currencySymbol);
-      swapPrice();
+      // swapPrice();
     }
   };
 
   const handleOnChange_to = (e, data) => {
-    setfromAmount(0);
+    // setfromAmount(0);
+    setfromAmount("");
     settoAmount(0);
     setErrorMsg("");
     console.log("handleOnChange_to", data);
@@ -309,7 +333,7 @@ const Swap = () => {
       settoCurrency(fromTab[findIndexingTo].currencySymbol);
       setappendFToData(fromTab[findIndexingTo]);
       setTocurrencyImage(fromTab[findIndexingTo].image);
-      swapPrice();
+      // swapPrice();
     }
   };
 
@@ -352,13 +376,15 @@ const Swap = () => {
     setappendFToData(tempCurrency);
     setfromCurrency(toCurrency);
     settoCurrency(tempCurrencySymbol);
+    // swapPrice(toCurrency, tempCurrencySymbol);
 
     // Swap amount data
     const tempAmount = fromAmount;
     // setfromAmount(toAmount);
     // settoAmount(tempAmount);
 
-    const value = toAmount ? Number(toAmount).toFixed(8) : "0.00000000";
+    // const value = toAmount ? Number(toAmount).toFixed(8) : "0.00000000";
+    const value = toAmount ? Number(toAmount).toFixed(8) : "";
     // console.log(value, "value-from tempAmount-to", tempAmount);
     setfromAmount(value);
     settoAmount(Number(tempAmount).toFixed(8));
@@ -432,7 +458,7 @@ const Swap = () => {
                               autoComplete="off"
                               maxLength={10}
                               placeholder="0.00"
-                              value={fromAmountref.current}
+                              value={fromAmountref.current || ""}
                               // onKeyDown={(evt) =>
                               //   ["e", "E", "+", "-"].includes(evt.key) &&
                               //   evt.preventDefault()
