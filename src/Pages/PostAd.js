@@ -679,7 +679,7 @@ const PostAd = () => {
                           <div className="text-[#8c94a6]">
                             Your Price{" "}
                             <span className="ml-2 text-[#B87A13]">
-                              {formData.price || "1.015"}
+                              {formData.price || "0"}
                             </span>
                           </div>
                         </div>

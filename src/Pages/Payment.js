@@ -704,7 +704,7 @@ const Payment = () => {
   };
 
   const cancel_confirmorder_sell = async () => {
-    // console.log("it comess confirm sell cancel====");
+    console.log("it comess confirm sell cancel====");
     var onj = {
       orderId: window.location.href.split("/").pop(),
     };
@@ -879,7 +879,7 @@ const Payment = () => {
   };
 
   const cancel_confirm_buy = async () => {
-    // console.log("it comess confirm buy cancel====");
+    console.log("it comess confirm buy cancel====");
     var onj = {
       orderId: window.location.href.split("/").pop(),
     };

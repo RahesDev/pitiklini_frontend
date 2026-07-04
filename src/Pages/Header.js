@@ -379,7 +379,8 @@ const Header = () => {
     // setIsNotifyOpen((prev) => !prev);
     const opening = !isNotifyOpen;
     if (opening) {
-        // Freeze the current notifications for this popup
+      // Freeze the current notifications for this popup
+      console.log("notification==>>", notification);
         setPopupNotifications(notification);
     }
     setIsNotifyOpen(opening);
@@ -395,6 +396,20 @@ const Header = () => {
         }
       } catch (error) { }
     }
+  };
+
+  const handleNotificationClick = async (id) => {
+    try {
+      await postMethod({
+        apiUrl: apiService.notificationViewed,
+
+        payload: {
+          notificationId: id,
+        },
+      });
+
+      setPopupNotifications((prev) => prev.filter((item) => item._id !== id));
+    } catch (err) {}
   };
 
   const obfuscateEmail = (email) => {
@@ -459,7 +474,7 @@ const Header = () => {
                             className="img-fluid"
                             alt="logo"
                           />
-                         )}
+                        )}
                       </Link>
 
                       <div className={`menu_new_typr ${classes.appBarItems}`}>
@@ -729,7 +744,8 @@ const Header = () => {
                             <div className="flex flex-col gap-4 max-h-[260px] overflow-y-auto">
                               {/* {notification && notification.length > 0 ? (
                                 notification.map((options, i) => ( */}
-                              {popupNotifications && popupNotifications.length > 0 ? (
+                              {popupNotifications &&
+                              popupNotifications.length > 0 ? (
                                 popupNotifications.map((options, i) => (
                                   <Link
                                     key={i}
@@ -737,6 +753,9 @@ const Header = () => {
                                       options.link === ""
                                         ? "/notificationHistory"
                                         : options.link
+                                    }
+                                    onClick={() =>
+                                      handleNotificationClick(options._id)
                                     }
                                     className="flex gap-3 p-2 rounded-lg hover:bg-gray transition"
                                   >
@@ -764,14 +783,15 @@ const Header = () => {
 
                             {/* View All Button */}
                             {/* {notification && notification.length > 0 && ( */}
-                            {popupNotifications && popupNotifications.length > 0 && (
-                              <button
-                                onClick={notifyNav}
-                                className="w-full mt-5 bg-primary text-black py-2.5 rounded-lg font-medium hover:opacity-90 transition"
-                              >
-                                {t("viewAll")}
-                              </button>
-                            )}
+                            {popupNotifications &&
+                              popupNotifications.length > 0 && (
+                                <button
+                                  onClick={notifyNav}
+                                  className="w-full mt-5 bg-primary text-black py-2.5 rounded-lg font-medium hover:opacity-90 transition"
+                                >
+                                  {t("viewAll")}
+                                </button>
+                              )}
                           </div>
                         )}
                       </div>

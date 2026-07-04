@@ -146,52 +146,67 @@ function App() {
   //   return () => window.removeEventListener("popstate", onPopState);
   // }, []);
 
+  // useEffect(() => {
+  //   // Save the current internal page in session history
+  //   sessionStorage.setItem("current_internal_path", window.location.pathname);
+
+  //   const handleClick = (event) => {
+  //     const link = event.target.closest("a[href]");
+  //     if (!link) return;
+
+  //     const nextURL = link.href;
+  //     const currentHost = window.location.host;
+  //     const nextHost = new URL(nextURL).host;
+
+  //     // Leaving site → show confirm
+  //     if (nextHost !== currentHost) {
+  //       const ok = window.confirm("Are you sure you want to leave Pitiklini?");
+  //       if (!ok) {
+  //         event.preventDefault();
+  //         return false;
+  //       }
+  //     }
+  //   };
+
+  //   document.addEventListener("click", handleClick);
+
+  //   const onPopState = () => {
+  //     const storedPath = sessionStorage.getItem("current_internal_path");
+  //     const now = window.location.pathname;
+
+  //     // If going OUTSIDE your app (back to Google)
+  //     if (now === storedPath) {
+  //       const ok = window.confirm("Are you sure you want to leave Pitiklini?");
+  //       if (!ok) {
+  //         // Stay inside site
+  //         window.history.pushState(null, "", storedPath);
+  //       }
+  //     } else {
+  //       // update path (important!)
+  //       sessionStorage.setItem("current_internal_path", now);
+  //     }
+  //   };
+
+  //   window.addEventListener("popstate", onPopState);
+
+  //   return () => {
+  //     document.removeEventListener("click", handleClick);
+  //     window.removeEventListener("popstate", onPopState);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    // Save the current internal page in session history
-    sessionStorage.setItem("current_internal_path", window.location.pathname);
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
 
-    const handleClick = (event) => {
-      const link = event.target.closest("a[href]");
-      if (!link) return;
-
-      const nextURL = link.href;
-      const currentHost = window.location.host;
-      const nextHost = new URL(nextURL).host;
-
-      // Leaving site → show confirm
-      if (nextHost !== currentHost) {
-        const ok = window.confirm("Are you sure you want to leave Pitiklini?");
-        if (!ok) {
-          event.preventDefault();
-          return false;
-        }
-      }
+      // Required for Chrome, Edge, Firefox
+      e.returnValue = "";
     };
 
-    document.addEventListener("click", handleClick);
-
-    const onPopState = () => {
-      const storedPath = sessionStorage.getItem("current_internal_path");
-      const now = window.location.pathname;
-
-      // If going OUTSIDE your app (back to Google)
-      if (now === storedPath) {
-        const ok = window.confirm("Are you sure you want to leave Pitiklini?");
-        if (!ok) {
-          // Stay inside site
-          window.history.pushState(null, "", storedPath);
-        }
-      } else {
-        // update path (important!)
-        sessionStorage.setItem("current_internal_path", now);
-      }
-    };
-
-    window.addEventListener("popstate", onPopState);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      document.removeEventListener("click", handleClick);
-      window.removeEventListener("popstate", onPopState);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
