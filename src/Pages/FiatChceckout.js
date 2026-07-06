@@ -1596,7 +1596,7 @@ const Checkout = () => {
                                       .map((item, i) => {
                                         return (
                                           <tr>
-                                            <td className="opt-percent font_14 table_center_text pad-left-23">
+                                            <td className="opt-percent font_14 pad-left-23">
                                               {item.currency}
                                             </td>
                                             <td className="opt-percent font_14 table_center_text pad-left-23">

@@ -229,20 +229,63 @@ const P2P = () => {
     }
   };
 
+  // const filterOrders = () => {
+  //   setSiteLoader(true);
+  //   let filtered = Array.isArray(p2pOrders) ? p2pOrders.slice() : [];
+  //   if (paymentMethod)
+  //     filtered = filtered.filter((o) => o.paymentMethod === paymentMethod);
+  //   if (orderType) filtered = filtered.filter((o) => o.orderType !== orderType);
+  //   if (selectedCrypto)
+  //     filtered = filtered.filter((o) => o.firstCurrency === selectedCrypto);
+  //   if (selectedFiat)
+  //     filtered = filtered.filter((o) => o.secondCurrency === selectedFiat);
+  //   if (amount)
+  //     filtered = filtered.filter(
+  //       (o) => amount >= o.fromLimit && amount <= o.toLimit,
+  //     );
+  //   setFilteredOrders(filtered);
+  //   setSiteLoader(false);
+  // };
+
   const filterOrders = () => {
     setSiteLoader(true);
-    let filtered = Array.isArray(p2pOrders) ? p2pOrders.slice() : [];
-    if (paymentMethod)
-      filtered = filtered.filter((o) => o.paymentMethod === paymentMethod);
-    if (orderType) filtered = filtered.filter((o) => o.orderType !== orderType);
-    if (selectedCrypto)
+
+    let filtered = Array.isArray(p2pOrders) ? [...p2pOrders] : [];
+
+    if (paymentMethod) {
+      filtered = filtered.filter((o) => {
+        if (!o.paymentMethod) return false;
+
+        if (Array.isArray(o.paymentMethod)) {
+          return o.paymentMethod.includes(paymentMethod);
+        }
+
+        return o.paymentMethod === paymentMethod;
+      });
+    }
+
+    if (orderType) {
+      filtered = filtered.filter((o) => o.orderType !== orderType);
+    }
+
+    if (selectedCrypto) {
       filtered = filtered.filter((o) => o.firstCurrency === selectedCrypto);
-    if (selectedFiat)
+    }
+
+    if (selectedFiat) {
       filtered = filtered.filter((o) => o.secondCurrency === selectedFiat);
-    if (amount)
+    }
+
+    if (amount) {
+      const enteredAmount = Number(amount);
+
       filtered = filtered.filter(
-        (o) => amount >= o.fromLimit && amount <= o.toLimit,
+        (o) =>
+          enteredAmount >= Number(o.fromLimit) &&
+          enteredAmount <= Number(o.toLimit),
       );
+    }
+
     setFilteredOrders(filtered);
     setSiteLoader(false);
   };
@@ -593,7 +636,7 @@ const P2P = () => {
                           <div className="relative">
                             <div className="[&_.ui.selection.dropdown]:!min-h-[56px] [&_.ui.selection.dropdown]:!w-full [&_.ui.selection.dropdown]:!rounded-xl [&_.ui.selection.dropdown]:!border-0 [&_.ui.selection.dropdown]:!bg-[#050811] [&_.ui.selection.dropdown]:!px-4 [&_.ui.selection.dropdown]:!pr-12 [&_.ui.selection.dropdown]:!text-white [&_.ui.selection.dropdown]:!shadow-none [&_.ui.selection.dropdown]:!flex [&_.ui.selection.dropdown]:!items-center [&_.ui.selection.dropdown>.text]:!text-white [&_.ui.selection.dropdown>.default.text]:!text-[#6b7280] [&_.ui.selection.dropdown>.dropdown.icon]:!hidden">
                               <Dropdown
-                                placeholder={t("enterAmount")}
+                                placeholder={t("fiatCurrency")}
                                 fluid
                                 selection
                                 options={fiatCurrencies}
