@@ -249,6 +249,8 @@ const PostAd = () => {
       newErrors.cryptoCurrency = "Please select a cryptocurrency.";
     } else if (!formData.fiatCurrency) {
       newErrors.fiatCurrency = "Please select a fiat currency.";
+    } else if (!formData.price) {
+      newErrors.price = "Price is required.";
     } else if (!formData.quantity) {
       newErrors.quantity = "Quantity is required.";
     } else if (!formData.minQuantity) {
@@ -439,23 +441,46 @@ const PostAd = () => {
   //   }
   // };
 
-    useEffect(() => {
+  useEffect(() => {
     if (formData.cryptoCurrency && formData.fiatCurrency) {
-
       fiat_price(formData.cryptoCurrency, formData.fiatCurrency);
-      
+
+      setFormData((prev) => ({
+        ...prev,
+        price: "",
+      }));
+
       const cryptos = allcryptoCurrencies.filter(
-        (currency) => currency.currencySymbol === formData.cryptoCurrency
-      );
-      const Fiat = allcryptoCurrencies.filter(
-        (currency) => currency.currencySymbol === formData.fiatCurrency
+        (currency) => currency.currencySymbol === formData.cryptoCurrency,
       );
 
-      // Check if cryptos[0] and Fiat[0] exist before accessing _id
+      const Fiat = allcryptoCurrencies.filter(
+        (currency) => currency.currencySymbol === formData.fiatCurrency,
+      );
+
       formData["fromcurrency"] = cryptos.length > 0 ? cryptos[0]._id : "";
+
       formData["tocurrency"] = Fiat.length > 0 ? Fiat[0]._id : "";
     }
   }, [formData.cryptoCurrency, formData.fiatCurrency]);
+
+  //   useEffect(() => {
+  //   if (formData.cryptoCurrency && formData.fiatCurrency) {
+
+  //     fiat_price(formData.cryptoCurrency, formData.fiatCurrency);
+      
+  //     const cryptos = allcryptoCurrencies.filter(
+  //       (currency) => currency.currencySymbol === formData.cryptoCurrency
+  //     );
+  //     const Fiat = allcryptoCurrencies.filter(
+  //       (currency) => currency.currencySymbol === formData.fiatCurrency
+  //     );
+
+  //     // Check if cryptos[0] and Fiat[0] exist before accessing _id
+  //     formData["fromcurrency"] = cryptos.length > 0 ? cryptos[0]._id : "";
+  //     formData["tocurrency"] = Fiat.length > 0 ? Fiat[0]._id : "";
+  //   }
+  // }, [formData.cryptoCurrency, formData.fiatCurrency]);
 
     const fiat_price = async (crypto, fiat) => {
     var payload = {
@@ -470,17 +495,22 @@ const PostAd = () => {
 
     var resp = await postMethod(data);
 
-    if (resp.status) {
-      setFormData((prevData) => ({
-        ...prevData,
-        lowestOrderPrice: resp.data.lowprice
-          ? resp.data.lowprice
-          : resp.data.price,
-        higeshOrderPrice: resp.data.highprice
-          ? resp.data.highprice
-          : resp.data.price,
-        price: resp.data.price,
-      }));
+      if (resp.status) {
+       setFormData((prevData) => ({
+         ...prevData,
+         lowestOrderPrice: resp.data.highestBuyPrice || 0,
+         higeshOrderPrice: resp.data.lowestSellPrice || 0,
+       }));
+      // setFormData((prevData) => ({
+      //   ...prevData,
+      //   lowestOrderPrice: resp.data.lowprice
+      //     ? resp.data.lowprice
+      //     : resp.data.price,
+      //   higeshOrderPrice: resp.data.highprice
+      //     ? resp.data.highprice
+      //     : resp.data.price,
+      //   price: resp.data.price,
+      // }));
     }
   };
 

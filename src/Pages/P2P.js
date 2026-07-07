@@ -468,7 +468,7 @@ const P2P = () => {
                           onClick={() => setOrderType("buy")}
                           className={`flex-1 rounded-xl px-6 py-3 text-sm font-extrabold uppercase tracking-[0.22em] transition-all duration-200 ${
                             orderType === "buy"
-                              ? "bg-[#c98a11] text-[#1a1a1a] shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                              ? "bg-[#2ebd85] text-black shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                               : "text-[#7f8798] hover:text-white"
                           }`}
                         >
@@ -480,7 +480,7 @@ const P2P = () => {
                           onClick={() => setOrderType("sell")}
                           className={`flex-1 rounded-xl px-6 py-3 text-sm font-extrabold uppercase tracking-[0.22em] transition-all duration-200 ${
                             orderType === "sell"
-                              ? "bg-[#c98a11] text-[#1a1a1a] shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                              ? "bg-[#f45e71] text-black shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                               : "text-[#7f8798] hover:text-white"
                           }`}
                         >
@@ -833,8 +833,9 @@ const P2P = () => {
                                           <button
                                             className={`inline-flex min-w-[120px] items-center justify-center rounded-xl px-4 py-2.5 text-sm font-bold transition ${
                                               orderType === "buy"
-                                                ? "bg-[#c98a11] text-black hover:bg-[#d79a1a]"
-                                                : "bg-[#d14b4b] text-black hover:bg-[#df5b5b]"
+                                                ? "bg-[#2ebd85] text-black hover:bg-[#d79a1a]"
+                                                : "bg-[#f45e71] text-black hover:bg-[#df5b5b]"
+                                                // : "bg-[#d14b4b] text-black hover:bg-[#df5b5b]"
                                             }`}
                                             onClick={() =>
                                               handleClick(i, options)

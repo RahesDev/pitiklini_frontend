@@ -256,7 +256,9 @@ const Login = () => {
                 <span className="text-lg text-secondary">
                   <i className="ri-arrow-left-s-line"></i>
                 </span>
-                <span className="text-sm font-ibm text-secondary">{t("back")}</span>
+                <span className="text-sm font-ibm text-secondary">
+                  {t("back")}
+                </span>
               </button>
             )}
 
@@ -299,189 +301,215 @@ const Login = () => {
             {/* Welcome Text */}
             <div className="flex flex-col items-center gap-3 text-center mb-8">
               <h1 className="text-[24px] font-bold">
-               <span className=" text-[#FCFCFD]">Welcome to </span><span className="text-primary">PITIKLINI</span>
+                <span className=" text-[#FCFCFD]">Welcome to </span>
+                <span className="text-primary">PITIKLINI</span>
               </h1>
-              {step === 1 && ( <p className="text-[14px] text-[#B1B5C3] max-w-[320px]">
-                Please enter your email to login or sign up
-              </p>)}
-              {step === 2 && ( <p className="text-[14px] text-[#B1B5C3] max-w-[320px]">
-                Please enter your password to login or sign up
-              </p>)}
-            </div>
-
-            {/* Form */}
-            <div className="flex flex-col gap-6">
-              {step === 1 ? (
-                <>
-                  {/* Email Input */}
-                  <div className="relative">
-                    <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
-                      {t("email_label")}
-                    </span>
-
-                    <div
-                        className={`flex items-center bg-[#23262F] border-[1.5px] ${
-                          validationnErr?.email ? "border-red-500" : "border-primary"
-                        } rounded-[8px] px-4 h-[56px]`}
-                      >
-                        <img src={Email} alt="email" className="w-[18px] h-[18px] mr-2" />
-
-                      <input
-                        type="text"
-                        name="email"
-                        value={email}
-                        maxLength="250"
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\s/g, "");
-                          setFormValue((prev) => ({ ...prev, email: value }));
-
-                          if (!value) {
-                            setvalidationnErr((prev) => ({
-                              ...prev,
-                              email: t("emailIsRequiredField"),
-                            }));
-                          } else if (
-                            !/^[a-zA-Z0-9.]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(value)
-                          ) {
-                            setvalidationnErr((prev) => ({
-                              ...prev,
-                              email: t("invalidEmailAddress"),
-                            }));
-                          } else {
-                            setvalidationnErr((prev) => {
-                              const { email, ...rest } = prev;
-                              return rest;
-                            });
-                          }
-                        }}
-                        className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
-                      />
-                    </div>
-
-                    {validationnErr?.email && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {validationnErr.email}
-                      </p>
-                    )}
-                  </div>
-
-                  <button
-                    onClick={async () => {
-                      const errors = await validate(formValue);
-                      if (!errors.email) {
-                        setStep(2);
-                      }
-                    }}
-                    className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition"
-                  >
-                    {t("next")}
-                  </button>
-                </>
-              ) : (
-                <>
-                  {/* Email (Read-only for Step 2) */}
-                  <div className="relative opacity-60">
-                    <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
-                      {t("email_label")}
-                    </span>
-                    <div className="flex items-center bg-[#23262F] border-[1.5px] border-[#353945] rounded-[8px] px-4 h-[56px]">
-                      <img src={Email} alt="email" className="w-[18px] h-[18px] mr-2" />
-                      <input
-                        type="text"
-                        value={email}
-                        disabled
-                        className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Password Input */}
-                  <div className="relative">
-                    <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
-                      {t("password_label")}
-                    </span>
-
-                    <div
-                      className={`flex items-center bg-[#23262F] border-[1.5px] ${
-                        validationnErr?.password ? "border-red-500" : "border-primary"
-                      } rounded-[8px] px-4 h-[56px]`}
-                    >
-                      <i className="ri-lock-2-line text-primary mr-2 text-lg"></i>
-
-                      <input
-                        type={inputType}
-                        name="password"
-                        value={password}
-                        minLength={6}
-                        maxLength={30}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setFormValue((prev) => ({ ...prev, password: value }));
-
-                          if (!value) {
-                            setvalidationnErr((prev) => ({
-                              ...prev,
-                              password: t("passwordIsRequired"),
-                            }));
-                          } else {
-                            setvalidationnErr((prev) => {
-                              const { password, ...rest } = prev;
-                              return rest;
-                            });
-                          }
-                        }}
-                        className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
-                      />
-
-                      <div
-                        className="cursor-pointer text-[#777E90] z-20 flex items-center justify-center px-2"
-                        onClick={() => passwordHide(passHide ? "show" : "hide")}
-                      >
-                        {passHide ? (
-                          <i className="ri-eye-line text-primary"></i>
-                        ) : (
-                          <i className="ri-eye-off-line text-primary"></i>
-                        )}
-                      </div>
-                    </div>
-
-                    {validationnErr?.password && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {validationnErr.password}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="flex justify-end">
-                    <Link
-                      to="/forgotpassword"
-                      title={t("forgot_password")}
-                      className="text-sm text-primary hover:underline"
-                    >
-                      {t("forgot_password")}
-                    </Link>
-                  </div>
-
-                  <button
-                    disabled={buttonLoader}
-                    onClick={handleClick}
-                    className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition disabled:opacity-50"
-                  >
-                    {buttonLoader ? `${t("loading")}...` : t("login")}
-                  </button>
-                </>
+              {step === 1 && (
+                <p className="text-[14px] text-[#B1B5C3] max-w-[320px]">
+                  Please enter your email to login or sign up
+                </p>
+              )}
+              {step === 2 && (
+                <p className="text-[14px] text-[#B1B5C3] max-w-[320px]">
+                  Please enter your password to login or sign up
+                </p>
               )}
             </div>
 
-              {/* Divider */}
-              {/* <div className="flex items-center gap-3 my-6">
+            {/* Form */}
+            <form onSubmit={(e) => e.preventDefault()} action="">
+              <div className="flex flex-col gap-6">
+                {step === 1 ? (
+                  <>
+                    {/* Email Input */}
+                    <div className="relative">
+                      <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
+                        {t("email_label")}
+                      </span>
+
+                      <div
+                        className={`flex items-center bg-[#23262F] border-[1.5px] ${
+                          validationnErr?.email
+                            ? "border-red-500"
+                            : "border-primary"
+                        } rounded-[8px] px-4 h-[56px]`}
+                      >
+                        <img
+                          src={Email}
+                          alt="email"
+                          className="w-[18px] h-[18px] mr-2"
+                        />
+
+                        <input
+                          type="text"
+                          name="email"
+                          value={email}
+                          maxLength="250"
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\s/g, "");
+                            setFormValue((prev) => ({ ...prev, email: value }));
+
+                            if (!value) {
+                              setvalidationnErr((prev) => ({
+                                ...prev,
+                                email: t("emailIsRequiredField"),
+                              }));
+                            } else if (
+                              !/^[a-zA-Z0-9.]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(
+                                value,
+                              )
+                            ) {
+                              setvalidationnErr((prev) => ({
+                                ...prev,
+                                email: t("invalidEmailAddress"),
+                              }));
+                            } else {
+                              setvalidationnErr((prev) => {
+                                const { email, ...rest } = prev;
+                                return rest;
+                              });
+                            }
+                          }}
+                          className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
+                        />
+                      </div>
+
+                      {validationnErr?.email && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {validationnErr.email}
+                        </p>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={async () => {
+                        const errors = await validate(formValue);
+                        if (!errors.email) {
+                          setStep(2);
+                        }
+                      }}
+                      className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition"
+                    >
+                      {t("next")}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {/* Email (Read-only for Step 2) */}
+                    <div className="relative opacity-60">
+                      <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
+                        {t("email_label")}
+                      </span>
+                      <div className="flex items-center bg-[#23262F] border-[1.5px] border-[#353945] rounded-[8px] px-4 h-[56px]">
+                        <img
+                          src={Email}
+                          alt="email"
+                          className="w-[18px] h-[18px] mr-2"
+                        />
+                        <input
+                          type="text"
+                          value={email}
+                          disabled
+                          className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Password Input */}
+                    <div className="relative">
+                      <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
+                        {t("password_label")}
+                      </span>
+
+                      <div
+                        className={`flex items-center bg-[#23262F] border-[1.5px] ${
+                          validationnErr?.password
+                            ? "border-red-500"
+                            : "border-primary"
+                        } rounded-[8px] px-4 h-[56px]`}
+                      >
+                        <i className="ri-lock-2-line text-primary mr-2 text-lg"></i>
+
+                        <input
+                          type={inputType}
+                          name="password"
+                          value={password}
+                          minLength={6}
+                          maxLength={30}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setFormValue((prev) => ({
+                              ...prev,
+                              password: value,
+                            }));
+
+                            if (!value) {
+                              setvalidationnErr((prev) => ({
+                                ...prev,
+                                password: t("passwordIsRequired"),
+                              }));
+                            } else {
+                              setvalidationnErr((prev) => {
+                                const { password, ...rest } = prev;
+                                return rest;
+                              });
+                            }
+                          }}
+                          className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
+                        />
+
+                        <div
+                          className="cursor-pointer text-[#777E90] z-20 flex items-center justify-center px-2"
+                          onClick={() =>
+                            passwordHide(passHide ? "show" : "hide")
+                          }
+                        >
+                          {passHide ? (
+                            <i className="ri-eye-line text-primary"></i>
+                          ) : (
+                            <i className="ri-eye-off-line text-primary"></i>
+                          )}
+                        </div>
+                      </div>
+
+                      {validationnErr?.password && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {validationnErr.password}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex justify-end">
+                      <Link
+                        to="/forgotpassword"
+                        title={t("forgot_password")}
+                        className="text-sm text-primary hover:underline"
+                      >
+                        {t("forgot_password")}
+                      </Link>
+                    </div>
+
+                    <button
+                      disabled={buttonLoader}
+                      onClick={handleClick}
+                      className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition disabled:opacity-50"
+                    >
+                      {buttonLoader ? `${t("loading")}...` : t("login")}
+                    </button>
+                  </>
+                )}
+              </div>
+            </form>
+            
+            {/* Divider */}
+            {/* <div className="flex items-center gap-3 my-6">
                 <div className="flex-1 h-px bg-[#2A2D36]"></div>
                 <span className="text-sm text-[#777E90]">Or continue with</span>
                 <div className="flex-1 h-px bg-[#2A2D36]"></div>
               </div> */}
 
-              {/* Social Buttons */}
-              {/* <div className="flex justify-between gap-4">
+            {/* Social Buttons */}
+            {/* <div className="flex justify-between gap-4">
                 <button className="flex-1 border border-primary rounded-lg h-[56px] flex items-center justify-center hover:bg-primary/10 transition">
                   <span className="text-primary text-xl">✈</span>
                 </button>
@@ -493,15 +521,18 @@ const Login = () => {
                 </button>
               </div> */}
 
-              {/* Footer Link */}
-              <div className="my-8 text-center text-sm">
-                <p className="text-[#B1B5C3]">
-                  {t("dont_have_account")}{" "}
-                  <Link to="/register" className="text-primary font-medium hover:underline">
-                    {t("register")}
-                  </Link>
-                </p>
-              </div>
+            {/* Footer Link */}
+            <div className="my-8 text-center text-sm">
+              <p className="text-[#B1B5C3]">
+                {t("dont_have_account")}{" "}
+                <Link
+                  to="/register"
+                  className="text-primary font-medium hover:underline"
+                >
+                  {t("register")}
+                </Link>
+              </p>
+            </div>
           </div>
 
           {/* Verification Modal */}
@@ -517,7 +548,10 @@ const Login = () => {
                   <i className="ri-close-circle-line" onClick={handleClose}></i>
                 </div>
                 <div className="email-pop-img">
-                  <img src={require("../assets/icons/email-pop.webp")} alt="email-icon" />
+                  <img
+                    src={require("../assets/icons/email-pop.webp")}
+                    alt="email-icon"
+                  />
                 </div>
                 <h3>{t("email_verification_required")}</h3>
                 <p>{t("verify_email_message")}</p>
