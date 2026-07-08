@@ -539,14 +539,13 @@ const PostAd = () => {
           <section className="asset_section bg-[#0f1117]">
             <div className="mx-auto max-w-[1160px] pt-0 lg:pt-6 px-2 md:px-4">
               <h2 className="text-2xl font-semibold text-[#B87A13]">
-                P2P Platform
+                {t("p2pplatform")}
               </h2>
               <h3 className="mt-2 text-2xl font-semibold text-[#e7ecf6]">
-                Post Advertisement
+                {t("postadvtsemnt")}
               </h3>
               <p className="mt-2 text-sm text-[#8f96a7]">
-                Create a new buy or sell order for the P2P marketplace.
-                Configure your pricing strategy and payment parameters below.
+                {t("postadvdescrp")}
               </p>
 
               <div className="mt-6 grid gap-5 lg:grid-cols-[1.6fr_1fr]">
@@ -556,27 +555,27 @@ const PostAd = () => {
                       <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">
                         1
                       </span>
-                      Pricing & Asset
+                      {t("postadvdescrp")}
                     </h4>
                     <div className="grid gap-4 md:grid-cols-2">
                       <div>
                         <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
-                          Trade Type
+                          {t("tradetype")}
                         </label>
                         <div className="rounded-lg border border-[#2a3038] bg-[#0c111a] p-1">
                           <button
                             type="button"
                             onClick={() => updateTradeType("buy")}
-                            className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "buy" ? "bg-[#B87A13] text-[#11161f]" : "text-[#c7cedd]"}`}
+                            className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "buy" ? "bg-[#2ebd85] text-black" : "text-[#c7cedd]"}`}
                           >
-                            BUY
+                            {t("buy")}
                           </button>
                           <button
                             type="button"
                             onClick={() => updateTradeType("sell")}
-                            className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "sell" ? "bg-[#B87A13] text-[#11161f]" : "text-[#c7cedd]"}`}
+                            className={`h-9 w-1/2 rounded-md text-xs font-semibold transition ${tradeType === "sell" ? "bg-[#f45e71] text-black" : "text-[#c7cedd]"}`}
                           >
-                            SELL
+                            {t("sell")}
                           </button>
                         </div>
                       </div>
@@ -612,7 +611,7 @@ const PostAd = () => {
                       </div>
                       <div>
                         <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
-                          Fiat Currency
+                          {t("fiatCurrency")}
                         </label>
 
                         <select
@@ -648,21 +647,21 @@ const PostAd = () => {
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
                       <div className="rounded-lg border border-[#2a3038] bg-[#0c111a] p-3">
                         <p className="text-[11px] uppercase text-[#7f8799]">
-                          Pricing Type
+                          {t("pricingtype")}
                         </p>
                         <button
                           type="button"
                           className="mt-2 h-9 rounded-md border border-[#B87A13] px-4 text-xs font-semibold text-[#B87A13]"
                         >
-                          Fixed
+                          {t("fixed")}
                         </button>
                         <p className="mt-1 text-[11px] text-[#7f8799]">
-                          Stays constant
+                          {t("staysconstant")}
                         </p>
                       </div>
                       <div>
                         <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
-                          Your Price
+                          {t("yousrsprice")}
                         </label>
                         <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
                           <input
@@ -699,7 +698,7 @@ const PostAd = () => {
                         )}
                         <div className="mt-2 flex items-center justify-between rounded-lg bg-[#0c111a] px-3 py-2 text-[11px]">
                           <div className="text-[#8c94a6]">
-                            Market Avg{" "}
+                            {t("marketavg")}{" "}
                             <span className="ml-2 text-[#d4dbea]">
                               {tradeType === "buy"
                                 ? formData.lowestOrderPrice || "0"
@@ -707,7 +706,7 @@ const PostAd = () => {
                             </span>
                           </div>
                           <div className="text-[#8c94a6]">
-                            Your Price{" "}
+                            {t("yousrsprice")}{" "}
                             <span className="ml-2 text-[#B87A13]">
                               {formData.price || "0"}
                             </span>
@@ -722,10 +721,10 @@ const PostAd = () => {
                       <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">
                         2
                       </span>
-                      Inventory & Limits
+                      {t("inevntrylimits")}
                     </h4>
                     <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
-                      Total Inventory
+                      {t("totalinevntry")}
                     </label>
                     <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
                       <input
@@ -756,7 +755,7 @@ const PostAd = () => {
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
                       <div>
                         <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
-                          Order Minimum
+                          {t("ordermin")}
                         </label>
                         <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
                           <input
@@ -789,7 +788,7 @@ const PostAd = () => {
                       </div>
                       <div>
                         <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
-                          Order Maximum
+                          {t("ordermax")}
                         </label>
                         <div className="flex h-11 items-center rounded-lg border border-[#2a3038] bg-[#0c111a] px-3">
                           <input
@@ -834,10 +833,10 @@ const PostAd = () => {
                       <span className="grid h-5 w-5 place-items-center rounded-full bg-[#B87A13]/20 text-xs text-[#B87A13]">
                         3
                       </span>
-                      Payment & Logic
+                      {t("payandlogic")}
                     </h4>
                     <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
-                      Payment Methods
+                      {t("PaymentMethods")}
                     </label>
                     <div className="grid gap-2 sm:grid-cols-3">
                       {/* {paymentMethods.slice(0, 2).map((p) => ( */}
@@ -893,7 +892,8 @@ const PostAd = () => {
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
                       <div>
                         <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
-                          Payment Window
+                          {/* Payment Window */}
+                          {t("paymentTime")}
                         </label>
                         <select
                           value={formData.paymentTime}
@@ -929,7 +929,7 @@ const PostAd = () => {
                     </div>
                     <div className="mt-4">
                       <label className="mb-2 block text-[11px] uppercase tracking-wide text-[#7f8799]">
-                        Terms of Trade
+                        {t("termsoftrade")}
                       </label>
                       <textarea
                         name="requirements"
@@ -959,10 +959,10 @@ const PostAd = () => {
                   <article className="rounded-xl border border-[#242b3a] bg-[#151b27] p-5 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
                     <div className="mb-3 flex items-center justify-between">
                       <p className="text-[11px] uppercase tracking-wider text-[#7f8799]">
-                        Live Ad Preview
+                        {t("liveadpreview")}
                       </p>
                       <span className="rounded bg-[#B87A13]/15 px-2 py-1 text-[10px] font-semibold text-[#B87A13]">
-                        PREVIEW
+                        {t("preview")}
                       </span>
                     </div>
                     <div className="text-4xl font-semibold text-[#f4f7ff]">
@@ -1022,13 +1022,15 @@ const PostAd = () => {
                       />
 
                       <label className="text-sm text-[#c7cedd]">
-                        I have read and agree to the
+                        {t("ihavereadandagretothe")}
                         <Link to="/terms" className="text-[#B87A13] ml-1">
-                          Terms & Conditions
+                          {" "}
+                          {t("termsConditions")}{" "}
                         </Link>{" "}
-                        and{" "}
+                        {t("and")}{" "}
                         <Link to="/privacy" className="text-[#B87A13]">
-                          Privacy Policy
+                          {" "}
+                          {t("privacyPolicy")}
                         </Link>
                       </label>
                     </div>
@@ -1044,7 +1046,7 @@ const PostAd = () => {
                     onClick={(e) => handleSubmit(e, tradeType)}
                     className="h-12 w-full rounded-xl bg-[#B87A13] text-sm font-semibold text-[#10151f] transition hover:bg-[#cd942f]"
                   >
-                    POST ADVERTISEMENT
+                    {t("postadvtsemnt")}
                   </button>
                   {/* <button
                     type="button"

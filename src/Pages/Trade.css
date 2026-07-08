@@ -1816,6 +1816,7 @@ a {
 @media only screen and (max-width: 480px) {
   .subHeader {
     padding-bottom: 24px !important;
+    margin-top: 60px !important;
   }
 }
 

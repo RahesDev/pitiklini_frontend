@@ -1560,12 +1560,12 @@ const Checkout = () => {
                               <h5 className="opt-title">
                                 {t("paymentHistory")}
                               </h5>
-                              <Link to="/withdrawHistory">
+                              {/* <Link to="/withdrawHistory">
                                 <div className="d-flex gap-2 text-yellow">
                                   {t("viewAll")}{" "}
                                   <i className="bi bi-arrow-right"></i>
                                 </div>
-                              </Link>
+                              </Link> */}
                             </div>
 
                             <div className="table-responsive table-cont">
