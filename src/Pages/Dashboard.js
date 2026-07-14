@@ -41,101 +41,104 @@ const AssetOverviewCard = ({
   totalAllbalance,
   showBalance,
   setShowBalance,
-}) => (
-  <article className="min-h-[320px] rounded-xl border border-[#252a36] bg-black p-5 shadow-[0_12px_30px_rgba(0,0,0,0.35)] md:p-6 xl:col-span-2">
-    <div className="relative z-10 mb-4 flex min-h-8 flex-nowrap items-center justify-between gap-3 border-b border-[#2a3038] pb-3">
-      <h3 className="mb-0 whitespace-nowrap leading-none text-xl font-semibold text-[#e0a82d]">
-        Asset Overview
-      </h3>
-      <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
-        {/* <i className="ri-eye-line text-[#8c94a6]" /> */}
-        <button
-          onClick={() => setShowBalance(!showBalance)}
-          className="text-[#8c94a6]"
-        >
-          <i
-            className={
-              showBalance
-                ? "ri-eye-line text-lg text-[#8c94a6]"
-                : "ri-eye-off-line text-lg text-[#8c94a6]"
-            }
-          />
-        </button>
-        {/* <select
+}) => {
+  const { t } = useTranslation();
+  return (
+    <article className="min-h-[320px] rounded-xl border border-[#252a36] bg-black p-5 shadow-[0_12px_30px_rgba(0,0,0,0.35)] md:p-6 xl:col-span-2">
+      <div className="relative z-10 mb-4 flex min-h-8 flex-nowrap items-center justify-between gap-3 border-b border-[#2a3038] pb-3">
+        <h3 className="mb-0 whitespace-nowrap leading-none text-xl font-semibold text-[#e0a82d]">
+          {t("assetoverview")}
+        </h3>
+        <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
+          {/* <i className="ri-eye-line text-[#8c94a6]" /> */}
+          <button
+            onClick={() => setShowBalance(!showBalance)}
+            className="text-[#8c94a6]"
+          >
+            <i
+              className={
+                showBalance
+                  ? "ri-eye-line text-lg text-[#8c94a6]"
+                  : "ri-eye-off-line text-lg text-[#8c94a6]"
+              }
+            />
+          </button>
+          {/* <select
           defaultValue="USDT"
           className="h-8 rounded-md border border-[#2a3038] bg-[#1a1f2a] px-2 text-xs text-[#d8deeb] outline-none transition focus:border-[#B87A13]"
         >
           <option>USDT</option>
           <option>BTC</option>
         </select> */}
+        </div>
       </div>
-    </div>
-    <div className="grid gap-2 pt-1 md:grid-cols-[190px_1fr] lg:grid-cols-[210px_1fr]">
-      <div className="relative h-[176px] lg:h-[194px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={portfolioData}
-              dataKey="pieValue"
-              innerRadius={66}
-              outerRadius={84}
-              startAngle={30}
-              endAngle={390}
-              paddingAngle={6}
-              cornerRadius={10}
-              stroke={CARD_BG}
-              strokeWidth={6}
-            >
-              {portfolioData.map((entry) => (
-                <Cell key={entry.name} fill={entry.color} />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <div className="text-[16px] font-semibold leading-none text-[#e7ebf4] lg:text-[20px]">
-              {/* {Number(totalAllbalance).toFixed(8)} */}
-              {showBalance ? Number(totalAllbalance).toFixed(8) : "******"}
-            </div>
-            <div className="mt-1.5 text-xs leading-none text-[#77829a] lg:text-sm">
-              Total Assets
+      <div className="grid gap-2 pt-1 md:grid-cols-[190px_1fr] lg:grid-cols-[210px_1fr]">
+        <div className="relative h-[176px] lg:h-[194px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={portfolioData}
+                dataKey="pieValue"
+                innerRadius={66}
+                outerRadius={84}
+                startAngle={30}
+                endAngle={390}
+                paddingAngle={6}
+                cornerRadius={10}
+                stroke={CARD_BG}
+                strokeWidth={6}
+              >
+                {portfolioData.map((entry) => (
+                  <Cell key={entry.name} fill={entry.color} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-[16px] font-semibold leading-none text-[#e7ebf4] lg:text-[20px]">
+                {/* {Number(totalAllbalance).toFixed(8)} */}
+                {showBalance ? Number(totalAllbalance).toFixed(8) : "******"}
+              </div>
+              <div className="mt-1.5 text-xs leading-none text-[#77829a] lg:text-sm">
+                Total Assets
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col justify-center gap-2 overflow-hidden">
-        {portfolioData.map((item) => (
-          <div
-            key={item.name}
-            className="grid grid-cols-[minmax(140px,2fr)_140px_minmax(82px,2fr)] items-center gap-1.5 text-[11px] leading-tight lg:grid-cols-[minmax(72px,1fr)_140px_minmax(90px,1fr)_minmax(110px,1fr)] lg:text-xs"
-          >
-            <div className="flex items-center gap-2 mb-1">
-              <span
-                className="h-2.5 w-2.5 rounded-full shadow-[0_0_10px] shadow-current"
-                style={{ color: item.color, background: item.color }}
-              />
-              <span className="truncate font-medium text-[#d4dae6] lg:text-[16px]">
-                {item.name}
-              </span>
-            </div>
-            {/* <span className="text-right font-semibold tabular-nums text-[#e8ecf5]">
+        <div className="flex flex-col justify-center gap-2 overflow-hidden">
+          {portfolioData.map((item) => (
+            <div
+              key={item.name}
+              className="grid grid-cols-[minmax(140px,2fr)_140px_minmax(82px,2fr)] items-center gap-1.5 text-[11px] leading-tight lg:grid-cols-[minmax(72px,1fr)_140px_minmax(90px,1fr)_minmax(110px,1fr)] lg:text-xs"
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <span
+                  className="h-2.5 w-2.5 rounded-full shadow-[0_0_10px] shadow-current"
+                  style={{ color: item.color, background: item.color }}
+                />
+                <span className="truncate font-medium text-[#d4dae6] lg:text-[16px]">
+                  {item.name}
+                </span>
+              </div>
+              {/* <span className="text-right font-semibold tabular-nums text-[#e8ecf5]">
               {item.percentage}%
             </span> */}
-            <span className=" text-right tabular-nums text-[#c2c8d6] lg:text-[16px] mb-1">
-              {/* {item.balance} */}
-              {showBalance ? item.balance : "******"}
-            </span>
-            {/* <span className="truncate text-right font-medium tabular-nums text-[#e0a82d]"> */}
-            {/* = {item.usdt} USDT */}
-            {/* {showBalance ? item.usdt : "******"} */}
-            {/* </span> */}
-          </div>
-        ))}
+              <span className=" text-right tabular-nums text-[#c2c8d6] lg:text-[16px] mb-1">
+                {/* {item.balance} */}
+                {showBalance ? item.balance : "******"}
+              </span>
+              {/* <span className="truncate text-right font-medium tabular-nums text-[#e0a82d]"> */}
+              {/* = {item.usdt} USDT */}
+              {/* {showBalance ? item.usdt : "******"} */}
+              {/* </span> */}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </article>
-);
+    </article>
+  )
+};
 
 const TotalAssetCard = ({
   trendData,
@@ -941,11 +944,11 @@ const Dashboard = () => {
                           setShowBalance={setShowBalance}
                         />
 
-                        <TotalAssetCard
+                        {/* <TotalAssetCard
                           trendData={trendData}
                           totalAllbalance={totalAllbalance}
                           showBalance={showBalance}
-                        />
+                        /> */}
                       </div>
                       <div className="mt-5 border-t border-[#2a3038]" />
                       <div className="grid gap-5 md:grid-cols-2 mt-5">
