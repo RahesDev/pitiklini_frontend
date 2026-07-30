@@ -215,180 +215,204 @@ function UserRecharge() {
           <div className="bg-black rounded-xl p-4 mt-5">
             <div className="p2p_title rcky_ttl">{t("recharge")}</div>
             <div className="row">
-              <div className="col-lg-7">
-                <div className="deposit mt-2">
-                  <div className="form_div">
-                    <div className="sides">
-                      <div className="w-100 rights">
-                        <h6>{t("Select Operator")}</h6>
-                        <Dropdown
-                          placeholder="Select Operator"
-                          fluid
-                          className="dep-drops new-clr_inp"
-                          selection
-                          search
-                          searchInput={{ autoComplete: "off" }}
-                          value={selectedOperator}
-                          options={operatorListRef.current}
-                          onChange={(e, d) => onSelectOperator(d)}
-                        />
-                        {operatorError && (
-                          <span className="errorcss">
-                            Please select an operator
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  {planListRef.current.length > 0 && (
-                    <>
+              {/* <div className="col-lg-7"> */}
+              {/* Overlay */}
+              <div className="col-lg-12">
+                <div className="comingSoonWrapper">
+                  <div className="comingSoonContent">
+                    {/* original */}
+                    <div className="deposit mt-2">
                       <div className="form_div">
                         <div className="sides">
                           <div className="w-100 rights">
-                            <h6>{t("Select Plan")}</h6>
+                            <h6>{t("Select Operator")}</h6>
                             <Dropdown
-                              placeholder="Select Plan"
+                              placeholder="Select Operator"
                               fluid
-                              className="dep-drops"
+                              className="dep-drops new-clr_inp"
                               selection
-                              value={selectedPlan}
-                              options={planListRef.current}
-                              onChange={(e, d) => {
-                                console.log("d.value----", d);
-                                setSelectedPlan(d.value);
-                                setPlanError(false);
-                                const selectedObj = d.options.find(
-                                  (x) => x.value === d.value,
-                                );
-
-                                if (selectedObj) {
-                                  setSelectedPlanPrice(selectedObj.cost_amount);
-                                  setSelectedPlanCurrency(
-                                    selectedObj.cost_currency,
-                                  );
-                                }
-                              }}
+                              search
+                              searchInput={{ autoComplete: "off" }}
+                              value={selectedOperator}
+                              options={operatorListRef.current}
+                              onChange={(e, d) => onSelectOperator(d)}
                             />
-                            {planError && (
+                            {operatorError && (
                               <span className="errorcss">
-                                Please select a plan
+                                Please select an operator
                               </span>
                             )}
                           </div>
                         </div>
                       </div>
-                    </>
-                  )}
-                  {selectedPlan && (
-                    <>
-                      <div className="form_div boder-none ">
-                        <h6>{t("selectacoin")}</h6>
-                        <Dropdown
-                          placeholder="Select Pay Currency"
-                          fluid
-                          className="dep-drops"
-                          selection
-                          options={payCurrencies}
-                          value={selectedCoin}
-                          onChange={async (e, d) => {
-                            setSelectedCoin(d.value);
+                      {planListRef.current.length > 0 && (
+                        <>
+                          <div className="form_div">
+                            <div className="sides">
+                              <div className="w-100 rights">
+                                <h6>{t("Select Plan")}</h6>
+                                <Dropdown
+                                  placeholder="Select Plan"
+                                  fluid
+                                  className="dep-drops"
+                                  selection
+                                  value={selectedPlan}
+                                  options={planListRef.current}
+                                  onChange={(e, d) => {
+                                    console.log("d.value----", d);
+                                    setSelectedPlan(d.value);
+                                    setPlanError(false);
+                                    const selectedObj = d.options.find(
+                                      (x) => x.value === d.value,
+                                    );
 
-                            if (d.value === "PTK") {
-                              await convertUSDTtoPTK(
-                                selectedPlanPriceref.current,
-                              );
-                            } else {
-                              setConvertedAmount(null);
-                            }
-                          }}
-                        />
-                      </div>
-                    </>
-                  )}
-                  {selectedPlan && (
-                    <>
-                      <div className="form_div boder-none ">
-                        <h6>{t("totalAmount")}</h6>
-                        <input
-                          type="text"
-                          disabled
-                          autoComplete="off"
-                          // value={`${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`}
-                          // value={
-                          //   selectedPlanPriceref.current &&
-                          //   selectedPlanCurrencyref.current
-                          //     ? `${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`
-                          //     : "---"
-                          // }
-                          value={
-                            selectedCoin === "USDT"
-                              ? `${selectedPlanPriceref.current} USDT`
-                              : convertedAmount
-                                ? `${convertedAmount} PTK`
-                                : "---"
-                          }
-                          className="dep-drops"
-                        />
-                      </div>
-                    </>
-                  )}
-                  {selectedPlan && (
-                    <>
-                      <div className="form_div mar-bot-nwfndtra boder-none ">
-                        <h6>{t("Enter Mobile Number")}</h6>
-                        <input
-                          type="text"
-                          pattern="[0-9]*"
-                          maxLength={10}
-                          onKeyDown={(evt) => {
-                            if (
-                              !(
-                                (evt.key >= "0" && evt.key <= "9") ||
-                                evt.key === "Backspace" ||
-                                evt.key === "Delete" ||
-                                evt.key === "ArrowLeft" ||
-                                evt.key === "ArrowRight" ||
-                                evt.key === "Tab"
-                              )
-                            ) {
-                              evt.preventDefault();
-                            }
-                          }}
-                          autoComplete="off"
-                          value={mobileNumber}
-                          onChange={(e) => {
-                            setMobileNumber(e.target.value);
-                            setMobileError(false);
-                            // setPlanList([]);
-                          }}
-                          placeholder="Enter Mobile Number"
-                          className="dep-drops"
-                        />
-                        {mobileError && (
-                          <span className="errorcss">
-                            Please enter a valid mobile number
-                          </span>
-                        )}
-                      </div>
-                    </>
-                  )}
-                  {/* <div className="sumbit_btn">
+                                    if (selectedObj) {
+                                      setSelectedPlanPrice(
+                                        selectedObj.cost_amount,
+                                      );
+                                      setSelectedPlanCurrency(
+                                        selectedObj.cost_currency,
+                                      );
+                                    }
+                                  }}
+                                />
+                                {planError && (
+                                  <span className="errorcss">
+                                    Please select a plan
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {selectedPlan && (
+                        <>
+                          <div className="form_div boder-none ">
+                            <h6>{t("selectacoin")}</h6>
+                            <Dropdown
+                              placeholder="Select Pay Currency"
+                              fluid
+                              className="dep-drops"
+                              selection
+                              options={payCurrencies}
+                              value={selectedCoin}
+                              onChange={async (e, d) => {
+                                setSelectedCoin(d.value);
+
+                                if (d.value === "PTK") {
+                                  await convertUSDTtoPTK(
+                                    selectedPlanPriceref.current,
+                                  );
+                                } else {
+                                  setConvertedAmount(null);
+                                }
+                              }}
+                            />
+                          </div>
+                        </>
+                      )}
+                      {selectedPlan && (
+                        <>
+                          <div className="form_div boder-none ">
+                            <h6>{t("totalAmount")}</h6>
+                            <input
+                              type="text"
+                              disabled
+                              autoComplete="off"
+                              // value={`${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`}
+                              // value={
+                              //   selectedPlanPriceref.current &&
+                              //   selectedPlanCurrencyref.current
+                              //     ? `${selectedPlanPriceref.current} ${selectedPlanCurrencyref.current}`
+                              //     : "---"
+                              // }
+                              value={
+                                selectedCoin === "USDT"
+                                  ? `${selectedPlanPriceref.current} USDT`
+                                  : convertedAmount
+                                    ? `${convertedAmount} PTK`
+                                    : "---"
+                              }
+                              className="dep-drops"
+                            />
+                          </div>
+                        </>
+                      )}
+                      {selectedPlan && (
+                        <>
+                          <div className="form_div mar-bot-nwfndtra boder-none ">
+                            <h6>{t("Enter Mobile Number")}</h6>
+                            <input
+                              type="text"
+                              pattern="[0-9]*"
+                              maxLength={10}
+                              onKeyDown={(evt) => {
+                                if (
+                                  !(
+                                    (evt.key >= "0" && evt.key <= "9") ||
+                                    evt.key === "Backspace" ||
+                                    evt.key === "Delete" ||
+                                    evt.key === "ArrowLeft" ||
+                                    evt.key === "ArrowRight" ||
+                                    evt.key === "Tab"
+                                  )
+                                ) {
+                                  evt.preventDefault();
+                                }
+                              }}
+                              autoComplete="off"
+                              value={mobileNumber}
+                              onChange={(e) => {
+                                setMobileNumber(e.target.value);
+                                setMobileError(false);
+                                // setPlanList([]);
+                              }}
+                              placeholder="Enter Mobile Number"
+                              className="dep-drops"
+                            />
+                            {mobileError && (
+                              <span className="errorcss">
+                                Please enter a valid mobile number
+                              </span>
+                            )}
+                          </div>
+                        </>
+                      )}
+                      {/* <div className="sumbit_btn">
                           <button onClick={() => handleRecharge()}>
                             {t("Proceed Recharge")}
                           </button>
                         </div> */}
-                  {selectedPlan && (
-                    <div className="sumbit_btn">
-                      {buttonLoaderref.current == true ? (
-                        <button>{t("loading")}...</button>
-                      ) : (
-                        <button onClick={handleRecharge}>
-                          {t("Proceed Recharge")}
-                        </button>
+                      {selectedPlan && (
+                        <div className="sumbit_btn">
+                          {buttonLoaderref.current == true ? (
+                            <button>{t("loading")}...</button>
+                          ) : (
+                            <button onClick={handleRecharge}>
+                              {t("Proceed Recharge")}
+                            </button>
+                          )}
+                        </div>
                       )}
                     </div>
-                  )}
+                    {/* original */}
+
+                    {/* Overlay */}
+                  </div>
+                  <div className="comingSoonOverlay">
+                    <div className="comingSoonCard">
+                      <div className="comingSoonIcon">🚀</div>
+
+                      <h2>{t("comingsoon")}</h2>
+
+                      <p>{t("comingsoondescrip")}</p>
+
+                      <span>{t("staytuned")}</span>
+                    </div>
+                  </div>
                 </div>
+                {/* Overlay */}
               </div>
             </div>
           </div>

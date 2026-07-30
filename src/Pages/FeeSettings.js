@@ -94,64 +94,71 @@ const FeeSettings = () => {
               <div className="w-full">
                 <div className="bg-black rounded-xl p-4">
                   <div className="two_fa_heading">{t("feeSettings")}</div>
-                  <div className="security_email_content">
-                    <div className="security_email_item">
-                      <img src={require("../assets/icons/spot-trade.webp")} />
+                  {/* Overlay */}
+                  <div className="comingSoonWrapper">
+                    <div className="comingSoonContent">
+                      {/* original */}
+                      <div className="security_email_content">
+                        <div className="security_email_item">
+                          <img
+                            src={require("../assets/icons/spot-trade.webp")}
+                          />
 
-                      <div className="">
-                        <div className="d-flex gap-3 align-items-center">
-                          <h3>{t("ptkfeeSettings")}</h3>
-                          <div className="mb-2">
-                            <Switch
-                              checked={checked}
-                              onChange={handleChange}
-                              onColor="#ffc630" // Color inside the switch when on
-                              offColor="#fa5d72" // Color inside the switch when off
-                              handleDiameter={14} // Diameter of the switch handle (button)
-                              height={19} // Height of the switch
-                              width={33} // Width of the switch
-                              uncheckedIcon={false} // No icon when off
-                              checkedIcon={false} // No icon when on
-                              handleStyle={{
-                                boxShadow: "none", // This removes the glow or shadow around the handle
-                                backgroundColor: "white", // Ensure the handle is white
-                              }}
-                            />
+                          <div className="">
+                            <div className="d-flex gap-3 align-items-center">
+                              <h3>{t("ptkfeeSettings")}</h3>
+                              <div className="mb-2">
+                                <Switch
+                                  checked={checked}
+                                  onChange={handleChange}
+                                  onColor="#ffc630" // Color inside the switch when on
+                                  offColor="#fa5d72" // Color inside the switch when off
+                                  handleDiameter={14} // Diameter of the switch handle (button)
+                                  height={19} // Height of the switch
+                                  width={33} // Width of the switch
+                                  uncheckedIcon={false} // No icon when off
+                                  checkedIcon={false} // No icon when on
+                                  handleStyle={{
+                                    boxShadow: "none", // This removes the glow or shadow around the handle
+                                    backgroundColor: "white", // Ensure the handle is white
+                                  }}
+                                />
+                              </div>
+                            </div>
+                            <p>{t("ptkFeeEnable")}</p>
                           </div>
                         </div>
-                        <p>{t("ptkFeeEnable")}</p>
-                      </div>
-                    </div>
-                    <div className="secneww_diiv">
-                      {profileData.ptk_fee_status == 0 || checked == false ? (
-                        <div className="">
-                          <p>
-                            {" "}
-                            <span className="text-lightGrey nowra_txt">
-                              <i class="ri-close-circle-fill"></i>{" "}
-                              {t("disabled")}
-                            </span>
-                          </p>
+                        <div className="secneww_diiv">
+                          {profileData.ptk_fee_status == 0 ||
+                          checked == false ? (
+                            <div className="">
+                              <p>
+                                {" "}
+                                <span className="text-lightGrey nowra_txt">
+                                  <i class="ri-close-circle-fill"></i>{" "}
+                                  {t("disabled")}
+                                </span>
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="">
+                              <p>
+                                {" "}
+                                <span className="text-lightGrey nowra_txt">
+                                  {" "}
+                                  <i
+                                    class="ri-checkbox-circle-fill"
+                                    style={{ color: "#22b477" }}
+                                  ></i>{" "}
+                                  {t("enabled")}
+                                </span>
+                              </p>
+                            </div>
+                          )}
                         </div>
-                      ) : (
-                        <div className="">
-                          <p>
-                            {" "}
-                            <span className="text-lightGrey nowra_txt">
-                              {" "}
-                              <i
-                                class="ri-checkbox-circle-fill"
-                                style={{ color: "#22b477" }}
-                              ></i>{" "}
-                              {t("enabled")}
-                            </span>
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                    {/* </div> */}
+                        {/* </div> */}
 
-                    {/* <div className="two_fa_heading">Account Management</div>
+                        {/* <div className="two_fa_heading">Account Management</div>
                 <div className="security_email_content">
                   <div className="security_email_item">
                     <img src={require("../assets/delete_icon.png")} />
@@ -168,7 +175,24 @@ const FeeSettings = () => {
                   <div className="delete_button">
                     <button>Delete</button>
                   </div>*/}
+                      </div>
+                      {/* original */}
+
+                      {/* Overlay */}
+                    </div>
+                    <div className="comingSoonOverlay">
+                      <div className="comingSoonCard">
+                        <div className="comingSoonIcon">🚀</div>
+
+                        <h2>{t("comingsoon")}</h2>
+
+                        <p>{t("comingsoondescrip")}</p>
+
+                        <span>{t("staytuned")}</span>
+                      </div>
+                    </div>
                   </div>
+                  {/* Overlay */}
                 </div>
               </div>
             </div>
