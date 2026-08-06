@@ -126,7 +126,8 @@ const Market = () => {
           />
         </div>
       ) : (
-        <main className="dashboard_main">
+        // <main className="dashboard_main">
+        <main className="">
           <div className="container-lg">
             <div className="row">
               {/* <div className="col-lg-2">

@@ -98,7 +98,7 @@ const AssetOverviewCard = ({
             <div className="text-center">
               <div className="text-[16px] font-semibold leading-none text-[#e7ebf4] lg:text-[20px]">
                 {/* {Number(totalAllbalance).toFixed(8)} */}
-                {showBalance ? Number(totalAllbalance).toFixed(8) : "******"}
+                {showBalance ? Number(totalAllbalance).toFixed(4) : "******"}
               </div>
               <div className="mt-1.5 text-xs leading-none text-[#77829a] lg:text-sm">
                 Total Assets
@@ -297,7 +297,12 @@ const Dashboard = () => {
   const [availableFunding, setavailableFunding] = useState(0);
   const [inorderFunding, setinorderFunding] = useState(0);
   const [totalFunding, settotalFunding] = useState(0);
-  const [showBalance, setShowBalance] = useState(false);
+  // const [showBalance, setShowBalance] = useState(false);
+  const [showBalance, setShowBalance] = useState(() => {
+    const savedValue = localStorage.getItem("showBalance");
+
+    return savedValue ? JSON.parse(savedValue) : false;
+  });
   const [trendData, setTrendData] = useState([]);
 
   const [dataExist, setdataExist, dataExistref] = useState(false);
@@ -308,6 +313,10 @@ const Dashboard = () => {
   const withdrawNav = () => {
     navigate("/Withdraw");
   };
+
+  useEffect(() => {
+    localStorage.setItem("showBalance", JSON.stringify(showBalance));
+  }, [showBalance]);
 
   const handleChange = (e) => {
     try {
@@ -803,7 +812,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="row pad-y-40">
-                    <div className="col-lg-12">
+                    {/* <div className="col-lg-12">
                       <div className="user_id_card">
                         <div className="uid_content">
                           <h4 className="font-ibm">{t("UID")}</h4>
@@ -887,7 +896,7 @@ const Dashboard = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* <div className="col-lg-6">
                       <div className="secuirty_box border_none">
