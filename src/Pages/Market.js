@@ -134,7 +134,9 @@ const Market = () => {
               <Side_bar />
             </div> */}
 
-              <div className="col-lg-12">
+                <div className="col-lg-12">
+                    <div className="comingSoonWrapper">
+                  <div className="comingSoonContent">
                 <section className="identification_section">
                   <div className="row mar-left-30">
                     <div className="buy_head">
@@ -352,7 +354,20 @@ const Market = () => {
                       </div>
                     </div>
                   </div>
-                </section>
+                  </section>
+                   </div>
+                  <div className="comingSoonOverlay">
+                    <div className="comingSoonCard">
+                      <div className="comingSoonIcon">🚀</div>
+
+                      <h2>{t("comingsoon")}</h2>
+
+                      <p>{t("comingsoondescrip")}</p>
+
+                      <span>{t("staytuned")}</span>
+                    </div>
+                  </div>
+                  </div>
               </div>
             </div>
           </div>

@@ -427,169 +427,192 @@ const Swap = () => {
             <div className="row swap_main padlef_0_col">
               <div className="padin_lefrig_dash">
                 <div className="col-xl-4 col-lg-6 col-md-8 convert_center_box">
-                  <div className="convert_card-wrapper border_none">
-                    <div className="convert_card swap_pos_relnew">
-                      <div className="convert_title mb-4">
-                        <h3>{t("convert")}</h3>
-                        <Link to="/swapHistory">
-                          <i class="bi bi-clock-history swap_new_hisnavic"></i>
-                        </Link>
-                      </div>
-                      <div className="swap_lft_top_newdonee">
-                        <div className="foot_frst_newonn">
-                          <h4 className="spend_chng">{t("spend")}</h4>
-                          <h4 className="spend_chng">
-                            {t("balance")}:
-                            {!appendFromData ||
-                            isNaN(Number(appendFromData.currencyBalance))
-                              ? "0.0000"
-                              : Number(appendFromData.currencyBalance).toFixed(
-                                  8
-                                )}
-                          </h4>
-                        </div>
-                        <div className="swap_chng_frst_newdon">
-                          {/* <span className="swap-chng-max">MAX</span> */}
-                          <div>
-                            <input
-                              type="text"
-                              id="numberInput"
-                              min="0"
-                              autoComplete="off"
-                              maxLength={10}
-                              placeholder="0.00"
-                              value={fromAmountref.current || ""}
-                              // onKeyDown={(evt) =>
-                              //   ["e", "E", "+", "-"].includes(evt.key) &&
-                              //   evt.preventDefault()
-                              // }
-                              onInput={(e) => {
-                                e.target.value = e.target.value.replace(
-                                  /[^0-9.]/g,
-                                  ""
-                                ); // Allow numbers and dot
-                                if (
-                                  (e.target.value.match(/\./g) || []).length > 1
-                                ) {
-                                  e.target.value = e.target.value.slice(0, -1); // Prevent multiple dots
-                                }
-                              }}
-                              onChange={(e) =>
-                                setAmount(e.target.value, "fromAmount")
-                              }
-                              // onChange={(e) => {
-                              //   const value = e.target.value;
-                              //   const numericValue = value.replace(/[^0-9.]/g, "");
-                              //   const parts = numericValue.split(".");
-                              //   const digitsOnly = numericValue.replace(".", "");
-                              //   if (digitsOnly.length <= 15) {
-                              //     setAmount(numericValue, "fromAmount");
-                              //   }
-                              // }}
-                              className="swap_in_val"
-                            />
-                            {errorMsg === "" ? (
-                              ""
-                            ) : (
-                              <p className="text-red swap_innnew_err">
-                                {errorMsg}
-                              </p>
-                            )}
+                  <div className="comingSoonWrapper">
+                    <div className="comingSoonContent">
+                      <div className="convert_card-wrapper border_none">
+                        <div className="convert_card swap_pos_relnew">
+                          <div className="convert_title mb-4">
+                            <h3>{t("convert")}</h3>
+                            <Link to="/swapHistory">
+                              <i class="bi bi-clock-history swap_new_hisnavic"></i>
+                            </Link>
                           </div>
-                          <Dropdown
-                            inline
-                            placeholder={t("select")}
-                            options={fromCurrencyRef.current}
-                            value={fromSwapRef.current}
-                            onChange={handleOnChange_from}
-                          />
-                        </div>
-                      </div>
-                      {/* <div>
+                          <div className="swap_lft_top_newdonee">
+                            <div className="foot_frst_newonn">
+                              <h4 className="spend_chng">{t("spend")}</h4>
+                              <h4 className="spend_chng">
+                                {t("balance")}:
+                                {!appendFromData ||
+                                isNaN(Number(appendFromData.currencyBalance))
+                                  ? "0.0000"
+                                  : Number(
+                                      appendFromData.currencyBalance,
+                                    ).toFixed(8)}
+                              </h4>
+                            </div>
+                            <div className="swap_chng_frst_newdon">
+                              {/* <span className="swap-chng-max">MAX</span> */}
+                              <div>
+                                <input
+                                  type="text"
+                                  id="numberInput"
+                                  min="0"
+                                  autoComplete="off"
+                                  maxLength={10}
+                                  placeholder="0.00"
+                                  value={fromAmountref.current || ""}
+                                  // onKeyDown={(evt) =>
+                                  //   ["e", "E", "+", "-"].includes(evt.key) &&
+                                  //   evt.preventDefault()
+                                  // }
+                                  onInput={(e) => {
+                                    e.target.value = e.target.value.replace(
+                                      /[^0-9.]/g,
+                                      "",
+                                    ); // Allow numbers and dot
+                                    if (
+                                      (e.target.value.match(/\./g) || [])
+                                        .length > 1
+                                    ) {
+                                      e.target.value = e.target.value.slice(
+                                        0,
+                                        -1,
+                                      ); // Prevent multiple dots
+                                    }
+                                  }}
+                                  onChange={(e) =>
+                                    setAmount(e.target.value, "fromAmount")
+                                  }
+                                  // onChange={(e) => {
+                                  //   const value = e.target.value;
+                                  //   const numericValue = value.replace(/[^0-9.]/g, "");
+                                  //   const parts = numericValue.split(".");
+                                  //   const digitsOnly = numericValue.replace(".", "");
+                                  //   if (digitsOnly.length <= 15) {
+                                  //     setAmount(numericValue, "fromAmount");
+                                  //   }
+                                  // }}
+                                  className="swap_in_val"
+                                />
+                                {errorMsg === "" ? (
+                                  ""
+                                ) : (
+                                  <p className="text-red swap_innnew_err">
+                                    {errorMsg}
+                                  </p>
+                                )}
+                              </div>
+                              <Dropdown
+                                inline
+                                placeholder={t("select")}
+                                options={fromCurrencyRef.current}
+                                value={fromSwapRef.current}
+                                onChange={handleOnChange_from}
+                              />
+                            </div>
+                          </div>
+                          {/* <div>
                         {errorMsg === "" ? (
                           ""
                         ) : (
                           <p className="text-red">{errorMsg}</p>
                         )}
                       </div> */}
-                      <div className="swap_icon">
-                        <img
-                          src={require("../assets/swap_icon.png")}
-                          onClick={swap}
-                          className="cursor-pointer"
-                          alt=""
-                        />
-                      </div>
-                      <div className="swap_lft_top_newdonee mt-2">
-                        <div className="foot_frst_newonn">
-                          <h4 className="spend_chng">{t("receive")} </h4>
-                          <h4 className="spend_chng">
-                            {t("balance")}:
-                            {!appendToData ||
-                            isNaN(Number(appendFromData.currencyBalance))
-                              ? "0.0000"
-                              : Number(appendToData.currencyBalance).toFixed(8)}
-                          </h4>
-                        </div>
+                          <div className="swap_icon">
+                            <img
+                              src={require("../assets/swap_icon.png")}
+                              onClick={swap}
+                              className="cursor-pointer"
+                              alt=""
+                            />
+                          </div>
+                          <div className="swap_lft_top_newdonee mt-2">
+                            <div className="foot_frst_newonn">
+                              <h4 className="spend_chng">{t("receive")} </h4>
+                              <h4 className="spend_chng">
+                                {t("balance")}:
+                                {!appendToData ||
+                                isNaN(Number(appendFromData.currencyBalance))
+                                  ? "0.0000"
+                                  : Number(
+                                      appendToData.currencyBalance,
+                                    ).toFixed(8)}
+                              </h4>
+                            </div>
 
-                        <div className="swap_chng_frst_newdon">
-                          <input
-                            type="number"
-                            min="0"
-                            placeholder="0.00"
-                            // value={toAmountref.current}
-                            value={
-                              toAmountref.current
-                                ? Number(toAmountref.current).toFixed(8) // Ensure 4 decimal places
-                                : "0.00" // Default fallback
-                            }
-                            onChange={(e) =>
-                              setAmount(e.target.value, "toAmount")
-                            }
-                            className="swap_in_val"
-                            readOnly
-                          />
-                          <Dropdown
-                            inline
-                            placeholder={t("select")}
-                            options={toCurrencyRef.current}
-                            value={toSwapRef.current}
-                            onChange={handleOnChange_to}
-                          />
+                            <div className="swap_chng_frst_newdon">
+                              <input
+                                type="number"
+                                min="0"
+                                placeholder="0.00"
+                                // value={toAmountref.current}
+                                value={
+                                  toAmountref.current
+                                    ? Number(toAmountref.current).toFixed(8) // Ensure 4 decimal places
+                                    : "0.00" // Default fallback
+                                }
+                                onChange={(e) =>
+                                  setAmount(e.target.value, "toAmount")
+                                }
+                                className="swap_in_val"
+                                readOnly
+                              />
+                              <Dropdown
+                                inline
+                                placeholder={t("select")}
+                                options={toCurrencyRef.current}
+                                value={toSwapRef.current}
+                                onChange={handleOnChange_to}
+                              />
+                            </div>
+                          </div>
+                          <div className="swap_inner_main mt-2">
+                            <span className="swap_change_clr">
+                              {t("price")}
+                            </span>
+                            {fromref.current != "" && toref.current != "" ? (
+                              <span className="swap_change_clr">
+                                1 {fromref.current} ={" "}
+                                {Number(priceRef.current).toFixed(8) == 0 ? (
+                                  <span className="swap_change_num">0</span>
+                                ) : (
+                                  Number(priceRef.current).toFixed(8)
+                                )}{" "}
+                                {toref.current}{" "}
+                              </span>
+                            ) : (
+                              <span className="swap_change_num">0.0000</span>
+                            )}
+                          </div>
+                          <div className="Convert_btn mt-3">
+                            {loginStatus == true ? (
+                              <>
+                                {ButtonLoader == false ? (
+                                  <button onClick={swapAmount}>
+                                    {t("convert")}
+                                  </button>
+                                ) : (
+                                  <button>{t("loading")} ...</button>
+                                )}
+                              </>
+                            ) : (
+                              <button onClick={() => loginNave()}>
+                                {t("loginToContinue")}
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
-                      <div className="swap_inner_main mt-2">
-                        <span className="swap_change_clr">{t("price")}</span>
-                        {fromref.current != "" && toref.current != "" ? (
-                          <span className="swap_change_clr">
-                            1 {fromref.current} ={" "}
-                            {Number(priceRef.current).toFixed(8) == 0 ? (
-                              <span className="swap_change_num">0</span>
-                            ) : (
-                              Number(priceRef.current).toFixed(8)
-                            )}{" "}
-                            {toref.current}{" "}
-                          </span>
-                        ) : (
-                          <span className="swap_change_num">0.0000</span>
-                        )}
-                      </div>
-                      <div className="Convert_btn mt-3">
-                        {loginStatus == true ? (
-                          <>
-                            {ButtonLoader == false ? (
-                              <button onClick={swapAmount}>
-                                {t("convert")}
-                              </button>
-                            ) : (
-                              <button>{t("loading")} ...</button>
-                            )}
-                          </>
-                        ) : (
-                          <button onClick={() => loginNave()}>
-                            {t("loginToContinue")}
-                          </button>
-                        )}
+                    </div>
+                    <div className="comingSoonOverlay">
+                      <div className="comingSoonCard">
+                        <div className="comingSoonIcon">🚀</div>
+
+                        <h2>{t("comingsoon")}</h2>
+
+                        <p>{t("comingsoondescrip")}</p>
+
+                        <span>{t("staytuned")}</span>
                       </div>
                     </div>
                   </div>
