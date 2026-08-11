@@ -280,9 +280,11 @@ const PostAd = () => {
         "Maximum quantity must be less than or equal to quantity.";
     } else if (!formData.price) {
       newErrors.price = "Price is required.";
-    } else if (!formData.lowestOrderPrice) {
-      newErrors.lowestOrderPrice = "Lowest order price is required.";
-    } else if (!formData.termsAccepted) {
+    }
+    // else if (!formData.lowestOrderPrice) {
+    //   newErrors.lowestOrderPrice = "Lowest order price is required.";
+    // }
+    else if (!formData.termsAccepted) {
       newErrors.termsAccepted = "You must accept the terms and conditions.";
     }
     setErrors(newErrors);

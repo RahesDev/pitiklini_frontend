@@ -396,7 +396,7 @@ const Dashboard = () => {
   const depositSteps = [
     {
       key: "select-crypto",
-      title: t("Select Crypto"),
+      title: t("SelectCrypto"),
       icon: (
         <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
           <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zm-2 5v5a2 2 0 002 2h12a2 2 0 002-2V9H2zm2 3h2v2H4v-2z" />
@@ -418,82 +418,110 @@ const Dashboard = () => {
     },
     {
       key: "select-network",
-      title: t("Select Network"),
+      title: t("SelectNetwork"),
       icon: (
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+          />
         </svg>
       ),
-      content: cur_currencyref.current?.currencyType == "2" ? (
-        <div className="mt-6 w-full max-w-xl">
-          <div className="rounded-xl border border-[#2a3038] bg-[#151922] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] transition-colors focus-within:border-[#B87A13] focus-within:ring-1 focus-within:ring-[#B87A13]/40 withdrawal-dropdown-custom">
-            <Dropdown
-              placeholder={t("Select Network you want to deposit through")}
-              fluid
-              className="dep-drops w-full min-w-0 border-0 bg-transparent text-white"
-              selection
-              options={network_currencyref.current}
-              defaultValue={network_currencyref.current[0]}
-              onChange={onSelect_network}
-            />
-          </div>
-          {Networks && (
-            <div className="mt-4 flex items-center gap-1 text-[13px] text-[#848E9C]">
-              <span>{t("Expected Arrival")}:</span>
-              <span className="text-[#848E9C]">{t("2min 50sec")} </span>
+      content:
+        cur_currencyref.current?.currencyType == "2" ? (
+          <div className="mt-6 w-full max-w-xl">
+            <div className="rounded-xl border border-[#2a3038] bg-[#151922] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] transition-colors focus-within:border-[#B87A13] focus-within:ring-1 focus-within:ring-[#B87A13]/40 withdrawal-dropdown-custom">
+              <Dropdown
+                placeholder={t("selectdeponetrwk")}
+                fluid
+                className="dep-drops w-full min-w-0 border-0 bg-transparent text-white"
+                selection
+                options={network_currencyref.current}
+                defaultValue={network_currencyref.current[0]}
+                onChange={onSelect_network}
+              />
             </div>
-          )}
-        </div>
-      ) : (
-        <div className="mt-4 text-sm text-gray-500">{t("Network selection is not available for this currency.")}</div>
-      ),
+            {Networks && (
+              <div className="mt-4 flex items-center gap-1 text-[13px] text-[#848E9C]">
+                <span>{t("excptarrivl")}:</span>
+                <span className="text-[#848E9C]">{t("twominsec")} </span>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="mt-4 text-sm text-gray-500">
+            {t("netwrkselctnoavilblecur")}
+          </div>
+        ),
     },
     {
       key: "copy-wallet-address",
-      title: t("Copy Wallet Address"),
+      title: t("CopyWalletAddrss"),
       icon: (
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
+          />
         </svg>
       ),
-      content: addressref.current == undefined ? (
-        <div className="text-gray-500 text-sm mt-4">{t("Select a coin and network above to generate an address.")}</div>
-      ) : (
-        <div className="relative z-0 mt-4 w-full max-w-[45rem]">
-          <div className="relative flex flex-col flex-wrap justify-between gap-5 overflow-hidden rounded-xl border border-[#2a3038] bg-[#151922] p-4 md:flex-row md:items-start md:gap-6 md:p-6">
-            <div className="order-2 z-10 mt-2 w-full flex-1 md:order-1 md:mt-0">
-              <h4 className="mb-4 text-[15px] font-medium text-[#B87A13]">
-                {Fullname ? `${Fullname}` : `${currency}`}{Networks ? `(${Networks})` : ""} {t("address is published!")}
-              </h4>
-              <p className="mb-6 max-w-[28rem] text-[13px] leading-relaxed text-[#848E9C]">
-                {t("Please use the address below to deposit your cryptocurrency using the")} {Networks ? Networks : currency} {t("network. You can either copy the address or scan the QR code for convenience.")}
-              </p>
+      content:
+        addressref.current == undefined ? (
+          <div className="text-gray-500 text-sm mt-4">
+            {t("selectcoinnetwrkdpo")}
+          </div>
+        ) : (
+          <div className="relative z-0 mt-4 w-full max-w-[45rem]">
+            <div className="relative flex flex-col flex-wrap justify-between gap-5 overflow-hidden rounded-xl border border-[#2a3038] bg-[#151922] p-4 md:flex-row md:items-start md:gap-6 md:p-6">
+              <div className="order-2 z-10 mt-2 w-full flex-1 md:order-1 md:mt-0">
+                <h4 className="mb-4 text-[15px] font-medium text-[#B87A13]">
+                  {Fullname ? `${Fullname}` : `${currency}`}
+                  {Networks ? `(${Networks})` : ""} {t("addrspublshd")}
+                </h4>
+                <p className="mb-6 max-w-[28rem] text-[13px] leading-relaxed text-[#848E9C]">
+                  {t("plsusenetwkabv")} {Networks ? Networks : currency}{" "}
+                  {t("plsusenetwkabvnxt")}
+                </p>
 
-              <div className="flex items-center justify-between rounded-lg border border-[#2a3038] bg-[#0f1117] p-[7px] pl-3 transition-colors focus-within:border-[#B87A13]">
-                <div className="truncate pr-4 text-[13px] text-[#D8DDE5]">
-                  {addressref.current.address}
+                <div className="flex items-center justify-between rounded-lg border border-[#2a3038] bg-[#0f1117] p-[7px] pl-3 transition-colors focus-within:border-[#B87A13]">
+                  <div className="truncate pr-4 text-[13px] text-[#D8DDE5]">
+                    {addressref.current.address}
+                  </div>
+                  <button
+                    className="flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-md bg-[#B87A13] px-4 text-[12px] font-semibold text-[#0f1117] transition-colors hover:bg-[#c88d2a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B87A13]/60"
+                    onClick={() => copy(addressref.current.address)}
+                    title="Copy Address"
+                  >
+                    <i className="ri-file-copy-line text-[14px]"></i>
+                    {t("copy")}
+                  </button>
                 </div>
-                <button
-                  className="flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-md bg-[#B87A13] px-4 text-[12px] font-semibold text-[#0f1117] transition-colors hover:bg-[#c88d2a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B87A13]/60"
-                  onClick={() => copy(addressref.current.address)}
-                  title="Copy Address"
-                >
-                  <i className="ri-file-copy-line text-[14px]"></i>
-                  {t("copy")}
-                </button>
+              </div>
+
+              <div className="order-1 z-10 mt-1 shrink-0 self-start rounded-md bg-white p-2 md:order-2">
+                <img
+                  src={addressref.current.qrcode}
+                  className="w-[110px] h-[110px] object-contain"
+                  alt="QR Code"
+                />
               </div>
             </div>
-
-            <div className="order-1 z-10 mt-1 shrink-0 self-start rounded-md bg-white p-2 md:order-2">
-              <img
-                src={addressref.current.qrcode}
-                className="w-[110px] h-[110px] object-contain"
-                alt="QR Code"
-              />
-            </div>
           </div>
-        </div>
-      ),
+        ),
     },
   ];
 
@@ -528,11 +556,11 @@ const Dashboard = () => {
                                 1
                               </span>
                               <h3 className="text-sm font-medium text-[#B87A13]">
-                                {t("Copy the wallet address")}
+                                {t("CopyWalletAddrss")}
                               </h3>
                             </div>
                             <p className="text-xs text-gray-400">
-                              {t("Select crypto, network & copy address.")}
+                              {t("slectcrpnetandcpy")}
                             </p>
                           </div>
                           <div className="rounded-lg border border-[#2a3038] bg-[#151922] p-4">
@@ -541,11 +569,11 @@ const Dashboard = () => {
                                 2
                               </span>
                               <h3 className="text-sm font-medium text-[#B87A13]">
-                                {t("Confirm Address")}
+                                {t("confrmadd")}
                               </h3>
                             </div>
                             <p className="text-xs text-gray-400">
-                              {t("Paste address on other exchange.")}
+                              {t("pastaqdrsinothexch")}
                             </p>
                           </div>
                           <div className="rounded-lg border border-[#2a3038] bg-[#151922] p-4">
@@ -554,11 +582,11 @@ const Dashboard = () => {
                                 3
                               </span>
                               <h3 className="text-sm font-medium text-[#B87A13]">
-                                {t("Transfer Confirmation")}
+                                {t("transferconfrm")}
                               </h3>
                             </div>
                             <p className="text-xs text-gray-400">
-                              {t("Await blockchain confirmation for transfer.")}
+                              {t("awaitblockconrfm")}
                             </p>
                           </div>
                           <div className="rounded-lg border border-[#2a3038] bg-[#151922] p-4">
@@ -567,11 +595,11 @@ const Dashboard = () => {
                                 4
                               </span>
                               <h3 className="text-sm font-medium text-[#B87A13]">
-                                {t("Successful Deposit")}
+                                {t("succfuldeposit")}
                               </h3>
                             </div>
                             <p className="text-xs text-gray-400">
-                              {t("Pitikulini will send assets to wallet.")}
+                              {t("pitiksendassettoyou")}
                             </p>
                           </div>
                         </div>
@@ -639,15 +667,13 @@ const Dashboard = () => {
                                   </div>
                                   <div className="space-y-6 border-t border-[#2a3038] pt-6 text-[13px] text-[#A0AEC0]">
                                     <p className="leading-relaxed">
+                                      {t("forfundsafetsuppot")}
+                                    </p>
+                                    {/* <p className="leading-relaxed">
                                       {t(
                                         "For the safety of your funds, our customer support team may contact you by phone to confirm your withdrawal",
                                       )}
-                                    </p>
-                                    <p className="leading-relaxed">
-                                      {t(
-                                        "For the safety of your funds, our customer support team may contact you by phone to confirm your withdrawal",
-                                      )}
-                                    </p>
+                                    </p> */}
                                   </div>
                                 </div>
 
@@ -669,11 +695,11 @@ const Dashboard = () => {
                                       </svg>
                                       FAQs
                                     </h3>
-                                    <Link
+                                    {/* <Link
                                       to="/faq"
                                       className="flex items-center text-[13px] text-gray-400 transition-colors hover:text-[#B87A13]"
                                     >
-                                      {t("View more")}
+                                      {t("vewmore")}
                                       <svg
                                         className="w-4 h-4 ml-1"
                                         fill="none"
@@ -687,7 +713,7 @@ const Dashboard = () => {
                                           d="M9 5l7 7-7 7"
                                         ></path>
                                       </svg>
-                                    </Link>
+                                    </Link> */}
                                   </div>
                                   <div className="space-y-5 border-t border-[#2a3038] pt-6">
                                     <Link
@@ -707,9 +733,7 @@ const Dashboard = () => {
                                           d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20z"
                                         ></path>
                                       </svg>
-                                      <span>
-                                        {t("How to deposit on FalconX?")}
-                                      </span>
+                                      <span>{t("depostonfalcon")}</span>
                                     </Link>
                                     <Link
                                       to="/faq"
@@ -728,9 +752,7 @@ const Dashboard = () => {
                                           d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20z"
                                         ></path>
                                       </svg>
-                                      <span>
-                                        {t("What is a crypto network?")}
-                                      </span>
+                                      <span>{t("whatiscrptnetwrk")}</span>
                                     </Link>
                                     <Link
                                       to="/faq"
@@ -749,9 +771,7 @@ const Dashboard = () => {
                                           d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20z"
                                         ></path>
                                       </svg>
-                                      <span>
-                                        {t("What network should I use?")}
-                                      </span>
+                                      <span>{t("whatnetwkshldiuse")}</span>
                                     </Link>
                                   </div>
                                 </div>
@@ -903,11 +923,11 @@ const Dashboard = () => {
                         <div className="mb-10 mt-8 w-full min-w-0">
                           <div className="mb-6 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
                             <h2 className="text-xl font-medium text-[#B87A13]">
-                              {t("Last 4 Deposit Records")}
+                              {t("lastfordeporecrd")}
                             </h2>
                             <Link to="/depositHistory">
                               <button className="h-10 rounded-md bg-[#B87A13] px-4 text-[13px] font-medium tracking-wide text-[#0f1117] transition-colors hover:bg-[#c88d2a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B87A13]/60">
-                                {t("Deposit History")}
+                                {t("deposthstry")}
                               </button>
                             </Link>
                           </div>
@@ -918,22 +938,22 @@ const Dashboard = () => {
                                 <thead>
                                   <tr className="bg-[#11161f] text-[13px] text-[#B87A13]">
                                     <th className="py-4 px-6 font-medium tracking-wide">
-                                      {t("Date/Time")}
+                                      {t("dateTime")}
                                     </th>
                                     <th className="py-4 px-6 font-medium tracking-wide">
-                                      {t("Coin")}
+                                      {t("coin")}
                                     </th>
                                     <th className="py-4 px-6 font-medium tracking-wide">
-                                      {t("Amount")}
+                                      {t("amount")}
                                     </th>
                                     <th className="py-4 px-6 font-medium tracking-wide">
-                                      {t("Blockchain Record")}
+                                      {t("transactionId")}
                                     </th>
-                                    <th className="py-4 px-6 font-medium tracking-wide">
+                                    {/* <th className="py-4 px-6 font-medium tracking-wide">
                                       {t("Remarks")}
-                                    </th>
+                                    </th> */}
                                     <th className="py-4 px-6 text-center font-medium tracking-wide">
-                                      {t("Action")}
+                                      {t("action")}
                                     </th>
                                   </tr>
                                 </thead>
@@ -987,13 +1007,13 @@ const Dashboard = () => {
                                                   {item.txnid.substring(0, 15)}
                                                   ...
                                                 </td>
-                                                <td className="py-4 px-6 text-gray-300">
+                                                {/* <td className="py-4 px-6 text-gray-300">
                                                   -
-                                                </td>
+                                                </td> */}
                                                 <td className="py-4 px-6 text-center">
                                                   <Link to="/depositHistory">
                                                     <button className="h-[30px] w-[68px] rounded border border-[#3b4148] bg-transparent px-3 py-1 text-[12px] leading-none text-gray-300 transition-colors hover:border-[#B87A13] hover:text-[#B87A13] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B87A13]/40">
-                                                      {t("Details")}
+                                                      {t("details")}
                                                     </button>
                                                   </Link>
                                                 </td>
@@ -1013,8 +1033,8 @@ const Dashboard = () => {
                                                 alt="No data"
                                               />
                                               <div className="text-gray-400 mt-4 text-sm"> */}
-                                                {t("noRecordsFound")}
-                                              {/* </div>
+                                            {t("noRecordsFound")}
+                                            {/* </div>
                                             </div> */}
                                           </td>
                                         </tr>

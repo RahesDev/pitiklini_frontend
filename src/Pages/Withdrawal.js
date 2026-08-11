@@ -1430,7 +1430,7 @@ const Dashboard = () => {
   const withdrawSteps = [
     {
       key: "w-select-crypto",
-      title: t("Select Crypto"),
+      title: t("SelectCrypto"),
       icon: (
         <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
           <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zm-2 5v5a2 2 0 002 2h12a2 2 0 002-2V9H2zm2 3h2v2H4v-2z" />
@@ -1440,14 +1440,14 @@ const Dashboard = () => {
         <>
           <div className="w-full min-w-0 max-w-full rounded-lg border border-gray-800 bg-[#181a20] p-1 withdrawal-dropdown-custom lg:max-w-lg">
             <Dropdown
-              placeholder={t("selectacoin")}
+              placeholder={t("selectCoin")}
               fluid
               className="dep-drops w-full min-w-0 max-w-full bg-transparent border-0 text-white"
               selection
               options={allCurrencyref.current}
               onChange={(e, data) => {
                 const selectedOption = allCurrencyref.current.find(
-                  (option) => option.value === data.value
+                  (option) => option.value === data.value,
                 );
                 onSelect(selectedOption);
               }}
@@ -1455,70 +1455,91 @@ const Dashboard = () => {
                 options.filter((opt) => {
                   const q = query.toLowerCase();
                   return (
-                    (opt.searchSymbol && opt.searchSymbol.toLowerCase().includes(q)) ||
+                    (opt.searchSymbol &&
+                      opt.searchSymbol.toLowerCase().includes(q)) ||
                     (opt.searchName && opt.searchName.toLowerCase().includes(q))
                   );
-                })}
+                })
+              }
               disabled={show_otpref.current == true}
             />
           </div>
           {withdrawcurrencyValidate && (
-            <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.withdrawcurrency}</span>
+            <span className="text-red-500 text-sm mt-1 block px-2">
+              {validationnErr.withdrawcurrency}
+            </span>
           )}
         </>
       ),
     },
     {
       key: "w-select-network",
-      title: t("Select Network"),
+      title: t("SelectNetwork"),
       icon: (
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+          />
         </svg>
       ),
       content: (
         <>
-          {show_otpref.current == false && currentcurrencyref.current?.currencyType == "2" && (
-            <div className="mb-4 mt-4 w-full min-w-0 max-w-full sm:mt-6 lg:max-w-lg">
-              <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-[13px]">{t("Network")}</label>
-              <div className="rounded-lg border border-gray-800 bg-[#181a20] p-1 withdrawal-dropdown-custom">
-                <Dropdown
-                  placeholder={t("Please select a withdrawal network")}
-                  fluid
-                  className="dep-drops w-full min-w-0 max-w-full bg-transparent border-0 text-white"
-                  selection
-                  options={network_currencyref.current}
-                  onChange={(e, data) => {
-                    const selectedOption = network_currencyref.current.find(
-                      (option) => option.value === data.value
-                    );
-                    onSelect_network(selectedOption);
-                  }}
-                  isSearchable={true}
-                  disabled={show_otpref.current == true}
-                />
+          {show_otpref.current == false &&
+            currentcurrencyref.current?.currencyType == "2" && (
+              <div className="mb-4 mt-4 w-full min-w-0 max-w-full sm:mt-6 lg:max-w-lg">
+                <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-[13px]">
+                  {t("Network")}
+                </label>
+                <div className="rounded-lg border border-gray-800 bg-[#181a20] p-1 withdrawal-dropdown-custom">
+                  <Dropdown
+                    placeholder={t("selectwithdrawnetwrk")}
+                    fluid
+                    className="dep-drops w-full min-w-0 max-w-full bg-transparent border-0 text-white"
+                    selection
+                    options={network_currencyref.current}
+                    onChange={(e, data) => {
+                      const selectedOption = network_currencyref.current.find(
+                        (option) => option.value === data.value,
+                      );
+                      onSelect_network(selectedOption);
+                    }}
+                    isSearchable={true}
+                    disabled={show_otpref.current == true}
+                  />
+                </div>
+                {withdrawnetworkValidateref.current && (
+                  <span className="text-red-500 text-sm mt-1 block px-2">
+                    {validationnErr.withdrawnetwork}
+                  </span>
+                )}
               </div>
-              {withdrawnetworkValidateref.current && (
-                <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.withdrawnetwork}</span>
-              )}
-            </div>
-          )}
+            )}
 
           {withdrawType == "1" && (
             <div className="mt-4 w-full min-w-0 max-w-full sm:mt-6 lg:max-w-lg">
               <div className="mb-1 flex flex-col gap-2 px-1 sm:flex-row sm:items-end sm:justify-between sm:gap-0">
-                <label className="text-xs text-gray-500 sm:text-[13px]">{t("Address")}</label>
+                <label className="text-xs text-gray-500 sm:text-[13px]">
+                  {t("address")}
+                </label>
                 <div
                   className="shrink-0 cursor-pointer text-xs text-[#ca9b27] transition-colors hover:text-[#b58a23] sm:text-[13px]"
                   onClick={addresshides}
                 >
-                  {t("Manage Address")}
+                  {t("ManageAddress")}
                 </div>
               </div>
               <div className="flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] p-1 px-2 sm:px-3">
                 <input
                   type="text"
-                  placeholder={t("Please enter your withdraw address")}
+                  placeholder={t("selectwithdrawaddrs")}
                   className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:ring-0 sm:text-[15px]"
                   maxLength={60}
                   onKeyDown={handlekeydown}
@@ -1535,14 +1556,26 @@ const Dashboard = () => {
                       if (withdrawAddressref) withdrawAddressref.current = "";
                     }}
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 )}
               </div>
               {withAddressValidate && (
-                <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.withAddress}</span>
+                <span className="text-red-500 text-sm mt-1 block px-2">
+                  {validationnErr.withAddress}
+                </span>
               )}
             </div>
           )}
@@ -1551,20 +1584,35 @@ const Dashboard = () => {
     },
     {
       key: "w-copy-or-amount",
-      title: t("Copy Wallet Address"),
+      title: t("CopyWalletAddrss"),
       icon: (
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
+          />
         </svg>
       ),
       content: (
         <div className="w-full min-w-0 max-w-full lg:max-w-xl">
           <div className="mb-2 mt-3 flex flex-col gap-1 px-1 sm:mt-4 sm:flex-row sm:items-end sm:justify-between sm:gap-0">
-            <label className="text-xs text-gray-500 sm:text-sm">{t("Amount")}</label>
+            <label className="text-xs text-gray-500 sm:text-sm">
+              {t("amount")}
+            </label>
             <div className="min-w-0 text-xs text-gray-400 sm:text-right sm:text-sm">
-              {t("Available Balance")}:{" "}
+              {t("availablebalance")}:{" "}
               <span className="font-medium text-gray-300">
-                {balanceref.current.balance ? balanceref.current.balance.toFixed(6) : "0"} {currencyref.current}
+                {balanceref.current.balance
+                  ? balanceref.current.balance.toFixed(6)
+                  : "0"}{" "}
+                {currencyref.current}
               </span>
             </div>
           </div>
@@ -1597,22 +1645,31 @@ const Dashboard = () => {
                 if (e.target.value >= 0) handleChange(e);
               }}
               onInput={(evt) => {
-                if (evt.target.value.split(".").length > 2) evt.target.value = evt.target.value.slice(0, -1);
+                if (evt.target.value.split(".").length > 2)
+                  evt.target.value = evt.target.value.slice(0, -1);
               }}
-              placeholder={`${t("Minimum withdrawal amount")}: ${currentcurrencyref.current?.minWithdrawLimit || "0.01"} ${currencyref.current || ""}`}
+              placeholder={`${t("Minimumwithdraw")}: ${currentcurrencyref.current?.minWithdrawLimit || "0.01"} ${currencyref.current || ""}`}
               className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white outline-none placeholder:text-gray-500 placeholder:text-xs focus:outline-none focus:ring-0 sm:text-[15px] sm:placeholder:text-[15px]"
             />
-            <span className="ml-2 flex h-full shrink-0 items-center font-medium text-white">{currencyref.current}</span>
+            <span className="ml-2 flex h-full shrink-0 items-center font-medium text-white">
+              {currencyref.current}
+            </span>
           </div>
-          {amountValidate && <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.amount}</span>}
+          {amountValidate && (
+            <span className="text-red-500 text-sm mt-1 block px-2">
+              {validationnErr.amount}
+            </span>
+          )}
 
           <div className="mb-2 mt-4 px-1 sm:mt-6">
-            <label className="text-xs text-gray-500 sm:text-sm">{t("Remarks (optional)")}</label>
+            <label className="text-xs text-gray-500 sm:text-sm">
+              {t("remarkoptnal")}
+            </label>
           </div>
           <div className="mb-2 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
             <input
               type="text"
-              placeholder={t("e.g. Purpose of withdrawal")}
+              placeholder={t("remarkoptnalplacehol")}
               disabled={show_otpref.current == true}
               className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white outline-none placeholder:text-gray-500 focus:outline-none focus:ring-0 sm:text-[15px]"
             />
@@ -1620,7 +1677,9 @@ const Dashboard = () => {
 
           {show_otpref.current == true && (
             <div className="mb-4 mt-4 sm:mt-6">
-              <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-sm">{t("withdrawOTP")}</label>
+              <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-sm">
+                {t("withdrawOTP")}
+              </label>
               <div className="mb-1 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
                 <input
                   type="text"
@@ -1633,7 +1692,8 @@ const Dashboard = () => {
                     e.target.value = e.target.value.replace(/[^0-9]/g, "");
                   }}
                   onKeyDown={(e) => {
-                    if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
+                    if (["e", "E", "+", "-", "."].includes(e.key))
+                      e.preventDefault();
                   }}
                   onChange={(e) => {
                     const value = e.target.value;
@@ -1647,12 +1707,19 @@ const Dashboard = () => {
                   className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white outline-none placeholder:text-gray-600 focus:outline-none focus:ring-0 sm:text-base"
                 />
               </div>
-              {otpValidate && <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.withdraw_otp}</span>}
+              {otpValidate && (
+                <span className="text-red-500 text-sm mt-1 block px-2">
+                  {validationnErr.withdraw_otp}
+                </span>
+              )}
               <div className="mt-2 px-1 text-left text-xs sm:text-right">
                 <span className="text-gray-400">{t("Didntreceivecode?")} </span>
                 {resendClick == false ? (
                   isResendVisible ? (
-                    <button onClick={handleResend} className="text-[#f0b90b] hover:text-yellow-400 cursor-pointer">
+                    <button
+                      onClick={handleResend}
+                      className="text-[#f0b90b] hover:text-yellow-400 cursor-pointer"
+                    >
                       {t("resend")}
                     </button>
                   ) : (
@@ -1665,56 +1732,86 @@ const Dashboard = () => {
             </div>
           )}
 
-          {show_otpref.current == true && (sessionStorage.getItem("tfa_status") == 0 || sessionStorage.getItem("tfa_status") == 1) && (
-            <div className="mb-4 mt-4">
-              <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-sm">{t("2FAVerificationCode")}</label>
-              <div className="mb-1 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
-                <input
-                  type="text"
-                  autoComplete="off"
-                  maxLength={6}
-                  name="tfa"
-                  value={tfa}
-                  placeholder={t("Enter2FACode")}
-                  onKeyDown={(e) => {
-                    if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
-                  }}
-                  onInput={(e) => {
-                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                  }}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value >= 0 && value.length <= 6) {
-                      const formData = { ...formValue, [e.target.name]: value };
-                      setFormValue(formData);
-                      validate(formData);
-                      validate_preview(formData);
-                    }
-                  }}
-                  className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white outline-none placeholder:text-gray-600 focus:outline-none focus:ring-0 sm:text-base"
-                />
+          {show_otpref.current == true &&
+            (sessionStorage.getItem("tfa_status") == 0 ||
+              sessionStorage.getItem("tfa_status") == 1) && (
+              <div className="mb-4 mt-4">
+                <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-sm">
+                  {t("2FAVerificationCode")}
+                </label>
+                <div className="mb-1 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    maxLength={6}
+                    name="tfa"
+                    value={tfa}
+                    placeholder={t("Enter2FACode")}
+                    onKeyDown={(e) => {
+                      if (["e", "E", "+", "-", "."].includes(e.key))
+                        e.preventDefault();
+                    }}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value >= 0 && value.length <= 6) {
+                        const formData = {
+                          ...formValue,
+                          [e.target.name]: value,
+                        };
+                        setFormValue(formData);
+                        validate(formData);
+                        validate_preview(formData);
+                      }
+                    }}
+                    className="h-[44px] min-w-0 flex-1 border-0 bg-transparent py-2 text-sm text-white outline-none placeholder:text-gray-600 focus:outline-none focus:ring-0 sm:text-base"
+                  />
+                </div>
+                {tfaValidate && (
+                  <span className="text-red-500 text-sm mt-1 block px-2">
+                    {validationnErr.tfa}
+                  </span>
+                )}
               </div>
-              {tfaValidate && <span className="text-red-500 text-sm mt-1 block px-2">{validationnErr.tfa}</span>}
-            </div>
-          )}
+            )}
 
           <div className="mt-8 flex flex-col items-stretch px-1 text-right sm:mt-14 sm:items-end">
             <div className="text-lg font-bold tracking-wide text-white sm:text-[22px]">
-              {amount && !isNaN(amount) && currentcurrencyref.current ? (
-                parseFloat(amount) - parseFloat(currentcurrencyref.current.withdrawFee || 0) > 0 ? (
-                  String(Number((parseFloat(amount) - parseFloat(currentcurrencyref.current.withdrawFee || 0)).toFixed(6))) + " "
-                ) : (
-                  "0.00 "
-                )
-              ) : (
-                "--"
-              )}
+              {amount && !isNaN(amount) && currentcurrencyref.current
+                ? parseFloat(amount) -
+                    parseFloat(currentcurrencyref.current.withdrawFee || 0) >
+                  0
+                  ? String(
+                      Number(
+                        (
+                          parseFloat(amount) -
+                          parseFloat(
+                            currentcurrencyref.current.withdrawFee || 0,
+                          )
+                        ).toFixed(6),
+                      ),
+                    ) + " "
+                  : "0.00 "
+                : "--"}
               <span>{currencyref.current}</span>
             </div>
             <div className="mt-1 flex flex-wrap items-center justify-end gap-1 text-xs text-gray-500 sm:text-[13px]">
-              {t("Fee")}: {currentcurrencyref.current?.withdrawFee || "0"} {currencyref.current}
-              <svg className="w-[14px] h-[14px] ml-0.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              {t("Fee")}: {currentcurrencyref.current?.withdrawFee || "0"}{" "}
+              {currencyref.current}
+              <svg
+                className="w-[14px] h-[14px] ml-0.5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
           </div>
@@ -1743,16 +1840,22 @@ const Dashboard = () => {
                     !amount ||
                     isNaN(amount) ||
                     amount <= 0 ||
-                    (currentcurrencyref.current?.currencyType == "2" && !network_currentref.current) ||
-                    (withdrawType == "1" && (!withdrawAddressref.current || withdrawAddressref.current.trim() === ""))
+                    (currentcurrencyref.current?.currencyType == "2" &&
+                      !network_currentref.current) ||
+                    (withdrawType == "1" &&
+                      (!withdrawAddressref.current ||
+                        withdrawAddressref.current.trim() === ""))
                   }
                   className={`w-full min-w-0 rounded-lg py-3 text-sm font-semibold transition-colors sm:py-[14px] sm:text-base ${
                     !currentcurrencyref.current ||
                     !amount ||
                     isNaN(amount) ||
                     amount <= 0 ||
-                    (currentcurrencyref.current?.currencyType == "2" && !network_currentref.current) ||
-                    (withdrawType == "1" && (!withdrawAddressref.current || withdrawAddressref.current.trim() === ""))
+                    (currentcurrencyref.current?.currencyType == "2" &&
+                      !network_currentref.current) ||
+                    (withdrawType == "1" &&
+                      (!withdrawAddressref.current ||
+                        withdrawAddressref.current.trim() === ""))
                       ? "bg-[#2b3139] text-[#5e6673] cursor-not-allowed"
                       : "bg-[#ca9b27] text-white hover:bg-[#b58a23]"
                   }`}
@@ -1765,14 +1868,17 @@ const Dashboard = () => {
                 disabled
                 className="flex w-full min-w-0 cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-[#2b3139] py-3 text-sm font-semibold text-[#5e6673] sm:py-[14px] sm:text-base"
               >
-                <i className="fa-solid fa-circle-notch fa-spin"></i> {t("Loading")}...
+                <i className="fa-solid fa-circle-notch fa-spin"></i>{" "}
+                {t("Loading")}...
               </button>
             )}
           </div>
 
           <div className="mt-4 px-1 text-left">
             <p className="break-words text-xs leading-relaxed text-gray-500 sm:text-[13px]">
-              {t("24-hour withdrawal limit")}: 0/{currentcurrencyref.current?.maxWithdrawLimit || "0"} {currencyref.current || "BTC"}
+              {t("perdaywithdrawlimit")}: 0/
+              {currentcurrencyref.current?.maxWithdrawLimit || "0"}{" "}
+              {currencyref.current || "BTC"}
             </p>
           </div>
         </div>
@@ -1811,11 +1917,11 @@ const Dashboard = () => {
                                 1
                               </span>
                               <h3 className="min-w-0 flex-1 pt-0.5 text-sm font-semibold leading-snug text-[#B87A13] sm:text-[15px]">
-                                {t("Select the Crypto")}
+                                {t("SelectCrypto")}
                               </h3>
                             </div>
                             <p className="pl-11 text-sm leading-relaxed text-gray-400 sm:pl-12">
-                              {t("Select crypto & network for withdraw")}
+                              {t("selectcryptandfiatwth")}
                             </p>
                           </div>
                           <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
@@ -1824,11 +1930,11 @@ const Dashboard = () => {
                                 2
                               </span>
                               <h3 className="min-w-0 flex-1 pt-0.5 text-sm font-semibold leading-snug text-[#B87A13] sm:text-[15px]">
-                                {t("Confirm Address")}
+                                {t("confrmadd")}
                               </h3>
                             </div>
                             <p className="pl-11 text-sm leading-relaxed text-gray-400 sm:pl-12">
-                              {t("Paste the copied withdrawal address.")}
+                              {t("pastewithaddrs")}
                             </p>
                           </div>
                           <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
@@ -1837,11 +1943,11 @@ const Dashboard = () => {
                                 3
                               </span>
                               <h3 className="min-w-0 flex-1 pt-0.5 text-sm font-semibold leading-snug text-[#B87A13] sm:text-[15px]">
-                                {t("Transfer Confirmation")}
+                                {t("transferconfrm")}
                               </h3>
                             </div>
                             <p className="pl-11 text-sm leading-relaxed text-gray-400 sm:pl-12">
-                              {t("Await blockchain transfer confirmation.")}
+                              {t("awaitblockconrfm")}
                             </p>
                           </div>
                           <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
@@ -1850,11 +1956,11 @@ const Dashboard = () => {
                                 4
                               </span>
                               <h3 className="min-w-0 flex-1 pt-0.5 text-sm font-semibold leading-snug text-[#B87A13] sm:text-[15px]">
-                                {t("Successful Withdrawal")}
+                                {t("succfulwithdraw")}
                               </h3>
                             </div>
                             <p className="pl-11 text-sm leading-relaxed text-gray-400 sm:pl-12">
-                              {t("Blockchain transfer confirmed successfully.")}
+                              {t("blocktranconfrmd")}
                             </p>
                           </div>
                         </div>
@@ -2431,6 +2537,9 @@ const Dashboard = () => {
                             </h3>
                             <div className="flex flex-col gap-4 text-xs text-gray-400 sm:gap-6 sm:text-[13px]">
                               <p className="min-w-0 leading-relaxed">
+                                {t("forfundsafetsuppotwith")}
+                              </p>
+                              {/* <p className="min-w-0 leading-relaxed">
                                 For the safety of your funds, our customer
                                 support team may contact you by phone to confirm
                                 your withdrawal
@@ -2439,12 +2548,7 @@ const Dashboard = () => {
                                 For the safety of your funds, our customer
                                 support team may contact you by phone to confirm
                                 your withdrawal
-                              </p>
-                              <p className="min-w-0 leading-relaxed">
-                                For the safety of your funds, our customer
-                                support team may contact you by phone to confirm
-                                your withdrawal
-                              </p>
+                              </p> */}
                             </div>
 
                             <div>
@@ -2465,9 +2569,9 @@ const Dashboard = () => {
                                   </svg>
                                   FAQs
                                 </h3>
-                                <span className="cursor-pointer text-xs font-medium text-gray-500 transition-colors hover:text-[#B87A13] sm:self-auto">
+                                {/* <span className="cursor-pointer text-xs font-medium text-gray-500 transition-colors hover:text-[#B87A13] sm:self-auto">
                                   View more &gt;
-                                </span>
+                                </span> */}
                               </div>
                               <div className="flex flex-col gap-4 text-xs text-gray-400 sm:gap-5 sm:text-sm">
                                 <div className="flex min-w-0 cursor-pointer items-start gap-3 transition-colors hover:text-gray-200 sm:gap-4">
@@ -2485,7 +2589,7 @@ const Dashboard = () => {
                                     ></path>
                                   </svg>
                                   <span className="min-w-0 flex-1 break-words">
-                                    How long do withdrawals take?
+                                    {t("howlongwithtake")}
                                   </span>
                                 </div>
                                 <div className="flex min-w-0 cursor-pointer items-start gap-3 transition-colors hover:text-gray-200 sm:gap-4">
@@ -2503,7 +2607,7 @@ const Dashboard = () => {
                                     ></path>
                                   </svg>
                                   <span className="min-w-0 flex-1 break-words">
-                                    Why was my withdrawal rejected?
+                                    {t("whywaswithdcanceld")}
                                   </span>
                                 </div>
                                 <div className="flex min-w-0 cursor-pointer items-start gap-3 transition-colors hover:text-gray-200 sm:gap-4">
@@ -2521,7 +2625,7 @@ const Dashboard = () => {
                                     ></path>
                                   </svg>
                                   <span className="min-w-0 flex-1 break-words">
-                                    Can I cancel a withdrawa...
+                                    {t("canicanelwithdrw")}
                                   </span>
                                 </div>
                               </div>
@@ -2531,8 +2635,13 @@ const Dashboard = () => {
 
                         <div className="dashboard_table mt-6 w-full min-w-0 max-w-full sm:mt-8">
                           <div className="staking-flex dash_assets flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                            <h5 className="opt-title min-w-0 flex-1">{t("RecentWithdraw")}</h5>
-                            <Link to="/withdrawHistory" className="min-w-0 shrink-0 no-underline">
+                            <h5 className="opt-title min-w-0 flex-1">
+                              {t("RecentWithdraw")}
+                            </h5>
+                            <Link
+                              to="/withdrawHistory"
+                              className="min-w-0 shrink-0 no-underline"
+                            >
                               <div className="d-flex gap-2 text-yellow whitespace-nowrap">
                                 {t("viewAll")}{" "}
                                 <i class="fa-solid fa-chevron-right"></i>
@@ -2629,8 +2738,8 @@ const Dashboard = () => {
                                           />
                                         </div>
                                         <div className="no_records_text"> */}
-                                          {t("noRecordsFound")}
-                                        {/* </div>
+                                      {t("noRecordsFound")}
+                                      {/* </div>
                                       </div> */}
                                     </td>
                                   </tr>
@@ -2643,76 +2752,80 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <>
-                          <div className="flex min-w-0 max-w-full flex-col gap-6 lg:flex-row">
-                            <div className="w-full min-w-0 lg:w-7/12">
-                        <div className="p2p_title">{t("withdraw")}</div>
-                        <div className="col-lg-7">
-                          <div className="deposit mt-5  h-100">
-                            <div className="dep-kyc">
-                              <div className="dep-kyc-head">
+                      <div className="flex min-w-0 max-w-full flex-col gap-6 lg:flex-row">
+                        <div className="w-full min-w-0 lg:w-7/12">
+                          <div className="p2p_title">{t("withdraw")}</div>
+                          <div className="col-lg-7">
+                            <div className="deposit mt-5  h-100">
+                              <div className="dep-kyc">
+                                <div className="dep-kyc-head">
+                                  <img
+                                    src={ICON}
+                                    alt="warn-icon"
+                                    className="deposit-imp-icon"
+                                  />
+                                  <h6>{t("KYCVerificationRequired")}</h6>
+                                </div>
+                                <p>{t("completedtheKYCverification")}</p>
+                                <div className="min-w-0 max-w-full overflow-hidden">
+                                  <img
+                                    src={require("../assets/BeforeKyc.webp")}
+                                    alt="Verify kyc"
+                                    className="before_kyc_depo withdraw-p-l-24 h-auto max-w-full"
+                                  />
+                                </div>
+                                <p className="mt-4">{t("verifyyouraccount")}</p>
+                                <div className="withdraw-p-l-24 w-full min-w-0 max-w-full">
+                                  <Link
+                                    to="/kyc"
+                                    className="block w-full max-w-full"
+                                  >
+                                    <button
+                                      type="button"
+                                      className="action_btn mb-2 w-full max-w-full"
+                                    >
+                                      {t("verify_now")}
+                                    </button>
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* <div className="col-lg-5">
+                          <div> */}
+                        <div className="w-full min-w-0 lg:w-5/12">
+                          <div className="deposit-imp-notes mt-5 min-w-0 max-w-full">
+                            <div className="imp-notes-title">
+                              <span>
                                 <img
                                   src={ICON}
                                   alt="warn-icon"
                                   className="deposit-imp-icon"
                                 />
-                                <h6>{t("KYCVerificationRequired")}</h6>
-                              </div>
-                              <p>{t("completedtheKYCverification")}</p>
-                              <div className="min-w-0 max-w-full overflow-hidden">
-                                <img
-                                  src={require("../assets/BeforeKyc.webp")}
-                                  alt="Verify kyc"
-                                  className="before_kyc_depo withdraw-p-l-24 h-auto max-w-full"
-                                />
-                              </div>
-                              <p className="mt-4">{t("verifyyouraccount")}</p>
-                              <div className="withdraw-p-l-24 w-full min-w-0 max-w-full">
-                                <Link to="/kyc" className="block w-full max-w-full">
-                                  <button type="button" className="action_btn mb-2 w-full max-w-full">
-                                    {t("verify_now")}
-                                  </button>
-                                </Link>
-                              </div>
+                              </span>
+                              <p>{t("importantNotes")}</p>
+                            </div>
+                            <div className="imp-notes-content">
+                              <h6>{t("doublecheckthedestinationaddress")}</h6>
+                              <p>{t("makesuretheaddress")}</p>
+                            </div>
+                            <div className="imp-notes-content">
+                              <h6>{t("verifywithdrawaldetails")}</h6>
+                              <p>{t("confirmtheamount")}</p>
+                            </div>
+                            <div className="imp-notes-content">
+                              <h6>{t("Security")}</h6>
+                              <p>{t("ensurethatyouraccount")}</p>
+                            </div>
+                            <div className="imp-notes-content">
+                              <h6>{t("networkverification")}</h6>
+                              <p>{t("doublecheckyournetwork")}</p>
                             </div>
                           </div>
-                              </div>
-                              </div>
-
-                        {/* <div className="col-lg-5">
-                          <div> */}
-                            <div className="w-full min-w-0 lg:w-5/12">
-                              <div className="deposit-imp-notes mt-5 min-w-0 max-w-full">
-                                <div className="imp-notes-title">
-                                  <span>
-                                    <img
-                                      src={ICON}
-                                      alt="warn-icon"
-                                      className="deposit-imp-icon"
-                                    />
-                                  </span>
-                                  <p>{t("importantNotes")}</p>
-                                </div>
-                                <div className="imp-notes-content">
-                                  <h6>
-                                    {t("doublecheckthedestinationaddress")}
-                                  </h6>
-                                  <p>{t("makesuretheaddress")}</p>
-                                </div>
-                                <div className="imp-notes-content">
-                                  <h6>{t("verifywithdrawaldetails")}</h6>
-                                  <p>{t("confirmtheamount")}</p>
-                                </div>
-                                <div className="imp-notes-content">
-                                  <h6>{t("Security")}</h6>
-                                  <p>{t("ensurethatyouraccount")}</p>
-                                </div>
-                                <div className="imp-notes-content">
-                                  <h6>{t("networkverification")}</h6>
-                                  <p>{t("doublecheckyournetwork")}</p>
-                                </div>
-                              </div>
-                            </div>
-                          {/* </div>
+                        </div>
+                        {/* </div>
                         </div> */}
                       </div>
                     </>
@@ -2720,7 +2833,9 @@ const Dashboard = () => {
                 </>
               ) : (
                 <div className="row mx-0 w-full min-w-0 max-w-full">
-                  <div className="p2p_title w-full min-w-0">{t("withdraw")}</div>
+                  <div className="p2p_title w-full min-w-0">
+                    {t("withdraw")}
+                  </div>
                   <div className="col-lg-7 w-full min-w-0 max-w-full">
                     <div className="deposit mt-5 h-100">
                       <div className="dep-kyc">
@@ -2755,8 +2870,14 @@ const Dashboard = () => {
                           {t("thankyouforyourpatienceandunderstanding")}
                         </p>
                         <div className="withdraw-p-l-24 w-full min-w-0 max-w-full">
-                          <Link to="/dashboard" className="block w-full max-w-full">
-                            <button type="button" className="action_btn mb-2 w-full max-w-full">
+                          <Link
+                            to="/dashboard"
+                            className="block w-full max-w-full"
+                          >
+                            <button
+                              type="button"
+                              className="action_btn mb-2 w-full max-w-full"
+                            >
                               {t("backToHome")}
                             </button>
                           </Link>
