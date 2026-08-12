@@ -164,16 +164,38 @@ const MyHistoryTable = () => {
                         p2pHistoryref.current.length > 0 ? (
                           p2pHistoryref.current.map((item, i) => {
                             var status = "";
-                            if (item.status == 0) status = "Confirmed";
-                            if (item.status == 1) status = "Paid";
-                            else if (item.status == 2) status = "Completed";
-                            else if (item.status == 3) status = "Cancelled";
+                              if (item.status === 0) {
+                                status = "Confirmed";
+                              } else if (item.status === 1) {
+                                status = "Paid";
+                              } else if (item.status === 2) {
+                                status = "Completed";
+                              } else if (item.status === 3) {
+                                status = "Cancelled";
+                              }
+                            // if (item.status == 0) status = "Confirmed";
+                            // if (item.status == 1) status = "Paid";
+                            // else if (item.status == 2) status = "Completed";
+                            // else if (item.status == 3) status = "Cancelled";
 
                             return (
+                              // <tr
+                              //   key={i}
+                              //   onClick={() => navpage(item.orderId)}
+                              //   className="border-t border-white/5 align-middle transition-colors hover:bg-white/[0.02]"
+                              // >
                               <tr
                                 key={i}
-                                onClick={() => navpage(item.orderId)}
-                                className="border-t border-white/5 align-middle transition-colors hover:bg-white/[0.02]"
+                                onClick={() => {
+                                  if (item.isActionable) {
+                                    navpage(item.orderId);
+                                  }
+                                }}
+                                className={`border-t border-white/5 align-middle transition-colors ${
+                                  item.isActionable
+                                    ? "cursor-pointer hover:bg-white/[0.02]"
+                                    : "cursor-default"
+                                }`}
                               >
                                 <td className="table-flex">
                                   <img
@@ -208,7 +230,7 @@ const MyHistoryTable = () => {
                                   {item.type}
                                 </td>
                                 <td className="opt-btn-flex opt-term table-action pad-left-23 text-center">
-                                  {status == "Confirmed" ? (
+                                  {/* {status == "Confirmed" ? (
                                     <span className="text-yellow">
                                       {t("confirmed")}
                                     </span>
@@ -217,6 +239,23 @@ const MyHistoryTable = () => {
                                       {t("paid")}
                                     </span>
                                   ) : status == "Completed" ? (
+                                    <span className="text-orange">
+                                      {t("completed")}
+                                    </span>
+                                  ) : (
+                                    <span className="text-red">
+                                      {t("cancelled")}
+                                    </span>
+                                  )} */}
+                                  {item.status === 0 ? (
+                                    <span className="text-yellow">
+                                      {t("confirmed")}
+                                    </span>
+                                  ) : item.status === 1 ? (
+                                    <span className="text-green">
+                                      {t("paid")}
+                                    </span>
+                                  ) : item.status === 2 ? (
                                     <span className="text-orange">
                                       {t("completed")}
                                     </span>

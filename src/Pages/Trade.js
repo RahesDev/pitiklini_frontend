@@ -1666,195 +1666,207 @@ function Home() {
         <div className="container">
           <div className="header">
             <main className="min-height-100vh">
-              <div className="trade_page_global">
-                <>
-                  <div className="subHeader">
-                    <div className="inner_sub">
-                      <div className="content">
-                        <div class="left">
-                          <img
-                            src={require("../assets/stars.png")}
-                            width="20px"
-                            height="20px"
-                            className="mt-1"
-                            alt=""
-                          />
-                          <div class="layout">
-                            <div class="childrenContainer">
-                              <div class="css-l36dyj">
-                                <div class="css-4cffwv">
-                                  <div class="css-4h6mys">
-                                    <div
-                                      data-bn-type="text"
-                                      class="css-1qkv3vk"
-                                    >
-                                      <h1>
-                                        {" "}
-                                        {fromCurrency} / {toCurrency}
-                                      </h1>
+              <div className="comingSoonWrapper">
+                <div className="comingSoonContent">
+                  <div className="trade_page_global">
+                    <>
+                      <div className="subHeader">
+                        <div className="inner_sub">
+                          <div className="content">
+                            <div class="left">
+                              <img
+                                src={require("../assets/stars.png")}
+                                width="20px"
+                                height="20px"
+                                className="mt-1"
+                                alt=""
+                              />
+                              <div class="layout">
+                                <div class="childrenContainer">
+                                  <div class="css-l36dyj">
+                                    <div class="css-4cffwv">
+                                      <div class="css-4h6mys">
+                                        <div
+                                          data-bn-type="text"
+                                          class="css-1qkv3vk"
+                                        >
+                                          <h1>
+                                            {" "}
+                                            {fromCurrency} / {toCurrency}
+                                          </h1>
+                                        </div>
+                                        <div class="css-f4kgqr">
+                                          <a
+                                            data-bn-type="link"
+                                            href="https://www.binance.com/en/price"
+                                            target="_blank"
+                                            class="css-o1v5sz"
+                                            disabled=""
+                                          >
+                                            {fromcurrencyref.current}{" "}
+                                            {t("price")}
+                                          </a>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div class="css-f4kgqr">
-                                      <a
-                                        data-bn-type="link"
-                                        href="https://www.binance.com/en/price"
-                                        target="_blank"
-                                        class="css-o1v5sz"
-                                        disabled=""
+                                    <div class="css-10nf7hq">
+                                      <span
+                                        data-bn-type="text"
+                                        class="tag-group-container css-as916g"
                                       >
-                                        {fromcurrencyref.current} {t("price")}
-                                      </a>
+                                        <div class="tag-text css-4cffwv">
+                                          <div
+                                            data-bn-type="text"
+                                            class="tag css-vurnku"
+                                          >
+                                            {t("POW")}
+                                          </div>
+                                          <div
+                                            data-bn-type="text"
+                                            class="tag-margin css-vurnku"
+                                          >
+                                            |
+                                          </div>
+                                          <div
+                                            data-bn-type="text"
+                                            class="tag css-vurnku"
+                                          >
+                                            {t("VOL")}
+                                          </div>
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            class="css-omng2l"
+                                          >
+                                            <path
+                                              fill-rule="evenodd"
+                                              clip-rule="evenodd"
+                                              d="M12.288 12l-3.89 3.89 1.768 1.767L15.823 12l-1.768-1.768-3.889-3.889-1.768 1.768 3.89 3.89z"
+                                              fill="currentColor"
+                                            ></path>
+                                          </svg>
+                                        </div>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
-                                <div class="css-10nf7hq">
-                                  <span
-                                    data-bn-type="text"
-                                    class="tag-group-container css-as916g"
+                                <div class="nowPrice">
+                                  <div
+                                    class={` ${
+                                      pairTickerDetails?.price_change <= 0
+                                        ? "price_red"
+                                        : "price_green"
+                                    } showPrice css-13n52y`}
                                   >
-                                    <div class="tag-text css-4cffwv">
-                                      <div
-                                        data-bn-type="text"
-                                        class="tag css-vurnku"
-                                      >
-                                        {t("POW")}
-                                      </div>
-                                      <div
-                                        data-bn-type="text"
-                                        class="tag-margin css-vurnku"
-                                      >
-                                        |
-                                      </div>
-                                      <div
-                                        data-bn-type="text"
-                                        class="tag css-vurnku"
-                                      >
-                                        {t("VOL")}
-                                      </div>
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        class="css-omng2l"
-                                      >
-                                        <path
-                                          fill-rule="evenodd"
-                                          clip-rule="evenodd"
-                                          d="M12.288 12l-3.89 3.89 1.768 1.767L15.823 12l-1.768-1.768-3.889-3.889-1.768 1.768 3.89 3.89z"
-                                          fill="currentColor"
-                                        ></path>
-                                      </svg>
+                                    {" "}
+                                    {isNaN(marketPriceref.current)
+                                      ? ""
+                                      : parseFloat(
+                                          marketPriceref.current,
+                                        ).toFixed(
+                                          pairDetails?.liq_price_decimal,
+                                        )}
+                                  </div>
+                                  <div class="subPrice">
+                                    {pairDetails.to_symbol}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="right">
+                              <div class="tickerListContainer">
+                                <div class="tickerList">
+                                  <div>
+                                    <div class="tickerItemLabel">
+                                      {t("24HChange")}{" "}
+                                      <small className="small">
+                                        ({pairDetails.to_symbol})
+                                      </small>{" "}
                                     </div>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="nowPrice">
-                              <div
-                                class={` ${
-                                  pairTickerDetails?.price_change <= 0
-                                    ? "price_red"
-                                    : "price_green"
-                                } showPrice css-13n52y`}
-                              >
-                                {" "}
-                                {isNaN(marketPriceref.current)
-                                  ? ""
-                                  : parseFloat(marketPriceref.current).toFixed(
-                                      pairDetails?.liq_price_decimal
-                                    )}
-                              </div>
-                              <div class="subPrice">
-                                {pairDetails.to_symbol}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="right">
-                          <div class="tickerListContainer">
-                            <div class="tickerList">
-                              <div>
-                                <div class="tickerItemLabel">
-                                  {t("24HChange")}{" "}
-                                  <small className="small">
-                                    ({pairDetails.to_symbol})
-                                  </small>{" "}
-                                </div>
-                                <div class="tickerPriceText">
-                                  <span className="">
-                                    <div
-                                      className={`tickerPriceText gap-2 d-flex ${
-                                        pairTickerDetails?.price_change <= 0
-                                          ? "price_red"
-                                          : "price_green"
-                                      }`}
-                                    >
-                                      {isNaN(pairTickerDetails?.price_change)
-                                        ? ""
-                                        : parseFloat(
-                                            pairTickerDetails?.price_change
-                                          ).toFixed(
-                                            pairDetails?.liq_price_decimal
-                                          )}
-                                      <span
-                                        className={
-                                          pairTickerDetails?.price_change <= 0
-                                            ? "price_red"
-                                            : "price_green ml-2"
-                                        }
-                                      >
-                                        {parseFloat(
-                                          pairTickerDetails?.change_percent
-                                        ).toFixed(2)}{" "}
-                                        %
+                                    <div class="tickerPriceText">
+                                      <span className="">
+                                        <div
+                                          className={`tickerPriceText gap-2 d-flex ${
+                                            pairTickerDetails?.price_change <= 0
+                                              ? "price_red"
+                                              : "price_green"
+                                          }`}
+                                        >
+                                          {isNaN(
+                                            pairTickerDetails?.price_change,
+                                          )
+                                            ? ""
+                                            : parseFloat(
+                                                pairTickerDetails?.price_change,
+                                              ).toFixed(
+                                                pairDetails?.liq_price_decimal,
+                                              )}
+                                          <span
+                                            className={
+                                              pairTickerDetails?.price_change <=
+                                              0
+                                                ? "price_red"
+                                                : "price_green ml-2"
+                                            }
+                                          >
+                                            {parseFloat(
+                                              pairTickerDetails?.change_percent,
+                                            ).toFixed(2)}{" "}
+                                            %
+                                          </span>
+                                        </div>
                                       </span>
                                     </div>
-                                  </span>
-                                </div>
-                              </div>
-                              <div>
-                                <div class="tickerItemLabel">
-                                  {t("24high")}{" "}
-                                </div>
-                                <div class="tickerPriceText">
-                                  {" "}
-                                  {isNaN(pairTickerDetails?.highprice)
-                                    ? ""
-                                    : parseFloat(
-                                        pairTickerDetails?.highprice
-                                      ).toFixed(
-                                        pairDetails?.liq_price_decimal
-                                      )}{" "}
-                                  <small>{pairDetails.to_symbol}</small>
-                                </div>
-                              </div>
-                              <div>
-                                <div class="tickerItemLabel">{t("24hLow")}</div>
-                                <div class="tickerPriceText">
-                                  {" "}
-                                  {isNaN(pairTickerDetails?.lowprice)
-                                    ? ""
-                                    : parseFloat(
-                                        pairTickerDetails?.lowprice
-                                      ).toFixed(
-                                        pairDetails?.liq_price_decimal
-                                      )}{" "}
-                                  <small>{pairDetails.to_symbol}</small>
-                                </div>
-                              </div>
-                              <div>
-                                <div class="tickerItemLabel">
-                                  {t("24hVolume")}{" "}
-                                  <small>({pairDetails.from_symbol})</small>
-                                </div>
-                                <div class="tickerPriceText">
-                                  {isNaN(pairTickerDetails?.volume)
-                                    ? ""
-                                    : parseFloat(
-                                        pairTickerDetails?.volume
-                                      ).toFixed(pairDetails?.liq_price_decimal)}
-                                </div>
-                              </div>
-                              {/* <div>
+                                  </div>
+                                  <div>
+                                    <div class="tickerItemLabel">
+                                      {t("24high")}{" "}
+                                    </div>
+                                    <div class="tickerPriceText">
+                                      {" "}
+                                      {isNaN(pairTickerDetails?.highprice)
+                                        ? ""
+                                        : parseFloat(
+                                            pairTickerDetails?.highprice,
+                                          ).toFixed(
+                                            pairDetails?.liq_price_decimal,
+                                          )}{" "}
+                                      <small>{pairDetails.to_symbol}</small>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <div class="tickerItemLabel">
+                                      {t("24hLow")}
+                                    </div>
+                                    <div class="tickerPriceText">
+                                      {" "}
+                                      {isNaN(pairTickerDetails?.lowprice)
+                                        ? ""
+                                        : parseFloat(
+                                            pairTickerDetails?.lowprice,
+                                          ).toFixed(
+                                            pairDetails?.liq_price_decimal,
+                                          )}{" "}
+                                      <small>{pairDetails.to_symbol}</small>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <div class="tickerItemLabel">
+                                      {t("24hVolume")}{" "}
+                                      <small>({pairDetails.from_symbol})</small>
+                                    </div>
+                                    <div class="tickerPriceText">
+                                      {isNaN(pairTickerDetails?.volume)
+                                        ? ""
+                                        : parseFloat(
+                                            pairTickerDetails?.volume,
+                                          ).toFixed(
+                                            pairDetails?.liq_price_decimal,
+                                          )}
+                                    </div>
+                                  </div>
+                                  {/* <div>
                               <div class="tickerItemLabel">
                                 24h Volume{" "}
                                 <small>({pairDetails.to_symbol})</small>
@@ -1867,2016 +1879,2168 @@ function Home() {
                                   ).toFixed(pairDetails?.liq_price_decimal)}
                               </div>
                             </div> */}
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                  {/* spot - cross -isolated nav tabs */}
-                  <div className="order_form">
-                    <ul className="nav nav-tabs" id="myTab" role="tablist">
-                      <li className="nav-item" role="presentation">
-                        <a
-                          className="nav-link active"
-                          id="home-tab"
-                          data-bs-toggle="tab"
-                          href="#home"
-                          role="tab"
-                          aria-controls="home"
-                          aria-selected="true"
-                        >
-                          {t("spot")}
-                        </a>
-                      </li>
-                    </ul>
-
-                    <div className="tab-content tradeform">
-                      {/* spot */}
-                      <div
-                        className="tab-pane fade show active"
-                        id="home"
-                        role="tabpanel"
-                        aria-labelledby="home-tab"
-                      >
-                        <ul
-                          className="nav nav-tabs padd2_orfr"
-                          id="myTab"
-                          role="tablist"
-                        >
-                          <li className="">
+                      {/* spot - cross -isolated nav tabs */}
+                      <div className="order_form">
+                        <ul className="nav nav-tabs" id="myTab" role="tablist">
+                          <li className="nav-item" role="presentation">
                             <a
-                              className={`spot_nav_tabs cursor-pointer d-inline-block ${
-                                spottab === "limit" ? "active" : ""
-                              }`}
-                              onClick={() => changeOrderTab("limit")}
+                              className="nav-link active"
+                              id="home-tab"
+                              data-bs-toggle="tab"
+                              href="#home"
+                              role="tab"
+                              aria-controls="home"
+                              aria-selected="true"
                             >
-                              {t("limit")}
-                              <div>
-                                <span />
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              className={`spot_nav_tabs cursor-pointer d-inline-block ${
-                                spottab === "market" ? "active" : ""
-                              }`}
-                              onClick={() => changeOrderTab("market")}
-                            >
-                              {t("market")}
-                              <div>
-                                <span />
-                              </div>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              className={`spot_nav_tabs cursor-pointer d-inline-block ${
-                                spottab === "stop-limit" ? "active" : ""
-                              }`}
-                              onClick={() => changeOrderTab("stop-limit")}
-                            >
-                              {t("Stop-limit")}
-                              <div>
-                                <span />
-                              </div>
+                              {t("spot")}
                             </a>
                           </li>
                         </ul>
 
-                        <div className="tab-content">
+                        <div className="tab-content tradeform">
+                          {/* spot */}
                           <div
-                            class={`tab-pane fade in ${
-                              spottab === "limit" ? "show active" : ""
-                            }`}
+                            className="tab-pane fade show active"
+                            id="home"
+                            role="tabpanel"
+                            aria-labelledby="home-tab"
                           >
-                            <div className="row">
-                              <div className="col-lg-6">
-                                <div className="form_trade">
-                                  {renderInput(
-                                    "Price",
-                                    "price",
-                                    price,
-                                    toCurrency,
-                                    handleChange
-                                  )}
-                                  {renderInput(
-                                    "Amount",
-                                    "amount",
-                                    amount,
-                                    fromCurrency,
-                                    handleChange
-                                  )}
-                                  {checkAuth && (
-                                    <ThemeProvider theme={themeSlider}>
-                                      <div className="slider_spacing">
-                                        <Box>
-                                          <Slider
-                                            value={sliderValueref.current}
-                                            step={25}
-                                            marks
-                                            name="buy"
-                                            min={0}
-                                            max={100}
-                                            onChange={handleSliderChange}
-                                            sx={{
-                                              "& .MuiSlider-track": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                              "& .MuiSlider-thumb": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                            }}
-                                          />
-                                        </Box>
-                                      </div>
-                                    </ThemeProvider>
-                                  )}
-                                  {rendermarketInput(
-                                    "Total",
-                                    "total",
-                                    total,
-                                    "",
-                                    () => {}
-                                  )}
+                            <ul
+                              className="nav nav-tabs padd2_orfr"
+                              id="myTab"
+                              role="tablist"
+                            >
+                              <li className="">
+                                <a
+                                  className={`spot_nav_tabs cursor-pointer d-inline-block ${
+                                    spottab === "limit" ? "active" : ""
+                                  }`}
+                                  onClick={() => changeOrderTab("limit")}
+                                >
+                                  {t("limit")}
+                                  <div>
+                                    <span />
+                                  </div>
+                                </a>
+                              </li>
+                              <li>
+                                <a
+                                  className={`spot_nav_tabs cursor-pointer d-inline-block ${
+                                    spottab === "market" ? "active" : ""
+                                  }`}
+                                  onClick={() => changeOrderTab("market")}
+                                >
+                                  {t("market")}
+                                  <div>
+                                    <span />
+                                  </div>
+                                </a>
+                              </li>
+                              <li>
+                                <a
+                                  className={`spot_nav_tabs cursor-pointer d-inline-block ${
+                                    spottab === "stop-limit" ? "active" : ""
+                                  }`}
+                                  onClick={() => changeOrderTab("stop-limit")}
+                                >
+                                  {t("Stop-limit")}
+                                  <div>
+                                    <span />
+                                  </div>
+                                </a>
+                              </li>
+                            </ul>
 
-                                  <div className="avali">
-                                    <p>{t("Avbl")} </p>
-                                    <p>
-                                      <span>
-                                        {parseFloat(tobalance).toFixed(8)}{" "}
-                                        {toCurrency}
-                                      </span>
-                                    </p>
+                            <div className="tab-content">
+                              <div
+                                class={`tab-pane fade in ${
+                                  spottab === "limit" ? "show active" : ""
+                                }`}
+                              >
+                                <div className="row">
+                                  <div className="col-lg-6">
+                                    <div className="form_trade">
+                                      {renderInput(
+                                        "Price",
+                                        "price",
+                                        price,
+                                        toCurrency,
+                                        handleChange,
+                                      )}
+                                      {renderInput(
+                                        "Amount",
+                                        "amount",
+                                        amount,
+                                        fromCurrency,
+                                        handleChange,
+                                      )}
+                                      {checkAuth && (
+                                        <ThemeProvider theme={themeSlider}>
+                                          <div className="slider_spacing">
+                                            <Box>
+                                              <Slider
+                                                value={sliderValueref.current}
+                                                step={25}
+                                                marks
+                                                name="buy"
+                                                min={0}
+                                                max={100}
+                                                onChange={handleSliderChange}
+                                                sx={{
+                                                  "& .MuiSlider-track": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                  "& .MuiSlider-thumb": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                }}
+                                              />
+                                            </Box>
+                                          </div>
+                                        </ThemeProvider>
+                                      )}
+                                      {rendermarketInput(
+                                        "Total",
+                                        "total",
+                                        total,
+                                        "",
+                                        () => {},
+                                      )}
+
+                                      <div className="avali">
+                                        <p>{t("Avbl")} </p>
+                                        <p>
+                                          <span>
+                                            {parseFloat(tobalance).toFixed(8)}{" "}
+                                            {toCurrency}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="avali">
+                                        <p> {t("MaxBuy")}</p>
+                                        <p>
+                                          <span>
+                                            {isNaN(maxbuyref.current)
+                                              ? 0
+                                              : parseFloat(
+                                                  maxbuyref.current,
+                                                ).toFixed(8)}{" "}
+                                            {fromCurrency}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="buy_BTN">
+                                        {loginStatus == true ? (
+                                          <Button
+                                            className="buy_selecu"
+                                            onClick={handleBuy}
+                                          >
+                                            {orderloaderref.current
+                                              ? "Loading..."
+                                              : "Buy"}
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            className="buy_selecu_beforelog"
+                                            onClick={() => loginNave()}
+                                          >
+                                            {t("Logintocontinue")}
+                                          </Button>
+                                        )}
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div className="avali">
-                                    <p> {t("MaxBuy")}</p>
-                                    <p>
-                                      <span>
-                                        {isNaN(maxbuyref.current)
-                                          ? 0
-                                          : parseFloat(
-                                              maxbuyref.current
-                                            ).toFixed(8)}{" "}
-                                        {fromCurrency}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="buy_BTN">
-                                    {loginStatus == true ? (
-                                      <Button
-                                        className="buy_selecu"
-                                        onClick={handleBuy}
-                                      >
-                                        {orderloaderref.current
-                                          ? "Loading..."
-                                          : "Buy"}
-                                      </Button>
-                                    ) : (
-                                      <Button
-                                        className="buy_selecu_beforelog"
-                                        onClick={() => loginNave()}
-                                      >
-                                        {t("Logintocontinue")}
-                                      </Button>
-                                    )}
+
+                                  <div className="col-lg-6">
+                                    <div className="form_trade">
+                                      {renderInput(
+                                        "Price",
+                                        "sellprice",
+                                        sellprice,
+                                        toCurrency,
+                                        handleChange,
+                                      )}
+                                      {renderInput(
+                                        "Amount",
+                                        "sellamount",
+                                        sellamount,
+                                        fromCurrency,
+                                        handleChange,
+                                      )}
+                                      {checkAuth && (
+                                        <ThemeProvider theme={themeSlider}>
+                                          <div className="slider_spacing">
+                                            <Box>
+                                              <Slider
+                                                value={sliderValue1ref.current}
+                                                step={25}
+                                                marks
+                                                name="sell"
+                                                min={0}
+                                                max={100}
+                                                onChange={handleSliderChange1}
+                                                sx={{
+                                                  "& .MuiSlider-track": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                  "& .MuiSlider-thumb": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                }}
+                                              />
+                                            </Box>
+                                          </div>
+                                        </ThemeProvider>
+                                      )}
+                                      {rendermarketInput(
+                                        "Total",
+                                        "selltotal",
+                                        selltotal,
+                                        "",
+                                        () => {},
+                                      )}
+
+                                      <div className="avali">
+                                        <p>{t("Avbl")} </p>
+                                        <p>
+                                          <span>
+                                            {parseFloat(frombalance).toFixed(8)}{" "}
+                                            {fromCurrency}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="avali">
+                                        <p>{t("MaxSell")} </p>
+                                        <p>
+                                          <span>
+                                            {isNaN(maxsellref.current)
+                                              ? 0
+                                              : parseFloat(
+                                                  maxsellref.current,
+                                                ).toFixed(8)}{" "}
+                                            {toCurrency}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="buy_BTN">
+                                        {loginStatus == true ? (
+                                          <Button
+                                            className="Sell"
+                                            onClick={handleSell}
+                                          >
+                                            {sellorderloaderref.current
+                                              ? t("Loading...")
+                                              : t("sell")}
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            className="Sell_beforelog"
+                                            onClick={() => loginNave()}
+                                          >
+                                            {t("Logintocontinue")}
+                                          </Button>
+                                        )}
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
+                              <div
+                                class={`tab-pane fade in ${
+                                  spottab === "market" ? "show active" : ""
+                                }`}
+                                // } show bor_1 mar-top`}
+                              >
+                                <div className="row">
+                                  <div className="col-lg-6">
+                                    <div className="form_trade">
+                                      {rendermarketInput(
+                                        "Price",
+                                        "price",
+                                        marketPrice,
+                                        toCurrency,
+                                        "",
+                                      )}
+                                      {renderInput(
+                                        "Amount",
+                                        "amount",
+                                        amount,
+                                        fromCurrency,
+                                        handleChange,
+                                      )}
+                                      {!checkAuth ? (
+                                        ""
+                                      ) : (
+                                        <ThemeProvider theme={themeSlider}>
+                                          <div className="slider_spacing">
+                                            <Box>
+                                              <Slider
+                                                value={sliderValue2ref.current}
+                                                step={25}
+                                                marks
+                                                name="buy"
+                                                min={0}
+                                                max={100}
+                                                onChange={handleSliderChange2}
+                                                sx={{
+                                                  "& .MuiSlider-track": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                  "& .MuiSlider-thumb": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                }}
+                                              />
+                                            </Box>
+                                          </div>
+                                        </ThemeProvider>
+                                      )}
+                                      {rendermarketInput(
+                                        "Total",
+                                        "total",
+                                        total,
+                                        "",
+                                        () => {},
+                                      )}
 
-                              <div className="col-lg-6">
-                                <div className="form_trade">
-                                  {renderInput(
-                                    "Price",
-                                    "sellprice",
-                                    sellprice,
-                                    toCurrency,
-                                    handleChange
-                                  )}
-                                  {renderInput(
-                                    "Amount",
-                                    "sellamount",
-                                    sellamount,
-                                    fromCurrency,
-                                    handleChange
-                                  )}
-                                  {checkAuth && (
-                                    <ThemeProvider theme={themeSlider}>
-                                      <div className="slider_spacing">
-                                        <Box>
-                                          <Slider
-                                            value={sliderValue1ref.current}
-                                            step={25}
-                                            marks
-                                            name="sell"
-                                            min={0}
-                                            max={100}
-                                            onChange={handleSliderChange1}
-                                            sx={{
-                                              "& .MuiSlider-track": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                              "& .MuiSlider-thumb": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                            }}
-                                          />
-                                        </Box>
+                                      <div className="avali">
+                                        <p>{t("Avbl")} </p>
+                                        <p>
+                                          <span>
+                                            {parseFloat(tobalance).toFixed(8)}{" "}
+                                            {toCurrency}{" "}
+                                          </span>
+                                        </p>
                                       </div>
-                                    </ThemeProvider>
-                                  )}
-                                  {rendermarketInput(
-                                    "Total",
-                                    "selltotal",
-                                    selltotal,
-                                    "",
-                                    () => {}
-                                  )}
+                                      <div className="avali">
+                                        <p> {t("MaxBuy")} </p>
+                                        <p>
+                                          <span>
+                                            {" "}
+                                            {isNaN(maxbuyref.current)
+                                              ? 0
+                                              : parseFloat(maxbuy).toFixed(
+                                                  8,
+                                                )}{" "}
+                                            {fromCurrency}{" "}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="buy_BTN">
+                                        {loginStatus == true ? (
+                                          <Button
+                                            className="buy_selecu"
+                                            onClick={handlemarketBuy}
+                                          >
+                                            {orderloaderref.current
+                                              ? t("Loading...")
+                                              : t("buy")}
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            className="buy_selecu_beforelog"
+                                            onClick={() => loginNave()}
+                                          >
+                                            {t("Logintocontinue")}
+                                          </Button>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
 
-                                  <div className="avali">
-                                    <p>{t("Avbl")} </p>
-                                    <p>
-                                      <span>
-                                        {parseFloat(frombalance).toFixed(8)}{" "}
-                                        {fromCurrency}
-                                      </span>
-                                    </p>
+                                  <div className="col-lg-6">
+                                    <div className="form_trade">
+                                      {rendermarketInput(
+                                        "Price",
+                                        "sellprice",
+                                        marketPrice,
+                                        toCurrency,
+                                        "",
+                                      )}
+                                      {renderInput(
+                                        "Amount",
+                                        "sellamount",
+                                        sellamount,
+                                        fromCurrency,
+                                        handleChange,
+                                      )}
+
+                                      {!checkAuth ? (
+                                        ""
+                                      ) : (
+                                        <ThemeProvider theme={themeSlider}>
+                                          <div className="slider_spacing">
+                                            <Box>
+                                              <Slider
+                                                value={sliderValue3ref.current}
+                                                step={25}
+                                                marks
+                                                name="sell"
+                                                min={0}
+                                                max={100}
+                                                onChange={handleSliderChange3}
+                                                sx={{
+                                                  "& .MuiSlider-track": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                  "& .MuiSlider-thumb": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                }}
+                                              />
+                                            </Box>
+                                          </div>
+                                        </ThemeProvider>
+                                      )}
+                                      {rendermarketInput(
+                                        "Total",
+                                        "selltotal",
+                                        selltotal,
+                                        "",
+                                        () => {},
+                                      )}
+
+                                      <div className="avali">
+                                        <p>{t("Avbl")} </p>
+                                        <p>
+                                          <span>
+                                            {parseFloat(frombalance).toFixed(8)}{" "}
+                                            {fromCurrency}{" "}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="avali">
+                                        <p> {t("MaxSell")} </p>
+                                        <p>
+                                          <span>
+                                            {" "}
+                                            {isNaN(maxsellref.current)
+                                              ? 0
+                                              : parseFloat(maxsell).toFixed(
+                                                  8,
+                                                )}{" "}
+                                            {toCurrency}{" "}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="buy_BTN">
+                                        {loginStatus == true ? (
+                                          <Button
+                                            className="Sell"
+                                            onClick={handlemarketSell}
+                                          >
+                                            {sellorderloaderref.current
+                                              ? t("Loading...")
+                                              : t("sell")}
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            className="Sell_beforelog"
+                                            onClick={() => loginNave()}
+                                          >
+                                            {t("Logintocontinue")}
+                                          </Button>
+                                        )}
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div className="avali">
-                                    <p>{t("MaxSell")} </p>
-                                    <p>
-                                      <span>
-                                        {isNaN(maxsellref.current)
-                                          ? 0
-                                          : parseFloat(
-                                              maxsellref.current
-                                            ).toFixed(8)}{" "}
-                                        {toCurrency}
-                                      </span>
-                                    </p>
+                                </div>
+                              </div>
+                              <div
+                                class={`tab-pane fade in ${
+                                  spottab === "stop-limit" ? "show active" : ""
+                                }`}
+                              >
+                                <div className="row">
+                                  <div className="col-lg-6">
+                                    <div className="form_trade">
+                                      {renderInput(
+                                        "Price",
+                                        "price",
+                                        price,
+                                        toCurrency,
+                                        handleChange,
+                                      )}
+                                      {renderInput(
+                                        "Stop Limit",
+                                        "stop_price",
+                                        stop_price,
+                                        toCurrency,
+                                        handleChange,
+                                      )}
+
+                                      {renderInput(
+                                        "Amount",
+                                        "amount",
+                                        amount,
+                                        fromCurrency,
+                                        handleChange,
+                                      )}
+
+                                      {!checkAuth ? (
+                                        ""
+                                      ) : (
+                                        <ThemeProvider theme={themeSlider}>
+                                          <div className="slider_spacing">
+                                            <Box>
+                                              <Slider
+                                                value={sliderValue4ref.current}
+                                                step={25}
+                                                marks
+                                                name="buy"
+                                                min={0}
+                                                max={100}
+                                                onChange={handleSliderChange4}
+                                                sx={{
+                                                  "& .MuiSlider-track": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                  "& .MuiSlider-thumb": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                }}
+                                              />
+                                            </Box>
+                                          </div>
+                                        </ThemeProvider>
+                                      )}
+                                      {rendermarketInput(
+                                        "Total",
+                                        "total",
+                                        total,
+                                        "",
+                                        () => {},
+                                      )}
+
+                                      <div className="avali">
+                                        <p>{t("Avbl")} </p>
+                                        <p>
+                                          <span>
+                                            {parseFloat(tobalance).toFixed(8)}{" "}
+                                            {toCurrency}{" "}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="avali">
+                                        <p>{t("")} </p>
+                                        <p>
+                                          <span>
+                                            {" "}
+                                            {isNaN(maxbuyref.current)
+                                              ? 0
+                                              : parseFloat(maxbuy).toFixed(
+                                                  8,
+                                                )}{" "}
+                                            {fromCurrency}{" "}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="buy_BTN">
+                                        {loginStatus == true ? (
+                                          <Button
+                                            className="buy_selecu"
+                                            onClick={handlestopBuy}
+                                          >
+                                            {orderloaderref.current
+                                              ? t("Loading...")
+                                              : t("buy")}
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            className="buy_selecu_beforelog"
+                                            onClick={() => loginNave()}
+                                          >
+                                            {t("Logintocontinue")}
+                                          </Button>
+                                        )}
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div className="buy_BTN">
-                                    {loginStatus == true ? (
-                                      <Button
-                                        className="Sell"
-                                        onClick={handleSell}
-                                      >
-                                        {sellorderloaderref.current
-                                          ? t("Loading...")
-                                          : t("sell")}
-                                      </Button>
-                                    ) : (
-                                      <Button
-                                        className="Sell_beforelog"
-                                        onClick={() => loginNave()}
-                                      >
-                                        {t("Logintocontinue")}
-                                      </Button>
-                                    )}
+                                  <div className="col-lg-6">
+                                    <div className="form_trade">
+                                      {renderInput(
+                                        "Price",
+                                        "sellprice",
+                                        sellprice,
+                                        toCurrency,
+                                        handleChange,
+                                      )}
+                                      {renderInput(
+                                        "Stop Limit",
+                                        "sellstop_price",
+                                        sellstop_price,
+                                        toCurrency,
+                                        handleChange,
+                                      )}
+
+                                      {renderInput(
+                                        "Amount",
+                                        "sellamount",
+                                        sellamount,
+                                        fromCurrency,
+                                        handleChange,
+                                      )}
+
+                                      {!checkAuth ? (
+                                        ""
+                                      ) : (
+                                        <ThemeProvider theme={themeSlider}>
+                                          <div className="slider_spacing">
+                                            <Box>
+                                              <Slider
+                                                value={sliderValue5ref.current}
+                                                step={25}
+                                                marks
+                                                name="sell"
+                                                min={0}
+                                                max={100}
+                                                onChange={handleSliderChange5}
+                                                sx={{
+                                                  "& .MuiSlider-track": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                  "& .MuiSlider-thumb": {
+                                                    backgroundColor: "#1E2026",
+                                                  },
+                                                }}
+                                              />
+                                            </Box>
+                                          </div>
+                                        </ThemeProvider>
+                                      )}
+                                      {rendermarketInput(
+                                        "Total",
+                                        "selltotal",
+                                        selltotal,
+                                        "",
+                                        () => {},
+                                      )}
+
+                                      <div className="avali">
+                                        <p>{t("Avbl")} </p>
+                                        <p>
+                                          <span>
+                                            {parseFloat(frombalance).toFixed(8)}{" "}
+                                            {fromCurrency}{" "}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="avali">
+                                        <p>{t("MaxBuy")} </p>
+                                        <p>
+                                          <span>
+                                            {" "}
+                                            {isNaN(maxsellref.current)
+                                              ? 0
+                                              : parseFloat(maxsell).toFixed(
+                                                  8,
+                                                )}{" "}
+                                            {toCurrency}{" "}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div className="buy_BTN">
+                                        {loginStatus == true ? (
+                                          <Button
+                                            className="Sell"
+                                            onClick={handlestopSell}
+                                          >
+                                            {sellorderloaderref.current
+                                              ? t("Loading...")
+                                              : t("sell")}
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            className="Sell_beforelog"
+                                            onClick={() => loginNave()}
+                                          >
+                                            {t("Logintocontinue")}
+                                          </Button>
+                                        )}
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div
-                            class={`tab-pane fade in ${
-                              spottab === "market" ? "show active" : ""
-                            }`}
-                            // } show bor_1 mar-top`}
-                          >
-                            <div className="row">
-                              <div className="col-lg-6">
-                                <div className="form_trade">
-                                  {rendermarketInput(
-                                    "Price",
-                                    "price",
-                                    marketPrice,
-                                    toCurrency,
-                                    ""
-                                  )}
-                                  {renderInput(
-                                    "Amount",
-                                    "amount",
-                                    amount,
-                                    fromCurrency,
-                                    handleChange
-                                  )}
-                                  {!checkAuth ? (
-                                    ""
-                                  ) : (
-                                    <ThemeProvider theme={themeSlider}>
-                                      <div className="slider_spacing">
-                                        <Box>
-                                          <Slider
-                                            value={sliderValue2ref.current}
-                                            step={25}
-                                            marks
-                                            name="buy"
-                                            min={0}
-                                            max={100}
-                                            onChange={handleSliderChange2}
-                                            sx={{
-                                              "& .MuiSlider-track": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                              "& .MuiSlider-thumb": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                            }}
-                                          />
-                                        </Box>
-                                      </div>
-                                    </ThemeProvider>
-                                  )}
-                                  {rendermarketInput(
-                                    "Total",
-                                    "total",
-                                    total,
-                                    "",
-                                    () => {}
-                                  )}
-
-                                  <div className="avali">
-                                    <p>{t("Avbl")} </p>
-                                    <p>
-                                      <span>
-                                        {parseFloat(tobalance).toFixed(8)}{" "}
-                                        {toCurrency}{" "}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="avali">
-                                    <p> {t("MaxBuy")} </p>
-                                    <p>
-                                      <span>
-                                        {" "}
-                                        {isNaN(maxbuyref.current)
-                                          ? 0
-                                          : parseFloat(maxbuy).toFixed(8)}{" "}
-                                        {fromCurrency}{" "}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="buy_BTN">
-                                    {loginStatus == true ? (
-                                      <Button
-                                        className="buy_selecu"
-                                        onClick={handlemarketBuy}
-                                      >
-                                        {orderloaderref.current
-                                          ? t("Loading...")
-                                          : t("buy")}
-                                      </Button>
-                                    ) : (
-                                      <Button
-                                        className="buy_selecu_beforelog"
-                                        onClick={() => loginNave()}
-                                      >
-                                        {t("Logintocontinue")}
-                                      </Button>
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="col-lg-6">
-                                <div className="form_trade">
-                                  {rendermarketInput(
-                                    "Price",
-                                    "sellprice",
-                                    marketPrice,
-                                    toCurrency,
-                                    ""
-                                  )}
-                                  {renderInput(
-                                    "Amount",
-                                    "sellamount",
-                                    sellamount,
-                                    fromCurrency,
-                                    handleChange
-                                  )}
-
-                                  {!checkAuth ? (
-                                    ""
-                                  ) : (
-                                    <ThemeProvider theme={themeSlider}>
-                                      <div className="slider_spacing">
-                                        <Box>
-                                          <Slider
-                                            value={sliderValue3ref.current}
-                                            step={25}
-                                            marks
-                                            name="sell"
-                                            min={0}
-                                            max={100}
-                                            onChange={handleSliderChange3}
-                                            sx={{
-                                              "& .MuiSlider-track": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                              "& .MuiSlider-thumb": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                            }}
-                                          />
-                                        </Box>
-                                      </div>
-                                    </ThemeProvider>
-                                  )}
-                                  {rendermarketInput(
-                                    "Total",
-                                    "selltotal",
-                                    selltotal,
-                                    "",
-                                    () => {}
-                                  )}
-
-                                  <div className="avali">
-                                    <p>{t("Avbl")} </p>
-                                    <p>
-                                      <span>
-                                        {parseFloat(frombalance).toFixed(8)}{" "}
-                                        {fromCurrency}{" "}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="avali">
-                                    <p> {t("MaxSell")} </p>
-                                    <p>
-                                      <span>
-                                        {" "}
-                                        {isNaN(maxsellref.current)
-                                          ? 0
-                                          : parseFloat(maxsell).toFixed(8)}{" "}
-                                        {toCurrency}{" "}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="buy_BTN">
-                                    {loginStatus == true ? (
-                                      <Button
-                                        className="Sell"
-                                        onClick={handlemarketSell}
-                                      >
-                                        {sellorderloaderref.current
-                                          ? t("Loading...")
-                                          : t("sell")}
-                                      </Button>
-                                    ) : (
-                                      <Button
-                                        className="Sell_beforelog"
-                                        onClick={() => loginNave()}
-                                      >
-                                        {t("Logintocontinue")}
-                                      </Button>
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            class={`tab-pane fade in ${
-                              spottab === "stop-limit" ? "show active" : ""
-                            }`}
-                          >
-                            <div className="row">
-                              <div className="col-lg-6">
-                                <div className="form_trade">
-                                  {renderInput(
-                                    "Price",
-                                    "price",
-                                    price,
-                                    toCurrency,
-                                    handleChange
-                                  )}
-                                  {renderInput(
-                                    "Stop Limit",
-                                    "stop_price",
-                                    stop_price,
-                                    toCurrency,
-                                    handleChange
-                                  )}
-
-                                  {renderInput(
-                                    "Amount",
-                                    "amount",
-                                    amount,
-                                    fromCurrency,
-                                    handleChange
-                                  )}
-
-                                  {!checkAuth ? (
-                                    ""
-                                  ) : (
-                                    <ThemeProvider theme={themeSlider}>
-                                      <div className="slider_spacing">
-                                        <Box>
-                                          <Slider
-                                            value={sliderValue4ref.current}
-                                            step={25}
-                                            marks
-                                            name="buy"
-                                            min={0}
-                                            max={100}
-                                            onChange={handleSliderChange4}
-                                            sx={{
-                                              "& .MuiSlider-track": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                              "& .MuiSlider-thumb": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                            }}
-                                          />
-                                        </Box>
-                                      </div>
-                                    </ThemeProvider>
-                                  )}
-                                  {rendermarketInput(
-                                    "Total",
-                                    "total",
-                                    total,
-                                    "",
-                                    () => {}
-                                  )}
-
-                                  <div className="avali">
-                                    <p>{t("Avbl")} </p>
-                                    <p>
-                                      <span>
-                                        {parseFloat(tobalance).toFixed(8)}{" "}
-                                        {toCurrency}{" "}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="avali">
-                                    <p>{t("")} </p>
-                                    <p>
-                                      <span>
-                                        {" "}
-                                        {isNaN(maxbuyref.current)
-                                          ? 0
-                                          : parseFloat(maxbuy).toFixed(8)}{" "}
-                                        {fromCurrency}{" "}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="buy_BTN">
-                                    {loginStatus == true ? (
-                                      <Button
-                                        className="buy_selecu"
-                                        onClick={handlestopBuy}
-                                      >
-                                        {orderloaderref.current
-                                          ? t("Loading...")
-                                          : t("buy")}
-                                      </Button>
-                                    ) : (
-                                      <Button
-                                        className="buy_selecu_beforelog"
-                                        onClick={() => loginNave()}
-                                      >
-                                        {t("Logintocontinue")}
-                                      </Button>
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-lg-6">
-                                <div className="form_trade">
-                                  {renderInput(
-                                    "Price",
-                                    "sellprice",
-                                    sellprice,
-                                    toCurrency,
-                                    handleChange
-                                  )}
-                                  {renderInput(
-                                    "Stop Limit",
-                                    "sellstop_price",
-                                    sellstop_price,
-                                    toCurrency,
-                                    handleChange
-                                  )}
-
-                                  {renderInput(
-                                    "Amount",
-                                    "sellamount",
-                                    sellamount,
-                                    fromCurrency,
-                                    handleChange
-                                  )}
-
-                                  {!checkAuth ? (
-                                    ""
-                                  ) : (
-                                    <ThemeProvider theme={themeSlider}>
-                                      <div className="slider_spacing">
-                                        <Box>
-                                          <Slider
-                                            value={sliderValue5ref.current}
-                                            step={25}
-                                            marks
-                                            name="sell"
-                                            min={0}
-                                            max={100}
-                                            onChange={handleSliderChange5}
-                                            sx={{
-                                              "& .MuiSlider-track": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                              "& .MuiSlider-thumb": {
-                                                backgroundColor: "#1E2026",
-                                              },
-                                            }}
-                                          />
-                                        </Box>
-                                      </div>
-                                    </ThemeProvider>
-                                  )}
-                                  {rendermarketInput(
-                                    "Total",
-                                    "selltotal",
-                                    selltotal,
-                                    "",
-                                    () => {}
-                                  )}
-
-                                  <div className="avali">
-                                    <p>{t("Avbl")} </p>
-                                    <p>
-                                      <span>
-                                        {parseFloat(frombalance).toFixed(8)}{" "}
-                                        {fromCurrency}{" "}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="avali">
-                                    <p>{t("MaxBuy")} </p>
-                                    <p>
-                                      <span>
-                                        {" "}
-                                        {isNaN(maxsellref.current)
-                                          ? 0
-                                          : parseFloat(maxsell).toFixed(8)}{" "}
-                                        {toCurrency}{" "}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="buy_BTN">
-                                    {loginStatus == true ? (
-                                      <Button
-                                        className="Sell"
-                                        onClick={handlestopSell}
-                                      >
-                                        {sellorderloaderref.current
-                                          ? t("Loading...")
-                                          : t("sell")}
-                                      </Button>
-                                    ) : (
-                                      <Button
-                                        className="Sell_beforelog"
-                                        onClick={() => loginNave()}
-                                      >
-                                        {t("Logintocontinue")}
-                                      </Button>
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          {/* cross */}
                         </div>
                       </div>
-                      {/* cross */}
-                    </div>
-                  </div>
-                  <div className="order_book">
-                    <div className="d-flex span-div justify-content-between">
-                      <span>{t("OrderBook")}</span>
-                      <span>
-                        <i class="fa-solid fa-ellipsis"></i>
-                      </span>
-                    </div>
-                    <div className="contant_scetion">
-                      <div className="orderbook-header ">
-                        <div class="orderbook-header-tips current-flex">
-                          <div>
-                            <button
-                              data-bn-type="button"
-                              data-testid="defaultModeButton"
-                              class=" css-sz6ky9"
-                              onClick={Fullorderbook}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                class="css-3kwgah"
-                              >
-                                <path d="M4 4h7v7H4V4z" fill="#F6465D"></path>
-                                <path d="M4 13h7v7H4v-7z" fill="#0ECB81"></path>
-                                <path
-                                  fill-rule="evenodd"
-                                  clip-rule="evenodd"
-                                  d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
-                                  fill="currentColor"
-                                ></path>
-                              </svg>
-                            </button>
-                            <button
-                              data-bn-type="button"
-                              data-testid="buyModeButton"
-                              class=" css-1meiumy"
-                              onClick={bidorderbook}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                class="css-3kwgah"
-                              >
-                                <path d="M4 4h7v16H4V4z" fill="#0ECB81"></path>
-                                <path
-                                  fill-rule="evenodd"
-                                  clip-rule="evenodd"
-                                  d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
-                                  fill="currentColor"
-                                ></path>
-                              </svg>
-                            </button>
-                            <button
-                              data-bn-type="button"
-                              data-testid="sellModeButton"
-                              class=" css-1meiumy"
-                              onClick={askorderbook}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                class="css-3kwgah"
-                              >
-                                <path d="M4 4h7v16H4V4z" fill="#F6465D"></path>
-                                <path
-                                  fill-rule="evenodd"
-                                  clip-rule="evenodd"
-                                  d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
-                                  fill="currentColor"
-                                ></path>
-                              </svg>
-                            </button>
-                          </div>
+                      <div className="order_book">
+                        <div className="d-flex span-div justify-content-between">
+                          <span>{t("OrderBook")}</span>
+                          <span>
+                            <i class="fa-solid fa-ellipsis"></i>
+                          </span>
+                        </div>
+                        <div className="contant_scetion">
+                          <div className="orderbook-header ">
+                            <div class="orderbook-header-tips current-flex">
+                              <div>
+                                <button
+                                  data-bn-type="button"
+                                  data-testid="defaultModeButton"
+                                  class=" css-sz6ky9"
+                                  onClick={Fullorderbook}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    class="css-3kwgah"
+                                  >
+                                    <path
+                                      d="M4 4h7v7H4V4z"
+                                      fill="#F6465D"
+                                    ></path>
+                                    <path
+                                      d="M4 13h7v7H4v-7z"
+                                      fill="#0ECB81"
+                                    ></path>
+                                    <path
+                                      fill-rule="evenodd"
+                                      clip-rule="evenodd"
+                                      d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
+                                      fill="currentColor"
+                                    ></path>
+                                  </svg>
+                                </button>
+                                <button
+                                  data-bn-type="button"
+                                  data-testid="buyModeButton"
+                                  class=" css-1meiumy"
+                                  onClick={bidorderbook}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    class="css-3kwgah"
+                                  >
+                                    <path
+                                      d="M4 4h7v16H4V4z"
+                                      fill="#0ECB81"
+                                    ></path>
+                                    <path
+                                      fill-rule="evenodd"
+                                      clip-rule="evenodd"
+                                      d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
+                                      fill="currentColor"
+                                    ></path>
+                                  </svg>
+                                </button>
+                                <button
+                                  data-bn-type="button"
+                                  data-testid="sellModeButton"
+                                  class=" css-1meiumy"
+                                  onClick={askorderbook}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    class="css-3kwgah"
+                                  >
+                                    <path
+                                      d="M4 4h7v16H4V4z"
+                                      fill="#F6465D"
+                                    ></path>
+                                    <path
+                                      fill-rule="evenodd"
+                                      clip-rule="evenodd"
+                                      d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
+                                      fill="currentColor"
+                                    ></path>
+                                  </svg>
+                                </button>
+                              </div>
 
-                          {/* <div className="orderbook-num">
+                              {/* <div className="orderbook-num">
                           <span>0.01</span>{" "}
                           <span>
                             <i class="fa-solid fa-caret-down"></i>
                           </span>
                         </div> */}
+                            </div>
+                          </div>
+
+                          <div className="market_order">
+                            <article>
+                              <section class="orderbook-header ml-0 mr-0">
+                                <table width="100%">
+                                  <tr>
+                                    <th class="price" width="25%">
+                                      {t("price")}({pairDetails.to_symbol})
+                                    </th>
+                                    <th width="25%">
+                                      {t("amount")}({pairDetails.from_symbol})
+                                    </th>
+                                    <th width="25%">{t("total")}</th>
+                                  </tr>
+                                </table>
+                              </section>
+
+                              {orderbooksloaderref.current == true ? (
+                                <i class="fa-solid fa-spinner text-center fa-spin"></i>
+                              ) : (
+                                <>
+                                  <section class="side" id="asks">
+                                    <table
+                                      width="100%"
+                                      className="green_content"
+                                    >
+                                      {orderbookLoader == false ? (
+                                        ""
+                                      ) : orderbookaskref.current.length > 0 ? (
+                                        orderbookaskref.current.map(
+                                          (ask, i) => {
+                                            return (
+                                              <tr data-width="70">
+                                                <td
+                                                  width="25%"
+                                                  style={{ cursor: "pointer" }}
+                                                  className="price sell priceclick"
+                                                  onClick={() =>
+                                                    addPrice(ask[0])
+                                                  }
+                                                >
+                                                  {ask[0]}
+                                                </td>
+                                                <td width="25%">{ask[1]}</td>
+                                                <td width="25%">{ask[2]}</td>
+                                              </tr>
+                                            );
+                                          },
+                                        )
+                                      ) : (
+                                        <tr>
+                                          {" "}
+                                          <td
+                                            colSpan="3"
+                                            className="text-center"
+                                          >
+                                            {" "}
+                                            {t("Datanotfound!")}
+                                          </td>{" "}
+                                        </tr>
+                                      )}
+                                    </table>
+                                  </section>
+                                  {orderbookdivider == false ? (
+                                    ""
+                                  ) : (
+                                    <section class="divider">
+                                      <div className="current-flex">
+                                        <div class="current-price">
+                                          {parseFloat(marketPrice).toFixed(
+                                            pairDetails?.liq_price_decimal,
+                                          )}
+                                          <span>
+                                            <i class="fa-solid fa-arrow-down text-red"></i>
+                                          </span>
+                                          {/* <span className="current-down-price">
+                                      $67,850
+                                    </span> */}
+                                        </div>
+                                        <span className="current-right-arrow">
+                                          {" "}
+                                          <i class="fa-solid fa-angle-right"></i>
+                                        </span>
+                                      </div>
+                                    </section>
+                                  )}
+                                  <section class="side bids">
+                                    <table width="100%">
+                                      {orderbookLoaderbid == false ? (
+                                        ""
+                                      ) : orderbookbidref.current.length > 0 ? (
+                                        orderbookbidref.current.map(
+                                          (bid, i) => {
+                                            return (
+                                              <tr>
+                                                <td
+                                                  style={{ cursor: "pointer" }}
+                                                  width="25%"
+                                                  className="red-green price buy priceclick"
+                                                  onClick={() =>
+                                                    addPrice(bid[0])
+                                                  }
+                                                >
+                                                  {bid[0]}
+                                                </td>
+                                                <td width="25%">{bid[1]}</td>
+                                                <td width="25%">{bid[2]}</td>
+                                              </tr>
+                                            );
+                                          },
+                                        )
+                                      ) : (
+                                        <tr>
+                                          {" "}
+                                          <td
+                                            colSpan="3"
+                                            className="text-center"
+                                          >
+                                            {" "}
+                                            {t("Datanotfound")}
+                                          </td>{" "}
+                                        </tr>
+                                      )}
+                                    </table>
+                                  </section>
+                                </>
+                              )}
+                            </article>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="chart_trade">
+                        <div id="tv_chart_container"></div>
+                      </div>
+                      <div className="trades pb-0">
+                        <div className="">
+                          <div className="form_seldect__pair pt-0">
+                            <ul class="nav nav-pills mt-3">
+                              <li class="active">
+                                <a
+                                  // data-toggle="pill"
+                                  // href="#mtrade"
+                                  className={`${
+                                    activeTab === "mytrade" ? "active" : ""
+                                  }`}
+                                  onClick={() => setActiveTab("mytrade")}
+                                >
+                                  {t("MarketTrades")}
+                                </a>
+                              </li>
+                              <li>
+                                <a
+                                  className={`${
+                                    activeTab === "trade" ? "active" : ""
+                                  }`}
+                                  onClick={() => setActiveTab("trade")}
+                                >
+                                  {t("MyTrades")}
+                                </a>
+                              </li>
+                            </ul>
+
+                            <div class="tab-content pair_details">
+                              <div
+                                id="mtrade"
+                                class={`tab-pane fade in ${
+                                  activeTab === "mytrade" ? "show active" : ""
+                                } show bor_1 mar-top`}
+                              >
+                                <div class="fixTableHead mt-2">
+                                  <table>
+                                    <thead>
+                                      <tr>
+                                        <th className="market-trades">
+                                          {t("price")} ({pairDetails.to_symbol})
+                                        </th>
+                                        <th className="text-end market-trades">
+                                          {t("amount")} (
+                                          {pairDetails.from_symbol})
+                                        </th>
+                                        <th className="text-end market-trades">
+                                          {t("Time")}
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {!checkAuth ? (
+                                        <tr>
+                                          {" "}
+                                          <td colSpan="3">
+                                            <Button
+                                              className="Butn_header my-4 d-block mx-auto"
+                                              onClick={Movelogin}
+                                            >
+                                              <Link
+                                                to="/login"
+                                                className="text-black"
+                                              >
+                                                {t("Logintocontinue")}
+                                              </Link>
+                                            </Button>{" "}
+                                          </td>{" "}
+                                        </tr>
+                                      ) : marketTraderef.current.length > 0 ? (
+                                        marketTraderef.current.map(
+                                          (item, i) => {
+                                            return (
+                                              <tr className="position_rel_over">
+                                                {item.tradeType == "buy" ? (
+                                                  <td className="market-price-td">
+                                                    <span className="color-buy">
+                                                      {" "}
+                                                      {item.price}{" "}
+                                                    </span>
+                                                  </td>
+                                                ) : (
+                                                  <td className="market-price-td">
+                                                    <span className="red-green">
+                                                      {" "}
+                                                      {item.price}{" "}
+                                                    </span>
+                                                  </td>
+                                                )}
+                                                <td className="text-end">
+                                                  {item.amount}{" "}
+                                                </td>
+                                                <td className="text-end">
+                                                  {moment(item.time).format(
+                                                    "hh:mm:ss",
+                                                  )}{" "}
+                                                </td>
+                                              </tr>
+                                            );
+                                          },
+                                        )
+                                      ) : (
+                                        <tr>
+                                          <td
+                                            colSpan="3"
+                                            className="text-center mt-4"
+                                          >
+                                            {t("NoMarketTrades")}
+                                          </td>
+                                        </tr>
+                                      )}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+
+                              <div
+                                id="mytrade"
+                                class={`tab-pane ${
+                                  activeTab === "trade" ? "show active" : ""
+                                } fade show bor_1 mar-top`}
+                              >
+                                <div class="fixTableHead mt-2">
+                                  <table>
+                                    <thead>
+                                      <tr>
+                                        <th>
+                                          {" "}
+                                          {t("pair")}({pairDetails.to_symbol})
+                                        </th>
+                                        <th className="text-end">
+                                          {t("price")} (
+                                          {pairDetails.from_symbol})
+                                        </th>
+                                        <th className="text-end">
+                                          {t("Time")}
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {!checkAuth ? (
+                                        <tr>
+                                          {" "}
+                                          <td colSpan="3">
+                                            <Button
+                                              className="Butn_header my-4 d-block mx-auto"
+                                              onClick={Movelogin}
+                                            >
+                                              <Link
+                                                to="/login"
+                                                className="text-black"
+                                              >
+                                                {t("Logintocontinue")}
+                                              </Link>
+                                            </Button>{" "}
+                                          </td>{" "}
+                                        </tr>
+                                      ) : tradeHistoryData.length > 0 ? (
+                                        tradeHistoryData.map((item, i) => {
+                                          return (
+                                            <tr className="position_rel_over">
+                                              {item.type === "buy" ? (
+                                                <td>
+                                                  <span className="color-buy">
+                                                    {" "}
+                                                    {item.askPrice
+                                                      ? Number(
+                                                          item.askPrice,
+                                                        ).toFixed(2)
+                                                      : "0"}{" "}
+                                                  </span>
+                                                </td>
+                                              ) : (
+                                                <td>
+                                                  <span className="red-green">
+                                                    {" "}
+                                                    {item.askPrice
+                                                      ? Number(
+                                                          item.askPrice,
+                                                        ).toFixed(2)
+                                                      : "0"}{" "}
+                                                  </span>
+                                                </td>
+                                              )}
+                                              <td className="text-end">
+                                                {item.askAmount
+                                                  ? Number(
+                                                      item.askAmount,
+                                                    ).toFixed(4)
+                                                  : "0"}{" "}
+                                              </td>
+                                              <td className="text-end">
+                                                {moment(
+                                                  item.created_at,
+                                                ).isValid()
+                                                  ? moment(
+                                                      item.created_at,
+                                                    ).format("hh:mm:ss")
+                                                  : t("Invaliddate")}{" "}
+                                              </td>
+                                            </tr>
+                                          );
+                                        })
+                                      ) : (
+                                        <tr>
+                                          <td
+                                            colSpan="3"
+                                            className="text-center mt-4"
+                                          >
+                                            {t("NoMarketTrades")}
+                                          </td>
+                                        </tr>
+                                      )}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="market_order">
-                        <article>
-                          <section class="orderbook-header ml-0 mr-0">
-                            <table width="100%">
-                              <tr>
-                                <th class="price" width="25%">
-                                  {t("price")}({pairDetails.to_symbol})
-                                </th>
-                                <th width="25%">
-                                  {t("amount")}({pairDetails.from_symbol})
-                                </th>
-                                <th width="25%">{t("total")}</th>
-                              </tr>
-                            </table>
-                          </section>
+                      {/* search section */}
+                      <div className="markets">
+                        <div className="form_seldect__pair">
+                          <div className="searcj">
+                            <i class="ri-search-line"></i>
+                            <input
+                              type="text"
+                              placeholder="Search"
+                              onChange={handleInputChange}
+                              name="searchpair"
+                              minLength={1}
+                              maxLength={15}
+                              value={searchpair}
+                            />
+                          </div>
+                          <ul className="nav nav-pills">
+                            <li>
+                              <a onClick={() => handleTabClick("fav")}>
+                                <i
+                                  className={`ri-star-s-fill cursor-pointer ${
+                                    active1Tab === "fav" ? "text-warning" : ""
+                                  }`}
+                                ></i>
+                              </a>
+                            </li>
 
-                          {orderbooksloaderref.current == true ? (
-                            <i class="fa-solid fa-spinner text-center fa-spin"></i>
-                          ) : (
-                            <>
-                              <section class="side" id="asks">
-                                <table width="100%" className="green_content">
-                                  {orderbookLoader == false ? (
-                                    ""
-                                  ) : orderbookaskref.current.length > 0 ? (
-                                    orderbookaskref.current.map((ask, i) => {
-                                      return (
-                                        <tr data-width="70">
-                                          <td
-                                            width="25%"
-                                            style={{ cursor: "pointer" }}
-                                            className="price sell priceclick"
-                                            onClick={() => addPrice(ask[0])}
-                                          >
-                                            {ask[0]}
-                                          </td>
-                                          <td width="25%">{ask[1]}</td>
-                                          <td width="25%">{ask[2]}</td>
-                                        </tr>
-                                      );
-                                    })
-                                  ) : (
-                                    <tr>
-                                      {" "}
-                                      <td colSpan="3" className="text-center">
-                                        {" "}
-                                        {t("Datanotfound!")}
-                                      </td>{" "}
-                                    </tr>
-                                  )}
-                                </table>
-                              </section>
-                              {orderbookdivider == false ? (
-                                ""
-                              ) : (
-                                <section class="divider">
-                                  <div className="current-flex">
-                                    <div class="current-price">
-                                      {parseFloat(marketPrice).toFixed(
-                                        pairDetails?.liq_price_decimal
-                                      )}
-                                      <span>
-                                        <i class="fa-solid fa-arrow-down text-red"></i>
-                                      </span>
-                                      {/* <span className="current-down-price">
-                                      $67,850
-                                    </span> */}
-                                    </div>
-                                    <span className="current-right-arrow">
-                                      {" "}
-                                      <i class="fa-solid fa-angle-right"></i>
-                                    </span>
-                                  </div>
-                                </section>
-                              )}
-                              <section class="side bids">
-                                <table width="100%">
-                                  {orderbookLoaderbid == false ? (
-                                    ""
-                                  ) : orderbookbidref.current.length > 0 ? (
-                                    orderbookbidref.current.map((bid, i) => {
-                                      return (
+                            {Tocurrenciesref.current?.map((currency, index) => (
+                              <li
+                                key={index}
+                                className={
+                                  currency === selectedmarketref.current
+                                    ? "active"
+                                    : ""
+                                }
+                              >
+                                <a
+                                  data-toggle="tab"
+                                  // href={`#currency-${index}`}
+                                  className={
+                                    active1Tab != "fav" &&
+                                    currency == selectedmarketref.current
+                                      ? "active"
+                                      : ""
+                                  }
+                                  onClick={() => {
+                                    handleTabClick("currency");
+                                    selectPairbyCurrency(currency); // Handle currency click
+                                  }}
+                                >
+                                  {currency}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+
+                          <div class="tab-content pair_details">
+                            {active1Tab == "fav" ? (
+                              <div
+                                id="fav"
+                                className="tab-pane fade in active show bor_1 mar-top"
+                              >
+                                <div class="fixTableHead mt-2">
+                                  <table>
+                                    <thead>
+                                      <tr>
+                                        <th>{t("pair")}</th>
+                                        <th className="text-end">
+                                          {t("price")}
+                                        </th>
+                                        <th className="text-end">
+                                          {t("Change")}
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {sideLoader == true ? (
                                         <tr>
                                           <td
-                                            style={{ cursor: "pointer" }}
-                                            width="25%"
-                                            className="red-green price buy priceclick"
-                                            onClick={() => addPrice(bid[0])}
+                                            colSpan="3"
+                                            className="text-center"
                                           >
-                                            {bid[0]}
+                                            <i className="fa-solid fa-spinner fa-spin text-center tradeicons"></i>
                                           </td>
-                                          <td width="25%">{bid[1]}</td>
-                                          <td width="25%">{bid[2]}</td>
                                         </tr>
-                                      );
-                                    })
-                                  ) : (
-                                    <tr>
-                                      {" "}
-                                      <td colSpan="3" className="text-center">
-                                        {" "}
-                                        {t("Datanotfound")}
-                                      </td>{" "}
-                                    </tr>
-                                  )}
-                                </table>
-                              </section>
-                            </>
-                          )}
-                        </article>
+                                      ) : favpairlist &&
+                                        favpairlist.length > 0 ? (
+                                        favpairlist.map((obj, i) => {
+                                          // Check if the current pair is in the favorite pairs list
+                                          const isFavorite = favpairs?.includes(
+                                            obj.pair,
+                                          );
+
+                                          return (
+                                            <tr
+                                              className={`pair_section ${
+                                                obj.pair === pair
+                                                  ? "active"
+                                                  : ""
+                                              } curpoint`}
+                                              key={i}
+                                            >
+                                              <td>
+                                                <div className="d-flex align-items-center gap-2">
+                                                  <li className="list-unstyled">
+                                                    <p
+                                                      className="text-decoration-none"
+                                                      onClick={() =>
+                                                        favpair(obj)
+                                                      }
+                                                    >
+                                                      <i
+                                                        className={`ri-star-s-fill cursor-pointer ${
+                                                          isFavorite
+                                                            ? "text-warning"
+                                                            : ""
+                                                        }`}
+                                                      ></i>{" "}
+                                                      {/* Apply yellow color if favorite */}
+                                                    </p>
+                                                  </li>
+                                                  <h2
+                                                    onClick={() =>
+                                                      pairChange(obj)
+                                                    }
+                                                  >
+                                                    {obj.from_symbol} /
+                                                    <small>
+                                                      {" "}
+                                                      {obj.to_symbol}
+                                                    </small>
+                                                  </h2>
+                                                </div>
+                                              </td>
+
+                                              <td
+                                                onClick={() => pairChange(obj)}
+                                                className="text-end"
+                                              >
+                                                <div className="price_symbol">
+                                                  <small>
+                                                    <span className="material-symbols-outlined"></span>
+                                                  </small>
+                                                  {obj.lastprice == null ||
+                                                  obj.lastprice === undefined ||
+                                                  obj.lastprice === "" ? (
+                                                    0.0
+                                                  ) : (
+                                                    <span className="text-white">
+                                                      {parseFloat(
+                                                        obj.lastprice,
+                                                      ).toFixed(
+                                                        pairDetails?.liq_price_decimal,
+                                                      )}
+                                                    </span>
+                                                  )}
+                                                </div>
+                                              </td>
+
+                                              <td
+                                                onClick={() => pairChange(obj)}
+                                                className="text-right"
+                                              >
+                                                {obj.price_change <= 0 ? (
+                                                  <p>
+                                                    <i className="bi bi-caret-down-fill"></i>{" "}
+                                                    <span className="price_red">
+                                                      {obj.price_change}%
+                                                    </span>
+                                                  </p>
+                                                ) : (
+                                                  <p>
+                                                    <i className="bi bi-caret-up-fill"></i>{" "}
+                                                    <span className="price_green">
+                                                      {obj.price_change}%
+                                                    </span>
+                                                  </p>
+                                                )}
+                                              </td>
+                                            </tr>
+                                          );
+                                        })
+                                      ) : (
+                                        <tr>
+                                          <td colSpan="3">
+                                            {t("Datanotfound")}
+                                          </td>
+                                        </tr>
+                                      )}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            ) : (
+                              <div
+                                id="USDT"
+                                className="tab-pane fade in active show bor_1 mar-top
+                      "
+                              >
+                                <div class="fixTableHead mt-2">
+                                  <table>
+                                    <thead>
+                                      <tr>
+                                        <th>{t("pair")}</th>
+                                        <th className="text-end">
+                                          {t("price")}
+                                        </th>
+                                        <th className="text-end">
+                                          {t("change")}
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {sideLoader == true ? (
+                                        <tr>
+                                          <td
+                                            colSpan="3"
+                                            className="text-center"
+                                          >
+                                            <i className="fa-solid fa-spinner fa-spin text-center tradeicons"></i>
+                                          </td>
+                                        </tr>
+                                      ) : pairlist && pairlist.length > 0 ? (
+                                        pairlist.map((obj, i) => {
+                                          // Check if the current pair is in the favorite pairs list
+                                          const isFavorite = favpairs?.includes(
+                                            obj.pair,
+                                          );
+                                          return (
+                                            <tr
+                                              className={`pair_section ${
+                                                obj.pair === pair
+                                                  ? "active"
+                                                  : ""
+                                              } curpoint`}
+                                              key={i}
+                                            >
+                                              <td>
+                                                <div className="d-flex align-items-center gap-2">
+                                                  <li className="list-unstyled">
+                                                    <p
+                                                      className="text-decoration-none"
+                                                      onClick={() =>
+                                                        favpair(obj)
+                                                      }
+                                                    >
+                                                      <i
+                                                        className={`ri-star-s-fill cursor-pointer ${
+                                                          isFavorite
+                                                            ? "text-warning"
+                                                            : ""
+                                                        }`}
+                                                      ></i>{" "}
+                                                      {/* Apply yellow color if favorite */}
+                                                    </p>
+                                                  </li>
+                                                  <h2
+                                                    onClick={() =>
+                                                      pairChange(obj)
+                                                    }
+                                                  >
+                                                    {obj.from_symbol} /
+                                                    <small>
+                                                      {" "}
+                                                      {obj.to_symbol}
+                                                    </small>
+                                                  </h2>
+                                                </div>
+                                              </td>
+
+                                              <td
+                                                onClick={() => pairChange(obj)}
+                                                className="text-end"
+                                              >
+                                                <div className="price_symbol">
+                                                  <small>
+                                                    <span className="material-symbols-outlined"></span>
+                                                  </small>
+                                                  {obj.lastprice == null ||
+                                                  obj.lastprice === undefined ||
+                                                  obj.lastprice === "" ? (
+                                                    0.0
+                                                  ) : (
+                                                    <span className="text-white">
+                                                      {parseFloat(
+                                                        obj.lastprice,
+                                                      ).toFixed(
+                                                        pairDetails?.liq_price_decimal,
+                                                      )}
+                                                    </span>
+                                                  )}
+                                                </div>
+                                              </td>
+
+                                              <td
+                                                onClick={() => pairChange(obj)}
+                                                className="text-right"
+                                              >
+                                                {obj.price_change <= 0 ? (
+                                                  <p>
+                                                    <i className="bi bi-caret-down-fill"></i>{" "}
+                                                    <span className="price_red">
+                                                      {obj.price_change}%
+                                                    </span>
+                                                  </p>
+                                                ) : (
+                                                  <p>
+                                                    <i className="bi bi-caret-up-fill"></i>{" "}
+                                                    <span className="price_green">
+                                                      {obj.price_change}%
+                                                    </span>
+                                                  </p>
+                                                )}
+                                              </td>
+                                            </tr>
+                                          );
+                                        })
+                                      ) : (
+                                        <tr>
+                                          <td colSpan="3">
+                                            {t("Datanotfound")}
+                                          </td>
+                                        </tr>
+                                      )}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="chart_trade">
-                    <div id="tv_chart_container"></div>
-                  </div>
-                  <div className="trades pb-0">
-                    <div className="">
-                      <div className="form_seldect__pair pt-0">
-                        <ul class="nav nav-pills mt-3">
+
+                      {/* orders section(open,cancel,history) */}
+                      <div className="basictable tradeform">
+                        <ul class="nav nav-pills mt-4 d-flex gap-2">
                           <li class="active">
                             <a
-                              // data-toggle="pill"
-                              // href="#mtrade"
-                              className={`${
-                                activeTab === "mytrade" ? "active" : ""
+                              // data-toggle="tab"
+                              // data-target="#OpenOrders"
+                              // className="active"
+
+                              className={`cursor-pointer d-inline-block ${
+                                historyactiveTab === "openorders"
+                                  ? "active"
+                                  : ""
                               }`}
-                              onClick={() => setActiveTab("mytrade")}
+                              onClick={() => sethistoryActiveTab("openorders")}
                             >
-                              {t("MarketTrades")}
+                              {t("OpenOrders")}
+                              <div>
+                                <span />
+                              </div>
                             </a>
                           </li>
                           <li>
                             <a
-                              className={`${
-                                activeTab === "trade" ? "active" : ""
+                              // data-toggle="tab"
+                              // href="#OrderHistory"
+                              // onClick={callOrdehistory}
+
+                              className={`cursor-pointer d-inline-block ${
+                                historyactiveTab === "orderhistory"
+                                  ? "active"
+                                  : ""
                               }`}
-                              onClick={() => setActiveTab("trade")}
+                              onClick={() =>
+                                sethistoryActiveTab("orderhistory")
+                              }
                             >
-                              {t("MyTrades")}
+                              {t("OrderHistory")}
+                              <div>
+                                <span />
+                              </div>
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              // data-toggle="tab"
+                              // href="#OrderBook"
+                              // onClick={callCancelOrder}
+
+                              className={`cursor-pointer d-inline-block ${
+                                historyactiveTab === "cancelorder"
+                                  ? "active"
+                                  : ""
+                              }`}
+                              onClick={() => sethistoryActiveTab("cancelorder")}
+                            >
+                              {t("CancelOrders")}
+                              <div>
+                                <span />
+                              </div>
+                            </a>
+                          </li>
+                        </ul>
+                        <div class="tab-content pair_details pading_oedar marno_neww">
+                          {/* ==========ACTIVE OREDERS========== */}
+                          <div
+                            id="OpenOrders"
+                            class={`tab-pane fade in ${
+                              historyactiveTab === "openorders"
+                                ? "show active"
+                                : ""
+                            }`}
+                          >
+                            <div className="table-responsive">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th>{t("date")}</th>
+                                    <th>{t("pair")} </th>
+                                    <th>{t("price")} </th>
+                                    <th>{t("side")} </th>
+                                    <th>{t("orderType")} </th>
+                                    <th>{t("amount")} </th>
+                                    <th>{t("total")} </th>
+                                    <th className="text-end">{t("Action")}/</th>
+                                  </tr>
+                                </thead>
+
+                                {/* for styles, refer mockdata tbody, I've written below*/}
+                                <tbody>
+                                  {activeOrderDatas.length > 0 ? (
+                                    activeOrderDatas.map((item, i) => {
+                                      var dates = moment(
+                                        item.createddate,
+                                      ).format("lll");
+
+                                      return (
+                                        <tr>
+                                          <td className="new_td_pad_y">
+                                            {dates}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.pairName}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.tradeType == "buy" ? (
+                                              <span className="text-green">
+                                                {parseFloat(item.price).toFixed(
+                                                  8,
+                                                )}{" "}
+                                              </span>
+                                            ) : (
+                                              <span className="text-red">
+                                                {parseFloat(item.price).toFixed(
+                                                  8,
+                                                )}{" "}
+                                              </span>
+                                            )}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {" "}
+                                            {item.tradeType}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {" "}
+                                            {item.ordertype}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {" "}
+                                            {parseFloat(
+                                              item.filledAmount,
+                                            ).toFixed(8)}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {parseFloat(
+                                              item.filledAmount * item.price,
+                                            ).toFixed(8)}
+                                          </td>
+                                          <td className="d-flex justify-content-end bornew_none new_td_pad_y">
+                                            <Button
+                                              className="btn historybtn"
+                                              onClick={() => orderCancel(item)}
+                                            >
+                                              {t("cancel")}
+                                            </Button>
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                  ) : (
+                                    <tr>
+                                      {" "}
+                                      {!checkAuth ? (
+                                        <td colSpan="8">
+                                          <Button
+                                            className="Butn_header my-4 d-block mx-auto"
+                                            onClick={Movelogin}
+                                          >
+                                            <Link
+                                              to="/login"
+                                              className="text-black"
+                                            >
+                                              {t("Logintocontinue")}
+                                            </Link>
+                                          </Button>{" "}
+                                        </td>
+                                      ) : (
+                                        <td
+                                          colSpan="8"
+                                          className="text-center new_open_pt"
+                                        >
+                                          {" "}
+                                          {t("Noopenordersfound!")}
+                                        </td>
+                                      )}
+                                    </tr>
+                                  )}
+                                </tbody>
+                              </table>
+                              {activeOrderDatas &&
+                              activeOrderDatas.length > 0 ? (
+                                <div className="pagination mt-4">
+                                  <Stack spacing={2}>
+                                    <Pagination
+                                      count={totalactive}
+                                      page={currentPage}
+                                      onChange={activePageChange}
+                                      size="small"
+                                      sx={{
+                                        "& .MuiPaginationItem-root": {
+                                          color: "#fff", // Default text color for pagination items
+                                          // backgroundColor: "#2D1E23",
+                                          // "&:hover": {
+                                          //   backgroundColor: "#453a1f",
+                                          //   color: "#ffc630",
+                                          // },
+                                        },
+                                        "& .Mui-selected": {
+                                          backgroundColor: "#bd7f10 !important", // Background color for selected item
+                                          color: "#000", // Text color for selected item
+                                          "&:hover": {
+                                            backgroundColor: "#bd7f10",
+                                            color: "#000",
+                                          },
+                                        },
+                                        "& .MuiPaginationItem-ellipsis": {
+                                          color: "#fff", // Color for ellipsis
+                                        },
+                                        "& .MuiPaginationItem-icon": {
+                                          color: "#fff", // Color for icon (if present)
+                                        },
+                                      }}
+                                      // renderItem={(item) => (
+                                      //   <PaginationItem
+                                      //     slots={{
+                                      //       previous: ArrowBackIcon,
+                                      //       next: ArrowForwardIcon,
+                                      //     }}
+                                      //     {...item}
+                                      //   />
+                                      // )}
+                                    />
+                                  </Stack>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </div>
+
+                          {/* ==========OREDERS HISTORY========== */}
+                          <div
+                            id="OrderHistory"
+                            class={`${
+                              historyactiveTab === "orderhistory"
+                                ? "show active"
+                                : ""
+                            } tab-pane fade`}
+                          >
+                            <div className="table-responsive">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th>{t("date")}</th>
+                                    <th>{t("pair")} </th>
+                                    <th>{t("Type")} </th>
+                                    <th>{t("price")} </th>
+                                    <th>{t("amount")} </th>
+                                    <th>{t("Fees")} </th>
+                                    <th>{t("total")} </th>
+                                  </tr>
+                                </thead>
+
+                                <tbody>
+                                  {tradeHistoryData.length > 0 ? (
+                                    tradeHistoryData.map((item, i) => {
+                                      var datesHis = moment(
+                                        item.created_at,
+                                      ).format("lll");
+                                      return (
+                                        <tr>
+                                          <td className="new_td_pad_y">
+                                            {datesHis}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.pair}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.type}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.type == "buy" ? (
+                                              <span className="text-green">
+                                                {" "}
+                                                {item.askPrice}{" "}
+                                              </span>
+                                            ) : (
+                                              <span className="text-red">
+                                                {" "}
+                                                {item.askPrice}{" "}
+                                              </span>
+                                            )}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {" "}
+                                            {item.askAmount}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.type == "buy" ? (
+                                              <span className="text-green">
+                                                {" "}
+                                                {item.buy_fee}{" "}
+                                                {/* {ptkstatus == 1
+                                              ? "PTK"
+                                              : item.base_currency} */}
+                                                {item.fee_currency_buy}
+                                              </span>
+                                            ) : (
+                                              <span className="text-red">
+                                                {" "}
+                                                {item.sell_fee}{" "}
+                                                {/* {ptkstatus == 1
+                                              ? "PTK"
+                                              : item.quote_currency} */}
+                                                {item.fee_currency_sell}
+                                              </span>
+                                            )}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.total}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                  ) : (
+                                    <tr>
+                                      {" "}
+                                      {!checkAuth ? (
+                                        <td colSpan="6">
+                                          <Button
+                                            className="Butn_header my-4 d-block mx-auto"
+                                            onClick={Movelogin}
+                                          >
+                                            <Link
+                                              to="/login"
+                                              className="text-black"
+                                            >
+                                              {t("Logintocontinue")}
+                                            </Link>
+                                          </Button>{" "}
+                                        </td>
+                                      ) : (
+                                        <td colSpan="6" className="text-center">
+                                          {" "}
+                                          {t("NoordershistoryFound")}
+                                        </td>
+                                      )}{" "}
+                                    </tr>
+                                  )}
+                                </tbody>
+                              </table>
+
+                              {tradeHistoryData &&
+                              tradeHistoryData.length > 0 ? (
+                                <div className="pagination mt-4">
+                                  <Stack spacing={2}>
+                                    <Pagination
+                                      count={totalHist}
+                                      page={currentPageHis}
+                                      onChange={orderhistoryactive}
+                                      size="small"
+                                      sx={{
+                                        "& .MuiPaginationItem-root": {
+                                          color: "#fff", // Default text color for pagination items
+                                          // backgroundColor: "#2D1E23",
+                                          // "&:hover": {
+                                          //   backgroundColor: "#453a1f",
+                                          //   color: "#ffc630",
+                                          // },
+                                        },
+                                        "& .Mui-selected": {
+                                          backgroundColor: "#bd7f10 !important", // Background color for selected item
+                                          color: "#000", // Text color for selected item
+                                          "&:hover": {
+                                            backgroundColor: "#bd7f10",
+                                            color: "#000",
+                                          },
+                                        },
+                                        "& .MuiPaginationItem-ellipsis": {
+                                          color: "#fff", // Color for ellipsis
+                                        },
+                                        "& .MuiPaginationItem-icon": {
+                                          color: "#fff", // Color for icon (if present)
+                                        },
+                                      }}
+                                      // renderItem={(item) => (
+                                      //   <PaginationItem
+                                      //     slots={{
+                                      //       previous: ArrowBackIcon,
+                                      //       next: ArrowForwardIcon,
+                                      //     }}
+                                      //     {...item}
+                                      //   />
+                                      // )}
+                                    />
+                                  </Stack>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </div>
+
+                          {/* ==========OREDERS Book========== */}
+                          <div
+                            id="OrderBook"
+                            class={` ${
+                              historyactiveTab === "cancelorder"
+                                ? "show active"
+                                : ""
+                            } tab-pane fade`}
+                          >
+                            <div className="table-responsive">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th>{t("date")}</th>
+                                    <th>{t("pair")} </th>
+                                    <th>{t("side")} </th>
+                                    <th>{t("Type")} </th>
+                                    <th>{t("price")} </th>
+                                    <th>{t("amount")} </th>
+                                    <th>{t("total")} </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {cancelOrders.length > 0 ? (
+                                    cancelOrders.map((item, i) => {
+                                      var total =
+                                        item.ordertype == "Stop"
+                                          ? +item.filledAmount *
+                                            +item.stoporderprice
+                                          : +item.filledAmount * +item.price;
+                                      return (
+                                        <tr>
+                                          <td className="new_td_pad_y">
+                                            {item.createddate}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.pairName}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.tradeType == "buy" ? (
+                                              <span className="text-green">
+                                                {" "}
+                                                {t("buy")}{" "}
+                                              </span>
+                                            ) : (
+                                              <span className="text-red">
+                                                {" "}
+                                                Sell{" "}
+                                              </span>
+                                            )}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {item.ordertype}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            <span className="text-green">
+                                              {item.ordertype == "Stop"
+                                                ? parseFloat(
+                                                    item.stoporderprice,
+                                                  ).toFixed(8)
+                                                : parseFloat(
+                                                    item.price,
+                                                  ).toFixed(8)}{" "}
+                                            </span>
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {" "}
+                                            {item.amount}{" "}
+                                          </td>
+                                          <td className="new_td_pad_y">
+                                            {/* {parseFloat(total).toFixed(pairDetails?.liq_price_decimal)} */}
+                                            {parseFloat(total).toFixed(8)}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                  ) : (
+                                    <tr>
+                                      {" "}
+                                      {!checkAuth ? (
+                                        <td colSpan="7">
+                                          <Button
+                                            className="Butn_header my-4 d-block mx-auto"
+                                            onClick={Movelogin}
+                                          >
+                                            <Link
+                                              to="/login"
+                                              className="text-black"
+                                            >
+                                              {t("Logintocontinue")}
+                                            </Link>
+                                          </Button>{" "}
+                                        </td>
+                                      ) : (
+                                        <td colSpan="7" className="text-center">
+                                          {" "}
+                                          {t("Nocancelordersfound")}!{" "}
+                                        </td>
+                                      )}
+                                    </tr>
+                                  )}
+                                </tbody>
+                              </table>
+                              {cancelOrders && cancelOrders.length > 0 ? (
+                                <div className="pagination mt-4">
+                                  <Stack spacing={2}>
+                                    <Pagination
+                                      count={totalcan}
+                                      page={currentPagecan}
+                                      onChange={cancelPageChange}
+                                      size="small"
+                                      sx={{
+                                        "& .MuiPaginationItem-root": {
+                                          color: "#fff", // Default text color for pagination items
+                                          // backgroundColor: "#2D1E23",
+                                          // "&:hover": {
+                                          //   backgroundColor: "#453a1f",
+                                          //   color: "#ffc630",
+                                          // },
+                                        },
+                                        "& .Mui-selected": {
+                                          backgroundColor: "#bd7f10 !important", // Background color for selected item
+                                          color: "#000", // Text color for selected item
+                                          "&:hover": {
+                                            backgroundColor: "#bd7f10",
+                                            color: "#000",
+                                          },
+                                        },
+                                        "& .MuiPaginationItem-ellipsis": {
+                                          color: "#fff", // Color for ellipsis
+                                        },
+                                        "& .MuiPaginationItem-icon": {
+                                          color: "#fff", // Color for icon (if present)
+                                        },
+                                      }}
+                                      // renderItem={(item) => (
+                                      //   <PaginationItem
+                                      //     slots={{
+                                      //       previous: ArrowBackIcon,
+                                      //       next: ArrowForwardIcon,
+                                      //     }}
+                                      //     {...item}
+                                      //   />
+                                      // )}
+                                    />
+                                  </Stack>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* <PriceFooter /> */}
+                      <div className="markert_activity">
+                        <div class="css-13fs1br">
+                          {t("TopMovers")}{" "}
+                          <span>
+                            <i class="fa-solid fa-angles-down"></i>
+                          </span>{" "}
+                        </div>
+
+                        <ul class="nav nav-pills">
+                          <li onClick={() => setmoves("all")}>
+                            <a
+                              className={
+                                movesref.current == "all" ? "active" : ""
+                              }
+                            >
+                              {t("all")}
+                            </a>
+                          </li>
+                          <li onClick={() => setmoves("high")}>
+                            <a
+                              className={
+                                movesref.current == "high" ? "active" : ""
+                              }
+                            >
+                              {t("NewHigh")}
+                            </a>
+                          </li>
+                          <li onClick={() => setmoves("low")}>
+                            <a
+                              className={
+                                movesref.current == "low" ? "active" : ""
+                              }
+                            >
+                              {t("NewLow")}
                             </a>
                           </li>
                         </ul>
 
+                        {/* <div class="tab-content pair_details pading_tabs_content"> */}
                         <div class="tab-content pair_details">
                           <div
-                            id="mtrade"
-                            class={`tab-pane fade in ${
-                              activeTab === "mytrade" ? "show active" : ""
-                            } show bor_1 mar-top`}
-                          >
-                            <div class="fixTableHead mt-2">
-                              <table>
-                                <thead>
-                                  <tr>
-                                    <th className="market-trades">
-                                      {t("price")} ({pairDetails.to_symbol})
-                                    </th>
-                                    <th className="text-end market-trades">
-                                      {t("amount")} ({pairDetails.from_symbol})
-                                    </th>
-                                    <th className="text-end market-trades">
-                                      {t("Time")}
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {!checkAuth ? (
-                                    <tr>
-                                      {" "}
-                                      <td colSpan="3">
-                                        <Button
-                                          className="Butn_header my-4 d-block mx-auto"
-                                          onClick={Movelogin}
-                                        >
-                                          <Link
-                                            to="/login"
-                                            className="text-black"
-                                          >
-                                            {t("Logintocontinue")}
-                                          </Link>
-                                        </Button>{" "}
-                                      </td>{" "}
-                                    </tr>
-                                  ) : marketTraderef.current.length > 0 ? (
-                                    marketTraderef.current.map((item, i) => {
-                                      return (
-                                        <tr className="position_rel_over">
-                                          {item.tradeType == "buy" ? (
-                                            <td className="market-price-td">
-                                              <span className="color-buy">
-                                                {" "}
-                                                {item.price}{" "}
-                                              </span>
-                                            </td>
-                                          ) : (
-                                            <td className="market-price-td">
-                                              <span className="red-green">
-                                                {" "}
-                                                {item.price}{" "}
-                                              </span>
-                                            </td>
-                                          )}
-                                          <td className="text-end">
-                                            {item.amount}{" "}
-                                          </td>
-                                          <td className="text-end">
-                                            {moment(item.time).format(
-                                              "hh:mm:ss"
-                                            )}{" "}
-                                          </td>
-                                        </tr>
-                                      );
-                                    })
-                                  ) : (
-                                    <tr>
-                                      <td
-                                        colSpan="3"
-                                        className="text-center mt-4"
-                                      >
-                                        {t("NoMarketTrades")}
-                                      </td>
-                                    </tr>
-                                  )}
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-
-                          <div
-                            id="mytrade"
-                            class={`tab-pane ${
-                              activeTab === "trade" ? "show active" : ""
-                            } fade show bor_1 mar-top`}
-                          >
-                            <div class="fixTableHead mt-2">
-                              <table>
-                                <thead>
-                                  <tr>
-                                    <th>
-                                      {" "}
-                                      {t("pair")}({pairDetails.to_symbol})
-                                    </th>
-                                    <th className="text-end">
-                                      {t("price")} ({pairDetails.from_symbol})
-                                    </th>
-                                    <th className="text-end">{t("Time")}</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {!checkAuth ? (
-                                    <tr>
-                                      {" "}
-                                      <td colSpan="3">
-                                        <Button
-                                          className="Butn_header my-4 d-block mx-auto"
-                                          onClick={Movelogin}
-                                        >
-                                          <Link
-                                            to="/login"
-                                            className="text-black"
-                                          >
-                                            {t("Logintocontinue")}
-                                          </Link>
-                                        </Button>{" "}
-                                      </td>{" "}
-                                    </tr>
-                                  ) : tradeHistoryData.length > 0 ? (
-                                    tradeHistoryData.map((item, i) => {
-                                      return (
-                                        <tr className="position_rel_over">
-                                          {item.type === "buy" ? (
-                                            <td>
-                                              <span className="color-buy">
-                                                {" "}
-                                                {item.askPrice
-                                                  ? Number(
-                                                      item.askPrice
-                                                    ).toFixed(2)
-                                                  : "0"}{" "}
-                                              </span>
-                                            </td>
-                                          ) : (
-                                            <td>
-                                              <span className="red-green">
-                                                {" "}
-                                                {item.askPrice
-                                                  ? Number(
-                                                      item.askPrice
-                                                    ).toFixed(2)
-                                                  : "0"}{" "}
-                                              </span>
-                                            </td>
-                                          )}
-                                          <td className="text-end">
-                                            {item.askAmount
-                                              ? Number(item.askAmount).toFixed(
-                                                  4
-                                                )
-                                              : "0"}{" "}
-                                          </td>
-                                          <td className="text-end">
-                                            {moment(item.created_at).isValid()
-                                              ? moment(item.created_at).format(
-                                                  "hh:mm:ss"
-                                                )
-                                              : t("Invaliddate")}{" "}
-                                          </td>
-                                        </tr>
-                                      );
-                                    })
-                                  ) : (
-                                    <tr>
-                                      <td
-                                        colSpan="3"
-                                        className="text-center mt-4"
-                                      >
-                                        {t("NoMarketTrades")}
-                                      </td>
-                                    </tr>
-                                  )}
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* search section */}
-                  <div className="markets">
-                    <div className="form_seldect__pair">
-                      <div className="searcj">
-                        <i class="ri-search-line"></i>
-                        <input
-                          type="text"
-                          placeholder="Search"
-                          onChange={handleInputChange}
-                          name="searchpair"
-                          minLength={1}
-                          maxLength={15}
-                          value={searchpair}
-                        />
-                      </div>
-                      <ul className="nav nav-pills">
-                        <li>
-                          <a onClick={() => handleTabClick("fav")}>
-                            <i
-                              className={`ri-star-s-fill cursor-pointer ${
-                                active1Tab === "fav" ? "text-warning" : ""
-                              }`}
-                            ></i>
-                          </a>
-                        </li>
-
-                        {Tocurrenciesref.current?.map((currency, index) => (
-                          <li
-                            key={index}
-                            className={
-                              currency === selectedmarketref.current
-                                ? "active"
+                            id="All"
+                            class={`tab-pane new_chn_bugbor fade in ${
+                              movesref.current == "all" ||
+                              movesref.current == "high"
+                                ? "active show"
                                 : ""
-                            }
+                            } `}
                           >
-                            <a
-                              data-toggle="tab"
-                              // href={`#currency-${index}`}
-                              className={
-                                active1Tab != "fav" &&
-                                currency == selectedmarketref.current
-                                  ? "active"
-                                  : ""
-                              }
-                              onClick={() => {
-                                handleTabClick("currency");
-                                selectPairbyCurrency(currency); // Handle currency click
-                              }}
-                            >
-                              {currency}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-
-                      <div class="tab-content pair_details">
-                        {active1Tab == "fav" ? (
-                          <div
-                            id="fav"
-                            className="tab-pane fade in active show bor_1 mar-top"
-                          >
-                            <div class="fixTableHead mt-2">
-                              <table>
-                                <thead>
-                                  <tr>
-                                    <th>{t("pair")}</th>
-                                    <th className="text-end">{t("price")}</th>
-                                    <th className="text-end">{t("Change")}</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {sideLoader == true ? (
-                                    <tr>
-                                      <td colSpan="3" className="text-center">
-                                        <i className="fa-solid fa-spinner fa-spin text-center tradeicons"></i>
-                                      </td>
-                                    </tr>
-                                  ) : favpairlist && favpairlist.length > 0 ? (
-                                    favpairlist.map((obj, i) => {
-                                      // Check if the current pair is in the favorite pairs list
-                                      const isFavorite = favpairs?.includes(
-                                        obj.pair
-                                      );
-
-                                      return (
-                                        <tr
-                                          className={`pair_section ${
-                                            obj.pair === pair ? "active" : ""
-                                          } curpoint`}
-                                          key={i}
-                                        >
-                                          <td>
-                                            <div className="d-flex align-items-center gap-2">
-                                              <li className="list-unstyled">
-                                                <p
-                                                  className="text-decoration-none"
-                                                  onClick={() => favpair(obj)}
-                                                >
-                                                  <i
-                                                    className={`ri-star-s-fill cursor-pointer ${
-                                                      isFavorite
-                                                        ? "text-warning"
-                                                        : ""
-                                                    }`}
-                                                  ></i>{" "}
-                                                  {/* Apply yellow color if favorite */}
-                                                </p>
-                                              </li>
-                                              <h2
-                                                onClick={() => pairChange(obj)}
-                                              >
-                                                {obj.from_symbol} /
-                                                <small> {obj.to_symbol}</small>
-                                              </h2>
-                                            </div>
-                                          </td>
-
-                                          <td
-                                            onClick={() => pairChange(obj)}
-                                            className="text-end"
-                                          >
-                                            <div className="price_symbol">
-                                              <small>
-                                                <span className="material-symbols-outlined"></span>
-                                              </small>
-                                              {obj.lastprice == null ||
-                                              obj.lastprice === undefined ||
-                                              obj.lastprice === "" ? (
-                                                0.0
-                                              ) : (
-                                                <span className="text-white">
-                                                  {parseFloat(
-                                                    obj.lastprice
-                                                  ).toFixed(
-                                                    pairDetails?.liq_price_decimal
-                                                  )}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </td>
-
-                                          <td
-                                            onClick={() => pairChange(obj)}
-                                            className="text-right"
-                                          >
-                                            {obj.price_change <= 0 ? (
-                                              <p>
-                                                <i className="bi bi-caret-down-fill"></i>{" "}
-                                                <span className="price_red">
-                                                  {obj.price_change}%
-                                                </span>
-                                              </p>
-                                            ) : (
-                                              <p>
-                                                <i className="bi bi-caret-up-fill"></i>{" "}
-                                                <span className="price_green">
-                                                  {obj.price_change}%
-                                                </span>
-                                              </p>
-                                            )}
-                                          </td>
-                                        </tr>
-                                      );
-                                    })
-                                  ) : (
-                                    <tr>
-                                      <td colSpan="3">{t("Datanotfound")}</td>
-                                    </tr>
-                                  )}
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        ) : (
-                          <div
-                            id="USDT"
-                            className="tab-pane fade in active show bor_1 mar-top
-                      "
-                          >
-                            <div class="fixTableHead mt-2">
-                              <table>
-                                <thead>
-                                  <tr>
-                                    <th>{t("pair")}</th>
-                                    <th className="text-end">{t("price")}</th>
-                                    <th className="text-end">{t("change")}</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {sideLoader == true ? (
-                                    <tr>
-                                      <td colSpan="3" className="text-center">
-                                        <i className="fa-solid fa-spinner fa-spin text-center tradeicons"></i>
-                                      </td>
-                                    </tr>
-                                  ) : pairlist && pairlist.length > 0 ? (
-                                    pairlist.map((obj, i) => {
-                                      // Check if the current pair is in the favorite pairs list
-                                      const isFavorite = favpairs?.includes(
-                                        obj.pair
-                                      );
-                                      return (
-                                        <tr
-                                          className={`pair_section ${
-                                            obj.pair === pair ? "active" : ""
-                                          } curpoint`}
-                                          key={i}
-                                        >
-                                          <td>
-                                            <div className="d-flex align-items-center gap-2">
-                                              <li className="list-unstyled">
-                                                <p
-                                                  className="text-decoration-none"
-                                                  onClick={() => favpair(obj)}
-                                                >
-                                                  <i
-                                                    className={`ri-star-s-fill cursor-pointer ${
-                                                      isFavorite
-                                                        ? "text-warning"
-                                                        : ""
-                                                    }`}
-                                                  ></i>{" "}
-                                                  {/* Apply yellow color if favorite */}
-                                                </p>
-                                              </li>
-                                              <h2
-                                                onClick={() => pairChange(obj)}
-                                              >
-                                                {obj.from_symbol} /
-                                                <small> {obj.to_symbol}</small>
-                                              </h2>
-                                            </div>
-                                          </td>
-
-                                          <td
-                                            onClick={() => pairChange(obj)}
-                                            className="text-end"
-                                          >
-                                            <div className="price_symbol">
-                                              <small>
-                                                <span className="material-symbols-outlined"></span>
-                                              </small>
-                                              {obj.lastprice == null ||
-                                              obj.lastprice === undefined ||
-                                              obj.lastprice === "" ? (
-                                                0.0
-                                              ) : (
-                                                <span className="text-white">
-                                                  {parseFloat(
-                                                    obj.lastprice
-                                                  ).toFixed(
-                                                    pairDetails?.liq_price_decimal
-                                                  )}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </td>
-
-                                          <td
-                                            onClick={() => pairChange(obj)}
-                                            className="text-right"
-                                          >
-                                            {obj.price_change <= 0 ? (
-                                              <p>
-                                                <i className="bi bi-caret-down-fill"></i>{" "}
-                                                <span className="price_red">
-                                                  {obj.price_change}%
-                                                </span>
-                                              </p>
-                                            ) : (
-                                              <p>
-                                                <i className="bi bi-caret-up-fill"></i>{" "}
-                                                <span className="price_green">
-                                                  {obj.price_change}%
-                                                </span>
-                                              </p>
-                                            )}
-                                          </td>
-                                        </tr>
-                                      );
-                                    })
-                                  ) : (
-                                    <tr>
-                                      <td colSpan="3">{t("Datanotfound")}</td>
-                                    </tr>
-                                  )}
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* orders section(open,cancel,history) */}
-                  <div className="basictable tradeform">
-                    <ul class="nav nav-pills mt-4 d-flex gap-2">
-                      <li class="active">
-                        <a
-                          // data-toggle="tab"
-                          // data-target="#OpenOrders"
-                          // className="active"
-
-                          className={`cursor-pointer d-inline-block ${
-                            historyactiveTab === "openorders" ? "active" : ""
-                          }`}
-                          onClick={() => sethistoryActiveTab("openorders")}
-                        >
-                          {t("OpenOrders")}
-                          <div>
-                            <span />
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          // data-toggle="tab"
-                          // href="#OrderHistory"
-                          // onClick={callOrdehistory}
-
-                          className={`cursor-pointer d-inline-block ${
-                            historyactiveTab === "orderhistory" ? "active" : ""
-                          }`}
-                          onClick={() => sethistoryActiveTab("orderhistory")}
-                        >
-                          {t("OrderHistory")}
-                          <div>
-                            <span />
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          // data-toggle="tab"
-                          // href="#OrderBook"
-                          // onClick={callCancelOrder}
-
-                          className={`cursor-pointer d-inline-block ${
-                            historyactiveTab === "cancelorder" ? "active" : ""
-                          }`}
-                          onClick={() => sethistoryActiveTab("cancelorder")}
-                        >
-                          {t("CancelOrders")}
-                          <div>
-                            <span />
-                          </div>
-                        </a>
-                      </li>
-                    </ul>
-                    <div class="tab-content pair_details pading_oedar marno_neww">
-                      {/* ==========ACTIVE OREDERS========== */}
-                      <div
-                        id="OpenOrders"
-                        class={`tab-pane fade in ${
-                          historyactiveTab === "openorders" ? "show active" : ""
-                        }`}
-                      >
-                        <div className="table-responsive">
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>{t("date")}</th>
-                                <th>{t("pair")} </th>
-                                <th>{t("price")} </th>
-                                <th>{t("side")} </th>
-                                <th>{t("orderType")} </th>
-                                <th>{t("amount")} </th>
-                                <th>{t("total")} </th>
-                                <th className="text-end">{t("Action")}/</th>
-                              </tr>
-                            </thead>
-
-                            {/* for styles, refer mockdata tbody, I've written below*/}
-                            <tbody>
-                              {activeOrderDatas.length > 0 ? (
-                                activeOrderDatas.map((item, i) => {
-                                  var dates = moment(item.createddate).format(
-                                    "lll"
-                                  );
-
-                                  return (
-                                    <tr>
-                                      <td className="new_td_pad_y">{dates} </td>
-                                      <td className="new_td_pad_y">
-                                        {item.pairName}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {item.tradeType == "buy" ? (
-                                          <span className="text-green">
-                                            {parseFloat(item.price).toFixed(8)}{" "}
-                                          </span>
-                                        ) : (
-                                          <span className="text-red">
-                                            {parseFloat(item.price).toFixed(8)}{" "}
-                                          </span>
-                                        )}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {" "}
-                                        {item.tradeType}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {" "}
-                                        {item.ordertype}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {" "}
-                                        {parseFloat(item.filledAmount).toFixed(
-                                          8
-                                        )}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {parseFloat(
-                                          item.filledAmount * item.price
-                                        ).toFixed(8)}
-                                      </td>
-                                      <td className="d-flex justify-content-end bornew_none new_td_pad_y">
-                                        <Button
-                                          className="btn historybtn"
-                                          onClick={() => orderCancel(item)}
-                                        >
-                                          {t("cancel")}
-                                        </Button>
-                                      </td>
-                                    </tr>
-                                  );
-                                })
-                              ) : (
-                                <tr>
-                                  {" "}
-                                  {!checkAuth ? (
-                                    <td colSpan="8">
-                                      <Button
-                                        className="Butn_header my-4 d-block mx-auto"
-                                        onClick={Movelogin}
-                                      >
-                                        <Link
-                                          to="/login"
-                                          className="text-black"
-                                        >
-                                          {t("Logintocontinue")}
-                                        </Link>
-                                      </Button>{" "}
-                                    </td>
-                                  ) : (
-                                    <td
-                                      colSpan="8"
-                                      className="text-center new_open_pt"
-                                    >
-                                      {" "}
-                                      {t("Noopenordersfound!")}
-                                    </td>
-                                  )}
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-                          {activeOrderDatas && activeOrderDatas.length > 0 ? (
-                            <div className="pagination mt-4">
-                              <Stack spacing={2}>
-                                <Pagination
-                                  count={totalactive}
-                                  page={currentPage}
-                                  onChange={activePageChange}
-                                  size="small"
-                                  sx={{
-                                    "& .MuiPaginationItem-root": {
-                                      color: "#fff", // Default text color for pagination items
-                                      // backgroundColor: "#2D1E23",
-                                      // "&:hover": {
-                                      //   backgroundColor: "#453a1f",
-                                      //   color: "#ffc630",
-                                      // },
-                                    },
-                                    "& .Mui-selected": {
-                                      backgroundColor: "#bd7f10 !important", // Background color for selected item
-                                      color: "#000", // Text color for selected item
-                                      "&:hover": {
-                                        backgroundColor: "#bd7f10",
-                                        color: "#000",
-                                      },
-                                    },
-                                    "& .MuiPaginationItem-ellipsis": {
-                                      color: "#fff", // Color for ellipsis
-                                    },
-                                    "& .MuiPaginationItem-icon": {
-                                      color: "#fff", // Color for icon (if present)
-                                    },
-                                  }}
-                                  // renderItem={(item) => (
-                                  //   <PaginationItem
-                                  //     slots={{
-                                  //       previous: ArrowBackIcon,
-                                  //       next: ArrowForwardIcon,
-                                  //     }}
-                                  //     {...item}
-                                  //   />
-                                  // )}
-                                />
-                              </Stack>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </div>
-
-                      {/* ==========OREDERS HISTORY========== */}
-                      <div
-                        id="OrderHistory"
-                        class={`${
-                          historyactiveTab === "orderhistory"
-                            ? "show active"
-                            : ""
-                        } tab-pane fade`}
-                      >
-                        <div className="table-responsive">
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>{t("date")}</th>
-                                <th>{t("pair")} </th>
-                                <th>{t("Type")} </th>
-                                <th>{t("price")} </th>
-                                <th>{t("amount")} </th>
-                                <th>{t("Fees")} </th>
-                                <th>{t("total")} </th>
-                              </tr>
-                            </thead>
-
-                            <tbody>
-                              {tradeHistoryData.length > 0 ? (
-                                tradeHistoryData.map((item, i) => {
-                                  var datesHis = moment(item.created_at).format(
-                                    "lll"
-                                  );
-                                  return (
-                                    <tr>
-                                      <td className="new_td_pad_y">
-                                        {datesHis}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {item.pair}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {item.type}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {item.type == "buy" ? (
-                                          <span className="text-green">
-                                            {" "}
-                                            {item.askPrice}{" "}
-                                          </span>
-                                        ) : (
-                                          <span className="text-red">
-                                            {" "}
-                                            {item.askPrice}{" "}
-                                          </span>
-                                        )}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {" "}
-                                        {item.askAmount}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {item.type == "buy" ? (
-                                          <span className="text-green">
-                                            {" "}
-                                            {item.buy_fee}{" "}
-                                            {/* {ptkstatus == 1
-                                              ? "PTK"
-                                              : item.base_currency} */}
-                                            {item.fee_currency_buy}
-                                          </span>
-                                        ) : (
-                                          <span className="text-red">
-                                            {" "}
-                                            {item.sell_fee}{" "}
-                                            {/* {ptkstatus == 1
-                                              ? "PTK"
-                                              : item.quote_currency} */}
-                                              {item.fee_currency_sell}
-                                          </span>
-                                        )}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {item.total}
-                                      </td>
-                                    </tr>
-                                  );
-                                })
-                              ) : (
-                                <tr>
-                                  {" "}
-                                  {!checkAuth ? (
-                                    <td colSpan="6">
-                                      <Button
-                                        className="Butn_header my-4 d-block mx-auto"
-                                        onClick={Movelogin}
-                                      >
-                                        <Link
-                                          to="/login"
-                                          className="text-black"
-                                        >
-                                          {t("Logintocontinue")}
-                                        </Link>
-                                      </Button>{" "}
-                                    </td>
-                                  ) : (
-                                    <td colSpan="6" className="text-center">
-                                      {" "}
-                                      {t("NoordershistoryFound")}
-                                    </td>
-                                  )}{" "}
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-
-                          {tradeHistoryData && tradeHistoryData.length > 0 ? (
-                            <div className="pagination mt-4">
-                              <Stack spacing={2}>
-                                <Pagination
-                                  count={totalHist}
-                                  page={currentPageHis}
-                                  onChange={orderhistoryactive}
-                                  size="small"
-                                  sx={{
-                                    "& .MuiPaginationItem-root": {
-                                      color: "#fff", // Default text color for pagination items
-                                      // backgroundColor: "#2D1E23",
-                                      // "&:hover": {
-                                      //   backgroundColor: "#453a1f",
-                                      //   color: "#ffc630",
-                                      // },
-                                    },
-                                    "& .Mui-selected": {
-                                      backgroundColor: "#bd7f10 !important", // Background color for selected item
-                                      color: "#000", // Text color for selected item
-                                      "&:hover": {
-                                        backgroundColor: "#bd7f10",
-                                        color: "#000",
-                                      },
-                                    },
-                                    "& .MuiPaginationItem-ellipsis": {
-                                      color: "#fff", // Color for ellipsis
-                                    },
-                                    "& .MuiPaginationItem-icon": {
-                                      color: "#fff", // Color for icon (if present)
-                                    },
-                                  }}
-                                  // renderItem={(item) => (
-                                  //   <PaginationItem
-                                  //     slots={{
-                                  //       previous: ArrowBackIcon,
-                                  //       next: ArrowForwardIcon,
-                                  //     }}
-                                  //     {...item}
-                                  //   />
-                                  // )}
-                                />
-                              </Stack>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </div>
-
-                      {/* ==========OREDERS Book========== */}
-                      <div
-                        id="OrderBook"
-                        class={` ${
-                          historyactiveTab === "cancelorder"
-                            ? "show active"
-                            : ""
-                        } tab-pane fade`}
-                      >
-                        <div className="table-responsive">
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>{t("date")}</th>
-                                <th>{t("pair")} </th>
-                                <th>{t("side")} </th>
-                                <th>{t("Type")} </th>
-                                <th>{t("price")} </th>
-                                <th>{t("amount")} </th>
-                                <th>{t("total")} </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {cancelOrders.length > 0 ? (
-                                cancelOrders.map((item, i) => {
-                                  var total =
-                                    item.ordertype == "Stop"
-                                      ? +item.filledAmount *
-                                        +item.stoporderprice
-                                      : +item.filledAmount * +item.price;
-                                  return (
-                                    <tr>
-                                      <td className="new_td_pad_y">
-                                        {item.createddate}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {item.pairName}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {item.tradeType == "buy" ? (
-                                          <span className="text-green">
-                                            {" "}
-                                            {t("buy")}{" "}
-                                          </span>
-                                        ) : (
-                                          <span className="text-red">
-                                            {" "}
-                                            Sell{" "}
-                                          </span>
-                                        )}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {item.ordertype}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        <span className="text-green">
-                                          {item.ordertype == "Stop"
-                                            ? parseFloat(
-                                                item.stoporderprice
-                                              ).toFixed(8)
-                                            : parseFloat(item.price).toFixed(
-                                                8
-                                              )}{" "}
-                                        </span>
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {" "}
-                                        {item.amount}{" "}
-                                      </td>
-                                      <td className="new_td_pad_y">
-                                        {/* {parseFloat(total).toFixed(pairDetails?.liq_price_decimal)} */}
-                                        {parseFloat(total).toFixed(8)}
-                                      </td>
-                                    </tr>
-                                  );
-                                })
-                              ) : (
-                                <tr>
-                                  {" "}
-                                  {!checkAuth ? (
-                                    <td colSpan="7">
-                                      <Button
-                                        className="Butn_header my-4 d-block mx-auto"
-                                        onClick={Movelogin}
-                                      >
-                                        <Link
-                                          to="/login"
-                                          className="text-black"
-                                        >
-                                          {t("Logintocontinue")}
-                                        </Link>
-                                      </Button>{" "}
-                                    </td>
-                                  ) : (
-                                    <td colSpan="7" className="text-center">
-                                      {" "}
-                                      {t("Nocancelordersfound")}!{" "}
-                                    </td>
-                                  )}
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-                          {cancelOrders && cancelOrders.length > 0 ? (
-                            <div className="pagination mt-4">
-                              <Stack spacing={2}>
-                                <Pagination
-                                  count={totalcan}
-                                  page={currentPagecan}
-                                  onChange={cancelPageChange}
-                                  size="small"
-                                  sx={{
-                                    "& .MuiPaginationItem-root": {
-                                      color: "#fff", // Default text color for pagination items
-                                      // backgroundColor: "#2D1E23",
-                                      // "&:hover": {
-                                      //   backgroundColor: "#453a1f",
-                                      //   color: "#ffc630",
-                                      // },
-                                    },
-                                    "& .Mui-selected": {
-                                      backgroundColor: "#bd7f10 !important", // Background color for selected item
-                                      color: "#000", // Text color for selected item
-                                      "&:hover": {
-                                        backgroundColor: "#bd7f10",
-                                        color: "#000",
-                                      },
-                                    },
-                                    "& .MuiPaginationItem-ellipsis": {
-                                      color: "#fff", // Color for ellipsis
-                                    },
-                                    "& .MuiPaginationItem-icon": {
-                                      color: "#fff", // Color for icon (if present)
-                                    },
-                                  }}
-                                  // renderItem={(item) => (
-                                  //   <PaginationItem
-                                  //     slots={{
-                                  //       previous: ArrowBackIcon,
-                                  //       next: ArrowForwardIcon,
-                                  //     }}
-                                  //     {...item}
-                                  //   />
-                                  // )}
-                                />
-                              </Stack>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* <PriceFooter /> */}
-                  <div className="markert_activity">
-                    <div class="css-13fs1br">
-                      {t("TopMovers")}{" "}
-                      <span>
-                        <i class="fa-solid fa-angles-down"></i>
-                      </span>{" "}
-                    </div>
-
-                    <ul class="nav nav-pills">
-                      <li onClick={() => setmoves("all")}>
-                        <a className={movesref.current == "all" ? "active" : ""}>
-                          {t("all")}
-                        </a>
-                      </li>
-                      <li onClick={() => setmoves("high")}>
-                        <a className={movesref.current == "high" ? "active" : ""}>
-                          {t("NewHigh")}
-                        </a>
-                      </li>
-                      <li onClick={() => setmoves("low")}>
-                        <a className={movesref.current == "low" ? "active" : ""}>
-                          {t("NewLow")}
-                        </a>
-                      </li>
-                    </ul>
-
-                    {/* <div class="tab-content pair_details pading_tabs_content"> */}
-                    <div class="tab-content pair_details">
-                      <div
-                        id="All"
-                        class={`tab-pane new_chn_bugbor fade in ${
-                          movesref.current == "all" ||
-                          movesref.current == "high"
-                            ? "active show"
-                            : ""
-                        } `}
-                      >
-                        {topmove ? (
-                          topmove?.topMovers?.map((item, i) => {
-                            return (
-                              <Link
-                                to=""
-                                target="_blank"
-                                className="css-14d05gv"
-                              >
-                                <div className="css-1pysja1">
-                                  <div
-                                    data-bn-type="text"
-                                    className="css-qt6vj7"
+                            {topmove ? (
+                              topmove?.topMovers?.map((item, i) => {
+                                return (
+                                  <Link
+                                    to=""
+                                    target="_blank"
+                                    className="css-14d05gv"
                                   >
+                                    <div className="css-1pysja1">
+                                      <div
+                                        data-bn-type="text"
+                                        className="css-qt6vj7"
+                                      >
+                                        <span
+                                          data-bn-type="text"
+                                          className="css-1iqe90x"
+                                        >
+                                          {item.pair}
+                                        </span>
+                                      </div>
+                                      <div
+                                        data-bn-type="text"
+                                        className="css-21cgr0"
+                                      >
+                                        {moment(new Date()).format("lll")}
+                                      </div>
+                                    </div>
+                                    <div className="css-m3c6zl">
+                                      <div
+                                        data-bn-type="text"
+                                        className="css-4na7jw"
+                                      >
+                                        {item.change} %
+                                      </div>
+                                      <div
+                                        data-bn-type="text"
+                                        title="New 7day High"
+                                        className="css-wk8c7j"
+                                      >
+                                        {t("Last24hrsHigh")}
+                                      </div>
+                                    </div>
+                                    <div className="css-vjdxdv">
+                                      <div className="css-ao5z3i">
+                                        <img
+                                          className="css-1qlplmi"
+                                          src={require("../assets/greenarrow.png")}
+                                          alt=""
+                                        />
+                                      </div>
+                                    </div>
+                                  </Link>
+                                );
+                              })
+                            ) : (
+                              <Link to="" target="_blank" class="css-14d05gv">
+                                <div class="css-1pysja1">
+                                  <div data-bn-type="text" class="css-qt6vj7">
                                     <span
                                       data-bn-type="text"
-                                      className="css-1iqe90x"
+                                      class="css-1iqe90x"
                                     >
-                                      {item.pair}
+                                      BTC
                                     </span>
+                                    /USDT
                                   </div>
-                                  <div
-                                    data-bn-type="text"
-                                    className="css-21cgr0"
-                                  >
-                                    {moment(new Date()).format("lll")}
+                                  <div data-bn-type="text" class="css-21cgr0">
+                                    15:42:01
                                   </div>
                                 </div>
-                                <div className="css-m3c6zl">
-                                  <div
-                                    data-bn-type="text"
-                                    className="css-4na7jw"
-                                  >
-                                    {item.change} %
+                                <div class="css-m3c6zl">
+                                  <div data-bn-type="text" class="css-4na7jw">
+                                    +11.83%
                                   </div>
                                   <div
                                     data-bn-type="text"
                                     title="New 7day High"
-                                    className="css-wk8c7j"
+                                    class="css-wk8c7j"
                                   >
                                     {t("Last24hrsHigh")}
                                   </div>
                                 </div>
-                                <div className="css-vjdxdv">
-                                  <div className="css-ao5z3i">
+                                <div class="css-vjdxdv">
+                                  <div class="css-ao5z3i">
                                     <img
                                       className="css-1qlplmi"
                                       src={require("../assets/greenarrow.png")}
@@ -3885,156 +4049,138 @@ function Home() {
                                   </div>
                                 </div>
                               </Link>
-                            );
-                          })
-                        ) : (
-                          <Link to="" target="_blank" class="css-14d05gv">
-                            <div class="css-1pysja1">
-                              <div data-bn-type="text" class="css-qt6vj7">
-                                <span data-bn-type="text" class="css-1iqe90x">
-                                  BTC
-                                </span>
-                                /USDT
-                              </div>
-                              <div data-bn-type="text" class="css-21cgr0">
-                                15:42:01
-                              </div>
-                            </div>
-                            <div class="css-m3c6zl">
-                              <div data-bn-type="text" class="css-4na7jw">
-                                +11.83%
-                              </div>
-                              <div
-                                data-bn-type="text"
-                                title="New 7day High"
-                                class="css-wk8c7j"
-                              >
-                                {t("Last24hrsHigh")}
-                              </div>
-                            </div>
-                            <div class="css-vjdxdv">
-                              <div class="css-ao5z3i">
-                                <img
-                                  className="css-1qlplmi"
-                                  src={require("../assets/greenarrow.png")}
-                                  alt=""
-                                />
-                              </div>
-                            </div>
-                          </Link>
-                        )}
-                      </div>
-                    </div>
+                            )}
+                          </div>
+                        </div>
 
-                    <div class="tab-content pair_details ">
-                      <div
-                        id="All"
-                        class={`tab-pane new_chn_bugbor fade in ${
-                          movesref.current == "low" ? "active show" : ""
-                        } `}
-                      >
-                        {topmove ? (
-                          topmove?.lowMovers
-                            ?.slice()
-                            .reverse()
-                            .map((item, i) => {
-                              return (
-                                <Link
-                                  to=""
-                                  target="_blank"
-                                  className="css-14d05gv"
-                                  key={i}
-                                >
-                                  <div className="css-1pysja1">
-                                    <div
-                                      data-bn-type="text"
-                                      className="css-qt6vj7"
+                        <div class="tab-content pair_details ">
+                          <div
+                            id="All"
+                            class={`tab-pane new_chn_bugbor fade in ${
+                              movesref.current == "low" ? "active show" : ""
+                            } `}
+                          >
+                            {topmove ? (
+                              topmove?.lowMovers
+                                ?.slice()
+                                .reverse()
+                                .map((item, i) => {
+                                  return (
+                                    <Link
+                                      to=""
+                                      target="_blank"
+                                      className="css-14d05gv"
+                                      key={i}
                                     >
-                                      <span
-                                        data-bn-type="text"
-                                        className="css-1iqe90x"
-                                      >
-                                        {item.pair}
-                                      </span>
-                                    </div>
-                                    <div
-                                      data-bn-type="text"
-                                      className="css-21cgr0"
-                                    >
-                                      {moment(new Date()).format("lll")}
-                                    </div>
-                                  </div>
-                                  <div className="css-m3c6zl">
-                                    <div
-                                      data-bn-type="text"
-                                      className="css-4na7jw reds"
-                                    >
-                                      {item.change} %
-                                    </div>
-                                    <div
-                                      data-bn-type="text"
-                                      title="New 7day High"
-                                      className="css-wk8c7j"
-                                    >
-                                      {t("Last24hrsHigh")}
-                                    </div>
-                                  </div>
-                                  <div className="css-vjdxdv">
-                                    <div className="css-ao5z3i">
-                                      <div>
-                                        <img
-                                          className="css-1qlplmi"
-                                          src={require("../assets/redarrow.png")}
-                                          alt=""
-                                        />
+                                      <div className="css-1pysja1">
+                                        <div
+                                          data-bn-type="text"
+                                          className="css-qt6vj7"
+                                        >
+                                          <span
+                                            data-bn-type="text"
+                                            className="css-1iqe90x"
+                                          >
+                                            {item.pair}
+                                          </span>
+                                        </div>
+                                        <div
+                                          data-bn-type="text"
+                                          className="css-21cgr0"
+                                        >
+                                          {moment(new Date()).format("lll")}
+                                        </div>
                                       </div>
+                                      <div className="css-m3c6zl">
+                                        <div
+                                          data-bn-type="text"
+                                          className="css-4na7jw reds"
+                                        >
+                                          {item.change} %
+                                        </div>
+                                        <div
+                                          data-bn-type="text"
+                                          title="New 7day High"
+                                          className="css-wk8c7j"
+                                        >
+                                          {t("Last24hrsHigh")}
+                                        </div>
+                                      </div>
+                                      <div className="css-vjdxdv">
+                                        <div className="css-ao5z3i">
+                                          <div>
+                                            <img
+                                              className="css-1qlplmi"
+                                              src={require("../assets/redarrow.png")}
+                                              alt=""
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Link>
+                                  );
+                                })
+                            ) : (
+                              <Link to="" target="_blank" class="css-14d05gv">
+                                <div class="css-1pysja1">
+                                  <div data-bn-type="text" class="css-qt6vj7">
+                                    <span
+                                      data-bn-type="text"
+                                      class="css-1iqe90x"
+                                    >
+                                      BTC
+                                    </span>
+                                    /USDT
+                                  </div>
+                                  <div data-bn-type="text" class="css-21cgr0">
+                                    15:42:01
+                                  </div>
+                                </div>
+                                <div class="css-m3c6zl">
+                                  <div
+                                    data-bn-type="text"
+                                    class="css-4na7jw reds"
+                                  >
+                                    +11.83%
+                                  </div>
+                                  <div
+                                    data-bn-type="text"
+                                    title="New 7day High"
+                                    class="css-wk8c7j"
+                                  >
+                                    {t("Last24hrsHigh")}
+                                  </div>
+                                </div>
+                                <div class="css-vjdxdv">
+                                  <div class="css-ao5z3i">
+                                    <div class="">
+                                      <img
+                                        className="css-1qlplmi"
+                                        src={require("../assets/redarrow.png")}
+                                        alt=""
+                                      />
                                     </div>
                                   </div>
-                                </Link>
-                              );
-                            })
-                        ) : (
-                          <Link to="" target="_blank" class="css-14d05gv">
-                            <div class="css-1pysja1">
-                              <div data-bn-type="text" class="css-qt6vj7">
-                                <span data-bn-type="text" class="css-1iqe90x">
-                                  BTC
-                                </span>
-                                /USDT
-                              </div>
-                              <div data-bn-type="text" class="css-21cgr0">
-                                15:42:01
-                              </div>
-                            </div>
-                            <div class="css-m3c6zl">
-                              <div data-bn-type="text" class="css-4na7jw reds">
-                                +11.83%
-                              </div>
-                              <div
-                                data-bn-type="text"
-                                title="New 7day High"
-                                class="css-wk8c7j"
-                              >
-                                {t("Last24hrsHigh")}
-                              </div>
-                            </div>
-                            <div class="css-vjdxdv">
-                              <div class="css-ao5z3i">
-                                <div class="">
-                                  <img
-                                    className="css-1qlplmi"
-                                    src={require("../assets/redarrow.png")}
-                                    alt=""
-                                  />
                                 </div>
-                              </div>
-                            </div>
-                          </Link>
-                        )}
+                              </Link>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    </>
                   </div>
-                </>
+                </div>
+                <div className="comingSoonOverlay_trade">
+                  <div className="comingSoonCard">
+                    <div className="comingSoonIcon">🚀</div>
+
+                    <h2>{t("comingsoon")}</h2>
+
+                    <p>{t("comingsoondescrip")}</p>
+
+                    <span>{t("staytuned")}</span>
+                  </div>
+                </div>
               </div>
             </main>
           </div>

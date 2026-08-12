@@ -237,6 +237,7 @@ const Side_bar = () => {
                     {t("feeSettings")}
                   </span>
                 )}
+                <span className="cominsoon_lastes">Soon</span>
               </Link>
             </Tooltip>
 

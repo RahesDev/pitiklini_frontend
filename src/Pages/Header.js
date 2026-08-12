@@ -549,6 +549,7 @@ const Header = () => {
                         >
                           {/* Market */}
                           {t("spot")}
+                          <span className="cominsoon_lastes">Soon</span>
                         </Link>
                         {/* </a> */}
                         <Link
@@ -558,6 +559,7 @@ const Header = () => {
                         >
                           {/* Market */}
                           {t("market")}
+                          <span className="cominsoon_lastes">Soon</span>
                         </Link>
                         <Link
                           to="/swap"
@@ -565,6 +567,7 @@ const Header = () => {
                           className="contact_button px-4 uppercase font-bold"
                         >
                           {t("convert")}
+                          <span className="cominsoon_lastes">Soon</span>
                         </Link>
                         <Link
                           to={isAuthenticated ? "/p2p" : "/login"}
@@ -624,6 +627,7 @@ const Header = () => {
                           className="contact_button  uppercase font-bold"
                         >
                           {t("recharge")}
+                          <span className="cominsoon_lastes">Soon</span>
                         </Link>
                         {/*  <Link
                           to="/fundtransfer"
@@ -1477,6 +1481,7 @@ const Header = () => {
                       >
                         <i className="ri-price-tag-3-line mobile-sidebar-icon"></i>
                         <span>{t("spot")}</span>
+                        <span className="cominsoon_lastes">Soon</span>
                       </Link>
                     </ListItem>
                     <ListItem button className="drawa mobile-sidebar-item">
@@ -1487,6 +1492,7 @@ const Header = () => {
                       >
                         <i className="ri-bar-chart-line mobile-sidebar-icon"></i>
                         <span>{t("market")}</span>
+                        <span className="cominsoon_lastes">Soon</span>
                       </Link>
                     </ListItem>
                     <ListItem button className="drawa mobile-sidebar-item">
@@ -1497,6 +1503,7 @@ const Header = () => {
                       >
                         <i className="ri-repeat-line mobile-sidebar-icon"></i>
                         <span>{t("convert")}</span>
+                        <span className="cominsoon_lastes">Soon</span>
                       </Link>
                     </ListItem>
                     <ListItem button className="drawa mobile-sidebar-item">
@@ -1537,6 +1544,7 @@ const Header = () => {
                       >
                         <i className="ri-flashlight-line mobile-sidebar-icon"></i>
                         <span>{t("recharge")}</span>
+                        <span className="cominsoon_lastes">Soon</span>
                       </Link>
                     </ListItem>
                     {/* <ListItem button className="drawa mobile-sidebar-item">
@@ -1567,6 +1575,7 @@ const Header = () => {
                       >
                         <i className="ri-settings-3-line mobile-sidebar-icon"></i>
                         <span>{t("feeSettings")}</span>
+                        <span className="cominsoon_lastes">Soon</span>
                       </Link>
                     </ListItem>
                     <ListItem button className="drawa mobile-sidebar-item">
