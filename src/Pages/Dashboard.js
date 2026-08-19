@@ -101,7 +101,7 @@ const AssetOverviewCard = ({
                 {showBalance ? Number(totalAllbalance).toFixed(4) : "******"}
               </div>
               <div className="mt-1.5 text-xs leading-none text-[#77829a] lg:text-sm">
-                Total Assets
+                {t("totalasset")}
               </div>
             </div>
           </div>
@@ -114,7 +114,8 @@ const AssetOverviewCard = ({
             >
               <div className="flex items-center gap-2 mb-1">
                 <span
-                  className="h-2.5 w-2.5 rounded-full shadow-[0_0_10px] shadow-current"
+                  // className="h-2.5 w-2.5 rounded-full shadow-[0_0_10px] shadow-current"
+                  className="h-2.5 w-2.5 rounded-full"
                   style={{ color: item.color, background: item.color }}
                 />
                 <span className="truncate font-medium text-[#d4dae6] lg:text-[16px]">
@@ -137,7 +138,7 @@ const AssetOverviewCard = ({
         </div>
       </div>
     </article>
-  )
+  );
 };
 
 const TotalAssetCard = ({
@@ -158,11 +159,13 @@ const TotalAssetCard = ({
       trendData[0],
     );
   }, [trendData]);
+  const { t } = useTranslation();
+  
   return (
     <article className="min-h-[320px] rounded-xl border border-[#252a36] bg-black p-5 shadow-[0_12px_30px_rgba(0,0,0,0.35)] md:p-6">
       <div className="relative z-10 mb-4 flex min-h-8 flex-nowrap items-center justify-between gap-3 border-b border-[#2a3038] pb-3">
         <h3 className="mb-0 whitespace-nowrap leading-none text-xl font-semibold text-[#e0a82d]">
-          Total Asset
+          {t("totalasset")}
         </h3>
         {/* <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
           <i className="ri-eye-line text-[#8c94a6]" />
@@ -963,24 +966,24 @@ const Dashboard = () => {
                       <div className="grid gap-5 md:grid-cols-2 mt-5">
                         <div className="rounded-xl border border-[#252a36] bg-black p-5">
                           <h3 className="text-[#e0a82d] text-lg mb-4">
-                            Spot Wallet
+                            {t("spotwallet")}
                           </h3>
 
                           <div className="space-y-3">
                             <div className="flex justify-between text-[#e7ebf2]">
-                              <span>Available</span>
+                              <span>{t("available")}</span>
                               {/* <span>{Number(availableSpot).toFixed(8)}</span> */}
                               <span>{displayBalance(availableSpot)}</span>
                             </div>
 
                             <div className="flex justify-between text-[#e7ebf2]">
-                              <span>On Orders</span>
+                              <span>{t("onOrders")}</span>
                               {/* <span>{Number(inorderSpot).toFixed(8)}</span> */}
                               <span>{displayBalance(inorderSpot)}</span>
                             </div>
 
                             <div className="flex justify-between font-bold text-[#e7ebf2]">
-                              <span>Total</span>
+                              <span>{t("total")}</span>
                               {/* <span>{Number(totalSpot).toFixed(8)}</span> */}
                               <span>{displayBalance(totalSpot)}</span>
                             </div>
@@ -989,24 +992,24 @@ const Dashboard = () => {
 
                         <div className="rounded-xl border border-[#252a36] bg-black p-5">
                           <h3 className="text-[#e0a82d] text-lg mb-4">
-                            Funding Wallet
+                            {t("fundingwallet")}
                           </h3>
 
                           <div className="space-y-3">
                             <div className="flex justify-between text-[#e7ebf2]">
-                              <span>Available</span>
+                              <span>{t("available")}</span>
                               {/* <span>{Number(availableFunding).toFixed(8)}</span> */}
                               <span>{displayBalance(availableFunding)}</span>
                             </div>
 
                             <div className="flex justify-between text-[#e7ebf2]">
-                              <span>On Orders</span>
+                              <span>{t("onOrders")}</span>
                               {/* <span>{Number(inorderFunding).toFixed(8)}</span> */}
                               <span>{displayBalance(inorderFunding)}</span>
                             </div>
 
                             <div className="flex justify-between font-bold text-[#e7ebf2]">
-                              <span>Total</span>
+                              <span>{t("total")}</span>
                               {/* <span>{Number(totalFunding).toFixed(8)}</span> */}
                               <span>{displayBalance(totalFunding)}</span>
                             </div>

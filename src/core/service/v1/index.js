@@ -337,6 +337,9 @@ const service = {
   startFiatDeposit: "users/start-fiat-deposit",
   getPortfolioHistory: "users/getPortfolioHistory",
   notificationViewed: "users/notificationViewed",
+
+  updateP2pOrder: "p2p/updateP2pOrder",
+  deleteP2pOrder: "p2p/deleteP2pOrder",
 };
 
 export default service;

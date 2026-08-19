@@ -427,8 +427,8 @@ const Swap = () => {
             <div className="row swap_main padlef_0_col">
               <div className="padin_lefrig_dash">
                 <div className="col-xl-4 col-lg-6 col-md-8 convert_center_box">
-                  <div className="comingSoonWrapper">
-                    <div className="comingSoonContent">
+                  {/* <div className="comingSoonWrapper">
+                    <div className="comingSoonContent"> */}
                       <div className="convert_card-wrapper border_none">
                         <div className="convert_card swap_pos_relnew">
                           <div className="convert_title mb-4">
@@ -603,7 +603,7 @@ const Swap = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    {/* </div>
                     <div className="comingSoonOverlay">
                       <div className="comingSoonCard">
                         <div className="comingSoonIcon">🚀</div>
@@ -615,7 +615,7 @@ const Swap = () => {
                         <span>{t("staytuned")}</span>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* <div className="col-xl-5 col-lg-4 justify-content-center convert_center_box">

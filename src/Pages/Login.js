@@ -34,7 +34,7 @@ const Login = () => {
   const [passHide, setPasshide] = useState(false);
   const [inputType, setinputType] = useState("password");
   const [buttonLoader, setbuttonLoader] = useState(false);
-  const [step, setStep] = useState(1);
+  // const [step, setStep] = useState(1);
 
   const { email, password } = formValue;
 
@@ -231,24 +231,24 @@ const Login = () => {
 
         <div className="relative z-10 w-full flex flex-col items-center py-8 pt-20">
           {/* Decorative Logo and Patternrow Overlaid (Above Card for Step 1) */}
-          {step === 1 && (
-            <div className="relative flex justify-center items-center h-[73.5px] mb-[30px] z-20">
-              <img
-                src={Patternrow}
-                alt="pattern-row"
-                className="w-[343px] h-[42px] max-w-[90vw]"
-              />
-              <img
-                src={Logo}
-                alt="logo"
-                className="absolute w-[73.5px] h-[73.5px]"
-              />
-            </div>
-          )}
+          {/* {step === 1 && ( */}
+          <div className="relative flex justify-center items-center h-[73.5px] mb-[30px] z-20">
+            <img
+              src={Patternrow}
+              alt="pattern-row"
+              className="w-[343px] h-[42px] max-w-[90vw]"
+            />
+            <img
+              src={Logo}
+              alt="logo"
+              className="absolute w-[73.5px] h-[73.5px]"
+            />
+          </div>
+          {/* )} */}
 
           <div className="relative z-10 w-[460px] max-w-[95vw] bg-[#111318] rounded-2xl px-6  border border-[#1E2028] shadow-xl overflow-hidden font-ibm">
             {/* Back Button for Step 2 */}
-            {step === 2 && (
+            {/* {step === 2 && (
               <button
                 onClick={() => setStep(1)}
                 className="absolute top-[24px] left-[16px] w-[78px] h-[38px] border border-primary rounded-[8px] flex items-center justify-center gap-[4px] px-[16px] py-[12px] box-border text-[#B1B5C3] hover:text-white transition z-30"
@@ -260,7 +260,7 @@ const Login = () => {
                   {t("back")}
                 </span>
               </button>
-            )}
+            )} */}
 
             {/* Radial Gradient Glow Inside Card */}
             <div className="pointer-events-none absolute top-[-301px] left-1/2 -translate-x-1/2 w-[710px] h-[710px] opacity-60 z-0">
@@ -283,7 +283,7 @@ const Login = () => {
             </div>
 
             {/* Decorative Logo and Patternrow Overlaid (Inside Card for Step 2) */}
-            {step === 2 && (
+            {/* {step === 2 && (
               <div className="relative flex justify-center items-center h-[73.5px] mb-[30px] mt-16 z-20">
                 <img
                   src={Patternrow}
@@ -296,7 +296,7 @@ const Login = () => {
                   className="absolute w-[73.5px] h-[73.5px]"
                 />
               </div>
-            )}
+            )} */}
 
             {/* Welcome Text */}
             <div className="flex flex-col items-center gap-3 text-center mb-8">
@@ -304,7 +304,10 @@ const Login = () => {
                 <span className=" text-[#FCFCFD]">Welcome to </span>
                 <span className="text-primary">PITIKLINI</span>
               </h1>
-              {step === 1 && (
+              <p className="text-[14px] text-[#B1B5C3] max-w-[320px]">
+                Please enter your email and password to login
+              </p>
+              {/* {step === 1 && (
                 <p className="text-[14px] text-[#B1B5C3] max-w-[320px]">
                   Please enter your email to login or sign up
                 </p>
@@ -313,15 +316,14 @@ const Login = () => {
                 <p className="text-[14px] text-[#B1B5C3] max-w-[320px]">
                   Please enter your password to login or sign up
                 </p>
-              )}
+              )} */}
             </div>
 
             {/* Form */}
-            <form onSubmit={(e) => e.preventDefault()} action="">
+            {/* <form onSubmit={(e) => e.preventDefault()} action="">
               <div className="flex flex-col gap-6">
                 {step === 1 ? (
                   <>
-                    {/* Email Input */}
                     <div className="relative">
                       <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
                         {t("email_label")}
@@ -395,7 +397,6 @@ const Login = () => {
                   </>
                 ) : (
                   <>
-                    {/* Email (Read-only for Step 2) */}
                     <div className="relative opacity-60">
                       <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
                         {t("email_label")}
@@ -415,7 +416,6 @@ const Login = () => {
                       </div>
                     </div>
 
-                    {/* Password Input */}
                     <div className="relative">
                       <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none">
                         {t("password_label")}
@@ -499,8 +499,166 @@ const Login = () => {
                   </>
                 )}
               </div>
+            </form> */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleClick();
+              }}
+            >
+              <div className="flex flex-col gap-6">
+                {/* ================= EMAIL ================= */}
+                <div className="relative">
+                  <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none bg-[#111318] px-1">
+                    {t("email_label")}
+                  </span>
+
+                  <div
+                    className={`flex items-center bg-[#23262F] border-[1.5px] ${
+                      validationnErr?.email
+                        ? "border-red-500"
+                        : "border-primary"
+                    } rounded-[8px] px-4 h-[56px]`}
+                  >
+                    <img
+                      src={Email}
+                      alt="email"
+                      className="w-[18px] h-[18px] mr-2"
+                    />
+
+                    <input
+                      type="text"
+                      name="email"
+                      value={email}
+                      maxLength="250"
+                      autoComplete="email"
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\s/g, "");
+
+                        setFormValue((prev) => ({
+                          ...prev,
+                          email: value,
+                        }));
+
+                        if (!value) {
+                          setvalidationnErr((prev) => ({
+                            ...prev,
+                            email: t("emailIsRequiredField"),
+                          }));
+                        } else if (
+                          !/^[a-zA-Z0-9.]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(
+                            value,
+                          )
+                        ) {
+                          setvalidationnErr((prev) => ({
+                            ...prev,
+                            email: t("invalidEmailAddress"),
+                          }));
+                        } else {
+                          setvalidationnErr((prev) => {
+                            const { email, ...rest } = prev;
+                            return rest;
+                          });
+                        }
+                      }}
+                      className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
+                    />
+                  </div>
+
+                  {validationnErr?.email && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {validationnErr.email}
+                    </p>
+                  )}
+                </div>
+
+                {/* ================= PASSWORD ================= */}
+                <div className="relative">
+                  <span className="absolute -top-2 left-4 text-[12px] text-[#D6D8E0] z-10 leading-none bg-[#111318] px-1">
+                    {t("password_label")}
+                  </span>
+
+                  <div
+                    className={`flex items-center bg-[#23262F] border-[1.5px] ${
+                      validationnErr?.password
+                        ? "border-red-500"
+                        : "border-primary"
+                    } rounded-[8px] px-4 h-[56px]`}
+                  >
+                    <i className="ri-lock-2-line text-primary mr-2 text-lg"></i>
+
+                    <input
+                      type={inputType}
+                      name="password"
+                      value={password}
+                      minLength={6}
+                      maxLength={30}
+                      autoComplete="current-password"
+                      onChange={(e) => {
+                        const value = e.target.value;
+
+                        setFormValue((prev) => ({
+                          ...prev,
+                          password: value,
+                        }));
+
+                        if (!value) {
+                          setvalidationnErr((prev) => ({
+                            ...prev,
+                            password: t("passwordIsRequired"),
+                          }));
+                        } else {
+                          setvalidationnErr((prev) => {
+                            const { password, ...rest } = prev;
+                            return rest;
+                          });
+                        }
+                      }}
+                      className="bg-transparent outline-none border-none ring-0 focus:ring-0 flex-1 text-white text-[14px]"
+                    />
+
+                    {/* Show / Hide password */}
+                    <div
+                      className="cursor-pointer text-[#777E90] z-20 flex items-center justify-center px-2"
+                      onClick={() => passwordHide(passHide ? "show" : "hide")}
+                    >
+                      {passHide ? (
+                        <i className="ri-eye-line text-primary"></i>
+                      ) : (
+                        <i className="ri-eye-off-line text-primary"></i>
+                      )}
+                    </div>
+                  </div>
+
+                  {validationnErr?.password && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {validationnErr.password}
+                    </p>
+                  )}
+                </div>
+
+                {/* ================= FORGOT PASSWORD ================= */}
+                <div className="flex justify-end">
+                  <Link
+                    to="/forgotpassword"
+                    title={t("forgot_password")}
+                    className="text-sm text-primary hover:underline"
+                  >
+                    {t("forgot_password")}
+                  </Link>
+                </div>
+
+                {/* ================= LOGIN BUTTON ================= */}
+                <button
+                  type="submit"
+                  disabled={buttonLoader}
+                  className="w-full h-[56px] bg-primary text-secondary rounded-lg text-lg font-medium hover:opacity-90 transition disabled:opacity-50"
+                >
+                  {buttonLoader ? `${t("loading")}...` : t("login")}
+                </button>
+              </div>
             </form>
-            
+
             {/* Divider */}
             {/* <div className="flex items-center gap-3 my-6">
                 <div className="flex-1 h-px bg-[#2A2D36]"></div>

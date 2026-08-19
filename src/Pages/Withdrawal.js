@@ -1438,7 +1438,7 @@ const Dashboard = () => {
       ),
       content: (
         <>
-          <div className="w-full min-w-0 max-w-full rounded-lg border border-gray-800 bg-[#181a20] p-1 withdrawal-dropdown-custom lg:max-w-lg">
+          <div className="w-full min-w-0 max-w-full rounded-lg border border-gray-800 border-[#2a3038] bg-[#181a20] p-1 withdrawal-dropdown-custom lg:max-w-lg">
             <Dropdown
               placeholder={t("selectCoin")}
               fluid
@@ -1498,7 +1498,7 @@ const Dashboard = () => {
                 <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-[13px]">
                   {t("Network")}
                 </label>
-                <div className="rounded-lg border border-gray-800 bg-[#181a20] p-1 withdrawal-dropdown-custom">
+                <div className="rounded-lg border border-gray-800 border-[#2a3038] bg-[#181a20] p-1 withdrawal-dropdown-custom">
                   <Dropdown
                     placeholder={t("selectwithdrawnetwrk")}
                     fluid
@@ -1617,7 +1617,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="mb-2 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
+          <div className="mb-2 flex min-w-0 items-center rounded-lg border border-gray-800 border-[#2a3038] bg-[#181a20] px-3 py-1 sm:px-4">
             <input
               type="text"
               pattern="[0-9]*"
@@ -1666,7 +1666,7 @@ const Dashboard = () => {
               {t("remarkoptnal")}
             </label>
           </div>
-          <div className="mb-2 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
+          <div className="mb-2 flex min-w-0 items-center rounded-lg border border-gray-800 border-[#2a3038] bg-[#181a20] px-3 py-1 sm:px-4">
             <input
               type="text"
               placeholder={t("remarkoptnalplacehol")}
@@ -1680,7 +1680,7 @@ const Dashboard = () => {
               <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-sm">
                 {t("withdrawOTP")}
               </label>
-              <div className="mb-1 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
+              <div className="mb-1 flex min-w-0 items-center rounded-lg border border-gray-800 border-[#2a3038] bg-[#181a20] px-3 py-1 sm:px-4">
                 <input
                   type="text"
                   autoComplete="off"
@@ -1739,7 +1739,7 @@ const Dashboard = () => {
                 <label className="mb-1 block px-1 text-xs text-gray-500 sm:text-sm">
                   {t("2FAVerificationCode")}
                 </label>
-                <div className="mb-1 flex min-w-0 items-center rounded-lg border border-gray-800 bg-[#181a20] px-3 py-1 sm:px-4">
+                <div className="mb-1 flex min-w-0 items-center rounded-lg border border-gray-800 border-[#2a3038] bg-[#181a20] px-3 py-1 sm:px-4">
                   <input
                     type="text"
                     autoComplete="off"
@@ -1800,7 +1800,7 @@ const Dashboard = () => {
             <div className="mt-1 flex flex-wrap items-center justify-end gap-1 text-xs text-gray-500 sm:text-[13px]">
               {t("Fee")}: {currentcurrencyref.current?.withdrawFee || "0"}{" "}
               {currencyref.current}
-              <svg
+              {/* <svg
                 className="w-[14px] h-[14px] ml-0.5 text-gray-400"
                 fill="none"
                 stroke="currentColor"
@@ -1812,7 +1812,7 @@ const Dashboard = () => {
                   strokeWidth="2"
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
-              </svg>
+              </svg> */}
             </div>
           </div>
 
@@ -1911,7 +1911,7 @@ const Dashboard = () => {
                       <div className="w-full min-w-0 max-w-full rounded-xl bg-black px-4 py-5 text-white shadow-lg sm:px-5 sm:py-6 md:px-6">
                         {/* Steps Cards */}
                         <div className="mb-8 grid min-w-0 grid-cols-1 gap-3.5 sm:mb-10 sm:gap-4 md:grid-cols-2 lg:mb-12 lg:grid-cols-4">
-                          <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
+                          <div className="min-w-0 rounded-xl border border-gray-800/90 border-[#2a3038] bg-[#181a20] p-4 sm:p-4">
                             <div className="mb-2.5 flex min-w-0 items-start gap-3">
                               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#B87A13] text-xs font-bold text-[#0f1117] shadow-sm sm:h-9 sm:w-9 sm:text-sm">
                                 1
@@ -1924,7 +1924,7 @@ const Dashboard = () => {
                               {t("selectcryptandfiatwth")}
                             </p>
                           </div>
-                          <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
+                          <div className="min-w-0 rounded-xl border border-gray-800/90 border-[#2a3038] bg-[#181a20] p-4 sm:p-4">
                             <div className="mb-2.5 flex min-w-0 items-start gap-3">
                               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#B87A13] text-xs font-bold text-[#0f1117] shadow-sm sm:h-9 sm:w-9 sm:text-sm">
                                 2
@@ -1937,7 +1937,7 @@ const Dashboard = () => {
                               {t("pastewithaddrs")}
                             </p>
                           </div>
-                          <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
+                          <div className="min-w-0 rounded-xl border border-gray-800/90 border-[#2a3038] bg-[#181a20] p-4 sm:p-4">
                             <div className="mb-2.5 flex min-w-0 items-start gap-3">
                               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#B87A13] text-xs font-bold text-[#0f1117] shadow-sm sm:h-9 sm:w-9 sm:text-sm">
                                 3
@@ -1950,7 +1950,7 @@ const Dashboard = () => {
                               {t("awaitblockconrfm")}
                             </p>
                           </div>
-                          <div className="min-w-0 rounded-xl border border-gray-800/90 bg-[#181a20] p-4 sm:p-4">
+                          <div className="min-w-0 rounded-xl border border-gray-800/90 border-[#2a3038] bg-[#181a20] p-4 sm:p-4">
                             <div className="mb-2.5 flex min-w-0 items-start gap-3">
                               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#B87A13] text-xs font-bold text-[#0f1117] shadow-sm sm:h-9 sm:w-9 sm:text-sm">
                                 4
@@ -2047,7 +2047,7 @@ const Dashboard = () => {
                                 </div> */}
 
                         <div className="flex min-w-0 flex-col gap-4 lg:flex-row lg:gap-6">
-                          <div className="w-full min-w-0 max-w-full rounded-2xl border border-gray-800/80 bg-black p-4 shadow-xl sm:p-5 lg:w-7/12 lg:max-w-none lg:flex-none">
+                          <div className="w-full min-w-0 max-w-full rounded-2xl border border-gray-800/80 border-[#2a3038] bg-black p-4 shadow-xl sm:p-5 lg:w-7/12 lg:max-w-none lg:flex-none">
                             <VerticalStepper
                               steps={withdrawSteps}
                               currentStep={withdrawCurrentStep}
@@ -2518,8 +2518,8 @@ const Dashboard = () => {
                           {/* </div> */}
 
                           {/* Right column content: Tips & FAQs */}
-                          <div className="w-full min-w-0 max-w-full rounded-2xl border border-gray-800/80 bg-black p-4 shadow-xl sm:p-5 lg:w-5/12 lg:max-w-none lg:flex-none">
-                            <h3 className="mb-4 flex min-w-0 items-center gap-2 text-base font-medium text-[#B87A13] sm:mb-6 sm:text-lg">
+                          <div className="w-full min-w-0 max-w-full rounded-2xl border border-gray-800/80 border-[#2a3038] bg-black p-4 shadow-xl sm:p-5 lg:w-5/12 lg:max-w-none lg:flex-none">
+                            <h3 className="flex min-w-0 items-center gap-2 text-base font-medium text-[#B87A13] sm:mb-6 sm:text-lg">
                               <svg
                                 className="w-5 h-5"
                                 fill="none"
@@ -2533,25 +2533,24 @@ const Dashboard = () => {
                                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                                 ></path>
                               </svg>
-                              Tips
+                              {t("withdrawwarning")}
                             </h3>
-                            <div className="flex flex-col gap-4 text-xs text-gray-400 sm:gap-6 sm:text-[13px]">
+                            <div className="flex flex-col gap-4 border-t border-[#2a3038] pt-6 text-xs text-gray-400 sm:gap-6 text-[#A0AEC0] sm:text-[13px]">
                               <p className="min-w-0 leading-relaxed">
-                                {t("forfundsafetsuppotwith")}
-                              </p>
-                              {/* <p className="min-w-0 leading-relaxed">
-                                For the safety of your funds, our customer
-                                support team may contact you by phone to confirm
-                                your withdrawal
+                                {t("withdrawwarningfirst")}
                               </p>
                               <p className="min-w-0 leading-relaxed">
-                                For the safety of your funds, our customer
-                                support team may contact you by phone to confirm
-                                your withdrawal
-                              </p> */}
+                                {t("withdrawwarningsecond")}
+                              </p>
+                              <p className="min-w-0 leading-relaxed">
+                                {t("withdrawwarningthird")}
+                              </p>
+                              <p className="min-w-0 leading-relaxed">
+                                {t("withdrawwarningfourth")}
+                              </p>
                             </div>
 
-                            <div>
+                            {/* <div>
                               <div className="mb-4 flex flex-col gap-3 border-t border-gray-800 pt-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between sm:gap-0 sm:pt-6">
                                 <h3 className="flex min-w-0 items-center gap-2 text-base font-medium text-[#B87A13] sm:text-lg">
                                   <svg
@@ -2569,9 +2568,9 @@ const Dashboard = () => {
                                   </svg>
                                   FAQs
                                 </h3>
-                                {/* <span className="cursor-pointer text-xs font-medium text-gray-500 transition-colors hover:text-[#B87A13] sm:self-auto">
+                                <span className="cursor-pointer text-xs font-medium text-gray-500 transition-colors hover:text-[#B87A13] sm:self-auto">
                                   View more &gt;
-                                </span> */}
+                                </span>
                               </div>
                               <div className="flex flex-col gap-4 text-xs text-gray-400 sm:gap-5 sm:text-sm">
                                 <div className="flex min-w-0 cursor-pointer items-start gap-3 transition-colors hover:text-gray-200 sm:gap-4">
@@ -2629,7 +2628,7 @@ const Dashboard = () => {
                                   </span>
                                 </div>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
 

@@ -624,7 +624,7 @@ function App() {
                 // </RequireAuth>
               }
             />
-            <Route
+            {/* <Route
               path="/processorders"
               element={
                 <RequireAuth>
@@ -632,7 +632,7 @@ function App() {
                   <ProcessOrderTable />{" "}
                 </RequireAuth>
               }
-            />
+            /> */}
             <Route
               path="/myorders"
               element={

@@ -13,12 +13,59 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useTranslation } from "react-i18next";
 import { usePageLeaveConfirm } from "./usePageLeaveConfirm";
 import DashboardLayout from "./DashboardLayout";
+import { toast } from "react-toastify";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const MyOrdersTable = () => {
   const { t } = useTranslation();
   const [p2pOrders, setp2pOrders, p2pOrdersref] = useState([]);
   const [p2pcurrentpage, setp2pcurrentpage, p2pcurrentpageref] = useState(1);
   const [p2ptotalpages, setp2pTotalpages, p2ptotalpageref] = useState(0);
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [editLoader, setEditLoader] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteOrder, setDeleteOrder] = useState(null);
+  const [deleteLoader, setDeleteLoader] = useState(false);
+
+  const handleEdit = (item) => {
+    setSelectedOrder({
+      ...item,
+    });
+    setEditOpen(true);
+  };
+  const handleEditClose = () => {
+    if (!editLoader) {
+      setEditOpen(false);
+      setSelectedOrder(null);
+    }
+  };
+
+  const handleDelete = (item) => {
+    setDeleteOrder(item);
+    setDeleteOpen(true);
+  };
+  const handleDeleteClose = () => {
+    if (!deleteLoader) {
+      setDeleteOpen(false);
+      setDeleteOrder(null);
+    }
+  };
+
   // usePageLeaveConfirm(
   //   "Are you sure you want to leave P2P?",
   //   "/myorders",
@@ -56,6 +103,104 @@ const MyOrdersTable = () => {
     }
   };
 
+  const updateP2pOrder = async () => {
+    try {
+      if (!selectedOrder) return;
+
+      const totalAmount = Number(selectedOrder.totalAmount);
+      const price = Number(selectedOrder.price);
+      const fromLimit = Number(selectedOrder.fromLimit);
+      const toLimit = Number(selectedOrder.toLimit);
+
+      if (
+        !Number.isFinite(totalAmount) ||
+        totalAmount <= 0 ||
+        !Number.isFinite(price) ||
+        price <= 0 ||
+        !Number.isFinite(fromLimit) ||
+        fromLimit <= 0 ||
+        !Number.isFinite(toLimit) ||
+        toLimit <= 0
+      ) {
+        showerrorToast("Please enter valid order values");
+        return;
+      }
+      if (fromLimit > toLimit) {
+        showerrorToast(
+          "Minimum quantity cannot be greater than maximum quantity",
+        );
+        return;
+      }
+      if (toLimit > totalAmount) {
+        showerrorToast(
+          "Maximum quantity cannot be greater than total quantity",
+        );
+        return;
+      }
+      setEditLoader(true);
+
+      const data = {
+        apiUrl: apiService.updateP2pOrder,
+        payload: {
+          orderId: selectedOrder.orderId,
+          totalAmount,
+          price,
+          fromLimit,
+          toLimit,
+        },
+      };
+
+      const resp = await postMethod(data);
+
+      setEditLoader(false);
+
+      if (resp.status === true) {
+        showsuccessToast(resp.Message);
+
+        setEditOpen(false);
+        setSelectedOrder(null);
+
+        // Refresh current page
+        getp2pOrders(p2pcurrentpageref.current);
+      } else {
+        showerrorToast(resp.Message);
+      }
+    } catch (error) {
+      setEditLoader(false);
+      console.error("Error updating P2P order:", error);
+      showerrorToast("Something went wrong");
+    }
+  };
+
+  const deleteP2pOrder = async () => {
+    try {
+      if (!deleteOrder) return;
+      setDeleteLoader(true);
+      const data = {
+        apiUrl: apiService.deleteP2pOrder,
+        payload: {
+          orderId: deleteOrder.orderId,
+        },
+      };
+
+      const resp = await postMethod(data);
+      setDeleteLoader(false);
+      if (resp.status === true) {
+        showsuccessToast(resp.Message);
+        setDeleteOpen(false);
+        setDeleteOrder(null);
+        // Refresh current page
+        getp2pOrders(p2pcurrentpageref.current);
+      } else {
+        showerrorToast(resp.Message);
+      }
+    } catch (error) {
+      setDeleteLoader(false);
+      console.error("Error deleting P2P order:", error);
+      showerrorToast("Something went wrong");
+    }
+  };
+
   const [orderType, setOrderType] = useState("buy");
 
   const handlePageChange = (event, page) => {
@@ -71,6 +216,16 @@ const MyOrdersTable = () => {
   const navchatpage = (link) => {
     navigate(link);
   };
+
+    const showsuccessToast = (message) => {
+      toast.dismiss();
+      toast.success(message);
+    };
+  
+    const showerrorToast = (message) => {
+      toast.dismiss();
+      toast.error(message);
+    };
 
   return (
     <>
@@ -115,7 +270,7 @@ const MyOrdersTable = () => {
 
                 <div className="p2p_header_row flex justify-between items-center mb-6">
                   <div className="flex rounded-2xl bg-[#060913] p-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
-                    <button
+                    {/* <button
                       type="button"
                       onClick={() => navchatpage("/processorders")}
                       className={`flex-1.5 rounded-xl px-6 py-3 text-sm font-extrabold uppercase tracking-[0.22em] transition-all duration-200 ${
@@ -125,7 +280,7 @@ const MyOrdersTable = () => {
                       }`}
                     >
                       {t("processOrders")}
-                    </button>
+                    </button> */}
 
                     <button
                       type="button"
@@ -177,6 +332,9 @@ const MyOrdersTable = () => {
                           </th>
                           <th className="px-4 py-4 text-left text-[11px] font-extrabold uppercase tracking-[0.2em] newtablehead_chngtheme">
                             {t("status")}
+                          </th>
+                          <th className="px-4 py-4 text-center text-[11px] font-extrabold uppercase tracking-[0.2em] newtablehead_chngtheme">
+                            {t("Action")}
                           </th>
                         </tr>
                       </thead>
@@ -247,12 +405,50 @@ const MyOrdersTable = () => {
                                   </span>
                                 )}
                               </td>
+                              <td
+                                className="opt-term table-action text-center px-4 py-2"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                {item.status === "active" ? (
+                                  <div className="flex items-center justify-center gap-3">
+                                    {/* Edit */}
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleEdit(item);
+                                      }}
+                                      className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#BD7F10]/10 text-[#BD7F10] hover:bg-[#BD7F10] hover:text-black transition"
+                                      title="Edit"
+                                    >
+                                      <i className="ri-edit-line text-lg"></i>
+                                    </button>
+
+                                    {/* Delete */}
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDelete(item);
+                                      }}
+                                      className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition"
+                                      title="Delete"
+                                    >
+                                      <i className="ri-delete-bin-line text-lg"></i>
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <span className="text-white/40 text-xs">
+                                    -
+                                  </span>
+                                )}
+                              </td>
                             </tr>
                           ))
                         ) : (
                           <tr>
                             <td
-                              colSpan={7}
+                              colSpan={8}
                               className="px-4 py-10 text-center text-sm text-white/60"
                             >
                               {/* <div className="empty_data">
@@ -322,6 +518,212 @@ const MyOrdersTable = () => {
               </div>
             </div>
           </div>
+          <Modal
+            open={editOpen}
+            onClose={handleEditClose}
+            aria-labelledby="edit-p2p-order-modal"
+          >
+            <Box sx={style} className="modals_support">
+              {/* <div className="bg-[#111318] rounded-2xl border border-[#1E2028] p-6 w-[500px] max-w-[95vw] mx-auto mt-[10vh]"> */}
+              <div className="support-modal">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-white text-xl font-semibold">
+                    {t("editp2porder")}
+                  </h3>
+
+                  <button
+                    type="button"
+                    onClick={handleEditClose}
+                    disabled={editLoader}
+                    className="text-white/60 hover:text-white text-xl"
+                  >
+                    <i className="fa-regular fa-circle-xmark"></i>
+                  </button>
+                </div>
+
+                {selectedOrder && (
+                  <div className="flex flex-col gap-5">
+                    {/* Currency */}
+                    <div>
+                      <label className="block text-[#B1B5C3] text-sm mb-2">
+                        {t("Currency")}
+                      </label>
+
+                      <div className="bg-[#23262F] border border-[#353945] rounded-lg h-[50px] flex items-center px-4">
+                        <span className="text-white">
+                          {selectedOrder.firstCurrency} /{" "}
+                          {selectedOrder.secondCurrnecy}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Total Amount */}
+                    <div>
+                      <label className="block text-[#B1B5C3] text-sm mb-2">
+                        {t("totalquantity")}
+                      </label>
+
+                      <input
+                        type="number"
+                        value={selectedOrder.totalAmount ?? ""}
+                        onChange={(e) =>
+                          setSelectedOrder((prev) => ({
+                            ...prev,
+                            totalAmount: e.target.value,
+                          }))
+                        }
+                        className="w-full h-[50px] bg-[#23262F] border border-[#353945] rounded-lg px-4 text-white outline-none focus:border-[#BD7F10]"
+                      />
+                    </div>
+
+                    {/* Price */}
+                    <div>
+                      <label className="block text-[#B1B5C3] text-sm mb-2">
+                        {t("price")}
+                      </label>
+
+                      <input
+                        type="number"
+                        value={selectedOrder.price ?? ""}
+                        onChange={(e) =>
+                          setSelectedOrder((prev) => ({
+                            ...prev,
+                            price: e.target.value,
+                          }))
+                        }
+                        className="w-full h-[50px] bg-[#23262F] border border-[#353945] rounded-lg px-4 text-white outline-none focus:border-[#BD7F10]"
+                      />
+                    </div>
+
+                    {/* From Limit */}
+                    <div>
+                      <label className="block text-[#B1B5C3] text-sm mb-2">
+                        {t("minimumQuantity")}
+                      </label>
+
+                      <input
+                        type="number"
+                        value={selectedOrder.fromLimit ?? ""}
+                        onChange={(e) =>
+                          setSelectedOrder((prev) => ({
+                            ...prev,
+                            fromLimit: e.target.value,
+                          }))
+                        }
+                        className="w-full h-[50px] bg-[#23262F] border border-[#353945] rounded-lg px-4 text-white outline-none focus:border-[#BD7F10]"
+                      />
+                    </div>
+
+                    {/* To Limit */}
+                    <div>
+                      <label className="block text-[#B1B5C3] text-sm mb-2">
+                        {t("maximumQuantity")}
+                      </label>
+
+                      <input
+                        type="number"
+                        value={selectedOrder.toLimit ?? ""}
+                        onChange={(e) =>
+                          setSelectedOrder((prev) => ({
+                            ...prev,
+                            toLimit: e.target.value,
+                          }))
+                        }
+                        className="w-full h-[50px] bg-[#23262F] border border-[#353945] rounded-lg px-4 text-white outline-none focus:border-[#BD7F10]"
+                      />
+                    </div>
+
+                    {/* Buttons */}
+                    <div className="flex justify-end gap-3 mt-3">
+                      <button
+                        type="button"
+                        onClick={handleEditClose}
+                        disabled={editLoader}
+                        className="px-6 py-3 rounded-lg border border-[#353945] text-[#B1B5C3] hover:text-white"
+                      >
+                        {t("cancel")}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={updateP2pOrder}
+                        disabled={editLoader}
+                        className="px-6 py-3 rounded-lg bg-[#BD7F10] text-black font-semibold hover:opacity-90 disabled:opacity-50"
+                      >
+                        {editLoader ? "Saving..." : "Save Changes"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Box>
+          </Modal>
+          <Modal
+            open={deleteOpen}
+            onClose={handleDeleteClose}
+            aria-labelledby="delete-p2p-order-modal"
+          >
+            <Box sx={style} className="modals_support">
+              {/* <div className="bg-[#111318] rounded-2xl border border-[#1E2028] p-6 w-[450px] max-w-[95vw] mx-auto mt-[20vh]"> */}
+              <div className="support-modal">
+                <div className="flex flex-col items-center text-center">
+                  {/* Icon */}
+                  <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
+                    <i className="ri-delete-bin-line text-red-500 text-3xl"></i>
+                  </div>
+
+                  <h3 className="text-white text-xl font-semibold mb-2">
+                    {t("deleteorder")}
+                  </h3>
+
+                  <p className="text-[#B1B5C3] text-sm mb-6">
+                    {t("deleteorderdescr")}
+                  </p>
+
+                  {deleteOrder && (
+                    <div className="w-full bg-[#23262F] rounded-lg p-4 mb-6 text-left">
+                      <div className="flex justify-between mb-2">
+                        <span className="text-[#B1B5C3]">{t("orderid")}</span>
+
+                        <span className="text-white">
+                          {deleteOrder.orderId}
+                        </span>
+                      </div>
+
+                      <div className="flex justify-between">
+                        <span className="text-[#B1B5C3]">{t("quantity")}</span>
+
+                        <span className="text-white">
+                          {parseFloat(deleteOrder.totalAmount).toFixed(4)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex justify-center gap-3 w-full">
+                    <button
+                      type="button"
+                      onClick={handleDeleteClose}
+                      disabled={deleteLoader}
+                      className="px-6 py-3 rounded-lg border border-[#353945] text-[#B1B5C3] hover:text-white"
+                    >
+                      {t("cancel")}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={deleteP2pOrder}
+                      disabled={deleteLoader}
+                      className="px-6 py-3 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 disabled:opacity-50"
+                    >
+                      {deleteLoader ? "Deleting..." : "Delete"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Box>
+          </Modal>
         </section>
       </DashboardLayout>
     </>

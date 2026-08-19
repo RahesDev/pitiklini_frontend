@@ -450,7 +450,8 @@ const P2P = () => {
                       {t("PaymentMethods")}
                     </Link>
                     <Link
-                      to={loginStatus ? "/processorders" : "/login"}
+                      // to={loginStatus ? "/processorders" : "/login"}
+                      to={loginStatus ? "/myorders" : "/login"}
                       className="post-black-btn bg-[#BD7F10] text-black px-4 py-2 rounded-lg flex items-center"
                     >
                       {t("orders")}
@@ -835,7 +836,7 @@ const P2P = () => {
                                               orderType === "buy"
                                                 ? "bg-[#2ebd85] text-black hover:bg-[#d79a1a]"
                                                 : "bg-[#f45e71] text-black hover:bg-[#df5b5b]"
-                                                // : "bg-[#d14b4b] text-black hover:bg-[#df5b5b]"
+                                              // : "bg-[#d14b4b] text-black hover:bg-[#df5b5b]"
                                             }`}
                                             onClick={() =>
                                               handleClick(i, options)

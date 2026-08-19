@@ -648,7 +648,7 @@ const Dashboard = () => {
                               <div className="w-full min-w-0 rounded-2xl border border-[#2a3038] bg-[#0f1117] p-4 shadow-xl sm:p-5 lg:w-5/12">
                                 <div className="mb-10">
                                   <div className="flex items-center gap-2 mb-6">
-                                    <h3 className="mb-6 flex items-center gap-2 text-lg font-medium text-[#B87A13]">
+                                    <h3 className="flex items-center gap-2 text-lg font-medium text-[#B87A13]">
                                       <svg
                                         className="w-5 h-5"
                                         fill="none"
@@ -662,22 +662,23 @@ const Dashboard = () => {
                                           d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                                         ></path>
                                       </svg>
-                                      Tips
+                                      {t("withdrawwarning")}
                                     </h3>{" "}
                                   </div>
                                   <div className="space-y-6 border-t border-[#2a3038] pt-6 text-[13px] text-[#A0AEC0]">
                                     <p className="leading-relaxed">
-                                      {t("forfundsafetsuppot")}
+                                      {t("depositwarningfirst")}
                                     </p>
-                                    {/* <p className="leading-relaxed">
-                                      {t(
-                                        "For the safety of your funds, our customer support team may contact you by phone to confirm your withdrawal",
-                                      )}
-                                    </p> */}
+                                    <p className="leading-relaxed">
+                                      {t("depositwarningsecond")}
+                                    </p>
+                                    <p className="leading-relaxed">
+                                      {t("depositwarningthird")}
+                                    </p>
                                   </div>
                                 </div>
 
-                                <div className="mt-12">
+                                {/* <div className="mt-12">
                                   <div className="mb-6 flex items-center justify-between">
                                     <h3 className="flex items-center gap-2 text-lg font-medium text-[#B87A13]">
                                       <svg
@@ -695,7 +696,7 @@ const Dashboard = () => {
                                       </svg>
                                       FAQs
                                     </h3>
-                                    {/* <Link
+                                    <Link
                                       to="/faq"
                                       className="flex items-center text-[13px] text-gray-400 transition-colors hover:text-[#B87A13]"
                                     >
@@ -713,7 +714,7 @@ const Dashboard = () => {
                                           d="M9 5l7 7-7 7"
                                         ></path>
                                       </svg>
-                                    </Link> */}
+                                    </Link>
                                   </div>
                                   <div className="space-y-5 border-t border-[#2a3038] pt-6">
                                     <Link
@@ -774,7 +775,7 @@ const Dashboard = () => {
                                       <span>{t("whatnetwkshldiuse")}</span>
                                     </Link>
                                   </div>
-                                </div>
+                                </div> */}
                               </div>
 
                               {/* Step 2 */}

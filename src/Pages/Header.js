@@ -567,7 +567,7 @@ const Header = () => {
                           className="contact_button px-4 uppercase font-bold"
                         >
                           {t("convert")}
-                          <span className="cominsoon_lastes">Soon</span>
+                          {/* <span className="cominsoon_lastes">Soon</span> */}
                         </Link>
                         <Link
                           to={isAuthenticated ? "/p2p" : "/login"}
@@ -1503,7 +1503,7 @@ const Header = () => {
                       >
                         <i className="ri-repeat-line mobile-sidebar-icon"></i>
                         <span>{t("convert")}</span>
-                        <span className="cominsoon_lastes">Soon</span>
+                        {/* <span className="cominsoon_lastes">Soon</span> */}
                       </Link>
                     </ListItem>
                     <ListItem button className="drawa mobile-sidebar-item">
